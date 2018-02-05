@@ -21,16 +21,24 @@ export class Learned extends LearnedRecord {
     public readonly score: number;
 }
 
-export const StoreRecord = immutable.Record({
+// Even bigger hack to get it to work with TypeScript
+// https://gist.github.com/HeyImAlex/099922105b83bacfb69a30989e1fa086
+export interface StoreProps {
+    readonly learned: immutable.Map<Id, Learned>;
+    readonly collections: immutable.List<Collection>;
+    readonly resources: immutable.Map<Resource, number>;
+    readonly location: Location;
+}
+
+export interface Store extends StoreProps {
+    new (props?: StoreProps): Store;
+
+    set<K extends keyof StoreProps>(key: K, value: Store[K]): Store;
+}
+
+export const Store = immutable.Record({
     learned: immutable.Map(),
     collections: immutable.List(),
     resources: immutable.Map(),
     location: "nowhere",
-});
-
-export class Store extends StoreRecord {
-    public readonly learned: immutable.Map<Id, Learned>;
-    public readonly collections: immutable.List<Collection>;
-    public readonly resources: immutable.Map<Resource, number>;
-    public readonly location: Location;
-}
+}) as any as Store; // tslint:disable-line
