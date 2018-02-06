@@ -8,23 +8,51 @@ import * as model from "./model/model";
 const logo = require("./logo.svg");
 
 interface TestProps {
-    learned: immutable.Seq.Indexed<model.Learned>;
+    learned: immutable.Map<model.Id, model.Learned>;
     onLearn: (item: model.Learnable) => void;
+    onReview: (id: model.Id) => void;
 }
-function TestComponent({ learned, onLearn }: TestProps) {
+function TestComponent({ learned, onLearn, onReview }: TestProps) {
+    let word: string | null = null;
+    const clickHandler = () => {
+        if (word) {
+            onLearn(word);
+        }
+    };
+    const updateWord = (e: React.FormEvent<HTMLInputElement>) => {
+        word = e.currentTarget.value;
+    };
+
+    const learnedItems: JSX.Element[] = [];
+    learned.forEach((item, id) => {
+        console.log(item, id);
+        if (!item || id === undefined) {
+            return;
+        }
+        learnedItems.push(
+            <li key={id}>
+                <button onClick={() => onReview(id)}>Review: {item.item} (score {item.score})</button>
+            </li>
+        );
+    });
+
     return (
         <div>
             <ul>
-                {learned.toArray().map((item) => <li key={item.item || 0}>{item.item}</li>)}
+                {learnedItems}
             </ul>
-            <button onClick={() => onLearn("thing")}>WANDER</button>
+            <input type="text" onChange={updateWord} placeholder="Enter word to learn" />
+            <button onClick={clickHandler}>WANDER</button>
         </div>
     );
 }
 
 const Test = connect(
-    (store: model.Store) => ({ learned: store.learned.valueSeq() }),
-    (dispatch: Dispatch<actions.Action>) => ({ onLearn: (item: string) => dispatch(actions.learn(item)) })
+    (store: model.Store) => ({ learned: store.learned }),
+    (dispatch: Dispatch<actions.Action>) => ({
+        onLearn: (item: string) => dispatch(actions.learn(item)),
+        onReview: (id: model.Id) => dispatch(actions.review(id)),
+    })
 )(TestComponent);
 
 class App extends React.Component {
