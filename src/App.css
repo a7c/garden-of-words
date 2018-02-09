@@ -22,6 +22,32 @@
   font-size: large;
 }
 
+.Button {
+  background-color: grey;
+  border-radius: 3px;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+}
+
+.Button:hover {
+  background-color: lightgrey;
+}
+
+.Button.Review {
+  font-size: small;
+}
+
+.ReviewContainer {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#Wander {
+  font-size: large;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

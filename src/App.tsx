@@ -30,8 +30,8 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
             return;
         }
         learnedItems.push(
-            <li key={id}>
-                <button onClick={() => onReview(id)}>Review: {item.item} (score {item.score})</button>
+            <li className="ReviewContainer" key={id}>
+                <a className="Button Review" onClick={() => onReview(id)}>Review: {item.item} (score {item.score})</a>
             </li>
         );
     });
@@ -42,7 +42,7 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
                 {learnedItems}
             </ul>
             <input type="text" onChange={updateWord} placeholder="Enter word to learn" />
-            <button onClick={clickHandler}>WANDER</button>
+            <a className="Button" id="Wander" onClick={clickHandler}>Wander</a>
         </div>
     );
 }
