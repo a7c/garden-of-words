@@ -5,6 +5,7 @@ interface ImmutableRecord<T> {
 
     get<K extends keyof this>(key: K): this[K];
     set<K extends keyof this>(key: K, value: this[K]): this;
+    toJS(): T;
 }
 
 export type LearnableId = string;
@@ -13,11 +14,36 @@ export interface LearnableProps {
     id: LearnableId;
     subId?: LearnableId;
 }
-export interface Learnable extends LearnableProps, ImmutableRecord<LearnableProps> {
-}
-export const LearnableRecord = immutable.Record({
 
-}) as any as Learnable; // tslint:disable-line
+export interface HiraganaLearnableProps extends LearnableProps {
+    type: "hiragana";
+    unicode: string;
+    romaji: string;
+}
+export interface HiraganaLearnable extends HiraganaLearnableProps, ImmutableRecord<HiraganaLearnableProps> {}
+export const HiraganaLearnable = immutable.Record({
+    type: "hiragana",
+    id: "",
+    subId: null,
+    unicode: "",
+    romaji: "",
+}) as any as HiraganaLearnable; // tslint:disable-line
+
+export interface KatakanaLearnableProps extends LearnableProps {
+    type: "katakana";
+    unicode: string;
+    romaji: string;
+}
+export interface KatakanaLearnable extends KatakanaLearnableProps, ImmutableRecord<KatakanaLearnableProps> {}
+export const KatakanaLearnable = immutable.Record({
+    type: "katakana",
+    id: "",
+    subId: null,
+    unicode: "",
+    romaji: "",
+}) as any as KatakanaLearnable; // tslint:disable-line
+
+export type Learnable = HiraganaLearnable | KatakanaLearnable;
 
 export type Location = string;
 export enum Resource {
