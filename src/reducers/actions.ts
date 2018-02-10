@@ -6,7 +6,7 @@ export const LEARN = "learn";
 
 export interface ReviewAction extends redux.AnyAction {
     type: typeof REVIEW;
-    id: model.Id;
+    id: model.LearnableId;
 }
 
 export interface LearnAction extends redux.AnyAction {
@@ -16,7 +16,7 @@ export interface LearnAction extends redux.AnyAction {
 
 export type Action = redux.AnyAction | ReviewAction | LearnAction;
 
-export function review(id: model.Id): Action {
+export function review(id: model.LearnableId): Action {
     return {
         type: REVIEW,
         id,

@@ -1,12 +1,29 @@
 import * as immutable from "immutable";
 
-export type Id = number;
-export type Learnable = string;
+interface ImmutableRecord<T> {
+    new (props?: T): this;
+
+    get<K extends keyof this>(key: K): this[K];
+    set<K extends keyof this>(key: K, value: this[K]): this;
+}
+
+export type LearnableId = string;
+
+export interface LearnableProps {
+    id: LearnableId;
+    subId?: LearnableId;
+}
+export interface Learnable extends LearnableProps, ImmutableRecord<LearnableProps> {
+}
+export const LearnableRecord = immutable.Record({
+
+}) as any as Learnable; // tslint:disable-line
+
 export type Location = string;
 export enum Resource {
 }
 
-export type Collection = immutable.List<Id>;
+export type Collection = immutable.List<LearnableId>;
 
 export const LearnedRecord = immutable.Record({
     item: null,
@@ -22,11 +39,7 @@ export interface LearnedProps {
     readonly score: number;
 }
 
-export interface Learned extends LearnedProps {
-    new (props?: LearnedProps): Learned;
-
-    get<K extends keyof LearnedProps>(key: K): Learned[K];
-    set<K extends keyof LearnedProps>(key: K, value: Learned[K]): Learned;
+export interface Learned extends LearnedProps, ImmutableRecord<LearnedProps> {
 }
 
 export const Learned = immutable.Record({
@@ -36,16 +49,13 @@ export const Learned = immutable.Record({
 }) as any as Learned; // tslint:disable-line
 
 export interface StoreProps {
-    readonly learned: immutable.Map<Id, Learned>;
+    readonly learned: immutable.Map<LearnableId, Learned>;
     readonly collections: immutable.List<Collection>;
     readonly resources: immutable.Map<Resource, number>;
     readonly location: Location;
 }
 
-export interface Store extends StoreProps {
-    new (props?: StoreProps): Store;
-
-    set<K extends keyof StoreProps>(key: K, value: Store[K]): Store;
+export interface Store extends StoreProps, ImmutableRecord<StoreProps> {
 }
 
 export const Store = immutable.Record({

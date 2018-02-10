@@ -8,15 +8,15 @@ import * as model from "./model/model";
 const logo = require("./logo.svg");
 
 interface TestProps {
-    learned: immutable.Map<model.Id, model.Learned>;
+    learned: immutable.Map<model.LearnableId, model.Learned>;
     onLearn: (item: model.Learnable) => void;
-    onReview: (id: model.Id) => void;
+    onReview: (id: model.LearnableId) => void;
 }
 function TestComponent({ learned, onLearn, onReview }: TestProps) {
     let word: string | null = null;
     const clickHandler = () => {
         if (word) {
-            onLearn(word);
+            /* onLearn(word);*/
         }
     };
     const updateWord = (e: React.FormEvent<HTMLInputElement>) => {
@@ -50,8 +50,8 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
 const Test = connect(
     (store: model.Store) => ({ learned: store.learned }),
     (dispatch: Dispatch<actions.Action>) => ({
-        onLearn: (item: string) => dispatch(actions.learn(item)),
-        onReview: (id: model.Id) => dispatch(actions.review(id)),
+        onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
+        onReview: (id: model.LearnableId) => dispatch(actions.review(id)),
     })
 )(TestComponent);
 
