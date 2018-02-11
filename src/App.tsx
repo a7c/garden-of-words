@@ -14,9 +14,26 @@ interface TestProps {
 }
 function TestComponent({ learned, onLearn, onReview }: TestProps) {
     let word: string | null = null;
-    const clickHandler = () => {
+    const wanderClickHandler = () => {
         if (word) {
             onLearn(word);
+        }
+    };
+    const meditateClickHandler = () => {
+        var leastRecentlyReviewed: number | null = null;
+        var lastDate: Date | null = null;
+        for (const [k, v] of Array.from(learned)) {
+            console.log(k);
+            console.log(v.get("lastReviewed"));
+            if (lastDate == null || v.get("lastReviewed") < lastDate) {
+                leastRecentlyReviewed = k;
+                lastDate = v.get("lastReviewed");
+            }
+        }
+        if (leastRecentlyReviewed != null) {
+            let reviewedWord: String = learned.get(leastRecentlyReviewed).get("item")!;
+            alert(`Reviewed word ${reviewedWord}`);
+            onReview(leastRecentlyReviewed);
         }
     };
     const updateWord = (e: React.FormEvent<HTMLInputElement>) => {
@@ -42,14 +59,18 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
                 {learnedItems}
             </ul>
             <input type="text" onChange={updateWord} placeholder="Enter word to learn" />
-            <a className="Button" id="Wander" onClick={clickHandler}>Wander</a>
+            <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
+            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>
         </div>
     );
 }
 
 const Test = connect(
-    (store: model.Store) => ({ learned: store.learned }),
+    (store: model.Store) => ({
+      learned: store.learned
+    }),
     (dispatch: Dispatch<actions.Action>) => ({
+
         onLearn: (item: string) => dispatch(actions.learn(item)),
         onReview: (id: model.Id) => dispatch(actions.review(id)),
     })

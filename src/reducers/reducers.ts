@@ -15,8 +15,14 @@ export function reducer(state: model.Store = new model.Store(), action: actions.
     }
     case actions.REVIEW: {
         const learned = state.learned.get(action.id);
-        const updatedLearned = learned.set("score", learned.get("score") + Math.random());
+        const updatedLearned = learned.set("score", learned.get("score") + Math.random())
+                                      .set("lastReviewed", new Date());
+
         return state.set("learned", state.learned.set(action.id, updatedLearned));
+    }
+    case actions.MEDITATE: {
+        alert("meditating");
+        return state;
     }
     default:
         console.error(`reducer: Unrecognized action ${action}.`);
