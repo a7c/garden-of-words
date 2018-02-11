@@ -6,6 +6,12 @@ export type Location = string;
 export enum Resource {
 }
 
+declare module "immutable" {
+    interface Map<K, V> {
+        [Symbol.iterator](): IterableIterator<[K, V ]>;
+    }
+}
+
 export type Collection = immutable.List<Id>;
 
 export const LearnedRecord = immutable.Record({
