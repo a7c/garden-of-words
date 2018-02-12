@@ -8,32 +8,60 @@ import * as model from "./model/model";
 const logo = require("./logo.svg");
 
 interface TestProps {
-    learned: immutable.Map<model.Id, model.Learned>;
+    learned: immutable.Map<model.LearnableId, model.Learned>;
     onLearn: (item: model.Learnable) => void;
-    onReview: (id: model.Id) => void;
+    onReview: (id: model.LearnableId) => void;
 }
 function TestComponent({ learned, onLearn, onReview }: TestProps) {
-    let word: string | null = null;
+    let word: model.Learnable | null = null;
     const clickHandler = () => {
         if (word) {
             onLearn(word);
         }
     };
     const updateWord = (e: React.FormEvent<HTMLInputElement>) => {
-        word = e.currentTarget.value;
+        if (Math.random() < 0.5) {
+            word = new model.KatakanaLearnable({
+                type: "katakana",
+                id: e.currentTarget.value,
+                unicode: "ツ",
+                romaji: e.currentTarget.value,
+            });
+        } else {
+            word = new model.HiraganaLearnable({
+                type: "hiragana",
+                id: e.currentTarget.value,
+                unicode: "つ",
+                romaji: e.currentTarget.value,
+            });
+        }
     };
 
     const learnedItems: JSX.Element[] = [];
     learned.forEach((item, id) => {
         console.log(item, id);
-        if (!item || id === undefined) {
+        if (!item || id === undefined || !item.item) {
             return;
         }
-        learnedItems.push(
-            <li key={id}>
-                <button onClick={() => onReview(id)}>Review: {item.item} (score {item.score})</button>
-            </li>
-        );
+        console.log(item.item.toJS());
+        if (item.item.type === "katakana") {
+            learnedItems.push(
+                <li key={id}>
+                    <button onClick={() => onReview(id)}>
+                        Review Katakana: {item.item.romaji} = {item.item.unicode} (score {item.score})
+                    </button>
+                </li>
+            );
+        }
+        else if (item.item.type === "hiragana") {
+            learnedItems.push(
+                <li key={id}>
+                    <button onClick={() => onReview(id)}>
+                        Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {item.score})
+                    </button>
+                </li>
+            );
+        }
     });
 
     return (
@@ -50,8 +78,8 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
 const Test = connect(
     (store: model.Store) => ({ learned: store.learned }),
     (dispatch: Dispatch<actions.Action>) => ({
-        onLearn: (item: string) => dispatch(actions.learn(item)),
-        onReview: (id: model.Id) => dispatch(actions.review(id)),
+        onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
+        onReview: (id: model.LearnableId) => dispatch(actions.review(id)),
     })
 )(TestComponent);
 

@@ -1,13 +1,11 @@
 import * as model from "../model/model";
 import * as actions from "./actions";
 
-let ctr = 0;
-
 export function reducer(state: model.Store = new model.Store(), action: actions.Action): model.Store {
     console.log(action);
     switch (action.type) {
     case actions.LEARN: {
-        return state.set("learned", state.learned.set(ctr++, new model.Learned({
+        return state.set("learned", state.learned.set(action.item.id, new model.Learned({
             item: action.item,
             lastReviewed: new Date(),
             score: 0.0,
