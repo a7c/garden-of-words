@@ -2,7 +2,7 @@ import * as immutable from "immutable";
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
 import "./App.css";
-import * as actions from "./reducers/actions";
+import * as actions from "./actions/actions";
 import * as model from "./model/model";
 
 const logo = require("./logo.svg");

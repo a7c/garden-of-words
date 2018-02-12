@@ -1,5 +1,5 @@
 import * as model from "../model/model";
-import * as actions from "./actions";
+import * as actions from "../actions/actions";
 
 export function reducer(state: model.Store = new model.Store(), action: actions.Action): model.Store {
     console.log(action);
