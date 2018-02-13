@@ -5,9 +5,7 @@ import "./App.css";
 import * as actions from "./actions/actions";
 import * as model from "./model/model";
 
-// TODO: this is just to test
 import { hiraganaBasicDict } from "./model/kana";
-console.log(hiraganaBasicDict.get("hira-a"));
 
 const logo = require("./logo.svg");
 
@@ -41,21 +39,7 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
         }
     };
     const updateWord = (e: React.FormEvent<HTMLInputElement>) => {
-        if (Math.random() < 0.5) {
-            word = new model.KatakanaLearnable({
-                type: "katakana",
-                id: e.currentTarget.value,
-                unicode: "ツ",
-                romaji: e.currentTarget.value,
-            });
-        } else {
-            word = new model.HiraganaLearnable({
-                type: "hiragana",
-                id: e.currentTarget.value,
-                unicode: "つ",
-                romaji: e.currentTarget.value,
-            });
-        }
+        word = hiraganaBasicDict.get("hira-" + e.currentTarget.value);
     };
 
     const learnedItems: JSX.Element[] = [];
