@@ -85,9 +85,9 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
         else if (item.item.type === "hiragana") {
             learnedItems.push(
                 <li className="ReviewContainer" key={id}>
-                    <a className="Button Review" onClick={() => onReview(id)}>
+                    <button className="Button Review" onClick={() => onReview(id)}>
                         Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {item.score})
-                    </a>
+                    </button>
                 </li>
             );
         }
@@ -99,12 +99,12 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
     // TODO: we probably want to handle "earning access to a new button" in a different way
     if (learned.size > 0) {
         meditateButton = 
-            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>;
+            <button className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</button>;
     }
 
     return (
         <div>
-            <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
+            <button className="Button" id="Wander" onClick={wanderClickHandler}>Wander</button>
             {meditateButton}
             <ul>
                 {learnedItems}
