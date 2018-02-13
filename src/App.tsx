@@ -55,7 +55,7 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
             keyList.splice(keyList.indexOf(reviewedWord.id), 1);
 
             for (var i = 0; i < 3; i++) {
-                let index = Math.floor(Math.random() * (keyList.length + 1));
+                let index = Math.floor(Math.random() * keyList.length);
                 options.push(hiraganaBasicDict.get(keyList[index]).romaji);
                 keyList.splice(index, 1);
             }
@@ -85,18 +85,27 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
         else if (item.item.type === "hiragana") {
             learnedItems.push(
                 <li className="ReviewContainer" key={id}>
-                    <a className="Button Review" onClick={() => onReview(id)}>
+                    <button className="Button Review" onClick={() => onReview(id)}>
                         Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {item.score})
-                    </a>
+                    </button>
                 </li>
             );
         }
     });
 
+    let meditateButton = null;
+
+    // Don't render the meditate button if no words have been learned yet
+    // TODO: we probably want to handle "earning access to a new button" in a different way
+    if (learned.size > 0) {
+        meditateButton = 
+            <button className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</button>;
+    }
+
     return (
         <div>
-            <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
-            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>
+            <button className="Button" id="Wander" onClick={wanderClickHandler}>Wander</button>
+            {meditateButton}
             <ul>
                 {learnedItems}
             </ul>
