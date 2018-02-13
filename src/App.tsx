@@ -7,38 +7,61 @@ import * as model from "./model/model";
 
 import { hiraganaBasicDict } from "./model/kana";
 
-const logo = require("./logo.svg");
+// THIS IS TEMPORARY
+interface Question {
+    id: model.LearnableId;
+    questionText: string;
+    answers: string[];
+}
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
     onLearn: (item: model.Learnable) => void;
     onReview: (id: model.LearnableId) => void;
 }
-function TestComponent({ learned, onLearn, onReview }: TestProps) {
-    let word: model.Learnable | null = null;
-    const wanderClickHandler = () => {
 
-        word = null;
+interface TestState {
+    question: Question | null;
+}
+
+class TestComponent extends React.Component<TestProps, TestState> {
+    _wanderClickHandler: () => void;
+    _meditateClickHandler: () => void;
+
+    constructor(props: TestProps) {
+        super(props);
+        this.state = { question: null };
+        this._wanderClickHandler = this.wanderClickHandler.bind(this);
+        this._meditateClickHandler = this.meditateClickHandler.bind(this);
+    }
+
+    wanderClickHandler() {
+        const { learned, onLearn } = this.props;
+        let word: model.Learnable | null = null;
 
         hiraganaBasicDict.keySeq().some((key: string | undefined) => {
-                if (key !== undefined && !learned.has(key)) {
-                    word = hiraganaBasicDict.get(key);
-                    return true;
-                } else {
-                    return false;
-                }
+            if (key !== undefined && !learned.has(key)) {
+                word = hiraganaBasicDict.get(key);
+                return true;
             }
-        );
+            else {
+                return false;
+            }
+        });
 
         if (word) {
             onLearn(word);
-        } else {
+        }
+        else {
             alert("Congratulations, you're fluent");
         }
-    };
-    const meditateClickHandler = () => {
-        var leastRecentlyReviewed: model.LearnableId | null = null;
-        var lastDate: Date | null = null;
+    }
+
+    meditateClickHandler() {
+        const { learned, onLearn } = this.props;
+        let leastRecentlyReviewed: model.LearnableId | null = null;
+        let lastDate: Date | null = null;
+
         for (const [k, v] of Array.from(learned)) {
             console.log(k);
             console.log(v.get("lastReviewed"));
@@ -47,7 +70,7 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
                 lastDate = v.get("lastReviewed");
             }
         }
-        if (leastRecentlyReviewed != null) {
+        if (leastRecentlyReviewed !== null) {
             let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
             // build a list of 3 wrong answers and the right answer
             let options = [reviewedWord.romaji];
@@ -61,52 +84,90 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
             }
 
             // TODO: Make a form with all the answers in it
-            alert(`Multiple Choice ${options}`);
-            onReview(leastRecentlyReviewed);
+            /* alert(`Multiple Choice ${options}`);*/
+            /* onReview(leastRecentlyReviewed);*/
+            this.setState({
+                question: {
+                    questionText: reviewedWord.unicode,
+                    answers: options,
+                    id: leastRecentlyReviewed,
+                },
+            });
         }
-    };
+    }
 
-    const learnedItems: JSX.Element[] = [];
-    learned.forEach((item, id) => {
-        console.log(item, id);
-        if (!item || id === undefined || !item.item) {
-            return;
-        }
-        console.log(item.item.toJS());
-        if (item.item.type === "katakana") {
-            learnedItems.push(
-                <li className="ReviewContainer" key={id}>
+    render() {
+        const { learned, onReview, onLearn } = this.props;
+
+        const learnedItems: JSX.Element[] = [];
+        learned.forEach((item, id) => {
+            console.log(item, id);
+            if (!item || id === undefined || !item.item) {
+                return;
+            }
+            console.log(item.item.toJS());
+            if (item.item.type === "katakana") {
+                learnedItems.push(
+                    <li className="ReviewContainer" key={id}>
                     <a className="Button Review" onClick={() => onReview(id)}>
-                        Review Katakana: {item.item.romaji} = {item.item.unicode} (score {item.score})
+                    Review Katakana: {item.item.romaji} = {item.item.unicode} (score {item.score})
                     </a>
-                </li>
+                    </li>
+                );
+            }
+            else if (item.item.type === "hiragana") {
+                learnedItems.push(
+                    <li className="ReviewContainer" key={id}>
+                    <a className="Button Review" onClick={() => onReview(id)}>
+                    Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {item.score})
+                    </a>
+                    </li>
+                );
+            }
+        });
+
+        if (this.state.question !== null) {
+            const question = this.state.question;
+            const reviewWord = (idx: number) => {
+                if (idx === 0) {
+                    onReview(question.id);
+                }
+                this.setState({ question: null });
+            };
+            const answers = question!.answers.map((answer, idx) => {
+                return (
+                    <li className="ReviewContainer" key={idx}>
+                        <a className="Button Review" onClick={() => reviewWord(idx)}>
+                            {answer}
+                        </a>
+                    </li>
+                );
+            });
+            return (
+                <div>
+                    <p>Match to the word: {question!.questionText}</p>
+                    <ul>
+                        {answers}
+                    </ul>
+                </div>
             );
         }
-        else if (item.item.type === "hiragana") {
-            learnedItems.push(
-                <li className="ReviewContainer" key={id}>
-                    <a className="Button Review" onClick={() => onReview(id)}>
-                        Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {item.score})
-                    </a>
-                </li>
-            );
-        }
-    });
 
-    return (
-        <div>
-            <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
-            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>
-            <ul>
-                {learnedItems}
-            </ul>
-        </div>
-    );
+        return (
+            <div>
+                <a className="Button" id="Wander" onClick={this._wanderClickHandler}>Wander</a>
+                <a className="Button" id="Meditate" onClick={this._meditateClickHandler}>Meditate</a>
+                <ul>
+                    {learnedItems}
+                </ul>
+            </div>
+        );
+    }
 }
 
-const Test = connect(
+const Test = (connect as any)( //tslint:disable-line
     (store: model.Store) => ({
-      learned: store.learned
+        learned: store.learned,
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
