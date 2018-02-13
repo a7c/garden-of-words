@@ -77,7 +77,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             let keyList = hiraganaBasicDict.keySeq().toArray();
             keyList.splice(keyList.indexOf(reviewedWord.id), 1);
 
-            for (var i = 0; i < 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 let index = Math.floor(Math.random() * keyList.length);
                 options.push(hiraganaBasicDict.get(keyList[index]).romaji);
                 keyList.splice(index, 1);
