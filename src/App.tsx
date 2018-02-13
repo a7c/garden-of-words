@@ -49,7 +49,19 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
         }
         if (leastRecentlyReviewed != null) {
             let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
-            alert(`Reviewed word ${reviewedWord}`);
+            // build a list of 3 wrong answers and the right answer
+            let options = [reviewedWord.romaji];
+            let keyList = hiraganaBasicDict.keySeq().toArray();
+            keyList.splice(keyList.indexOf(reviewedWord.id), 1);
+
+            for (var i = 0; i < 3; i++) {
+                let index = Math.floor(Math.random() * (keyList.length + 1));
+                options.push(hiraganaBasicDict.get(keyList[index]).romaji);
+                keyList.splice(index, 1);
+            }
+
+            // TODO: Make a form with all the answers in it
+            alert(`Multiple Choice ${options}`);
             onReview(leastRecentlyReviewed);
         }
     };
