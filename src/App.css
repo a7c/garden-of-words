@@ -1,5 +1,14 @@
 .App {
-  text-align: center;
+  text-align: right;
+  padding: 100px;
+}
+
+html,body {
+  background: url('assets/bg01a.png');
+  background-repeat: no-repeat;
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .Button {

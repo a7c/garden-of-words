@@ -17,7 +17,7 @@ interface TestProps {
 function TestComponent({ learned, onLearn, onReview }: TestProps) {
     let word: model.Learnable | null = null;
     const wanderClickHandler = () => {
-        
+
         word = null;
 
         hiraganaBasicDict.keySeq().some((key: string | undefined) => {
@@ -29,7 +29,7 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
                 }
             }
         );
-        
+
         if (word) {
             onLearn(word);
         } else {
@@ -65,7 +65,7 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
             onReview(leastRecentlyReviewed);
         }
     };
-    
+
     const learnedItems: JSX.Element[] = [];
     learned.forEach((item, id) => {
         console.log(item, id);
@@ -95,11 +95,11 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
 
     return (
         <div>
+            <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
+            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>
             <ul>
                 {learnedItems}
             </ul>
-            <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
-            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>
         </div>
     );
 }
