@@ -115,24 +115,24 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
             const displayedScore = item.score.toFixed(1);
 
-            if (item.item.type === "katakana") {
-                learnedItems.push(
-                    <li className="ReviewContainer" key={id}>
-                    <button className="Button Review" onClick={() => onReview(id)}>
-                    Review Katakana: {item.item.romaji} = {item.item.unicode} (score {displayedScore})
-                    </button>
-                    </li>
-                );
-            }
-            else if (item.item.type === "hiragana") {
-                learnedItems.push(
-                    <li className="ReviewContainer" key={id}>
-                        <button className="Button Review" onClick={() => onReview(id)}>
-                            Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {displayedScore})
-                        </button>
-                    </li>
-                );
-            }
+            // if (item.item.type === "katakana") {
+            //     learnedItems.push(
+            //         <li className="ReviewContainer" key={id}>
+            //         <button className="Button Review" onClick={() => onReview(id)}>
+            //         Review Katakana: {item.item.romaji} = {item.item.unicode} (score {displayedScore})
+            //         </button>
+            //         </li>
+            //     );
+            // }
+            // else if (item.item.type === "hiragana") {
+            learnedItems.push(
+                <li className="ReviewContainer" key={id}>
+                    <a className=" Review" onClick={() => onReview(id)}>
+                        {item.item.romaji} = {item.item.unicode} (score {displayedScore})
+                    </a>
+                </li>
+            );
+            // }
         });
 
         if (this.state.question !== null) {
