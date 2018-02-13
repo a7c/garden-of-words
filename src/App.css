@@ -18,6 +18,7 @@ html,body {
   text-align: center;
   vertical-align: middle;
   color: white;
+  cursor: pointer;
 }
 
 .Button:hover {
