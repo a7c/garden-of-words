@@ -138,8 +138,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (this.state.question !== null) {
             const question = this.state.question;
             const reviewWord = (idx: number) => {
+                // TODO: replace alerts with better feedback
                 if (idx === question.correctIdx) {
                     onReview(question.id);
+                    alert("Correct! :D");
+                } else {
+                    alert("Incorrect... ):");
                 }
                 this.setState({ question: null });
             };
