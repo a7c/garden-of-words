@@ -12,6 +12,7 @@ interface Question {
     id: model.LearnableId;
     questionText: string;
     answers: string[];
+    correctIdx: number; // index of correct answer
 }
 
 interface TestProps {
@@ -73,7 +74,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (leastRecentlyReviewed !== null) {
             let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
             // build a list of 3 wrong answers and the right answer
-            let options = [reviewedWord.romaji];
+            let options = [];
             let keyList = hiraganaBasicDict.keySeq().toArray();
             keyList.splice(keyList.indexOf(reviewedWord.id), 1);
 
@@ -83,6 +84,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 keyList.splice(index, 1);
             }
 
+            // insert correct answer in a random place
+            let correctIdx = Math.floor(Math.random() * (options.length + 1));
+            options.splice(correctIdx, 0, reviewedWord.romaji);
+
             // TODO: Make a form with all the answers in it
             /* alert(`Multiple Choice ${options}`);*/
             /* onReview(leastRecentlyReviewed);*/
@@ -91,6 +96,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     questionText: reviewedWord.unicode,
                     answers: options,
                     id: leastRecentlyReviewed,
+                    correctIdx: correctIdx
                 },
             });
         }
@@ -106,40 +112,47 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 return;
             }
             console.log(item.item.toJS());
-            if (item.item.type === "katakana") {
-                learnedItems.push(
-                    <li className="ReviewContainer" key={id}>
-                    <a className="Button Review" onClick={() => onReview(id)}>
-                    Review Katakana: {item.item.romaji} = {item.item.unicode} (score {item.score})
+
+            const displayedScore = item.score.toFixed(1);
+
+            // if (item.item.type === "katakana") {
+            //     learnedItems.push(
+            //         <li className="ReviewContainer" key={id}>
+            //         <button className="Button Review" onClick={() => onReview(id)}>
+            //         Review Katakana: {item.item.romaji} = {item.item.unicode} (score {displayedScore})
+            //         </button>
+            //         </li>
+            //     );
+            // }
+            // else if (item.item.type === "hiragana") {
+            learnedItems.push(
+                <li className="ReviewContainer" key={id}>
+                    <a className=" Review" onClick={() => onReview(id)}>
+                        {item.item.romaji} = {item.item.unicode} (score {displayedScore})
                     </a>
-                    </li>
-                );
-            }
-            else if (item.item.type === "hiragana") {
-                learnedItems.push(
-                    <li className="ReviewContainer" key={id}>
-                        <button className="Button Review" onClick={() => onReview(id)}>
-                            Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {item.score})
-                        </button>
-                    </li>
-                );
-            }
+                </li>
+            );
+            // }
         });
 
         if (this.state.question !== null) {
             const question = this.state.question;
             const reviewWord = (idx: number) => {
-                if (idx === 0) {
+                // TODO: replace alerts with better feedback
+                if (idx === question.correctIdx) {
                     onReview(question.id);
+                    alert("Correct! :D");
+                } else {
+                    alert("Incorrect... ):");
                 }
                 this.setState({ question: null });
             };
             const answers = question!.answers.map((answer, idx) => {
                 return (
                     <li className="ReviewContainer" key={idx}>
-                        <a className="Button Review" onClick={() => reviewWord(idx)}>
+                        <button className="Button Review" onClick={() => reviewWord(idx)}>
                             {answer}
-                        </a>
+                        </button>
                     </li>
                 );
             });
