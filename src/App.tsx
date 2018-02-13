@@ -55,7 +55,7 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
             keyList.splice(keyList.indexOf(reviewedWord.id), 1);
 
             for (var i = 0; i < 3; i++) {
-                let index = Math.floor(Math.random() * (keyList.length + 1));
+                let index = Math.floor(Math.random() * keyList.length);
                 options.push(hiraganaBasicDict.get(keyList[index]).romaji);
                 keyList.splice(index, 1);
             }
