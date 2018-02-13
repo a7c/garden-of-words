@@ -5,6 +5,10 @@ import "./App.css";
 import * as actions from "./actions/actions";
 import * as model from "./model/model";
 
+// TODO: this is just to test
+import { hiraganaBasicDict } from "./model/kana";
+console.log(hiraganaBasicDict.get("hira-a"));
+
 const logo = require("./logo.svg");
 
 interface TestProps {
