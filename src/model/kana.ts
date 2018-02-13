@@ -7,4 +7,5 @@ hiraganaBasicJson.forEach((obj: HiraganaLearnableProps)  =>
     hiraganaBasic[obj.id] = new HiraganaLearnable(obj)
 );
 
-export const hiraganaBasicDict = immutable.Map(hiraganaBasic);
+export interface KanaDict extends immutable.Map<string, HiraganaLearnable> {}
+export const hiraganaBasicDict = immutable.Map(hiraganaBasic) as KanaDict;
