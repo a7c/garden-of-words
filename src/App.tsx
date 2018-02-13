@@ -93,10 +93,19 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
         }
     });
 
+    let meditateButton = null;
+
+    // Don't render the meditate button if no words have been learned yet
+    // TODO: we probably want to handle "earning access to a new button" in a different way
+    if (learned.size > 0) {
+        meditateButton = 
+            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>;
+    }
+
     return (
         <div>
             <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
-            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>
+            {meditateButton}
             <ul>
                 {learnedItems}
             </ul>
