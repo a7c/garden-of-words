@@ -159,7 +159,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         // TODO: we probably want to handle "earning access to a new button" in a different way
         if (learned.size > 0) {
             meditateButton =
-                <button className="Button" id="Meditate" onClick={this._meditateClickHandler}>Meditate</button>
+                <button className="Button" id="Meditate" onClick={this._meditateClickHandler}>Meditate</button>;
         }
 
         return (
