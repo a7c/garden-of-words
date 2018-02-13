@@ -18,9 +18,26 @@ interface TestProps {
 }
 function TestComponent({ learned, onLearn, onReview }: TestProps) {
     let word: model.Learnable | null = null;
-    const clickHandler = () => {
+    const wanderClickHandler = () => {
         if (word) {
             onLearn(word);
+        }
+    };
+    const meditateClickHandler = () => {
+        var leastRecentlyReviewed: model.LearnableId | null = null;
+        var lastDate: Date | null = null;
+        for (const [k, v] of Array.from(learned)) {
+            console.log(k);
+            console.log(v.get("lastReviewed"));
+            if (lastDate == null || v.get("lastReviewed") < lastDate) {
+                leastRecentlyReviewed = k;
+                lastDate = v.get("lastReviewed");
+            }
+        }
+        if (leastRecentlyReviewed != null) {
+            let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
+            alert(`Reviewed word ${reviewedWord}`);
+            onReview(leastRecentlyReviewed);
         }
     };
     const updateWord = (e: React.FormEvent<HTMLInputElement>) => {
@@ -50,19 +67,19 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
         console.log(item.item.toJS());
         if (item.item.type === "katakana") {
             learnedItems.push(
-                <li key={id}>
-                    <button onClick={() => onReview(id)}>
+                <li className="ReviewContainer" key={id}>
+                    <a className="Button Review" onClick={() => onReview(id)}>
                         Review Katakana: {item.item.romaji} = {item.item.unicode} (score {item.score})
-                    </button>
+                    </a>
                 </li>
             );
         }
         else if (item.item.type === "hiragana") {
             learnedItems.push(
-                <li key={id}>
-                    <button onClick={() => onReview(id)}>
+                <li className="ReviewContainer" key={id}>
+                    <a className="Button Review" onClick={() => onReview(id)}>
                         Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {item.score})
-                    </button>
+                    </a>
                 </li>
             );
         }
@@ -74,13 +91,16 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
                 {learnedItems}
             </ul>
             <input type="text" onChange={updateWord} placeholder="Enter word to learn" />
-            <button onClick={clickHandler}>WANDER</button>
+            <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
+            <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>
         </div>
     );
 }
 
 const Test = connect(
-    (store: model.Store) => ({ learned: store.learned }),
+    (store: model.Store) => ({
+      learned: store.learned
+    }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId) => dispatch(actions.review(id)),
@@ -91,13 +111,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
         <Test/>
       </div>
     );
