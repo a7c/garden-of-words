@@ -12,6 +12,7 @@ interface Question {
     id: model.LearnableId;
     questionText: string;
     answers: string[];
+    correctIdx: number; // index of correct answer
 }
 
 interface TestProps {
@@ -84,8 +85,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
 
             // insert correct answer in a random place
-            let randIndex = Math.floor(Math.random() * (options.length + 1));
-            options.splice(randIndex, 0, reviewedWord.romaji);
+            let correctIdx = Math.floor(Math.random() * (options.length + 1));
+            options.splice(correctIdx, 0, reviewedWord.romaji);
 
             // TODO: Make a form with all the answers in it
             /* alert(`Multiple Choice ${options}`);*/
@@ -95,6 +96,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     questionText: reviewedWord.unicode,
                     answers: options,
                     id: leastRecentlyReviewed,
+                    correctIdx: correctIdx
                 },
             });
         }
@@ -110,12 +112,15 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 return;
             }
             console.log(item.item.toJS());
+
+            const displayedScore = item.score.toFixed(1);
+
             if (item.item.type === "katakana") {
                 learnedItems.push(
                     <li className="ReviewContainer" key={id}>
-                    <a className="Button Review" onClick={() => onReview(id)}>
-                    Review Katakana: {item.item.romaji} = {item.item.unicode} (score {item.score})
-                    </a>
+                    <button className="Button Review" onClick={() => onReview(id)}>
+                    Review Katakana: {item.item.romaji} = {item.item.unicode} (score {displayedScore})
+                    </button>
                     </li>
                 );
             }
@@ -123,7 +128,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 learnedItems.push(
                     <li className="ReviewContainer" key={id}>
                         <button className="Button Review" onClick={() => onReview(id)}>
-                            Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {item.score})
+                            Review Hiragana: {item.item.romaji} = {item.item.unicode} (score {displayedScore})
                         </button>
                     </li>
                 );
@@ -133,7 +138,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (this.state.question !== null) {
             const question = this.state.question;
             const reviewWord = (idx: number) => {
-                if (idx === 0) {
+                if (idx === question.correctIdx) {
                     onReview(question.id);
                 }
                 this.setState({ question: null });
@@ -141,9 +146,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
             const answers = question!.answers.map((answer, idx) => {
                 return (
                     <li className="ReviewContainer" key={idx}>
-                        <a className="Button Review" onClick={() => reviewWord(idx)}>
+                        <button className="Button Review" onClick={() => reviewWord(idx)}>
                             {answer}
-                        </a>
+                        </button>
                     </li>
                 );
             });
