@@ -17,8 +17,23 @@ interface TestProps {
 function TestComponent({ learned, onLearn, onReview }: TestProps) {
     let word: model.Learnable | null = null;
     const wanderClickHandler = () => {
+        
+        word = null;
+
+        hiraganaBasicDict.keySeq().some((key: string | undefined) => {
+                if (key !== undefined && !learned.has(key)) {
+                    word = hiraganaBasicDict.get(key);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        );
+        
         if (word) {
             onLearn(word);
+        } else {
+            alert("Congratulations, you're fluent");
         }
     };
     const meditateClickHandler = () => {
@@ -38,10 +53,7 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
             onReview(leastRecentlyReviewed);
         }
     };
-    const updateWord = (e: React.FormEvent<HTMLInputElement>) => {
-        word = hiraganaBasicDict.get("hira-" + e.currentTarget.value);
-    };
-
+    
     const learnedItems: JSX.Element[] = [];
     learned.forEach((item, id) => {
         console.log(item, id);
@@ -74,7 +86,6 @@ function TestComponent({ learned, onLearn, onReview }: TestProps) {
             <ul>
                 {learnedItems}
             </ul>
-            <input type="text" onChange={updateWord} placeholder="Enter word to learn" />
             <a className="Button" id="Wander" onClick={wanderClickHandler}>Wander</a>
             <a className="Button" id="Meditate" onClick={meditateClickHandler}>Meditate</a>
         </div>
