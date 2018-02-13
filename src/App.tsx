@@ -73,7 +73,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (leastRecentlyReviewed !== null) {
             let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
             // build a list of 3 wrong answers and the right answer
-            let options = [reviewedWord.romaji];
+            let options = [];
             let keyList = hiraganaBasicDict.keySeq().toArray();
             keyList.splice(keyList.indexOf(reviewedWord.id), 1);
 
@@ -82,6 +82,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 options.push(hiraganaBasicDict.get(keyList[index]).romaji);
                 keyList.splice(index, 1);
             }
+
+            // insert correct answer in a random place
+            let randIndex = Math.floor(Math.random() * (options.length + 1));
+            options.splice(randIndex, 0, reviewedWord.romaji);
 
             // TODO: Make a form with all the answers in it
             /* alert(`Multiple Choice ${options}`);*/
