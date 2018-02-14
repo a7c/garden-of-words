@@ -7,7 +7,7 @@ import * as actions from "./actions/actions";
 import * as model from "./model/model";
 import * as question from "./model/question";
 
-import { QuestionComponent } from "./Question";
+import QuestionComponent from "./components/Question";
 
 import { hiraganaBasicDict } from "./model/kana";
 

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import "./Common.css";
+import "../Common.css";
 import "./Question.css";
-import * as model from "./model/model";
-import * as question from "./model/question";
+import * as model from "../model/model";
+import * as question from "../model/question";
 
 interface QuestionProps {
     question: question.Question;
@@ -69,7 +69,7 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
     }
 }
 
-export class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
+export default class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
     onReview: (id: model.LearnableId, correct: boolean) => void;
     onExited: (node: HTMLElement) => void;
     _onExited: (node: HTMLElement) => void;
