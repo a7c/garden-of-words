@@ -1,4 +1,5 @@
 import * as React from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./Common.css";
 import "./Question.css";
 import * as model from "./model/model";
@@ -14,6 +15,27 @@ interface MultipleChoiceProps extends QuestionProps {
 }
 
 interface QuestionState {
+    status: "right" | "wrong" | "answering" | "done";
+}
+
+// TODO: YOU MIGHT WANT TO REUSE THIS FOR OTHER THINGS. MOVE IT TO A SEPARATE FILE.
+interface DialogProps {
+    text: string;
+    style: string;
+}
+
+class Dialog extends React.Component<DialogProps> {
+    constructor(props: DialogProps) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className={this.props.style}>
+                {this.props.text}
+            </div>
+        );
+    }
 }
 
 class MultipleChoice extends React.Component<MultipleChoiceProps> {
@@ -47,16 +69,90 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
     }
 }
 
+const Fade = ({ children, ...props }: any) => ( // tslint:disable-line
+    <CSSTransition
+        {...props}
+        timeout={1000}
+        classNames="fade"
+    >
+        {children}
+    </CSSTransition>
+    );
+
 export class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
+    onReview: (id: model.LearnableId, correct: boolean) => void;
+    onExited: (node: HTMLElement) => void;
+    _onExited: (node: HTMLElement) => void;
+
     constructor(props: QuestionProps) {
         super(props);
+        this.state = { status: "answering" };
+
+        this.onReview = (id: model.LearnableId, correct: boolean) => {
+            this.setState({
+                status: correct ? "right" : "wrong",
+            });
+            this._onExited = (node: HTMLElement) => {
+                if (node.classList.contains("Question")) {
+                    window.setTimeout(
+                        () => {
+                            this.setState({ status: "done" });
+                        },
+                        1000
+                    );
+                }
+                else {
+                    this.props.onReview(id, correct);
+                }
+                return;
+            };
+        };
+        this._onExited = (node: HTMLElement) => {
+            return;
+        };
+
+        this.onExited = (node: HTMLElement) => {
+            this._onExited(node);
+        };
     }
 
     render() {
         const q = this.props.question;
         if (q instanceof question.MultipleChoice) {
+            let contents = <MultipleChoice key="mc" question={q} onReview={this.onReview} />;
+            if (this.state.status === "right") {
+                contents = (
+                    <Dialog
+                        key="dialog"
+                        text="对！"
+                        style=""
+                    />
+                );
+            }
+            else if (this.state.status === "wrong") {
+                contents = (
+                    <Dialog
+                        key="dialog"
+                        text="错，加油！"
+                        style=""
+                    />
+                );
+            }
+            else if (this.state.status === "done") {
+                contents = <span/>;
+            }
+
             return (
-                <MultipleChoice question={q} onReview={this.props.onReview} />
+                <TransitionGroup>
+                    <CSSTransition
+                        key={this.state.status}
+                        timeout={{ enter: 500, exit: 300 }}
+                        classNames="testing"
+                        onExited={this.onExited}
+                    >
+                        {contents}
+                    </CSSTransition>
+                </TransitionGroup>
             );
         }
         else {
