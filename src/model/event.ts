@@ -27,11 +27,23 @@ export class QuestAction extends Action {
 export class FlagAction extends Action {
     flag: string;
     value: boolean;
+
+    constructor(flag: string, value: boolean) {
+        super();
+        this.flag = flag;
+        this.value = value;
+    }
 }
 
 export class ResourceAction extends Action {
     resource: string;
     value: number;
+
+    constructor(resource: string, value: number) {
+        super();
+        this.resource = resource;
+        this.value = value;
+    }
 }
 
 export class Filter {

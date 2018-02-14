@@ -6,6 +6,7 @@ import "./App.css";
 import * as actions from "./actions/actions";
 import * as model from "./model/model";
 import * as question from "./model/question";
+import * as parsers from "./data/parsers";
 
 import QuestionComponent from "./components/Question";
 
