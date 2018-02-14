@@ -6,7 +6,7 @@ import * as question from "./model/question";
 
 interface QuestionProps {
     question: question.Question;
-    onReview: (id: model.LearnableId) => void;
+    onReview: (id: model.LearnableId, correct: boolean) => void;
 }
 
 interface MultipleChoiceProps extends QuestionProps {
@@ -17,26 +17,23 @@ interface QuestionState {
 }
 
 class MultipleChoice extends React.Component<MultipleChoiceProps> {
+    reviewWord: (idx: number) => void;
+
     constructor(props: MultipleChoiceProps) {
         super(props);
+        this.reviewWord = (idx: number) => {
+            const q = this.props.question;
+            // TODO: review all taught items
+            this.props.onReview(q.teaches[0], q.correct(idx));
+        };
     }
 
     render() {
         const q = this.props.question;
-        const reviewWord = (idx: number) => {
-            if (q.correct(idx)) {
-                alert("Correct! :D");
-                // TODO: review all taught items
-                this.props.onReview(q.teaches[0]);
-            }
-            else {
-                alert("Oh no! :(");
-            }
-        };
         const choices = q.choices.map((c, idx) =>
             (
                 <li className="ReviewContainer" key={idx}>
-                    <button className="Button Review" onClick={() => reviewWord(idx)}>{c.back()}</button>
+                    <button className="Button Review" onClick={() => this.reviewWord(idx)}>{c.back()}</button>
                 </li>
             ));
         return (

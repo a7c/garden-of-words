@@ -24,14 +24,14 @@ interface TestState {
 class TestComponent extends React.Component<TestProps, TestState> {
     _wanderClickHandler: () => void;
     _meditateClickHandler: () => void;
-    subOnReview: (id: model.LearnableId) => void;
+    subOnReview: (id: model.LearnableId, correct: boolean) => void;
 
     constructor(props: TestProps) {
         super(props);
         this.state = { question: null };
         this._wanderClickHandler = this.wanderClickHandler.bind(this);
         this._meditateClickHandler = this.meditateClickHandler.bind(this);
-        this.subOnReview = (id: model.LearnableId) => {
+        this.subOnReview = (id: model.LearnableId, correct: boolean) => {
             this.props.onReview(id);
             this.setState({ question: null });
         };
