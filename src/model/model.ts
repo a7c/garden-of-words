@@ -12,6 +12,8 @@ interface ImmutableRecord<T> {
 }
 
 export type LearnableId = string;
+export type QuestId = string;
+export type QuestStage = string;
 
 export interface LearnableProps {
     id: LearnableId;
