@@ -128,7 +128,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             learnedItems.push(
                 <li className="ReviewContainer" key={id}>
                     <a className=" Review" onClick={() => onReview(id)}>
-                        {item.item.romaji} = {item.item.unicode} (score {displayedScore})
+                        {item.item.back()} = {item.item.front()} (score {displayedScore})
                     </a>
                 </li>
             );

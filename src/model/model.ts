@@ -6,13 +6,27 @@ interface ImmutableRecord<T> {
     get<K extends keyof this>(key: K): this[K];
     set<K extends keyof this>(key: K, value: this[K]): this;
     toJS(): T;
+
+    front(): string;
+    back(): string;
 }
 
 export type LearnableId = string;
 
 export interface LearnableProps {
     id: LearnableId;
-    subId?: LearnableId;
+    subId: LearnableId | null;
+}
+
+function learnableRecord<P, T>(defaults: P, front: string, back: string): T {
+    const result = immutable.Record(defaults) as any as T; // tslint:disable-line
+    (result as any).prototype.front = function() { // tslint:disable-line
+        return this.get(front);
+    };
+    (result as any).prototype.back = function() { // tslint:disable-line
+        return this.get(back);
+    };
+    return result;
 }
 
 export interface HiraganaLearnableProps extends LearnableProps {
@@ -21,13 +35,17 @@ export interface HiraganaLearnableProps extends LearnableProps {
     romaji: string;
 }
 export interface HiraganaLearnable extends HiraganaLearnableProps, ImmutableRecord<HiraganaLearnableProps> {}
-export const HiraganaLearnable = immutable.Record({
-    type: "hiragana",
-    id: "",
-    subId: null,
-    unicode: "",
-    romaji: "",
-}) as any as HiraganaLearnable; // tslint:disable-line
+export const HiraganaLearnable = learnableRecord<HiraganaLearnableProps, HiraganaLearnable>(
+    {
+        type: "hiragana",
+        id: "",
+        subId: null,
+        unicode: "",
+        romaji: "",
+    },
+    "unicode",
+    "romaji"
+);
 
 export interface KatakanaLearnableProps extends LearnableProps {
     type: "katakana";
@@ -35,13 +53,17 @@ export interface KatakanaLearnableProps extends LearnableProps {
     romaji: string;
 }
 export interface KatakanaLearnable extends KatakanaLearnableProps, ImmutableRecord<KatakanaLearnableProps> {}
-export const KatakanaLearnable = immutable.Record({
-    type: "katakana",
-    id: "",
-    subId: null,
-    unicode: "",
-    romaji: "",
-}) as any as KatakanaLearnable; // tslint:disable-line
+export const KatakanaLearnable = learnableRecord<KatakanaLearnableProps, KatakanaLearnable>(
+    {
+        type: "katakana",
+        id: "",
+        subId: null,
+        unicode: "",
+        romaji: "",
+    },
+    "unicode",
+    "romaji"
+);
 
 export type Learnable = HiraganaLearnable | KatakanaLearnable;
 
