@@ -24,12 +24,17 @@ interface TestState {
 class TestComponent extends React.Component<TestProps, TestState> {
     _wanderClickHandler: () => void;
     _meditateClickHandler: () => void;
+    subOnReview: (id: model.LearnableId) => void;
 
     constructor(props: TestProps) {
         super(props);
         this.state = { question: null };
         this._wanderClickHandler = this.wanderClickHandler.bind(this);
         this._meditateClickHandler = this.meditateClickHandler.bind(this);
+        this.subOnReview = (id: model.LearnableId) => {
+            this.props.onReview(id);
+            this.setState({ question: null });
+        };
     }
 
     wanderClickHandler() {
@@ -125,36 +130,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         if (this.state.question !== null) {
             return (
-                <QuestionComponent question={this.state.question} onReview={onReview} />
+                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />
             );
-            {/* const question = this.state.question;
-                const reviewWord = (idx: number) => {
-                // TODO: replace alerts with better feedback
-                if (idx === question.correctIdx) {
-                onReview(question.id);
-                alert("Correct! :D");
-                } else {
-                alert("Incorrect... ):");
-                }
-                this.setState({ question: null });
-                };
-                const answers = question!.answers.map((answer, idx) => {
-                return (
-                <li className="ReviewContainer" key={idx}>
-                <button className="Button Review" onClick={() => reviewWord(idx)}>
-                {answer}
-                </button>
-                </li>
-                );
-                });
-                return (
-                <div>
-                <p>Match to the word: {question!.questionText}</p>
-                <ul>
-                {answers}
-                </ul>
-                </div>
-                ); */}
         }
 
         let meditateButton = null;
