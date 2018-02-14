@@ -1,19 +1,15 @@
 import * as immutable from "immutable";
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
+import "./Common.css";
 import "./App.css";
 import * as actions from "./actions/actions";
 import * as model from "./model/model";
+import * as question from "./model/question";
+
+import { QuestionComponent } from "./Question";
 
 import { hiraganaBasicDict } from "./model/kana";
-
-// THIS IS TEMPORARY
-interface Question {
-    id: model.LearnableId;
-    questionText: string;
-    answers: string[];
-    correctIdx: number; // index of correct answer
-}
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
@@ -22,7 +18,7 @@ interface TestProps {
 }
 
 interface TestState {
-    question: Question | null;
+    question: question.Question | null;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
@@ -74,30 +70,22 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (leastRecentlyReviewed !== null) {
             let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
             // build a list of 3 wrong answers and the right answer
-            let options = [];
+            let options: model.Learnable[] = [];
             let keyList = hiraganaBasicDict.keySeq().toArray();
             keyList.splice(keyList.indexOf(reviewedWord.id), 1);
 
             for (let i = 0; i < 3; i++) {
                 let index = Math.floor(Math.random() * keyList.length);
-                options.push(hiraganaBasicDict.get(keyList[index]).romaji);
+                options.push(hiraganaBasicDict.get(keyList[index]));
                 keyList.splice(index, 1);
             }
 
             // insert correct answer in a random place
             let correctIdx = Math.floor(Math.random() * (options.length + 1));
-            options.splice(correctIdx, 0, reviewedWord.romaji);
+            options.splice(correctIdx, 0, reviewedWord);
 
-            // TODO: Make a form with all the answers in it
-            /* alert(`Multiple Choice ${options}`);*/
-            /* onReview(leastRecentlyReviewed);*/
             this.setState({
-                question: {
-                    questionText: reviewedWord.unicode,
-                    answers: options,
-                    id: leastRecentlyReviewed,
-                    correctIdx: correctIdx
-                },
+                question: new question.MultipleChoice([reviewedWord.id], options, correctIdx, correctIdx),
             });
         }
     }
@@ -136,34 +124,37 @@ class TestComponent extends React.Component<TestProps, TestState> {
         });
 
         if (this.state.question !== null) {
-            const question = this.state.question;
-            const reviewWord = (idx: number) => {
+            return (
+                <QuestionComponent question={this.state.question} onReview={onReview} />
+            );
+            {/* const question = this.state.question;
+                const reviewWord = (idx: number) => {
                 // TODO: replace alerts with better feedback
                 if (idx === question.correctIdx) {
-                    onReview(question.id);
-                    alert("Correct! :D");
+                onReview(question.id);
+                alert("Correct! :D");
                 } else {
-                    alert("Incorrect... ):");
+                alert("Incorrect... ):");
                 }
                 this.setState({ question: null });
-            };
-            const answers = question!.answers.map((answer, idx) => {
+                };
+                const answers = question!.answers.map((answer, idx) => {
                 return (
-                    <li className="ReviewContainer" key={idx}>
-                        <button className="Button Review" onClick={() => reviewWord(idx)}>
-                            {answer}
-                        </button>
-                    </li>
+                <li className="ReviewContainer" key={idx}>
+                <button className="Button Review" onClick={() => reviewWord(idx)}>
+                {answer}
+                </button>
+                </li>
                 );
-            });
-            return (
+                });
+                return (
                 <div>
-                    <p>Match to the word: {question!.questionText}</p>
-                    <ul>
-                        {answers}
-                    </ul>
+                <p>Match to the word: {question!.questionText}</p>
+                <ul>
+                {answers}
+                </ul>
                 </div>
-            );
+                ); */}
         }
 
         let meditateButton = null;
