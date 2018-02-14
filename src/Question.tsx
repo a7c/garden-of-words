@@ -69,16 +69,6 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
     }
 }
 
-const Fade = ({ children, ...props }: any) => ( // tslint:disable-line
-    <CSSTransition
-        {...props}
-        timeout={1000}
-        classNames="fade"
-    >
-        {children}
-    </CSSTransition>
-    );
-
 export class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
     onReview: (id: model.LearnableId, correct: boolean) => void;
     onExited: (node: HTMLElement) => void;
@@ -146,8 +136,8 @@ export class QuestionComponent extends React.Component<QuestionProps, QuestionSt
                 <TransitionGroup>
                     <CSSTransition
                         key={this.state.status}
-                        timeout={{ enter: 500, exit: 300 }}
-                        classNames="testing"
+                        timeout={{ enter: 1000, exit: 800 }}
+                        classNames="fade"
                         onExited={this.onExited}
                     >
                         {contents}
