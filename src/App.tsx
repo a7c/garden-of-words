@@ -4,9 +4,11 @@ import { connect, Dispatch } from "react-redux";
 import "./Common.css";
 import "./App.css";
 import * as actions from "./actions/actions";
+import * as event from "./model/event";
 import * as model from "./model/model";
 import * as question from "./model/question";
 import * as parsers from "./data/parsers";
+import wander from "./wander";
 
 import QuestionComponent from "./components/Question";
 
@@ -40,19 +42,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     wanderClickHandler() {
         const { learned, onLearn } = this.props;
-        let word: model.Learnable | null = null;
+        let word: model.Learnable | event.Event | null = wander(learned);
 
-        hiraganaBasicDict.keySeq().some((key: string | undefined) => {
-            if (key !== undefined && !learned.has(key)) {
-                word = hiraganaBasicDict.get(key);
-                return true;
-            }
-            else {
-                return false;
-            }
-        });
-
-        if (word) {
+        if (word instanceof event.Event) {
+            return;
+        }
+        else if (word) {
             onLearn(word);
         }
         else {
