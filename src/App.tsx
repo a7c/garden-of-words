@@ -6,8 +6,9 @@ import "./App.css";
 import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
-import * as question from "./model/question";
+import { Question } from "./model/question";
 import * as parsers from "./data/parsers";
+import meditate from "./meditate";
 import wander from "./wander";
 
 import QuestionComponent from "./components/Question";
@@ -21,7 +22,7 @@ interface TestProps {
 }
 
 interface TestState {
-    question: question.Question | null;
+    question: Question | null;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
@@ -56,38 +57,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     meditateClickHandler() {
-        const { learned, onLearn } = this.props;
-        let leastRecentlyReviewed: model.LearnableId | null = null;
-        let lastDate: Date | null = null;
+        const { learned } = this.props;
 
-        for (const [k, v] of Array.from(learned)) {
-            console.log(k);
-            console.log(v.get("lastReviewed"));
-            if (lastDate == null || v.get("lastReviewed") < lastDate) {
-                leastRecentlyReviewed = k;
-                lastDate = v.get("lastReviewed");
-            }
-        }
-        if (leastRecentlyReviewed !== null) {
-            let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
-            // build a list of 3 wrong answers and the right answer
-            let options: model.Learnable[] = [];
-            let keyList = hiraganaBasicDict.keySeq().toArray();
-            keyList.splice(keyList.indexOf(reviewedWord.id), 1);
-
-            for (let i = 0; i < 3; i++) {
-                let index = Math.floor(Math.random() * keyList.length);
-                options.push(hiraganaBasicDict.get(keyList[index]));
-                keyList.splice(index, 1);
-            }
-
-            // insert correct answer in a random place
-            let correctIdx = Math.floor(Math.random() * (options.length + 1));
-            options.splice(correctIdx, 0, reviewedWord);
-
-            this.setState({
-                question: new question.MultipleChoice([reviewedWord.id], options, correctIdx, correctIdx),
-            });
+        const question = meditate(learned);
+        if (question) {
+            this.setState({ question });
         }
     }
 
