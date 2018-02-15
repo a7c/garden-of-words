@@ -1,5 +1,16 @@
 import * as event from "../model/event";
+import * as model from "../model/model";
 import * as quest from "../model/quest";
+
+export class ParseError {
+    message: string;
+    object: Object;
+
+    constructor(message: string, object: Object) {
+        this.message = message;
+        this.object = object;
+    }
+}
 
 type ActionProps =
     { type: "quest", quest: string, stage: string, journal?: string } |
@@ -8,9 +19,13 @@ type ActionProps =
 
 type FilterProps = {};
 
-type EventProps = { type: "flavor", text: string, actions: ActionProps[], filters: FilterProps };
+type EventProps = { type: "flavor", text: string, actions: ActionProps[], filters: FilterProps[] };
 
-export function parseAction(json: ActionProps): event.Action | null {
+type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
+    [ stage: string ]: EventProps[],
+} };
+
+export function parseAction(json: ActionProps): event.Action {
     if (json.type === "flag") {
         return new event.FlagAction(json.flag, json.value);
     }
@@ -20,17 +35,28 @@ export function parseAction(json: ActionProps): event.Action | null {
     else if (json.type === "quest") {
         return new event.QuestAction(json.quest, json.stage, json.journal);
     }
-    return null;
+    throw new ParseError("Unrecognized action", json);
 }
 
-export function parseFilter(): event.Filter | null {
-    return null;
+export function parseFilter(json: FilterProps): event.Filter {
+    throw new ParseError("Unrecognized filter", json);
 }
 
-export function parseEvent(): event.Event | null {
-    return null;
+export function parseEvent(json: EventProps): event.Event {
+    if (json.type === "flavor") {
+        return new event.FlavorEvent(
+            json.filters.map(parseFilter),
+            json.actions.map(parseAction),
+            json.text
+        );
+    }
+    throw new ParseError("Unrecognized event", json);
 }
 
-export function parseQuest(): quest.Quest | null {
-    return null;
+export function parseQuest(json: QuestProps): quest.Quest {
+    const events = new Map();
+    for (const stage of Object.keys(json.events)) {
+        events.set(stage, json.events[stage].map(parseEvent));
+    }
+    return new quest.Quest(json.id, events, json.complete);
 }
