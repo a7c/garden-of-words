@@ -4,13 +4,13 @@ import { connect, Dispatch } from "react-redux";
 import "./Common.css";
 import "./App.css";
 import * as actions from "./actions/actions";
-import * as event from "./model/event";
+import { Event } from "./model/event";
 import * as model from "./model/model";
 import { Question } from "./model/question";
-import * as parsers from "./data/parsers";
 import meditate from "./meditate";
 import wander from "./wander";
 
+import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 
 import { hiraganaBasicDict } from "./model/kana";
@@ -23,6 +23,7 @@ interface TestProps {
 
 interface TestState {
     question: Question | null;
+    event: Event | null;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
@@ -32,7 +33,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     constructor(props: TestProps) {
         super(props);
-        this.state = { question: null };
+        this.state = { question: null, event: null };
         this._wanderClickHandler = this.wanderClickHandler.bind(this);
         this._meditateClickHandler = this.meditateClickHandler.bind(this);
         this.subOnReview = (id: model.LearnableId, correct: boolean) => {
@@ -43,10 +44,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     wanderClickHandler() {
         const { learned, onLearn } = this.props;
-        let word: model.Learnable | event.Event | null = wander(learned);
+        let word: model.Learnable | Event | null = wander(learned);
 
-        if (word instanceof event.Event) {
-            console.log(word);
+        if (word instanceof Event) {
+            this.setState({ event: word });
         }
         else if (word) {
             onLearn(word);
@@ -98,7 +99,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // }
         });
 
-        if (this.state.question !== null) {
+        if (this.state.event !== null) {
+            return (
+                <EventComponent event={this.state.event} />
+            );
+        }
+        else if (this.state.question !== null) {
             return (
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />
             );

@@ -5,6 +5,8 @@ import "./Question.css";
 import * as model from "../model/model";
 import * as question from "../model/question";
 
+import Dialog from "./Dialog";
+
 interface QuestionProps {
     question: question.Question;
     onReview: (id: model.LearnableId, correct: boolean) => void;
@@ -16,26 +18,6 @@ interface MultipleChoiceProps extends QuestionProps {
 
 interface QuestionState {
     status: "right" | "wrong" | "answering" | "done";
-}
-
-// TODO: YOU MIGHT WANT TO REUSE THIS FOR OTHER THINGS. MOVE IT TO A SEPARATE FILE.
-interface DialogProps {
-    text: string;
-    style: string;
-}
-
-class Dialog extends React.Component<DialogProps> {
-    constructor(props: DialogProps) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className={this.props.style}>
-                {this.props.text}
-            </div>
-        );
-    }
 }
 
 class MultipleChoice extends React.Component<MultipleChoiceProps> {
