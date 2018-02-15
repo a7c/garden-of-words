@@ -14,6 +14,8 @@ interface ImmutableRecord<T> {
 export type LearnableId = string;
 export type QuestId = string;
 export type QuestStage = string;
+export type Flag = string;
+export type FlagValue = boolean;
 
 export interface LearnableProps {
     id: LearnableId;
@@ -109,6 +111,7 @@ export interface StoreProps {
     readonly collections: immutable.List<Collection>;
     readonly resources: immutable.Map<Resource, number>;
     readonly location: Location;
+    readonly flags: immutable.Map<Flag, FlagValue>;
 }
 
 export interface Store extends StoreProps, ImmutableRecord<StoreProps> {
@@ -119,4 +122,5 @@ export const Store = immutable.Record({
     collections: immutable.List(),
     resources: immutable.Map(),
     location: "nowhere",
+    flags: immutable.Map(),
 }) as any as Store; // tslint:disable-line
