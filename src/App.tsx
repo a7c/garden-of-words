@@ -46,7 +46,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         let word: model.Learnable | event.Event | null = wander(learned);
 
         if (word instanceof event.Event) {
-            return;
+            console.log(word);
         }
         else if (word) {
             onLearn(word);
