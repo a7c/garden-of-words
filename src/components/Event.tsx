@@ -22,7 +22,7 @@ class Flavor extends React.Component<FlavorProps> {
     render() {
         return (
             <section className="Event">
-                Test
+                {this.props.event.flavor}
             </section>
         );
     }
