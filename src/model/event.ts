@@ -1,4 +1,5 @@
 import * as model from "./model";
+import * as question from "./question";
 
 export class Action {
     // TODO: this signature needs to be more precise
@@ -52,4 +53,30 @@ export class Filter {
 export class Event {
     filters: Filter[];
     actions: Action[];
+
+    constructor(filters: Filter[], actions: Action[]) {
+        this.filters = filters;
+        this.actions = actions;
+    }
+}
+
+export class FlavorEvent extends Event {
+    flavor: string;
+
+    constructor(filters: Filter[], actions: Action[], flavor: string) {
+        super(filters, actions);
+        this.flavor = flavor;
+    }
+}
+
+export class QuestionEvent extends Event {
+    question: question.Question;
+    failureActions: Action[];
+
+    constructor(filters: Filter[], actions: Action[], q: question.Question,
+                failureActions: Action[]) {
+        super(filters, actions);
+        this.question = q;
+        this.failureActions = failureActions;
+    }
 }
