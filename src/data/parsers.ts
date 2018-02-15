@@ -13,11 +13,14 @@ export class ParseError {
 }
 
 type ActionProps =
-    { type: "quest", quest: string, stage: string, journal?: string } |
+    { type: "quest", quest: model.QuestId, stage: model.QuestStage, journal?: string } |
     { type: "flag", flag: string, value: boolean } |
     { type: "resource", resource: string, value: number };
 
-type FilterProps = {};
+type FilterProps =
+    { type: "location", location: model.Location } |
+    { type: "flag", flag: string, value: boolean } |
+    { type: "quest", quest: model.QuestId, stage: model.QuestStage };
 
 type EventProps = { type: "flavor", text: string, actions: ActionProps[], filters: FilterProps[] };
 
@@ -39,6 +42,16 @@ export function parseAction(json: ActionProps): event.Action {
 }
 
 export function parseFilter(json: FilterProps): event.Filter {
+    if (json.type === "flag") {
+        return new event.FlagFilter(json.flag, json.value);
+    }
+    else if (json.type === "location") {
+        return new event.LocationFilter(json.location);
+    }
+    else if (json.type === "quest") {
+        return new event.QuestFilter(json.quest, json.stage);
+    }
+
     throw new ParseError("Unrecognized filter", json);
 }
 

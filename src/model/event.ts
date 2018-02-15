@@ -50,6 +50,37 @@ export class ResourceAction extends Action {
 export class Filter {
 }
 
+export class LocationFilter extends Filter {
+    location: model.Location;
+
+    constructor(location: model.Location) {
+        super();
+        this.location = location;
+    }
+}
+
+export class QuestFilter extends Filter {
+    quest: model.QuestId;
+    stage: model.QuestStage;
+
+    constructor(quest: model.QuestId, stage: model.QuestStage) {
+        super();
+        this.quest = quest;
+        this.stage = stage;
+    }
+}
+
+export class FlagFilter extends Filter {
+    flag: string;
+    value: boolean;
+
+    constructor(flag: string, value: boolean) {
+        super();
+        this.flag = flag;
+        this.value = value;
+    }
+}
+
 export class Event {
     filters: Filter[];
     actions: Action[];
