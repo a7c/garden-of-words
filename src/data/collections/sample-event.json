@@ -1,6 +1,18 @@
 [
     {
         "type": "flavor",
+        "text": "ayy lmao",
+        "filters": [],
+        "actions": [
+            {
+                "type": "flag",
+                "flag": "meditate-button",
+                "value": true
+            }
+        ]
+    },
+    {
+        "type": "flavor",
         "text": "You find a fabled Japanese vending machine.",
         "filters": [],
         "actions": [

@@ -1,10 +1,18 @@
 import * as model from "./model";
 import * as question from "./question";
+import * as actions from "../actions/actions";
 
 export class Action {
     // TODO: this signature needs to be more precise
     apply(store: model.Store) {
         return;
+    }
+
+    /** 
+     *  Converts an action to a redux action that can be dispatched.
+     */
+    toRedux(): actions.Action {
+        return {type: "PLACEHOLDER"};
     }
 }
 
@@ -33,6 +41,10 @@ export class FlagAction extends Action {
         super();
         this.flag = flag;
         this.value = value;
+    }
+
+    toRedux() {
+        return actions.updateFlag(this.flag, this.value);
     }
 }
 
@@ -83,19 +95,20 @@ export class FlagFilter extends Filter {
 
 export class Event {
     filters: Filter[];
-    actions: Action[];
+    // TODO: temporary fix--we'll rename event actions later
+    eactions: Action[];
 
-    constructor(filters: Filter[], actions: Action[]) {
+    constructor(filters: Filter[], eactions: Action[]) {
         this.filters = filters;
-        this.actions = actions;
+        this.eactions = eactions;
     }
 }
 
 export class FlavorEvent extends Event {
     flavor: string;
 
-    constructor(filters: Filter[], actions: Action[], flavor: string) {
-        super(filters, actions);
+    constructor(filters: Filter[], eactions: Action[], flavor: string) {
+        super(filters, eactions);
         this.flavor = flavor;
     }
 }
@@ -104,9 +117,9 @@ export class QuestionEvent extends Event {
     question: question.Question;
     failureActions: Action[];
 
-    constructor(filters: Filter[], actions: Action[], q: question.Question,
+    constructor(filters: Filter[], eactions: Action[], q: question.Question,
                 failureActions: Action[]) {
-        super(filters, actions);
+        super(filters, eactions);
         this.question = q;
         this.failureActions = failureActions;
     }

@@ -4,7 +4,7 @@ import { connect, Dispatch } from "react-redux";
 import "./Common.css";
 import "./App.css";
 import * as actions from "./actions/actions";
-import { Event } from "./model/event";
+import * as event from "./model/event";
 import * as model from "./model/model";
 import { Question } from "./model/question";
 import meditate from "./meditate";
@@ -17,13 +17,15 @@ import { hiraganaBasicDict } from "./model/kana";
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
+    flags: immutable.Map<model.Flag, model.FlagValue>;
     onLearn: (item: model.Learnable) => void;
     onReview: (id: model.LearnableId) => void;
+    handleEventAction: (eaction: event.Action) => void;
 }
 
 interface TestState {
     question: Question | null;
-    event: Event | null;
+    event: event.Event | null;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
@@ -42,11 +44,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { learned, onLearn } = this.props;
-        let word: model.Learnable | Event | null = wander(learned);
+        const { learned, onLearn, handleEventAction } = this.props;
+        let word: model.Learnable | event.Event | null = wander(learned);
 
-        if (word instanceof Event) {
+        if (word instanceof event.Event) {
             this.setState({ event: word });
+
+            word.eactions.forEach(handleEventAction);
         }
         else if (word) {
             onLearn(word);
@@ -66,7 +70,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     render() {
-        const { learned, onReview, onLearn } = this.props;
+        const { learned, flags, onReview, onLearn } = this.props;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -109,9 +113,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         let meditateButton = null;
 
-        // Don't render the meditate button if no words have been learned yet
-        // TODO: we probably want to handle "earning access to a new button" in a different way
-        if (learned.size > 0) {
+        if (flags.get("meditate-button")) {
             meditateButton =
                 <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
         }
@@ -131,10 +133,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
 const Test = (connect as any)( //tslint:disable-line
     (store: model.Store) => ({
         learned: store.learned,
+        flags: store.flags
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId) => dispatch(actions.review(id)),
+        handleEventAction: (eaction: event.Action) => dispatch(eaction.toRedux())
     })
 )(TestComponent);
 

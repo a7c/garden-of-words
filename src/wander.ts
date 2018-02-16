@@ -10,7 +10,7 @@ export default function wander(
     learned: immutable.Map<model.LearnableId, model.Learned>
 ): model.Learnable | event.Event | null {
     if (events.length > 0) {
-        return events.pop();
+        return events.shift();
     }
 
     let word: model.Learnable | null = null;

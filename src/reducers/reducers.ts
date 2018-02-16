@@ -22,6 +22,9 @@ export function reducer(state: model.Store = new model.Store(), action: actions.
         alert("meditating");
         return state;
     }
+    case actions.UPDATE_FLAG: {
+        return state.set("flags", state.flags.set(action.flag, action.value));
+    }
     default:
         console.error(`reducer: Unrecognized action ${action}.`);
     }
