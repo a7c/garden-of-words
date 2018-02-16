@@ -1,0 +1,14 @@
+[
+    {
+        "type": "flavor",
+        "text": "You find a fabled Japanese vending machine.",
+        "filters": [],
+        "actions": [
+            {
+                "type": "flag",
+                "flag": "vending-machine",
+                "value": true
+            }
+        ]
+    }
+]

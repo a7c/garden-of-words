@@ -11,30 +11,6 @@ html,body {
   margin: 0;
 }
 
-.Button {
-  background-color: grey;
-  border-radius: 3px;
-  padding: 10px;
-  text-align: center;
-  vertical-align: middle;
-  color: white;
-  cursor: pointer;
-}
-
-.Button:hover {
-  background-color: lightgrey;
-}
-
-.Button.Review {
-  font-size: small;
-}
-
-.ReviewContainer {
-  list-style-type: none;
-  margin-bottom: 30px;
-  margin-top: 30px;
-}
-
 #Meditate {
   font-size: large;
 }
@@ -43,9 +19,4 @@ html,body {
   font-size: large;
   margin-right: 20px;
   margin-left: 20px;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }

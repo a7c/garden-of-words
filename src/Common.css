@@ -1,0 +1,43 @@
+.ReviewContainer {
+  list-style-type: none;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.Button {
+  background-color: grey;
+  border-radius: 3px;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  cursor: pointer;
+}
+
+.Button:hover {
+  background-color: lightgrey;
+}
+
+.Button.Review {
+  font-size: small;
+}
+
+
+/** Effects **/
+.fade-enter {
+    opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 1000ms ease-in;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+    opacity: 0.01;
+    transition: opacity 800ms ease-in;
+}

@@ -1,20 +1,20 @@
 import * as immutable from "immutable";
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
+import "./Common.css";
 import * as redux from "redux";
 import "./App.css";
 import * as actions from "./actions/actions";
+import { Event } from "./model/event";
 import * as model from "./model/model";
+import { Question } from "./model/question";
+import meditate from "./meditate";
+import wander from "./wander";
+
+import EventComponent from "./components/Event";
+import QuestionComponent from "./components/Question";
 
 import { hiraganaBasicDict } from "./model/kana";
-
-// THIS IS TEMPORARY
-interface Question {
-    id: model.LearnableId;
-    questionText: string;
-    answers: string[];
-    correctIdx: number; // index of correct answer
-}
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
@@ -24,34 +24,32 @@ interface TestProps {
 
 interface TestState {
     question: Question | null;
+    event: Event | null;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
-    _wanderClickHandler: () => void;
-    _meditateClickHandler: () => void;
-
     constructor(props: TestProps) {
         super(props);
-        this.state = { question: null };
-        this._wanderClickHandler = this.wanderClickHandler.bind(this);
-        this._meditateClickHandler = this.meditateClickHandler.bind(this);
+        this.state = { question: null, event: null };
     }
 
-    wanderClickHandler() {
+    subOnReview = (id: model.LearnableId, correct: boolean) => {
+        this.props.onReview(id);
+        this.setState({ question: null });
+    }
+
+    onEventFinished = () => {
+        this.setState({ event: null });
+    }
+
+    wanderClickHandler = () => {
         const { learned, onLearn } = this.props;
-        let word: model.Learnable | null = null;
+        let word: model.Learnable | Event | null = wander(learned);
 
-        hiraganaBasicDict.keySeq().some((key: string | undefined) => {
-            if (key !== undefined && !learned.has(key)) {
-                word = hiraganaBasicDict.get(key);
-                return true;
-            }
-            else {
-                return false;
-            }
-        });
-
-        if (word) {
+        if (word instanceof Event) {
+            this.setState({ event: word });
+        }
+        else if (word) {
             onLearn(word);
         }
         else {
@@ -59,47 +57,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
     }
 
-    meditateClickHandler() {
-        const { learned, onLearn } = this.props;
-        let leastRecentlyReviewed: model.LearnableId | null = null;
-        let lastDate: Date | null = null;
+    meditateClickHandler = () => {
+        const { learned } = this.props;
 
-        for (const [k, v] of Array.from(learned)) {
-            console.log(k);
-            console.log(v.get("lastReviewed"));
-            if (lastDate == null || v.get("lastReviewed") < lastDate) {
-                leastRecentlyReviewed = k;
-                lastDate = v.get("lastReviewed");
-            }
-        }
-        if (leastRecentlyReviewed !== null) {
-            let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
-            // build a list of 3 wrong answers and the right answer
-            let options = [];
-            let keyList = hiraganaBasicDict.keySeq().toArray();
-            keyList.splice(keyList.indexOf(reviewedWord.id), 1);
-
-            for (let i = 0; i < 3; i++) {
-                let index = Math.floor(Math.random() * keyList.length);
-                options.push(hiraganaBasicDict.get(keyList[index]).romaji);
-                keyList.splice(index, 1);
-            }
-
-            // insert correct answer in a random place
-            let correctIdx = Math.floor(Math.random() * (options.length + 1));
-            options.splice(correctIdx, 0, reviewedWord.romaji);
-
-            // TODO: Make a form with all the answers in it
-            /* alert(`Multiple Choice ${options}`);*/
-            /* onReview(leastRecentlyReviewed);*/
-            this.setState({
-                question: {
-                    questionText: reviewedWord.unicode,
-                    answers: options,
-                    id: leastRecentlyReviewed,
-                    correctIdx: correctIdx
-                },
-            });
+        const question = meditate(learned);
+        if (question) {
+            this.setState({ question });
         }
     }
 
@@ -108,11 +71,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
-            console.log(item, id);
             if (!item || id === undefined || !item.item) {
                 return;
             }
-            console.log(item.item.toJS());
 
             const displayedScore = item.score.toFixed(1);
 
@@ -129,41 +90,21 @@ class TestComponent extends React.Component<TestProps, TestState> {
             learnedItems.push(
                 <li className="ReviewContainer" key={id}>
                     <a className=" Review" onClick={() => onReview(id)}>
-                        {item.item.romaji} = {item.item.unicode} (score {displayedScore})
+                        {item.item.back()} = {item.item.front()} (score {displayedScore})
                     </a>
                 </li>
             );
             // }
         });
 
-        if (this.state.question !== null) {
-            const question = this.state.question;
-            const reviewWord = (idx: number) => {
-                // TODO: replace alerts with better feedback
-                if (idx === question.correctIdx) {
-                    onReview(question.id);
-                    alert("Correct! :D");
-                } else {
-                    alert("Incorrect... ):");
-                }
-                this.setState({ question: null });
-            };
-            const answers = question!.answers.map((answer, idx) => {
-                return (
-                    <li className="ReviewContainer" key={idx}>
-                        <button className="Button Review" onClick={() => reviewWord(idx)}>
-                            {answer}
-                        </button>
-                    </li>
-                );
-            });
+        if (this.state.event !== null) {
             return (
-                <div>
-                    <p>Match to the word: {question!.questionText}</p>
-                    <ul>
-                        {answers}
-                    </ul>
-                </div>
+                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />
+            );
+        }
+        else if (this.state.question !== null) {
+            return (
+                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />
             );
         }
 
@@ -173,12 +114,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
         // TODO: we probably want to handle "earning access to a new button" in a different way
         if (learned.size > 0) {
             meditateButton =
-                <button className="Button" id="Meditate" onClick={this._meditateClickHandler}>Meditate</button>;
+                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
         }
 
         return (
             <div>
-                <a className="Button" id="Wander" onClick={this._wanderClickHandler}>Wander</a>
+                <a className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</a>
                 {meditateButton}
                 <ul>
                     {learnedItems}
