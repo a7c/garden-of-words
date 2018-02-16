@@ -1,6 +1,7 @@
 import * as immutable from "immutable";
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
+import * as redux from "redux";
 import "./App.css";
 import * as actions from "./actions/actions";
 import * as model from "./model/model";
@@ -17,8 +18,8 @@ interface Question {
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
-    onLearn: (item: model.Learnable) => void;
-    onReview: (id: model.LearnableId) => void;
+    onLearn: (item: model.Learnable) => redux.Action;
+    onReview: (id: model.LearnableId) => redux.Action;
 }
 
 interface TestState {
@@ -187,7 +188,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 }
 
-const Test = (connect as any)( //tslint:disable-line
+const Test = connect(
     (store: model.Store) => ({
         learned: store.learned,
     }),
@@ -195,7 +196,7 @@ const Test = (connect as any)( //tslint:disable-line
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId) => dispatch(actions.review(id)),
     })
-)(TestComponent);
+)(TestComponent as React.ComponentType<TestProps>);
 
 class App extends React.Component {
   render() {
