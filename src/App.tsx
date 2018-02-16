@@ -42,6 +42,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
         };
     }
 
+    onEventFinished = () => {
+        this.setState({ event: null });
+    }
+
     wanderClickHandler() {
         const { learned, onLearn } = this.props;
         let word: model.Learnable | Event | null = wander(learned);
@@ -101,7 +105,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         if (this.state.event !== null) {
             return (
-                <EventComponent event={this.state.event} />
+                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />
             );
         }
         else if (this.state.question !== null) {
