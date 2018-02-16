@@ -21,15 +21,14 @@ interface QuestionState {
 }
 
 class MultipleChoice extends React.Component<MultipleChoiceProps> {
-    reviewWord: (idx: number) => void;
-
     constructor(props: MultipleChoiceProps) {
         super(props);
-        this.reviewWord = (idx: number) => {
-            const q = this.props.question;
-            // TODO: review all taught items
-            this.props.onReview(q.teaches[0], q.correct(idx));
-        };
+    }
+
+    reviewWord = (idx: number) => {
+        const q = this.props.question;
+        // TODO: review all taught items
+        this.props.onReview(q.teaches[0], q.correct(idx));
     }
 
     render() {
@@ -52,40 +51,37 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
 }
 
 export default class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
-    onReview: (id: model.LearnableId, correct: boolean) => void;
-    onExited: (node: HTMLElement) => void;
-    _onExited: (node: HTMLElement) => void;
-
     constructor(props: QuestionProps) {
         super(props);
         this.state = { status: "answering" };
+    }
 
-        this.onReview = (id: model.LearnableId, correct: boolean) => {
-            this.setState({
-                status: correct ? "right" : "wrong",
-            });
-            this._onExited = (node: HTMLElement) => {
-                if (node.classList.contains("Question")) {
-                    window.setTimeout(
-                        () => {
-                            this.setState({ status: "done" });
-                        },
-                        1000
-                    );
-                }
-                else {
-                    this.props.onReview(id, correct);
-                }
-                return;
-            };
-        };
+    onReview = (id: model.LearnableId, correct: boolean) => {
+        this.setState({
+            status: correct ? "right" : "wrong",
+        });
         this._onExited = (node: HTMLElement) => {
+            if (node.classList.contains("Question")) {
+                window.setTimeout(
+                    () => {
+                        this.setState({ status: "done" });
+                    },
+                    1000
+                );
+            }
+            else {
+                this.props.onReview(id, correct);
+            }
             return;
         };
+    }
 
-        this.onExited = (node: HTMLElement) => {
-            this._onExited(node);
-        };
+    _onExited = (node: HTMLElement) => {
+        return;
+    }
+
+    onExited = (node: HTMLElement) => {
+        this._onExited(node);
     }
 
     render() {

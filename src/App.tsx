@@ -27,26 +27,21 @@ interface TestState {
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
-    _wanderClickHandler: () => void;
-    _meditateClickHandler: () => void;
-    subOnReview: (id: model.LearnableId, correct: boolean) => void;
-
     constructor(props: TestProps) {
         super(props);
         this.state = { question: null, event: null };
-        this._wanderClickHandler = this.wanderClickHandler.bind(this);
-        this._meditateClickHandler = this.meditateClickHandler.bind(this);
-        this.subOnReview = (id: model.LearnableId, correct: boolean) => {
-            this.props.onReview(id);
-            this.setState({ question: null });
-        };
+    }
+
+    subOnReview = (id: model.LearnableId, correct: boolean) => {
+        this.props.onReview(id);
+        this.setState({ question: null });
     }
 
     onEventFinished = () => {
         this.setState({ event: null });
     }
 
-    wanderClickHandler() {
+    wanderClickHandler = () => {
         const { learned, onLearn } = this.props;
         let word: model.Learnable | Event | null = wander(learned);
 
@@ -61,7 +56,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
     }
 
-    meditateClickHandler() {
+    meditateClickHandler = () => {
         const { learned } = this.props;
 
         const question = meditate(learned);
@@ -75,11 +70,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
-            console.log(item, id);
             if (!item || id === undefined || !item.item) {
                 return;
             }
-            console.log(item.item.toJS());
 
             const displayedScore = item.score.toFixed(1);
 
@@ -120,12 +113,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
         // TODO: we probably want to handle "earning access to a new button" in a different way
         if (learned.size > 0) {
             meditateButton =
-                <button className="Button" id="Meditate" onClick={this._meditateClickHandler}>Meditate</button>;
+                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
         }
 
         return (
             <div>
-                <a className="Button" id="Wander" onClick={this._wanderClickHandler}>Wander</a>
+                <a className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</a>
                 {meditateButton}
                 <ul>
                     {learnedItems}
