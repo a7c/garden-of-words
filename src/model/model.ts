@@ -109,7 +109,7 @@ export const Learned = immutable.Record({
 // TODO: are these Store types still needed?
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
-    readonly collections: immutable.List<Collection>;
+    readonly collections: immutable.Set<Collection>;
     readonly resources: immutable.Map<Resource, number>;
     readonly location: Location;
     readonly flags: immutable.Map<Flag, FlagValue>;
@@ -121,7 +121,7 @@ export interface Store extends StoreProps, ImmutableRecord<StoreProps> {
 
 export const Store = immutable.Record({
     learned: immutable.Map(),
-    collections: immutable.List(),
+    collections: immutable.Set(),
     resources: immutable.Map(),
     location: "nowhere",
     flags: immutable.Map(),

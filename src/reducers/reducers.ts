@@ -27,9 +27,14 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
     }
 }
 
-function collections(state: immutable.List<model.Collection> = immutable.List(), action: actions.Action): 
-    immutable.List<model.Collection> {
+function collections(state: immutable.Set<model.Collection> = immutable.Set(), action: actions.Action): 
+    immutable.Set<model.Collection> {
     switch (action.type) {
+    case actions.LEARN: {
+        const newState = state.add(action.item.id);
+        console.log(newState.toArray());
+        return newState;
+    }
     default:
         return state;
     }
