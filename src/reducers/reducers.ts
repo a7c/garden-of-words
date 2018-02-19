@@ -26,7 +26,7 @@ export function reducer(state: model.Store = new model.Store(), action: actions.
         return state.set("flags", state.flags.set(action.flag, action.value));
     }
     default:
-        console.error(`reducer: Unrecognized action ${action}.`);
+        console.error(`reducer: Unrecognized action ${JSON.stringify(action)}.`);
     }
     return state;
 }

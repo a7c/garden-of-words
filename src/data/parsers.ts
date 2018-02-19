@@ -15,7 +15,8 @@ export class ParseError {
 type EffectProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage, journal?: string } |
     { type: "flag", flag: string, value: boolean } |
-    { type: "resource", resource: string, value: number };
+    { type: "resource", resource: string, value: number } |
+    { type: "learn", id: model.LearnableId };
 
 type FilterProps =
     { type: "location", location: model.Location } |
@@ -37,6 +38,9 @@ export function parseEffect(json: EffectProps): event.Effect {
     }
     else if (json.type === "quest") {
         return new event.QuestEffect(json.quest, json.stage, json.journal);
+    }
+    else if (json.type === "learn") {
+        return new event.LearnEffect(json.id);
     }
     throw new ParseError("Unrecognized effect", json);
 }

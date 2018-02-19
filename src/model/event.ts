@@ -2,6 +2,8 @@ import * as model from "./model";
 import * as question from "./question";
 import * as actions from "../actions/actions";
 
+import { hiraganaBasicDict } from "../model/kana";
+
 export class Effect {
     // TODO: this signature needs to be more precise
     apply(store: model.Store) {
@@ -56,6 +58,21 @@ export class ResourceEffect extends Effect {
         super();
         this.resource = resource;
         this.value = value;
+    }
+}
+
+/** An effect that represents learning a new word. */
+export class LearnEffect extends Effect {
+    id: model.LearnableId;
+
+    constructor(id: model.LearnableId) {
+        super();
+        this.id = id;
+    }
+
+    toAction() {
+        // TODO: this is currently hard-coded for hiragana
+        return actions.learn(hiraganaBasicDict.get(this.id));
     }
 }
 

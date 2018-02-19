@@ -13,8 +13,6 @@ import wander from "./wander";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 
-import { hiraganaBasicDict } from "./model/kana";
-
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
     flags: immutable.Map<model.Flag, model.FlagValue>;
@@ -120,7 +118,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         return (
             <div>
-                <a className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</a>
+                <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                 {meditateButton}
                 <ul>
                     {learnedItems}

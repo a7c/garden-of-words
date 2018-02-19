@@ -8,6 +8,10 @@
                 "type": "flag",
                 "flag": "meditate-button",
                 "value": true
+            },
+            {
+                "type": "learn",
+                "id": "hira-a"
             }
         ]
     },
