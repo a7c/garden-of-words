@@ -27,8 +27,9 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
     }
 }
 
-function collections(state: immutable.Map<string, model.Collection> = immutable.Map(), action: actions.Action): 
-    immutable.Map<string, model.Collection> {
+function collections(
+    state: immutable.Map<model.CollectionId, model.Collection> = immutable.Map(), 
+    action: actions.Action): immutable.Map<model.CollectionId, model.Collection> {
     switch (action.type) {
     case actions.LEARN: {
         const collectionName = action.item.collection;
