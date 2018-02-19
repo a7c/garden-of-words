@@ -106,6 +106,7 @@ export const Learned = immutable.Record({
     score: 0.0,
 }) as any as Learned; // tslint:disable-line
 
+// TODO: are these Store types still needed?
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
     readonly collections: immutable.List<Collection>;
