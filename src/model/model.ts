@@ -84,6 +84,7 @@ declare module "immutable" {
     }
 }
 
+export type CollectionId = string;
 export type Collection = immutable.Set<LearnableId>;
 
 export const LearnedRecord = immutable.Record({
@@ -112,7 +113,7 @@ export const Learned = immutable.Record({
 // TODO: are these Store types still needed?
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
-    readonly collections: immutable.Map<string, Collection>;
+    readonly collections: immutable.Map<CollectionId, Collection>;
     readonly resources: immutable.Map<Resource, number>;
     readonly location: Location;
     readonly flags: immutable.Map<Flag, FlagValue>;
