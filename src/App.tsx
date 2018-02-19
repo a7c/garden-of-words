@@ -17,7 +17,7 @@ interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
     flags: immutable.Map<model.Flag, model.FlagValue>;
     onLearn: (item: model.Learnable) => void;
-    onReview: (id: model.LearnableId) => void;
+    onReview: (id: model.LearnableId, correct: boolean) => void;
     handleEventEffect: (effect: event.Effect) => void;
 }
 
@@ -33,7 +33,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     subOnReview = (id: model.LearnableId, correct: boolean) => {
-        this.props.onReview(id);
+        this.props.onReview(id, correct);
         this.setState({ question: null });
     }
 
@@ -90,7 +90,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // else if (item.item.type === "hiragana") {
             learnedItems.push(
                 <li className="ReviewContainer" key={id}>
-                    <a className=" Review" onClick={() => onReview(id)}>
+                    <a className=" Review">
                         {item.item.back()} = {item.item.front()} (score {displayedScore})
                     </a>
                 </li>
@@ -135,7 +135,8 @@ const Test = (connect as any)( //tslint:disable-line
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
-        onReview: (id: model.LearnableId) => dispatch(actions.review(id)),
+        onReview: (id: model.LearnableId, correct: boolean) => 
+            dispatch(actions.review(id, correct)),
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
 )(TestComponent);

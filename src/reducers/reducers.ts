@@ -13,7 +13,8 @@ export function reducer(state: model.Store = new model.Store(), action: actions.
     }
     case actions.REVIEW: {
         const learned = state.learned.get(action.id);
-        const updatedLearned = learned.set("score", learned.get("score") + Math.random())
+        const scoreEarned = action.correct ? Math.random() : 0;
+        const updatedLearned = learned.set("score", learned.get("score") + scoreEarned)
                                       .set("lastReviewed", new Date());
 
         return state.set("learned", state.learned.set(action.id, updatedLearned));

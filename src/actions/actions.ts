@@ -9,6 +9,7 @@ export const UPDATE_FLAG = "update_flag";
 export interface ReviewAction extends redux.AnyAction {
     type: typeof REVIEW;
     id: model.LearnableId;
+    correct: boolean;
 }
 
 export interface MeditateAction extends redux.AnyAction {
@@ -35,10 +36,11 @@ export function meditate(): Action {
   return { type: MEDITATE };
 }
 
-export function review(id: model.LearnableId): Action {
+export function review(id: model.LearnableId, correct: boolean): Action {
     return {
         type: REVIEW,
         id,
+        correct
     };
 }
 
