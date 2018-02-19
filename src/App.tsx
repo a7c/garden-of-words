@@ -121,11 +121,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
         return (
             <div>
                 <ArtPanel location="nowhere" />
-                <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
-                {meditateButton}
-                <ul>
-                    {learnedItems}
-                </ul>
+                <div id="main-panel">
+                    <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
+                    {meditateButton}
+                    <ul>
+                        {learnedItems}
+                    </ul>
+                </div>
             </div>
         );
     }

@@ -16,6 +16,10 @@ export default class ArtPanel extends React.Component<ArtPanelProps, ArtPanelSta
     }
 
     render() {
-        return <div><img src={require("../assets/bg01a.png")} /></div>;
+        return (
+            <div style={{ float: "left" }}>
+                <img src={require("../assets/bg01a.png")} />
+            </div>
+        );
     }
 }
