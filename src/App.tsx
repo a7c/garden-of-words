@@ -13,7 +13,7 @@ import wander from "./wander";
 
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
-import ArtPanel from "./components/ArtPanel";
+import ScenePanel from "./components/ScenePanel";
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
@@ -100,33 +100,40 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // }
         });
 
+        let mainComponent = null;
+
+        // Determine what to render in the main panel
         if (this.state.event !== null) {
-            return (
-                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />
-            );
+            mainComponent =
+                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
         }
         else if (this.state.question !== null) {
-            return (
-                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />
-            );
+            mainComponent =
+                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
         }
+        else {
+            let meditateButton = null;
+            if (flags.get("meditate-button")) {
+                meditateButton =
+                    <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
+            }
 
-        let meditateButton = null;
-
-        if (flags.get("meditate-button")) {
-            meditateButton =
-                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
-        }
-
-        return (
-            <div>
-                <ArtPanel location="nowhere" />
-                <div id="main-panel">
+            mainComponent = (
+                <div>
                     <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                     {meditateButton}
                     <ul>
                         {learnedItems}
                     </ul>
+                </div>
+            );
+        }
+
+        return (
+            <div>
+                <ScenePanel location="nowhere" />
+                <div id="main-panel">
+                    {mainComponent}
                 </div>
             </div>
         );
