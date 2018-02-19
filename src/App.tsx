@@ -13,6 +13,7 @@ import wander from "./wander";
 
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
+import ArtPanel from "./components/ArtPanel";
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
@@ -119,6 +120,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         return (
             <div>
+                <ArtPanel location="nowhere" />
                 <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                 {meditateButton}
                 <ul>
