@@ -1,217 +1,220 @@
-[
- {
-   "id": "hira-a",
-   "unicode": "あ",
-   "romaji": "a"
- },
- {
-   "id": "hira-i",
-   "unicode": "い",
-   "romaji": "i"
- },
- {
-   "id": "hira-u",
-   "unicode": "う",
-   "romaji": "u"
- },
- {
-   "id": "hira-e",
-   "unicode": "え",
-   "romaji": "e"
- },
- {
-   "id": "hira-o",
-   "unicode": "お",
-   "romaji": "o"
- },
- {
-   "id": "hira-ka",
-   "unicode": "か",
-   "romaji": "ka"
- },
- {
-   "id": "hira-ki",
-   "unicode": "き",
-   "romaji": "ki"
- },
- {
-   "id": "hira-ku",
-   "unicode": "く",
-   "romaji": "ku"
- },
- {
-   "id": "hira-ke",
-   "unicode": "け",
-   "romaji": "ke"
- },
- {
-   "id": "hira-ko",
-   "unicode": "こ",
-   "romaji": "ko"
- },
- {
-   "id": "hira-sa",
-   "unicode": "さ",
-   "romaji": "sa"
- },
- {
-   "id": "hira-shi",
-   "unicode": "し",
-   "romaji": "shi"
- },
- {
-   "id": "hira-su",
-   "unicode": "す",
-   "romaji": "su"
- },
- {
-   "id": "hira-se",
-   "unicode": "せ",
-   "romaji": "se"
- },
- {
-   "id": "hira-so",
-   "unicode": "そ",
-   "romaji": "so"
- },
- {
-   "id": "hira-ta",
-   "unicode": "た",
-   "romaji": "ta"
- },
- {
-   "id": "hira-chi",
-   "unicode": "ち",
-   "romaji": "chi"
- },
- {
-   "id": "hira-tsu",
-   "unicode": "つ",
-   "romaji": "tsu"
- },
- {
-   "id": "hira-te",
-   "unicode": "て",
-   "romaji": "te"
- },
- {
-   "id": "hira-to",
-   "unicode": "と",
-   "romaji": "to"
- },
- {
-   "id": "hira-na",
-   "unicode": "な",
-   "romaji": "na"
- },
- {
-   "id": "hira-ni",
-   "unicode": "に",
-   "romaji": "ni"
- },
- {
-   "id": "hira-nu",
-   "unicode": "ぬ",
-   "romaji": "nu"
- },
- {
-   "id": "hira-ne",
-   "unicode": "ね",
-   "romaji": "ne"
- },
- {
-   "id": "hira-no",
-   "unicode": "の",
-   "romaji": "no"
- },
- {
-   "id": "hira-ha",
-   "unicode": "は",
-   "romaji": "ha"
- },
- {
-   "id": "hira-hi",
-   "unicode": "ひ",
-   "romaji": "hi"
- },
- {
-   "id": "hira-fu",
-   "unicode": "ふ",
-   "romaji": "fu"
- },
- {
-   "id": "hira-he",
-   "unicode": "へ",
-   "romaji": "he"
- },
- {
-   "id": "hira-ho",
-   "unicode": "ほ",
-   "romaji": "ho"
- },
- {
-   "id": "hira-ma",
-   "unicode": "ま",
-   "romaji": "ma"
- },
- {
-   "id": "hira-mi",
-   "unicode": "み",
-   "romaji": "mi"
- },
- {
-   "id": "hira-mu",
-   "unicode": "む",
-   "romaji": "mu"
- },
- {
-   "id": "hira-me",
-   "unicode": "め",
-   "romaji": "me"
- },
- {
-   "id": "hira-mo",
-   "unicode": "も",
-   "romaji": "mo"
- },
- {
-   "id": "hira-ra",
-   "unicode": "ら",
-   "romaji": "ra"
- },
- {
-   "id": "hira-ri",
-   "unicode": "り",
-   "romaji": "ri"
- },
- {
-   "id": "hira-ru",
-   "unicode": "る",
-   "romaji": "ru"
- },
- {
-   "id": "hira-re",
-   "unicode": "れ",
-   "romaji": "re"
- },
- {
-   "id": "hira-ro",
-   "unicode": "ろ",
-   "romaji": "ro"
- },
- {
-   "id": "hira-wa",
-   "unicode": "わ",
-   "romaji": "wa"
- },
- {
-   "id": "hira-wo",
-   "unicode": "を",
-   "romaji": "wo"
- },
- {
-   "id": "hira-n",
-   "unicode": "ん",
-   "romaji": "n"
- }
-]
+{
+  "collection": "hira-basic",
+  "items": [
+    {
+      "id": "hira-a",
+      "unicode": "あ",
+      "romaji": "a"
+   },
+   {
+      "id": "hira-i",
+      "unicode": "い",
+      "romaji": "i"
+   },
+   {
+      "id": "hira-u",
+      "unicode": "う",
+      "romaji": "u"
+   },
+   {
+      "id": "hira-e",
+      "unicode": "え",
+      "romaji": "e"
+   },
+   {
+      "id": "hira-o",
+      "unicode": "お",
+      "romaji": "o"
+   },
+   {
+      "id": "hira-ka",
+      "unicode": "か",
+      "romaji": "ka"
+   },
+   {
+      "id": "hira-ki",
+      "unicode": "き",
+      "romaji": "ki"
+   },
+   {
+      "id": "hira-ku",
+      "unicode": "く",
+      "romaji": "ku"
+   },
+   {
+      "id": "hira-ke",
+      "unicode": "け",
+      "romaji": "ke"
+   },
+   {
+      "id": "hira-ko",
+      "unicode": "こ",
+      "romaji": "ko"
+   },
+   {
+      "id": "hira-sa",
+      "unicode": "さ",
+      "romaji": "sa"
+   },
+   {
+      "id": "hira-shi",
+      "unicode": "し",
+      "romaji": "shi"
+   },
+   {
+      "id": "hira-su",
+      "unicode": "す",
+      "romaji": "su"
+   },
+   {
+      "id": "hira-se",
+      "unicode": "せ",
+      "romaji": "se"
+   },
+   {
+      "id": "hira-so",
+      "unicode": "そ",
+      "romaji": "so"
+   },
+   {
+      "id": "hira-ta",
+      "unicode": "た",
+      "romaji": "ta"
+   },
+   {
+      "id": "hira-chi",
+      "unicode": "ち",
+      "romaji": "chi"
+   },
+   {
+      "id": "hira-tsu",
+      "unicode": "つ",
+      "romaji": "tsu"
+   },
+   {
+      "id": "hira-te",
+      "unicode": "て",
+      "romaji": "te"
+   },
+   {
+      "id": "hira-to",
+      "unicode": "と",
+      "romaji": "to"
+   },
+   {
+      "id": "hira-na",
+      "unicode": "な",
+      "romaji": "na"
+   },
+   {
+      "id": "hira-ni",
+      "unicode": "に",
+      "romaji": "ni"
+   },
+   {
+      "id": "hira-nu",
+      "unicode": "ぬ",
+      "romaji": "nu"
+   },
+   {
+      "id": "hira-ne",
+      "unicode": "ね",
+      "romaji": "ne"
+   },
+   {
+      "id": "hira-no",
+      "unicode": "の",
+      "romaji": "no"
+   },
+   {
+      "id": "hira-ha",
+      "unicode": "は",
+      "romaji": "ha"
+   },
+   {
+      "id": "hira-hi",
+      "unicode": "ひ",
+      "romaji": "hi"
+   },
+   {
+      "id": "hira-fu",
+      "unicode": "ふ",
+      "romaji": "fu"
+   },
+   {
+      "id": "hira-he",
+      "unicode": "へ",
+      "romaji": "he"
+   },
+   {
+      "id": "hira-ho",
+      "unicode": "ほ",
+      "romaji": "ho"
+   },
+   {
+      "id": "hira-ma",
+      "unicode": "ま",
+      "romaji": "ma"
+   },
+   {
+      "id": "hira-mi",
+      "unicode": "み",
+      "romaji": "mi"
+   },
+   {
+      "id": "hira-mu",
+      "unicode": "む",
+      "romaji": "mu"
+   },
+   {
+      "id": "hira-me",
+      "unicode": "め",
+      "romaji": "me"
+   },
+   {
+      "id": "hira-mo",
+      "unicode": "も",
+      "romaji": "mo"
+   },
+   {
+      "id": "hira-ra",
+      "unicode": "ら",
+      "romaji": "ra"
+   },
+   {
+      "id": "hira-ri",
+      "unicode": "り",
+      "romaji": "ri"
+   },
+   {
+      "id": "hira-ru",
+      "unicode": "る",
+      "romaji": "ru"
+   },
+   {
+      "id": "hira-re",
+      "unicode": "れ",
+      "romaji": "re"
+   },
+   {
+      "id": "hira-ro",
+      "unicode": "ろ",
+      "romaji": "ro"
+   },
+   {
+      "id": "hira-wa",
+      "unicode": "わ",
+      "romaji": "wa"
+   },
+   {
+      "id": "hira-wo",
+      "unicode": "を",
+      "romaji": "wo"
+   },
+   {
+      "id": "hira-n",
+      "unicode": "ん",
+      "romaji": "n"
+   }
+  ]
+}

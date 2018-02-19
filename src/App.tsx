@@ -5,7 +5,7 @@ import "./Common.css";
 import * as redux from "redux";
 import "./App.css";
 import * as actions from "./actions/actions";
-import { Event } from "./model/event";
+import * as event from "./model/event";
 import * as model from "./model/model";
 import { Question } from "./model/question";
 import meditate from "./meditate";
@@ -14,17 +14,17 @@ import wander from "./wander";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 
-import { hiraganaBasicDict } from "./model/kana";
-
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
-    onLearn: (item: model.Learnable) => redux.Action;
-    onReview: (id: model.LearnableId) => redux.Action;
+    flags: immutable.Map<model.Flag, model.FlagValue>;
+    onLearn: (item: model.Learnable) => actions.Action;
+    onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
+    handleEventEffect: (effect: event.Effect) => actions.Action;
 }
 
 interface TestState {
     question: Question | null;
-    event: Event | null;
+    event: event.Event | null;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
@@ -34,7 +34,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     subOnReview = (id: model.LearnableId, correct: boolean) => {
-        this.props.onReview(id);
+        this.props.onReview(id, correct);
         this.setState({ question: null });
     }
 
@@ -43,11 +43,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { learned, onLearn } = this.props;
-        let word: model.Learnable | Event | null = wander(learned);
+        const { learned, onLearn, handleEventEffect } = this.props;
+        let word: model.Learnable | event.Event | null = wander(learned);
 
-        if (word instanceof Event) {
+        if (word instanceof event.Event) {
             this.setState({ event: word });
+
+            word.effects.forEach(handleEventEffect);
         }
         else if (word) {
             onLearn(word);
@@ -67,7 +69,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     render() {
-        const { learned, onReview, onLearn } = this.props;
+        const { learned, flags, onReview, onLearn } = this.props;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -89,7 +91,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // else if (item.item.type === "hiragana") {
             learnedItems.push(
                 <li className="ReviewContainer" key={id}>
-                    <a className=" Review" onClick={() => onReview(id)}>
+                    <a className=" Review">
                         {item.item.back()} = {item.item.front()} (score {displayedScore})
                     </a>
                 </li>
@@ -110,16 +112,14 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         let meditateButton = null;
 
-        // Don't render the meditate button if no words have been learned yet
-        // TODO: we probably want to handle "earning access to a new button" in a different way
-        if (learned.size > 0) {
+        if (flags.get("meditate-button")) {
             meditateButton =
                 <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
         }
 
         return (
             <div>
-                <a className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</a>
+                <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                 {meditateButton}
                 <ul>
                     {learnedItems}
@@ -132,10 +132,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
 const Test = connect(
     (store: model.Store) => ({
         learned: store.learned,
+        flags: store.flags
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
-        onReview: (id: model.LearnableId) => dispatch(actions.review(id)),
+        onReview: (id: model.LearnableId, correct: boolean) => 
+            dispatch(actions.review(id, correct)),
+        handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
 )(TestComponent as React.ComponentType<TestProps>);
 

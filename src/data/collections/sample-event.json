@@ -1,9 +1,25 @@
 [
     {
         "type": "flavor",
+        "text": "ayy lmao",
+        "filters": [],
+        "effects": [
+            {
+                "type": "flag",
+                "flag": "meditate-button",
+                "value": true
+            },
+            {
+                "type": "learn",
+                "id": "hira-a"
+            }
+        ]
+    },
+    {
+        "type": "flavor",
         "text": "You find a fabled Japanese vending machine.",
         "filters": [],
-        "actions": [
+        "effects": [
             {
                 "type": "flag",
                 "flag": "vending-machine",

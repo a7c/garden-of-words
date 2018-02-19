@@ -1,14 +1,24 @@
 import * as model from "./model";
 import * as question from "./question";
+import * as actions from "../actions/actions";
 
-export class Action {
+import { hiraganaBasicDict } from "../model/kana";
+
+export class Effect {
     // TODO: this signature needs to be more precise
     apply(store: model.Store) {
         return;
     }
+
+    /** 
+     *  Converts an effect to a redux action that can be dispatched.
+     */
+    toAction(): actions.Action {
+        return {type: "PLACEHOLDER"};
+    }
 }
 
-export class QuestAction extends Action {
+export class QuestEffect extends Effect {
     questId: model.QuestId;
     stage: model.QuestStage;
     // We can display a message in the event log as well, if it's a
@@ -25,7 +35,7 @@ export class QuestAction extends Action {
     }
 }
 
-export class FlagAction extends Action {
+export class FlagEffect extends Effect {
     flag: string;
     value: boolean;
 
@@ -34,9 +44,13 @@ export class FlagAction extends Action {
         this.flag = flag;
         this.value = value;
     }
+
+    toAction() {
+        return actions.updateFlag(this.flag, this.value);
+    }
 }
 
-export class ResourceAction extends Action {
+export class ResourceEffect extends Effect {
     resource: string;
     value: number;
 
@@ -44,6 +58,21 @@ export class ResourceAction extends Action {
         super();
         this.resource = resource;
         this.value = value;
+    }
+}
+
+/** An effect that represents learning a new word. */
+export class LearnEffect extends Effect {
+    id: model.LearnableId;
+
+    constructor(id: model.LearnableId) {
+        super();
+        this.id = id;
+    }
+
+    toAction() {
+        // TODO: this is currently hard-coded for hiragana
+        return actions.learn(hiraganaBasicDict.get(this.id));
     }
 }
 
@@ -83,31 +112,31 @@ export class FlagFilter extends Filter {
 
 export class Event {
     filters: Filter[];
-    actions: Action[];
+    effects: Effect[];
 
-    constructor(filters: Filter[], actions: Action[]) {
+    constructor(filters: Filter[], effects: Effect[]) {
         this.filters = filters;
-        this.actions = actions;
+        this.effects = effects;
     }
 }
 
 export class FlavorEvent extends Event {
     flavor: string;
 
-    constructor(filters: Filter[], actions: Action[], flavor: string) {
-        super(filters, actions);
+    constructor(filters: Filter[], effects: Effect[], flavor: string) {
+        super(filters, effects);
         this.flavor = flavor;
     }
 }
 
 export class QuestionEvent extends Event {
     question: question.Question;
-    failureActions: Action[];
+    failureEffects: Effect[];
 
-    constructor(filters: Filter[], actions: Action[], q: question.Question,
-                failureActions: Action[]) {
-        super(filters, actions);
+    constructor(filters: Filter[], effects: Effect[], q: question.Question,
+                failureEffects: Effect[]) {
+        super(filters, effects);
         this.question = q;
-        this.failureActions = failureActions;
+        this.failureEffects = failureEffects;
     }
 }

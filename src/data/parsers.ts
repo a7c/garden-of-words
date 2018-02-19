@@ -12,33 +12,37 @@ export class ParseError {
     }
 }
 
-type ActionProps =
+type EffectProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage, journal?: string } |
     { type: "flag", flag: string, value: boolean } |
-    { type: "resource", resource: string, value: number };
+    { type: "resource", resource: string, value: number } |
+    { type: "learn", id: model.LearnableId };
 
 type FilterProps =
     { type: "location", location: model.Location } |
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage };
 
-type EventProps = { type: "flavor", text: string, actions: ActionProps[], filters: FilterProps[] };
+type EventProps = { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] };
 
 type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
     [ stage: string ]: EventProps[],
 } };
 
-export function parseAction(json: ActionProps): event.Action {
+export function parseEffect(json: EffectProps): event.Effect {
     if (json.type === "flag") {
-        return new event.FlagAction(json.flag, json.value);
+        return new event.FlagEffect(json.flag, json.value);
     }
     else if (json.type === "resource") {
-        return new event.ResourceAction(json.resource, json.value);
+        return new event.ResourceEffect(json.resource, json.value);
     }
     else if (json.type === "quest") {
-        return new event.QuestAction(json.quest, json.stage, json.journal);
+        return new event.QuestEffect(json.quest, json.stage, json.journal);
     }
-    throw new ParseError("Unrecognized action", json);
+    else if (json.type === "learn") {
+        return new event.LearnEffect(json.id);
+    }
+    throw new ParseError("Unrecognized effect", json);
 }
 
 export function parseFilter(json: FilterProps): event.Filter {
@@ -59,7 +63,7 @@ export function parseEvent(json: EventProps): event.Event {
     if (json.type === "flavor") {
         return new event.FlavorEvent(
             json.filters.map(parseFilter),
-            json.actions.map(parseAction),
+            json.effects.map(parseEffect),
             json.text
         );
     }
