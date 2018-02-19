@@ -20,6 +20,7 @@ export type FlagValue = boolean;
 export interface LearnableProps {
     id: LearnableId;
     subId: LearnableId | null;
+    collection: string;
 }
 
 function learnableRecord<P, T>(defaults: P, front: string, back: string): T {
@@ -44,6 +45,7 @@ export const HiraganaLearnable = learnableRecord<HiraganaLearnableProps, Hiragan
         type: "hiragana",
         id: "",
         subId: null,
+        collection: "",
         unicode: "",
         romaji: "",
     },
@@ -62,6 +64,7 @@ export const KatakanaLearnable = learnableRecord<KatakanaLearnableProps, Katakan
         type: "katakana",
         id: "",
         subId: null,
+        collection: "",
         unicode: "",
         romaji: "",
     },
@@ -81,7 +84,7 @@ declare module "immutable" {
     }
 }
 
-export type Collection = immutable.List<LearnableId>;
+export type Collection = immutable.Set<LearnableId>;
 
 export const LearnedRecord = immutable.Record({
     item: null,
@@ -109,7 +112,7 @@ export const Learned = immutable.Record({
 // TODO: are these Store types still needed?
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
-    readonly collections: immutable.Set<Collection>;
+    readonly collections: immutable.Map<string, Collection>;
     readonly resources: immutable.Map<Resource, number>;
     readonly location: Location;
     readonly flags: immutable.Map<Flag, FlagValue>;
@@ -121,7 +124,7 @@ export interface Store extends StoreProps, ImmutableRecord<StoreProps> {
 
 export const Store = immutable.Record({
     learned: immutable.Map(),
-    collections: immutable.Set(),
+    collections: immutable.Map(),
     resources: immutable.Map(),
     location: "nowhere",
     flags: immutable.Map(),

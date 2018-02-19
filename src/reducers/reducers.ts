@@ -27,13 +27,20 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
     }
 }
 
-function collections(state: immutable.Set<model.Collection> = immutable.Set(), action: actions.Action): 
-    immutable.Set<model.Collection> {
+function collections(state: immutable.Map<string, model.Collection> = immutable.Map(), action: actions.Action): 
+    immutable.Map<string, model.Collection> {
     switch (action.type) {
     case actions.LEARN: {
-        const newState = state.add(action.item.id);
-        console.log(newState.toArray());
-        return newState;
+        const collectionName = action.item.collection;
+
+        // Check whether player already has this collection and update accordingly
+        if (state.has(collectionName)) {
+            const collection = state.get(collectionName);
+            return state.set(collectionName, collection.add(action.item.id));
+        }
+        else {
+            return state.set(collectionName, immutable.Set([action.item.id]));
+        }
     }
     default:
         return state;
