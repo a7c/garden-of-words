@@ -3,7 +3,7 @@
         "type": "flavor",
         "text": "ayy lmao",
         "filters": [],
-        "actions": [
+        "effects": [
             {
                 "type": "flag",
                 "flag": "meditate-button",
@@ -15,7 +15,7 @@
         "type": "flavor",
         "text": "You find a fabled Japanese vending machine.",
         "filters": [],
-        "actions": [
+        "effects": [
             {
                 "type": "flag",
                 "flag": "vending-machine",

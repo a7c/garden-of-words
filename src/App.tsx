@@ -20,7 +20,7 @@ interface TestProps {
     flags: immutable.Map<model.Flag, model.FlagValue>;
     onLearn: (item: model.Learnable) => void;
     onReview: (id: model.LearnableId) => void;
-    handleEventAction: (eaction: event.Action) => void;
+    handleEventEffect: (effect: event.Effect) => void;
 }
 
 interface TestState {
@@ -44,13 +44,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { learned, onLearn, handleEventAction } = this.props;
+        const { learned, onLearn, handleEventEffect } = this.props;
         let word: model.Learnable | event.Event | null = wander(learned);
 
         if (word instanceof event.Event) {
             this.setState({ event: word });
 
-            word.eactions.forEach(handleEventAction);
+            word.effects.forEach(handleEventEffect);
         }
         else if (word) {
             onLearn(word);
@@ -138,7 +138,7 @@ const Test = (connect as any)( //tslint:disable-line
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId) => dispatch(actions.review(id)),
-        handleEventAction: (eaction: event.Action) => dispatch(eaction.toRedux())
+        handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
 )(TestComponent);
 

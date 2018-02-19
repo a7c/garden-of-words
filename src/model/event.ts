@@ -2,21 +2,21 @@ import * as model from "./model";
 import * as question from "./question";
 import * as actions from "../actions/actions";
 
-export class Action {
+export class Effect {
     // TODO: this signature needs to be more precise
     apply(store: model.Store) {
         return;
     }
 
     /** 
-     *  Converts an action to a redux action that can be dispatched.
+     *  Converts an effect to a redux action that can be dispatched.
      */
-    toRedux(): actions.Action {
+    toAction(): actions.Action {
         return {type: "PLACEHOLDER"};
     }
 }
 
-export class QuestAction extends Action {
+export class QuestEffect extends Effect {
     questId: model.QuestId;
     stage: model.QuestStage;
     // We can display a message in the event log as well, if it's a
@@ -33,7 +33,7 @@ export class QuestAction extends Action {
     }
 }
 
-export class FlagAction extends Action {
+export class FlagEffect extends Effect {
     flag: string;
     value: boolean;
 
@@ -43,12 +43,12 @@ export class FlagAction extends Action {
         this.value = value;
     }
 
-    toRedux() {
+    toAction() {
         return actions.updateFlag(this.flag, this.value);
     }
 }
 
-export class ResourceAction extends Action {
+export class ResourceEffect extends Effect {
     resource: string;
     value: number;
 
@@ -95,32 +95,31 @@ export class FlagFilter extends Filter {
 
 export class Event {
     filters: Filter[];
-    // TODO: temporary fix--we'll rename event actions later
-    eactions: Action[];
+    effects: Effect[];
 
-    constructor(filters: Filter[], eactions: Action[]) {
+    constructor(filters: Filter[], effects: Effect[]) {
         this.filters = filters;
-        this.eactions = eactions;
+        this.effects = effects;
     }
 }
 
 export class FlavorEvent extends Event {
     flavor: string;
 
-    constructor(filters: Filter[], eactions: Action[], flavor: string) {
-        super(filters, eactions);
+    constructor(filters: Filter[], effects: Effect[], flavor: string) {
+        super(filters, effects);
         this.flavor = flavor;
     }
 }
 
 export class QuestionEvent extends Event {
     question: question.Question;
-    failureActions: Action[];
+    failureEffects: Effect[];
 
-    constructor(filters: Filter[], eactions: Action[], q: question.Question,
-                failureActions: Action[]) {
-        super(filters, eactions);
+    constructor(filters: Filter[], effects: Effect[], q: question.Question,
+                failureEffects: Effect[]) {
+        super(filters, effects);
         this.question = q;
-        this.failureActions = failureActions;
+        this.failureEffects = failureEffects;
     }
 }
