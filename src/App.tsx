@@ -68,6 +68,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
     }
 
+    collectionsClickHandler = () => {
+        alert("IT'S ALIVE");
+    }
+
     render() {
         const { learned, flags, onReview, onLearn } = this.props;
 
@@ -112,15 +116,27 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         let meditateButton = null;
 
+        let collectionsButton = null;
+
         if (flags.get("meditate-button")) {
             meditateButton =
                 <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
+        }
+
+        if (flags.get("collections-unlocked")) {
+            collectionsButton = 
+                (
+                    <button className="Button" id="Collections" onClick={this.collectionsClickHandler}>
+                        Collections
+                    </button>
+                );       
         }
 
         return (
             <div>
                 <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                 {meditateButton}
+                {collectionsButton}
                 <ul>
                     {learnedItems}
                 </ul>
