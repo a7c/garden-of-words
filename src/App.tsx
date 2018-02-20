@@ -13,7 +13,7 @@ import wander from "./wander";
 
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
-import CollectionComponent from "./components/Collection";
+import AllCollectionsComponent from "./components/AllCollections";
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
@@ -27,7 +27,7 @@ interface TestProps {
 interface TestState {
     question: Question | null;
     event: event.Event | null;
-    myCollections: model.CollectionId[] | null;
+    myCollections: string | null; // just set to "view" since no particular value is needed.
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
@@ -45,7 +45,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.setState({ event: null });
     }
 
-    onCollectionDone = () => {
+    onAllCollectionsDone = () => {
         this.setState({ myCollections: null });
     }
 
@@ -75,17 +75,17 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
     }
 
-    collectionsClickHandler = () => {
+    allCollectionsClickHandler = () => {
         const{ learned, collections } = this.props;
 
-        this.setState({ myCollections: collections.keySeq().toArray() });
+        this.setState({ myCollections: "view" });
         
         collections.keySeq().toArray().forEach(console.log);
 
     }
 
     render() {
-        const { learned, flags, onReview, onLearn } = this.props;
+        const { learned, collections, flags, onReview, onLearn } = this.props;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -127,13 +127,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
         else if (this.state.myCollections !== null) {
             return (
-                <CollectionComponent collections={this.state.myCollections} onFinished={this.onCollectionDone}/>
+                <AllCollectionsComponent collections={collections} onFinished={this.onAllCollectionsDone}/>
             );
         }
 
         let meditateButton = null;
 
-        let collectionsButton = null;
+        let allCollectionsButton = null;
 
         if (flags.get("meditate-button")) {
             meditateButton =
@@ -141,9 +141,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
 
         if (flags.get("collections-unlocked")) {
-            collectionsButton = 
+            allCollectionsButton = 
                 (
-                    <button className="Button" id="Collections" onClick={this.collectionsClickHandler}>
+                    <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
                         Collections
                     </button>
                 );       
@@ -153,7 +153,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             <div>
                 <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                 {meditateButton}
-                {collectionsButton}
+                {allCollectionsButton}
                 <ul>
                     {learnedItems}
                 </ul>

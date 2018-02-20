@@ -1,10 +1,11 @@
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "../Common.css";
+import * as event from "../model/event";
 import * as model from "../model/model";
 
 interface CollectionProps {
-    collections: model.CollectionId[];
+    collection: model.Collection;
     onFinished: () => void;
 }
 
@@ -26,38 +27,36 @@ export default class CollectionComponent extends React.Component<CollectionProps
     }
 
     onExited = (node: HTMLElement) => {
-        console.log("EXIT");
         if (this.state.showedCollection) {
             this.props.onFinished();
         }
     }
 
     render() {
-        // const ev = this.props.event;
-        let key = "blank";
-        let contents = <span/>;
+        const col = this.props.collection;
+        let contents = [<span key="blank"/>];
         let button = <span/>;
-
+        let key = "blank";
         if (this.state.showCollection) {
-            key = "collection";
-            contents = (
-                <section className="Collection">
-                    {this.props.collections}
-                </section>
-            );
+            key = "notblank";
+            // set contents
+            contents = col.map((id) =>
+                (
+                    <button key={id}> {id} </button>
+                )).toArray();
 
             button = (
-                    <button
-                        onClick={() => this.setState({
-                                showCollection: false,
-                                showedCollection: true
-                            })}
-                    >
-                        Continue
-                    </button>
-                );    
+                <button
+                    onClick={() => this.setState({
+                            showCollection: false,
+                            showedCollection: true
+                        })}
+                >
+                    Back
+                </button>
+            );
         }
-        
+
         return (
             <TransitionGroup>
                 <CSSTransition
