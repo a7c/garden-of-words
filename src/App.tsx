@@ -13,10 +13,12 @@ import wander from "./wander";
 
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
+import CollectionComponent from "./components/Collection";
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
     flags: immutable.Map<model.Flag, model.FlagValue>;
+    collections: immutable.Map<model.CollectionId, model.Collection>;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
@@ -25,12 +27,13 @@ interface TestProps {
 interface TestState {
     question: Question | null;
     event: event.Event | null;
+    myCollections: model.CollectionId[] | null;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
     constructor(props: TestProps) {
         super(props);
-        this.state = { question: null, event: null };
+        this.state = { question: null, event: null, myCollections: null };
     }
 
     subOnReview = (id: model.LearnableId, correct: boolean) => {
@@ -40,6 +43,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     onEventFinished = () => {
         this.setState({ event: null });
+    }
+
+    onCollectionDone = () => {
+        this.setState({ myCollections: null });
     }
 
     wanderClickHandler = () => {
@@ -69,7 +76,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     collectionsClickHandler = () => {
-        alert("IT'S ALIVE");
+        const{ learned, collections } = this.props;
+
+        this.setState({ myCollections: collections.keySeq().toArray() });
+        
+        collections.keySeq().toArray().forEach(console.log);
+
     }
 
     render() {
@@ -113,6 +125,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />
             );
         }
+        else if (this.state.myCollections !== null) {
+            return (
+                <CollectionComponent collections={this.state.myCollections} onFinished={this.onCollectionDone}/>
+            );
+        }
 
         let meditateButton = null;
 
@@ -148,7 +165,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
 const Test = connect(
     (store: model.Store) => ({
         learned: store.learned,
-        flags: store.flags
+        flags: store.flags,
+        collections: store.collections
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
