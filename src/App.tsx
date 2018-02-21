@@ -16,11 +16,7 @@ import QuestionComponent from "./components/Question";
 import AllCollectionsComponent from "./components/AllCollections";
 
 interface TestProps {
-    learned: immutable.Map<model.LearnableId, model.Learned>;
-    flags: immutable.Map<model.Flag, model.FlagValue>;
-    collections: immutable.Map<model.CollectionId, model.Collection>;
-    location: model.Location;
-    resources: immutable.Map<model.Resource, number>;
+    store: model.Store;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
@@ -52,8 +48,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { learned, location, resources, onLearn, handleEventEffect } = this.props;
-        let word: model.Learnable | event.Event | null = wander(location, resources, learned);
+        const { store, onLearn, handleEventEffect } = this.props;
+        let word: model.Learnable | event.Event | null = wander(store);
 
         if (word instanceof event.Event) {
             this.setState({ event: word });
@@ -69,26 +65,21 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     meditateClickHandler = () => {
-        const { learned } = this.props;
+        const { store } = this.props;
 
-        const question = meditate(learned);
+        const question = meditate(store.learned);
         if (question) {
             this.setState({ question });
         }
     }
 
     allCollectionsClickHandler = () => {
-        const{ learned, collections } = this.props;
-
         this.setState({ myCollections: "view" });
-
-        collections.keySeq().toArray().forEach(console.log);
-
     }
 
     vendingMachineHandler = () => {
-        const { learned, resources, onLearn, handleEventEffect } = this.props;
-        let ev: model.Learnable | event.Event | null = wander("vending-machine", resources, learned);
+        const { store, onLearn, handleEventEffect } = this.props;
+        let ev: model.Learnable | event.Event | null = wander(store.set("location", "vending-machine"));
 
         if (ev instanceof event.Event) {
             this.setState({ event: ev });
@@ -100,7 +91,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     render() {
-        const { learned, collections, flags, onReview, onLearn } = this.props;
+        const { store, onReview, onLearn } = this.props;
+        const { learned, flags, collections } = store;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -181,13 +173,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 }
 
 const Test = connect(
-    (store: model.Store) => ({
-        learned: store.learned,
-        flags: store.flags,
-        collections: store.collections,
-        location: store.location,
-        resources: store.resources,
-    }),
+    (store: model.Store) => ({ store }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId, correct: boolean) =>
