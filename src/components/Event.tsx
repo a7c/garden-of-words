@@ -4,6 +4,8 @@ import "../Common.css";
 import * as event from "../model/event";
 import * as model from "../model/model";
 
+import Fade from "./Fade";
+
 interface EventProps {
     event: event.Event;
     onFinished: () => void;
@@ -11,11 +13,6 @@ interface EventProps {
 
 interface FlavorProps {
     event: event.FlavorEvent;
-}
-
-interface EventState {
-    showEvent: boolean;
-    showedEvent: boolean;
 }
 
 class Flavor extends React.Component<FlavorProps> {
@@ -28,64 +25,38 @@ class Flavor extends React.Component<FlavorProps> {
     }
 }
 
-export default class EventComponent extends React.Component<EventProps, EventState> {
+export default class EventComponent extends React.Component<EventProps> {
+    fade: Fade | null;
+
     constructor(props: EventProps) {
         super(props);
-        this.state = { showEvent: false, showedEvent: false };
-        window.setTimeout(
-            () => {
-                this.setState({ showEvent: true });
-            },
-            500
-        );
-    }
-
-    onExited = (node: HTMLElement) => {
-        if (this.state.showedEvent) {
-            this.props.onFinished();
-        }
+        this.fade = null;
     }
 
     render() {
         const ev = this.props.event;
         let contents = <span/>;
-        let button = <span/>;
-        let key = "blank";
-        if (this.state.showEvent) {
-            button = (
-                <button
-                    onClick={() => this.setState({
-                            showEvent: false,
-                            showedEvent: true
-                        })}
-                >
-                    Continue
-                </button>
-            );
-            if (ev instanceof event.FlavorEvent) {
-                contents = <Flavor key="flavor" event={ev} />;
-                key = "flavor";
-            }
-            else {
-                contents = <p key="error">Unsupported event!</p>;
-                key = "error";
-            }
+        const button = (
+            <button
+                onClick={() => this.fade ? this.fade.exit() : null}
+            >
+                Continue
+            </button>
+        );
+        if (ev instanceof event.FlavorEvent) {
+            contents = <Flavor key="flavor" event={ev} />;
+        }
+        else {
+            contents = <p key="error">Unsupported event!</p>;
         }
 
         return (
-            <TransitionGroup>
-                <CSSTransition
-                    key={key}
-                    timeout={{ enter: 1000, exit: 800 }}
-                    classNames="fade"
-                    onExited={this.onExited}
-                >
-                    <div>
-                        {contents}
-                        {button}
-                    </div>
-                </CSSTransition>
-            </TransitionGroup>
+            <Fade onFinished={this.props.onFinished} ref={f => (this.fade = f)}>
+                <div>
+                    {contents}
+                    {button}
+                </div>
+            </Fade>
         );
     }
 }
