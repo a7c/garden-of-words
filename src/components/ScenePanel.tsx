@@ -7,10 +7,11 @@ import "../Common.css";
 
 interface ScenePanelProps {
     location: model.Location;
+    steps: number;
 }
 
 interface ScenePanelState {
-    sceneIndex: number;
+
 }
 
 // TODO: need a better way of managing scene assets
@@ -23,31 +24,25 @@ const scenes = [
 export default class ScenePanel extends React.Component<ScenePanelProps, ScenePanelState> {
     constructor(props: ScenePanelProps) {
         super(props);
-        this.state = {
-            sceneIndex: 0
-        };
-    }
 
-    _onClick = () => {
-        this.setState({
-            sceneIndex: (this.state.sceneIndex + 1) % scenes.length
-        });
     }
 
     render() {
-        const { sceneIndex } = this.state;
-        
+        const { steps } = this.props;
+
+        const index = steps % scenes.length;
+
         return (
-            <div style={{ float: "left" }} onClick={this._onClick} >
+            <div style={{ float: "left" }} >
                 <TransitionGroup>
                     <CSSTransition
-                        key={sceneIndex}
+                        key={index}
                         timeout={{ enter: 1000, exit: 1000 }}
                         classNames="fade"
                     >
                         <img 
                             style={{ float: "left" , position: "absolute"}} 
-                            src={scenes[sceneIndex]} 
+                            src={scenes[index]} 
                         />
                     </CSSTransition>
                 </TransitionGroup>

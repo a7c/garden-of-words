@@ -14,10 +14,15 @@ import wander from "./wander";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
+import AllCollectionsComponent from "./components/AllCollections";
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
     flags: immutable.Map<model.Flag, model.FlagValue>;
+    collections: immutable.Map<model.CollectionId, model.Collection>;
+    steps: number;
+
+    onWander: () => actions.Action;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
@@ -26,12 +31,13 @@ interface TestProps {
 interface TestState {
     question: Question | null;
     event: event.Event | null;
+    myCollections: string | null; // just set to "view" since no particular value is needed.
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
     constructor(props: TestProps) {
         super(props);
-        this.state = { question: null, event: null };
+        this.state = { question: null, event: null, myCollections: null };
     }
 
     subOnReview = (id: model.LearnableId, correct: boolean) => {
@@ -43,8 +49,15 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.setState({ event: null });
     }
 
+    onAllCollectionsDone = () => {
+        this.setState({ myCollections: null });
+    }
+
     wanderClickHandler = () => {
-        const { learned, onLearn, handleEventEffect } = this.props;
+        const { learned, onLearn, onWander, handleEventEffect } = this.props;
+
+        onWander();
+
         let word: model.Learnable | event.Event | null = wander(learned);
 
         if (word instanceof event.Event) {
@@ -69,8 +82,17 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
     }
 
+    allCollectionsClickHandler = () => {
+        const{ learned, collections } = this.props;
+
+        this.setState({ myCollections: "view" });
+        
+        collections.keySeq().toArray().forEach(console.log);
+
+    }
+
     render() {
-        const { learned, flags, onReview, onLearn } = this.props;
+        const { learned, collections, flags, steps, onReview, onLearn } = this.props;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -111,6 +133,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
             mainComponent =
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
         }
+        else if (this.state.myCollections !== null) {
+            mainComponent =
+                <AllCollectionsComponent collections={collections} onFinished={this.onAllCollectionsDone}/>;
+        }
         else {
             let meditateButton = null;
             if (flags.get("meditate-button")) {
@@ -118,10 +144,21 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
             }
 
+            let allCollectionsButton = null;
+            if (flags.get("collections-unlocked")) {
+                allCollectionsButton = 
+                    (
+                        <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
+                            Collections
+                        </button>
+                    );       
+            }
+            
             mainComponent = (
                 <div>
                     <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                     {meditateButton}
+                    {allCollectionsButton}
                     <ul>
                         {learnedItems}
                     </ul>
@@ -131,7 +168,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         return (
             <div>
-                <ScenePanel location="nowhere" />
+                <ScenePanel location="nowhere" steps={steps} />
                 <div id="main-panel">
                     {mainComponent}
                 </div>
@@ -143,12 +180,15 @@ class TestComponent extends React.Component<TestProps, TestState> {
 const Test = connect(
     (store: model.Store) => ({
         learned: store.learned,
-        flags: store.flags
+        flags: store.flags,
+        collections: store.collections,
+        steps: store.steps
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId, correct: boolean) => 
             dispatch(actions.review(id, correct)),
+        onWander: () => dispatch(actions.wander()),
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
 )(TestComponent as React.ComponentType<TestProps>);

@@ -5,6 +5,7 @@ export const REVIEW = "review";
 export const LEARN = "learn";
 export const MEDITATE = "meditate";
 export const UPDATE_FLAG = "update_flag";
+export const WANDER = "wander";
 
 export interface ReviewAction extends redux.AnyAction {
     type: typeof REVIEW;
@@ -28,9 +29,13 @@ export interface UpdateFlagAction extends redux.AnyAction {
     value: model.FlagValue;
 }
 
+export interface WanderAction extends redux.AnyAction {
+    type: typeof WANDER;
+}
+
 export type Action = 
     | redux.AnyAction | ReviewAction | LearnAction | MeditateAction
-    | UpdateFlagAction;
+    | UpdateFlagAction | WanderAction;
 
 export function meditate(): Action {
   return { type: MEDITATE };
@@ -56,5 +61,11 @@ export function updateFlag(flag: model.Flag, value: model.FlagValue): Action {
         type: UPDATE_FLAG,
         flag,
         value
+    };
+}
+
+export function wander(): Action {
+    return {
+        type: WANDER
     };
 }
