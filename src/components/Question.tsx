@@ -65,12 +65,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
             status: correct ? "right" : "wrong",
         });
         this.learnableId = id;
-        window.setTimeout(
-            () => {
-               this.fade!.exit();
-            },
-            1000
-        );
+        this.fade!.delayedExit();
     }
 
     onFinished = () => {

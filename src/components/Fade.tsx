@@ -31,6 +31,15 @@ export default class Fade extends React.Component<FadeProps, FadeState> {
         this.setState({ showed: true });
     }
 
+    delayedExit() {
+        window.setTimeout(
+            () => {
+                this.exit();
+            },
+            1000
+        );
+    }
+
     render() {
         let contents = <span/>;
         let key = "not-shown";
