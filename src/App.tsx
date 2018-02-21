@@ -79,7 +79,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         const{ learned, collections } = this.props;
 
         this.setState({ myCollections: "view" });
-        
+
         collections.keySeq().toArray().forEach(console.log);
 
     }
@@ -117,17 +117,23 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         if (this.state.event !== null) {
             return (
+              <div className="ButtonDiv">
                 <EventComponent event={this.state.event} onFinished={this.onEventFinished} />
+              </div>
             );
         }
         else if (this.state.question !== null) {
             return (
+              <div className="ButtonDiv">
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />
+              </div>
             );
         }
         else if (this.state.myCollections !== null) {
             return (
+              <div className="ButtonDiv">
                 <AllCollectionsComponent collections={collections} onFinished={this.onAllCollectionsDone}/>
+              </div>
             );
         }
 
@@ -141,16 +147,16 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
 
         if (flags.get("collections-unlocked")) {
-            allCollectionsButton = 
+            allCollectionsButton =
                 (
                     <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
                         Collections
                     </button>
-                );       
+                );
         }
 
         return (
-            <div>
+            <div className="ButtonDiv">
                 <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                 {meditateButton}
                 {allCollectionsButton}
@@ -170,7 +176,7 @@ const Test = connect(
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
-        onReview: (id: model.LearnableId, correct: boolean) => 
+        onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
@@ -180,7 +186,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Test/>
+        <div className="Stretcher">
+          <div className="LeftPanel"/>
+          <div className="RightPanel">
+            <Test/>
+          </div>
+        </div>
       </div>
     );
   }

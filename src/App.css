@@ -1,21 +1,49 @@
-.App {
+.LeftPanel {
+  height: 100%;
+  width: 33%;
+  float: left;
+  background: url('assets/bg01a.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.RightPanel {
+  height: 100%;
+  width: 67%;
   text-align: right;
+  float: right;
+}
+
+.Stretcher {
+  position: absolute;
+  height: 100%;
+	top: 0; bottom: 0; left: 0; right: 0;
+}
+
+.App {
+  width: 100%;
+	padding-bottom: 56.25%; /* 16:9 */
+  background-color: white;
+	position: relative;
+  border: medium solid #7A7A7A;
+}
+
+.ButtonDiv {
   padding: 100px;
 }
 
-html,body {
-  background: url('assets/bg01a.png');
-  background-repeat: no-repeat;
-  min-height: 100%;
-  padding: 0;
-  margin: 0;
+#root {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  width: 75%;
 }
 
-#Meditate {
-  font-size: large;
+html,body,#root {
+  background-color: #BCBEC0;
 }
 
-#Wander {
+.Button {
   font-size: large;
   margin-right: 20px;
   margin-left: 20px;
