@@ -79,9 +79,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
         const{ learned, collections } = this.props;
 
         this.setState({ myCollections: "view" });
-        
+
         collections.keySeq().toArray().forEach(console.log);
 
+    }
+
+    vendingMachineHandler = () => {
     }
 
     render() {
@@ -131,29 +134,32 @@ class TestComponent extends React.Component<TestProps, TestState> {
             );
         }
 
-        let meditateButton = null;
-
-        let allCollectionsButton = null;
+        const buttons = [];
 
         if (flags.get("meditate-button")) {
-            meditateButton =
-                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
+            buttons.push(
+                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>
+            );
         }
 
         if (flags.get("collections-unlocked")) {
-            allCollectionsButton = 
-                (
-                    <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
-                        Collections
-                    </button>
-                );       
+            buttons.push(
+                <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
+                    Collections
+                </button>
+            );
+        }
+
+        if (flags.get("vending-machine")) {
+            buttons.push(
+                <button className="Button" onClick={this.vendingMachineHandler}>Vending Machine</button>
+            );
         }
 
         return (
             <div>
                 <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
-                {meditateButton}
-                {allCollectionsButton}
+                {buttons}
                 <ul>
                     {learnedItems}
                 </ul>
@@ -170,7 +176,7 @@ const Test = connect(
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
-        onReview: (id: model.LearnableId, correct: boolean) => 
+        onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
