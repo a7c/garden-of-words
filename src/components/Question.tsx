@@ -6,6 +6,7 @@ import * as model from "../model/model";
 import * as question from "../model/question";
 
 import Dialog from "./Dialog";
+import Fade from "./Fade";
 
 interface QuestionProps {
     question: question.Question;
@@ -17,7 +18,7 @@ interface MultipleChoiceProps extends QuestionProps {
 }
 
 interface QuestionState {
-    status: "right" | "wrong" | "answering" | "done";
+    status: "right" | "wrong" | "answering";
 }
 
 class MultipleChoice extends React.Component<MultipleChoiceProps> {
@@ -51,6 +52,9 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
 }
 
 export default class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
+    learnableId: model.LearnableId | null;
+    fade: Fade | null;
+
     constructor(props: QuestionProps) {
         super(props);
         this.state = { status: "answering" };
@@ -60,28 +64,17 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
         this.setState({
             status: correct ? "right" : "wrong",
         });
-        this._onExited = (node: HTMLElement) => {
-            if (node.classList.contains("Question")) {
-                window.setTimeout(
-                    () => {
-                        this.setState({ status: "done" });
-                    },
-                    1000
-                );
-            }
-            else {
-                this.props.onReview(id, correct);
-            }
-            return;
-        };
+        this.learnableId = id;
+        window.setTimeout(
+            () => {
+               this.fade!.exit();
+            },
+            1000
+        );
     }
 
-    _onExited = (node: HTMLElement) => {
-        return;
-    }
-
-    onExited = (node: HTMLElement) => {
-        this._onExited(node);
+    onFinished = () => {
+        this.props.onReview(this.learnableId!, this.state.status === "right");
     }
 
     render() {
@@ -106,21 +99,11 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
                     />
                 );
             }
-            else if (this.state.status === "done") {
-                contents = <span/>;
-            }
 
             return (
-                <TransitionGroup>
-                    <CSSTransition
-                        key={this.state.status}
-                        timeout={{ enter: 1000, exit: 800 }}
-                        classNames="fade"
-                        onExited={this.onExited}
-                    >
-                        {contents}
-                    </CSSTransition>
-                </TransitionGroup>
+                <Fade ref={f => this.fade = f} onFinished={this.onFinished}>
+                    {contents}
+                </Fade>
             );
         }
         else {
