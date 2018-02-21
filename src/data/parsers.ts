@@ -19,6 +19,7 @@ type EffectProps =
     { type: "learn", id: model.LearnableId };
 
 type FilterProps =
+    { type: "resource", resource: model.Resource, minimum: number } |
     { type: "location", location: model.Location } |
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage };
@@ -54,6 +55,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     }
     else if (json.type === "quest") {
         return new event.QuestFilter(json.quest, json.stage);
+    }
+    else if (json.type === "resource") {
+        return new event.ResourceFilter(json.resource, json.minimum);
     }
 
     throw new ParseError("Unrecognized filter", json);
