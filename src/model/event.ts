@@ -51,13 +51,17 @@ export class FlagEffect extends Effect {
 }
 
 export class ResourceEffect extends Effect {
-    resource: string;
+    resource: model.Resource;
     value: number;
 
-    constructor(resource: string, value: number) {
+    constructor(resource: model.Resource, value: number) {
         super();
         this.resource = resource;
         this.value = value;
+    }
+
+    toAction() {
+        return actions.modifyResource(this.resource, this.value);
     }
 }
 

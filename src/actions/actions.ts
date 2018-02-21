@@ -5,6 +5,7 @@ export const REVIEW = "review";
 export const LEARN = "learn";
 export const MEDITATE = "meditate";
 export const UPDATE_FLAG = "update_flag";
+export const MODIFY_RESOURCE = "modify_resource";
 
 export interface ReviewAction extends redux.AnyAction {
     type: typeof REVIEW;
@@ -28,8 +29,15 @@ export interface UpdateFlagAction extends redux.AnyAction {
     value: model.FlagValue;
 }
 
-export type Action = 
+export interface ModifyResourceAction extends redux.AnyAction {
+    type: typeof MODIFY_RESOURCE;
+    resource: model.Resource;
+    value: number;
+}
+
+export type Action =
     | redux.AnyAction | ReviewAction | LearnAction | MeditateAction
+    | ModifyResourceAction
     | UpdateFlagAction;
 
 export function meditate(): Action {
@@ -55,6 +63,14 @@ export function updateFlag(flag: model.Flag, value: model.FlagValue): Action {
     return {
         type: UPDATE_FLAG,
         flag,
+        value
+    };
+}
+
+export function modifyResource(resource: model.Resource, value: number): Action {
+    return {
+        type: MODIFY_RESOURCE,
+        resource,
         value
     };
 }

@@ -15,7 +15,7 @@ export class ParseError {
 type EffectProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage, journal?: string } |
     { type: "flag", flag: string, value: boolean } |
-    { type: "resource", resource: string, value: number } |
+    { type: "resource", resource: model.Resource, value: number } |
     { type: "learn", id: model.LearnableId };
 
 type FilterProps =

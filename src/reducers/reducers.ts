@@ -48,9 +48,14 @@ function collections(
     }
 }
 
-function resources(state: immutable.Map<model.Resource, number> = immutable.Map(), action: actions.Action): 
+function resources(state: immutable.Map<model.Resource, number> = immutable.Map(), action: actions.Action):
     immutable.Map<model.Resource, number> {
     switch (action.type) {
+    case actions.MODIFY_RESOURCE: {
+        const origValue = state.has(action.resource) ?
+            state.get(action.resource) : 0;
+        return state.set(action.resource, origValue + action.value);
+    }
     default:
         return state;
     }
