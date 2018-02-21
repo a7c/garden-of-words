@@ -10,7 +10,7 @@ export class Effect {
         return;
     }
 
-    /** 
+    /**
      *  Converts an effect to a redux action that can be dispatched.
      */
     toAction(): actions.Action {

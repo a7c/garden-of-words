@@ -1,7 +1,25 @@
 [
     {
         "type": "flavor",
-        "text": "You realize you forgot your wallet at home, but somehow got through the TSA anyways. Looks like you'll be thirsty until you can get some cash.",
+        "text": "You buy a Meiji chocolate, for some reason.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 100
+            }
+        ],
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": -100
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "As you approach the vending machine, you realize you forgot your wallet at home. Somehow you got through the TSA anyways. Looks like you'll be thirsty until you can get some cash.",
         "filters": [],
         "effects": []
     }

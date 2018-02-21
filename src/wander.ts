@@ -12,8 +12,10 @@ model.Learnable | event.Event | null {
     // TODO: full location-based event system
     if (location === "vending-machine") {
         for (const ev of events.vendingMachine) {
-            for (const filter of ev.filters) {
+            if (!ev.check(store)) {
+                continue;
             }
+
             return ev;
         }
     }

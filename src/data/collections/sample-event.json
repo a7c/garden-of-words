@@ -31,5 +31,17 @@
                 "value": true
             }
         ]
+    },
+    {
+        "type": "flavor",
+        "text": "A passerby gives you 100円.",
+        "filters": [],
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": 100
+            }
+        ]
     }
 ]
