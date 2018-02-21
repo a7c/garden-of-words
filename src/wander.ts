@@ -7,10 +7,21 @@ import { hiraganaBasicDict } from "./model/kana";
 import events from "./data/events";
 
 export default function wander(
+    location: model.Location,
+    resources: immutable.Map<model.Resource, number>,
     learned: immutable.Map<model.LearnableId, model.Learned>
 ): model.Learnable | event.Event | null {
-    if (events.length > 0) {
-        return events.shift();
+    // TODO: full location-based event system
+    if (location === "vending-machine") {
+        for (const ev of events.vendingMachine) {
+            for (const filter of ev.filters) {
+            }
+            return ev;
+        }
+    }
+
+    if (events.events.length > 0) {
+        return events.events.shift();
     }
 
     let word: model.Learnable | null = null;

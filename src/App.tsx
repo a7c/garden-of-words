@@ -19,6 +19,8 @@ interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
     flags: immutable.Map<model.Flag, model.FlagValue>;
     collections: immutable.Map<model.CollectionId, model.Collection>;
+    location: model.Location;
+    resources: immutable.Map<model.Resource, number>;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
@@ -50,8 +52,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { learned, onLearn, handleEventEffect } = this.props;
-        let word: model.Learnable | event.Event | null = wander(learned);
+        const { learned, location, resources, onLearn, handleEventEffect } = this.props;
+        let word: model.Learnable | event.Event | null = wander(location, resources, learned);
 
         if (word instanceof event.Event) {
             this.setState({ event: word });
@@ -85,6 +87,16 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     vendingMachineHandler = () => {
+        const { learned, resources, onLearn, handleEventEffect } = this.props;
+        let ev: model.Learnable | event.Event | null = wander("vending-machine", resources, learned);
+
+        if (ev instanceof event.Event) {
+            this.setState({ event: ev });
+            ev.effects.forEach(handleEventEffect);
+        }
+        else if (ev) {
+            onLearn(ev);
+        }
     }
 
     render() {
@@ -172,7 +184,9 @@ const Test = connect(
     (store: model.Store) => ({
         learned: store.learned,
         flags: store.flags,
-        collections: store.collections
+        collections: store.collections,
+        location: store.location,
+        resources: store.resources,
     }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
