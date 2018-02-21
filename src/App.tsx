@@ -13,7 +13,7 @@ import wander from "./wander";
 
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
-import AllCollectionsComponent from "./components/AllCollections";
+import ScenePanel from "./components/ScenePanel";
 
 interface TestProps {
     learned: immutable.Map<model.LearnableId, model.Learned>;
@@ -115,55 +115,46 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // }
         });
 
+        let mainComponent = null;
+
+        // Determine what to render in the main panel
         if (this.state.event !== null) {
-            return (
-              <div className="ButtonDiv">
-                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />
-              </div>
-            );
+            mainComponent =
+                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
         }
         else if (this.state.question !== null) {
-            return (
-              <div className="ButtonDiv">
-                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />
-              </div>
+            mainComponent =
+                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
+        }
+        else {
+            let meditateButton = null;
+            if (flags.get("meditate-button")) {
+                meditateButton =
+                    <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
+            }
+
+            mainComponent = (
+                <div>
+                    <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
+                    {meditateButton}
+                    <ul>
+                        {learnedItems}
+                    </ul>
+                </div>
             );
-        }
-        else if (this.state.myCollections !== null) {
-            return (
-              <div className="ButtonDiv">
-                <AllCollectionsComponent collections={collections} onFinished={this.onAllCollectionsDone}/>
-              </div>
-            );
-        }
-
-        let meditateButton = null;
-
-        let allCollectionsButton = null;
-
-        if (flags.get("meditate-button")) {
-            meditateButton =
-                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
-        }
-
-        if (flags.get("collections-unlocked")) {
-            allCollectionsButton =
-                (
-                    <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
-                        Collections
-                    </button>
-                );
         }
 
         return (
-            <div className="ButtonDiv">
-                <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
-                {meditateButton}
-                {allCollectionsButton}
-                <ul>
-                    {learnedItems}
-                </ul>
+          <div className="Stretcher">
+            <div className="LeftPanel">
+            <ScenePanel location="nowhere" />
             </div>
+            <div className="RightPanel">
+              <div className="ButtonsPanel">
+                {mainComponent}
+              </div>
+            </div>
+          </div>
         );
     }
 }
@@ -186,12 +177,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div className="Stretcher">
-          <div className="LeftPanel"/>
-          <div className="RightPanel">
-            <Test/>
-          </div>
-        </div>
+          <Test/>
       </div>
     );
   }

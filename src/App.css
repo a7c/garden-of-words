@@ -2,9 +2,6 @@
   height: 100%;
   width: 33%;
   float: left;
-  background: url('assets/bg01a.png');
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .RightPanel {
@@ -28,10 +25,6 @@
   border: medium solid #7A7A7A;
 }
 
-.ButtonDiv {
-  padding: 100px;
-}
-
 #root {
   margin-left: auto;
   margin-right: auto;
@@ -43,8 +36,12 @@ html,body,#root {
   background-color: #BCBEC0;
 }
 
+.ButtonsPanel {
+  margin: 50px;
+}
+
 .Button {
   font-size: large;
-  margin-right: 20px;
   margin-left: 20px;
+  margin-right: 20px;
 }
