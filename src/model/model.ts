@@ -75,8 +75,7 @@ export const KatakanaLearnable = learnableRecord<KatakanaLearnableProps, Katakan
 export type Learnable = HiraganaLearnable | KatakanaLearnable;
 
 export type Location = string;
-export enum Resource {
-}
+export type Resource = string;
 
 declare module "immutable" {
     interface Map<K, V> {

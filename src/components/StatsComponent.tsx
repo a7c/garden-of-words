@@ -1,9 +1,10 @@
+import * as immutable from "immutable";
 import * as React from "react";
 
 import * as model from "../model/model";
 
 export interface StatsProps {
-  store: model.Store;
+  resources: immutable.Map<model.Resource, number>;
 }
 
 interface StatsState {
@@ -17,9 +18,15 @@ export class StatsComponent extends React.Component<StatsProps, StatsState> {
 
     render() {
 
-        let money = this.props.store.resources.get({} as model.Resource);
+        // TODO: hardcoding in money for now
+        let money = this.props.resources.get("yen");
+
+        if (typeof money === "undefined") {
+            return <span />;
+        }
+
         return (
-          null
+          <div>{`Money: ¥${money}`}</div>
         );
     }
 }

@@ -267,11 +267,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
           </button>
         );
 
-        let Stats = connect(
-          (state: model.Store) => ({ store: state }),
-          (dispatch) => ({})
-        )(StatsComponent as React.ComponentType<StatsProps>);
-
         return (
           <div id="Stretcher">
             <div id="LeftPanel">
@@ -280,7 +275,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             <div id="RightPanel">
               <div id="MenuButtonsPanel">
                 <div id="Stats">
-                  <Stats/>
+                  <StatsComponent resources={store.resources}/>
                 </div>
                 {streetsButton}
                 {mapButton}
