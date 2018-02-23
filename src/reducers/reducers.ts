@@ -87,6 +87,20 @@ function quests(state: immutable.Map<model.QuestId, model.QuestStage> = immutabl
     }
 }
 
+/**
+ *  Keeps track of the number of wander actions that have occurred so far in the current location.
+ *  Used to update the scene panel.
+ */
+function steps(state: number = 0, action: actions.Action): number {
+    switch (action.type) {
+    case actions.WANDER: {
+        return state + 1;
+    }
+    default:
+        return state;
+    }
+}
+
 // Delegate default state to the subreducers
 const emptyStore = immutable.Record({
     learned: undefined,
@@ -94,7 +108,8 @@ const emptyStore = immutable.Record({
     resources: undefined,
     location: undefined,
     flags: undefined,
-    quests: undefined
+    quests: undefined,
+    steps: undefined
 });
 
 export const reducer = combineReducers(
@@ -104,7 +119,8 @@ export const reducer = combineReducers(
         resources,
         location,
         flags,
-        quests
+        quests,
+        steps
     },
     emptyStore
 );

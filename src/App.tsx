@@ -13,10 +13,13 @@ import wander from "./wander";
 
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
+import ScenePanel from "./components/ScenePanel";
 import AllCollectionsComponent from "./components/AllCollections";
 
 interface TestProps {
     store: model.Store;
+
+    onWander: () => actions.Action;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
@@ -48,8 +51,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { store, onLearn, handleEventEffect } = this.props;
+        const { store, onLearn, onWander, handleEventEffect } = this.props;
         let word: model.Learnable | event.Event | null = wander(store);
+
+        onWander();
 
         if (word instanceof event.Event) {
             this.setState({ event: word });
@@ -79,6 +84,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     vendingMachineHandler = () => {
         const { store, onLearn, handleEventEffect } = this.props;
+
+        // TODO: i think we should be dispatching an action to change the location?
         let ev: model.Learnable | event.Event | null = wander(store.set("location", "vending-machine"));
 
         if (ev instanceof event.Event) {
@@ -92,7 +99,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     render() {
         const { store, onReview, onLearn } = this.props;
-        const { learned, flags, collections } = store;
+        const { learned, flags, collections, steps } = store;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -122,51 +129,62 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // }
         });
 
+        let mainComponent = null;
+
+        // Determine what to render in the main panel
         if (this.state.event !== null) {
-            return (
-                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />
-            );
+            mainComponent =
+                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
         }
         else if (this.state.question !== null) {
-            return (
-                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />
-            );
+            mainComponent =
+                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
         }
         else if (this.state.myCollections !== null) {
-            return (
-                <AllCollectionsComponent collections={collections} onFinished={this.onAllCollectionsDone}/>
-            );
+            mainComponent =
+                <AllCollectionsComponent collections={collections} onFinished={this.onAllCollectionsDone}/>;
+
         }
+        else {
+            const buttons = [];
 
-        const buttons = [];
+            if (flags.get("meditate-button")) {
+                buttons.push(
+                    <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>
+                );
+            }
 
-        if (flags.get("meditate-button")) {
-            buttons.push(
-                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>
-            );
-        }
+            if (flags.get("collections-unlocked")) {
+                buttons.push(
+                    <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
+                        Collections
+                    </button>
+                );
+            }
 
-        if (flags.get("collections-unlocked")) {
-            buttons.push(
-                <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
-                    Collections
-                </button>
-            );
-        }
+            if (flags.get("vending-machine")) {
+                buttons.push(
+                    <button className="Button" onClick={this.vendingMachineHandler}>Vending Machine</button>
+                );
+            }
 
-        if (flags.get("vending-machine")) {
-            buttons.push(
-                <button className="Button" onClick={this.vendingMachineHandler}>Vending Machine</button>
+            mainComponent = (
+                <div>
+                    <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
+                    {buttons}
+                    <ul>
+                        {learnedItems}
+                    </ul>
+                </div>
             );
         }
 
         return (
             <div>
-                <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
-                {buttons}
-                <ul>
-                    {learnedItems}
-                </ul>
+                <ScenePanel location="nowhere" steps={steps} />
+                <div id="main-panel">
+                    {mainComponent}
+                </div>
             </div>
         );
     }
@@ -178,6 +196,7 @@ const Test = connect(
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
+        onWander: () => dispatch(actions.wander()),
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
 )(TestComponent as React.ComponentType<TestProps>);

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "../Common.css";
-import "./Question.css";
 import * as model from "../model/model";
 import * as question from "../model/question";
 
