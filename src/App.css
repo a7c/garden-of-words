@@ -79,36 +79,3 @@ html,body,#root {
 .PopupBox {
   text-align: center;
 }
-
-#StreetsLeft {
-  text-align: center;
-  margin-left: 2%;
-  margin-right: 2%;
-  width: 31%;
-  background: lightgrey;
-  height: 100%;
-  border-radius: 5px;
-  float: left;
-}
-#StreetsRight {
-  float: right;
-  width: 65%;
-  height: 100%;
-  text-align: center;
-}
-#StreetsRightLeft {
-  background: lightgrey;
-  height: 100%;
-  margin-right: 3%;
-  border-radius: 5px;
-  width: 47%;
-  float: left;
-}
-#StreetsRightRight {
-  margin-right: 3%;
-  height: 100%;
-  background: lightgrey;
-  border-radius: 5px;
-  width: 47%;
-  float: right;
-}

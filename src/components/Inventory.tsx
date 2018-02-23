@@ -4,6 +4,8 @@ import * as React from "react";
 import * as model from "../model/model";
 
 import "../Common.css";
+import "./Inventory.css";
+
 import LabeledPanel from "./LabeledPanel";
 import Meter from "./Meter";
 

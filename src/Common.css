@@ -41,26 +41,6 @@ main {
     flex: 1 0 500px;
 }
 
-#inventory {
-    display: flex;
-}
-
-#inventory > * {
-    flex: 1;
-}
-
-#money-meter {
-    display: flex;
-}
-
-#money-meter div {
-    flex: 1;
-}
-
-#money-meter div:last-child {
-    flex: 0;
-}
-
 #actions {
     display: flex;
 }
