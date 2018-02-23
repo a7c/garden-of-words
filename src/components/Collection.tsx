@@ -86,7 +86,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     classNames="fade"
                     onExited={this.onExited}
                 >
-                    <div>
+                    <div style={{"margin": "50px"}}>
                         {contents}
                         {button}
                     </div>

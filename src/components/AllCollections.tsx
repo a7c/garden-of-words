@@ -66,7 +66,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                     timeout={{ enter: 1000, exit: 800 }}
                     classNames="fade"
                 >
-                    <div>
+                    <div style={{"margin": "50px"}}>
                         {contents}
                     </div>
                 </CSSTransition>
