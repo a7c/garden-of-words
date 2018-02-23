@@ -41,7 +41,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
     getCollectionInfo = (id: model.CollectionId) => {
         // console.log(this.props.collections.get(id));
         // set up a new component for the collection they clicked on
-        this.setState({ showAllCollections: false, viewCollection: id });  
+        this.setState({ showAllCollections: false, viewCollection: id });
     }
 
     render() {
@@ -56,7 +56,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
 
             let ids = this.props.collections.keySeq().toArray();
 
-            contents = ids.map((id) => 
+            contents = ids.map((id) =>
                             (
                                 <button key={id} onClick={() => this.getCollectionInfo(id)}>
                                     {id}
@@ -72,17 +72,17 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                     >
                         Back
                     </button>
-                );    
+                );
         }
         else if (this.state.viewCollection !== null) {
             return (
-                    <CollectionComponent 
-                        collection={this.props.collections.get(this.state.viewCollection)} 
+                    <CollectionComponent
+                        collection={this.props.collections.get(this.state.viewCollection)}
                         onFinished={this.onCollectionDone}
                     />
                 );
         }
-        
+
         return (
             <TransitionGroup>
                 <CSSTransition

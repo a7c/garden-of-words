@@ -16,9 +16,7 @@ import QuestionComponent from "./components/Question";
 import AllCollectionsComponent from "./components/AllCollections";
 
 interface TestProps {
-    learned: immutable.Map<model.LearnableId, model.Learned>;
-    flags: immutable.Map<model.Flag, model.FlagValue>;
-    collections: immutable.Map<model.CollectionId, model.Collection>;
+    store: model.Store;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
@@ -50,8 +48,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { learned, onLearn, handleEventEffect } = this.props;
-        let word: model.Learnable | event.Event | null = wander(learned);
+        const { store, onLearn, handleEventEffect } = this.props;
+        let word: model.Learnable | event.Event | null = wander(store);
 
         if (word instanceof event.Event) {
             this.setState({ event: word });
@@ -67,25 +65,34 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     meditateClickHandler = () => {
-        const { learned } = this.props;
+        const { store } = this.props;
 
-        const question = meditate(learned);
+        const question = meditate(store.learned);
         if (question) {
             this.setState({ question });
         }
     }
 
     allCollectionsClickHandler = () => {
-        const{ learned, collections } = this.props;
-
         this.setState({ myCollections: "view" });
-        
-        collections.keySeq().toArray().forEach(console.log);
+    }
 
+    vendingMachineHandler = () => {
+        const { store, onLearn, handleEventEffect } = this.props;
+        let ev: model.Learnable | event.Event | null = wander(store.set("location", "vending-machine"));
+
+        if (ev instanceof event.Event) {
+            this.setState({ event: ev });
+            ev.effects.forEach(handleEventEffect);
+        }
+        else if (ev) {
+            onLearn(ev);
+        }
     }
 
     render() {
-        const { learned, collections, flags, onReview, onLearn } = this.props;
+        const { store, onReview, onLearn } = this.props;
+        const { learned, flags, collections } = store;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -131,29 +138,32 @@ class TestComponent extends React.Component<TestProps, TestState> {
             );
         }
 
-        let meditateButton = null;
-
-        let allCollectionsButton = null;
+        const buttons = [];
 
         if (flags.get("meditate-button")) {
-            meditateButton =
-                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
+            buttons.push(
+                <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>
+            );
         }
 
         if (flags.get("collections-unlocked")) {
-            allCollectionsButton = 
-                (
-                    <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
-                        Collections
-                    </button>
-                );       
+            buttons.push(
+                <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
+                    Collections
+                </button>
+            );
+        }
+
+        if (flags.get("vending-machine")) {
+            buttons.push(
+                <button className="Button" onClick={this.vendingMachineHandler}>Vending Machine</button>
+            );
         }
 
         return (
             <div>
                 <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
-                {meditateButton}
-                {allCollectionsButton}
+                {buttons}
                 <ul>
                     {learnedItems}
                 </ul>
@@ -163,14 +173,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
 }
 
 const Test = connect(
-    (store: model.Store) => ({
-        learned: store.learned,
-        flags: store.flags,
-        collections: store.collections
-    }),
+    (store: model.Store) => ({ store }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
-        onReview: (id: model.LearnableId, correct: boolean) => 
+        onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
