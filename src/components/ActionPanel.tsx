@@ -2,6 +2,8 @@ import * as immutable from "immutable";
 import * as React from "react";
 
 import "../Common.css";
+import "./ActionPanel.css";
+
 import ActionButton from "./ActionButton";
 import LabeledPanel from "./LabeledPanel";
 
