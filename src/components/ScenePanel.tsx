@@ -5,9 +5,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import "../Common.css";
 
-interface ScenePanelProps {
-    location: model.Location;
-}
+interface ScenePanelProps {}
 
 interface ScenePanelState {
     sceneIndex: number;

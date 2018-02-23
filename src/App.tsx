@@ -10,7 +10,7 @@ import * as model from "./model/model";
 import { Question } from "./model/question";
 import meditate from "./meditate";
 import wander from "./wander";
-
+import { CollectionComponent, CollectionProps } from "./components/Collection";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
@@ -24,7 +24,14 @@ interface TestProps {
     handleEventEffect: (effect: event.Effect) => actions.Action;
 }
 
+enum MainPanelViews {
+  Streets,
+  Map,
+  Collections
+}
+
 interface TestState {
+    currentView: MainPanelViews;
     question: Question | null;
     event: event.Event | null;
     myCollections: string | null; // just set to "view" since no particular value is needed.
@@ -33,7 +40,12 @@ interface TestState {
 class TestComponent extends React.Component<TestProps, TestState> {
     constructor(props: TestProps) {
         super(props);
-        this.state = { question: null, event: null, myCollections: null };
+        this.state = {
+          currentView: MainPanelViews.Streets,
+          question: null,
+          event: null,
+          myCollections: null
+        };
     }
 
     subOnReview = (id: model.LearnableId, correct: boolean) => {
@@ -75,13 +87,16 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
     }
 
-    allCollectionsClickHandler = () => {
-        const{ learned, collections } = this.props;
+    streetsClickHandler = () => {
+        this.setState({ currentView: MainPanelViews.Streets });
+    }
 
-        this.setState({ myCollections: "view" });
+    mapClickHandler = () => {
+        this.setState({ currentView: MainPanelViews.Map });
+    }
 
-        collections.keySeq().toArray().forEach(console.log);
-
+    collectionsClickHandler = () => {
+        this.setState({ currentView: MainPanelViews.Collections });
     }
 
     render() {
@@ -118,7 +133,17 @@ class TestComponent extends React.Component<TestProps, TestState> {
         let mainComponent = null;
 
         // Determine what to render in the main panel
-        if (this.state.event !== null) {
+        if (this.state.currentView === MainPanelViews.Collections) {
+            let Collections =
+              connect(
+                  (store: model.Store) => ({
+                    collections: store.collections
+                  }),
+                  (dispatch: Dispatch<actions.Action>) => ({})
+              )(CollectionComponent as React.ComponentType<CollectionProps>);
+            mainComponent = <Collections/>;
+        }
+        else if (this.state.event !== null) {
             mainComponent =
                 <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
         }
@@ -126,7 +151,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             mainComponent =
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
         }
-        else {
+        else if (this.state.currentView === MainPanelViews.Streets) {
             let meditateButton = null;
             if (flags.get("meditate-button")) {
                 meditateButton =
@@ -137,20 +162,29 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 <div>
                     <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
                     {meditateButton}
-                    <ul>
-                        {learnedItems}
-                    </ul>
                 </div>
             );
         }
 
         return (
-          <div className="Stretcher">
-            <div className="LeftPanel">
-            <ScenePanel location="nowhere" />
+          <div id="Stretcher">
+            <div id="LeftPanel">
+              <ScenePanel/>
             </div>
-            <div className="RightPanel">
-              <div className="ButtonsPanel">
+            <div id="RightPanel">
+              <div id="MenuButtonsPanel">
+                <div id="Stats"/>
+                <button id="StreetsButton" onClick={this.streetsClickHandler} className="Button">
+                    The Streets
+                </button>
+                <button id="MapButton" onClick={this.mapClickHandler} className="Button">
+                    Map
+                </button>
+                <button id="CollectionsButton" onClick={this.collectionsClickHandler} className="Button">
+                    Collections
+                </button>
+              </div>
+              <div id="MainPanel">
                 {mainComponent}
               </div>
             </div>
