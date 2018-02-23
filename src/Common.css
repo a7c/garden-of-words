@@ -30,7 +30,7 @@ main {
     background-color: white;
     border: medium solid #7A7A7A;
 
-    min-width: 700px;
+    min-width: 850px;
 }
 
 #LeftPanel {
@@ -38,7 +38,7 @@ main {
 }
 
 #RightPanel {
-    flex: 1 0 350px;
+    flex: 1 0 500px;
 }
 
 #inventory {

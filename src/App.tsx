@@ -12,6 +12,7 @@ import meditate from "./meditate";
 import wander from "./wander";
 
 import ActionPanel from "./components/ActionPanel";
+import EventLog from "./components/EventLog";
 import Inventory from "./components/Inventory";
 import Map from "./components/Map";
 import NavTab from "./components/NavTab";
@@ -278,7 +279,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 </div>
                 <div id="RightPanel">
                     <NavTab labels={["The Street", "Map", "Collections"]}>
-                        <ActionPanel />
+                        <div>
+                            <EventLog />
+                            <ActionPanel />
+                        </div>
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
                     </NavTab>
