@@ -277,7 +277,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     <ScenePanel location="nowhere" steps={steps}/>
                 </div>
                 <div id="RightPanel">
-                    <NavTab>
+                    <NavTab labels={["The Street", "Map", "Collections"]}>
                         <ActionPanel />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
