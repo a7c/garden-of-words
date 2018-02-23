@@ -16,6 +16,7 @@ import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
 import AllCollectionsComponent from "./components/AllCollections";
+import { StatsComponent, StatsProps } from "./components/StatsComponent";
 
 interface TestProps {
     store: model.Store;
@@ -255,6 +256,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
           </button>
         );
 
+        let Stats = connect(
+          (state: model.Store) => ({ store: state }),
+          (dispatch) => ({})
+        )(StatsComponent as React.ComponentType<StatsProps>);
+
         return (
           <div id="Stretcher">
             <div id="LeftPanel">
@@ -262,7 +268,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
             </div>
             <div id="RightPanel">
               <div id="MenuButtonsPanel">
-                <div id="Stats"/>
+                <div id="Stats">
+                  <Stats/>
+                </div>
                 {streetsButton}
                 {mapButton}
                 {collectionsButton}
