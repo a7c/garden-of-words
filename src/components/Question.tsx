@@ -79,7 +79,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
                 contents = (
                     <Dialog
                         key="dialog"
-                        text="对！"
+                        text="Correct!"
                         style=""
                     />
                 );
@@ -88,7 +88,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
                 contents = (
                     <Dialog
                         key="dialog"
-                        text="错，加油！"
+                        text="Incorrect, try again!"
                         style=""
                     />
                 );

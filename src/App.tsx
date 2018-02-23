@@ -168,7 +168,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         // Determine what to render in the main panel
         else if (this.state.currentView === MainPanelViews.Collections) {
             mainComponent =
-                <AllCollectionsComponent collections={collections}/>;
+                <AllCollectionsComponent collections={collections} learned={learned} />;
         }
         else if (this.state.currentView === MainPanelViews.Streets) {
             let meditateButton = null;
