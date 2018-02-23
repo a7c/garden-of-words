@@ -167,6 +167,52 @@ class TestComponent extends React.Component<TestProps, TestState> {
             );
         }
 
+        let streetsStyle = {};
+        if (this.state.currentView === MainPanelViews.Streets) {
+            streetsStyle = {"background": "#BCBEC0"};
+        }
+
+        let mapStyle = {};
+        if (this.state.currentView === MainPanelViews.Map) {
+            mapStyle = {"background": "#BCBEC0"};
+        }
+
+        let collectionsStyle = {};
+        if (this.state.currentView === MainPanelViews.Collections) {
+            collectionsStyle = {"background": "#BCBEC0"};
+        }
+
+        let streetsButton = (
+          <button
+             id="StreetsButton"
+             style={streetsStyle}
+             onClick={this.streetsClickHandler}
+             className="Button"
+          >
+              The Streets
+          </button>
+        );
+        let mapButton = (
+          <button
+             id="MapButton"
+             style={mapStyle}
+             onClick={this.mapClickHandler}
+             className="Button"
+          >
+              Map
+          </button>
+        );
+        let collectionsButton = (
+          <button
+             id="CollectionsButton"
+             style={collectionsStyle}
+             onClick={this.collectionsClickHandler}
+             className="Button"
+          >
+              Collections
+          </button>
+        );
+
         return (
           <div id="Stretcher">
             <div id="LeftPanel">
@@ -175,15 +221,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
             <div id="RightPanel">
               <div id="MenuButtonsPanel">
                 <div id="Stats"/>
-                <button id="StreetsButton" onClick={this.streetsClickHandler} className="Button">
-                    The Streets
-                </button>
-                <button id="MapButton" onClick={this.mapClickHandler} className="Button">
-                    Map
-                </button>
-                <button id="CollectionsButton" onClick={this.collectionsClickHandler} className="Button">
-                    Collections
-                </button>
+                {streetsButton}
+                {mapButton}
+                {collectionsButton}
               </div>
               <div id="MainPanel">
                 {mainComponent}

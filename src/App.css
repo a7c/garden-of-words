@@ -9,7 +9,7 @@
   width: 58%;
   text-align: right;
   float: right;
-  background: gold;
+  background:
 }
 
 #Stretcher {
@@ -41,8 +41,12 @@ html,body,#root {
   width: 100%;
   height: 30%;
   text-align: center;
-  background-color: red;
   vertical-align: text-top;
+}
+
+#Stats {
+  height: 65%;
+  width: 100%;
 }
 
 .Button {
@@ -63,4 +67,8 @@ html,body,#root {
 #CollectionsButton {
   width: 28%;
   margin-right: 4%;
+}
+
+#Wander {
+  margin-right: 20px;
 }
