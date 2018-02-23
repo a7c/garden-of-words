@@ -6,11 +6,22 @@ import * as model from "./model/model";
 import { hiraganaBasicDict } from "./model/kana";
 import events from "./data/events";
 
-export default function wander(
-    learned: immutable.Map<model.LearnableId, model.Learned>
-): model.Learnable | event.Event | null {
-    if (events.length > 0) {
-        return events.shift();
+export default function wander(store: model.Store):
+model.Learnable | event.Event | null {
+    const { location, learned } = store;
+    // TODO: full location-based event system
+    if (location === "vending-machine") {
+        for (const ev of events.vendingMachine) {
+            if (!ev.check(store)) {
+                continue;
+            }
+
+            return ev;
+        }
+    }
+
+    if (events.events.length > 0) {
+        return events.events.shift();
     }
 
     let word: model.Learnable | null = null;

@@ -40,9 +40,9 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
                         timeout={{ enter: 1000, exit: 1000 }}
                         classNames="fade"
                     >
-                        <img 
-                            style={{ float: "left" , position: "absolute"}} 
-                            src={scenes[index]} 
+                        <img
+                            style={{ float: "left" , position: "absolute"}}
+                            src={scenes[index]}
                         />
                     </CSSTransition>
                 </TransitionGroup>

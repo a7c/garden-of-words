@@ -17,10 +17,7 @@ import ScenePanel from "./components/ScenePanel";
 import AllCollectionsComponent from "./components/AllCollections";
 
 interface TestProps {
-    learned: immutable.Map<model.LearnableId, model.Learned>;
-    flags: immutable.Map<model.Flag, model.FlagValue>;
-    collections: immutable.Map<model.CollectionId, model.Collection>;
-    steps: number;
+    store: model.Store;
 
     onWander: () => actions.Action;
     onLearn: (item: model.Learnable) => actions.Action;
@@ -54,11 +51,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { learned, onLearn, onWander, handleEventEffect } = this.props;
+        const { store, onLearn, onWander, handleEventEffect } = this.props;
+        let word: model.Learnable | event.Event | null = wander(store);
 
         onWander();
-
-        let word: model.Learnable | event.Event | null = wander(learned);
 
         if (word instanceof event.Event) {
             this.setState({ event: word });
@@ -74,25 +70,36 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     meditateClickHandler = () => {
-        const { learned } = this.props;
+        const { store } = this.props;
 
-        const question = meditate(learned);
+        const question = meditate(store.learned);
         if (question) {
             this.setState({ question });
         }
     }
 
     allCollectionsClickHandler = () => {
-        const{ learned, collections } = this.props;
-
         this.setState({ myCollections: "view" });
-        
-        collections.keySeq().toArray().forEach(console.log);
+    }
 
+    vendingMachineHandler = () => {
+        const { store, onLearn, handleEventEffect } = this.props;
+
+        // TODO: i think we should be dispatching an action to change the location?
+        let ev: model.Learnable | event.Event | null = wander(store.set("location", "vending-machine"));
+
+        if (ev instanceof event.Event) {
+            this.setState({ event: ev });
+            ev.effects.forEach(handleEventEffect);
+        }
+        else if (ev) {
+            onLearn(ev);
+        }
     }
 
     render() {
-        const { learned, collections, flags, steps, onReview, onLearn } = this.props;
+        const { store, onReview, onLearn } = this.props;
+        const { learned, flags, collections, steps } = store;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -136,29 +143,35 @@ class TestComponent extends React.Component<TestProps, TestState> {
         else if (this.state.myCollections !== null) {
             mainComponent =
                 <AllCollectionsComponent collections={collections} onFinished={this.onAllCollectionsDone}/>;
+
         }
         else {
-            let meditateButton = null;
+            const buttons = [];
+
             if (flags.get("meditate-button")) {
-                meditateButton =
-                    <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
+                buttons.push(
+                    <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>
+                );
             }
 
-            let allCollectionsButton = null;
             if (flags.get("collections-unlocked")) {
-                allCollectionsButton = 
-                    (
-                        <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
-                            Collections
-                        </button>
-                    );       
+                buttons.push(
+                    <button className="Button" id="AllCollections" onClick={this.allCollectionsClickHandler}>
+                        Collections
+                    </button>
+                );
             }
-            
+
+            if (flags.get("vending-machine")) {
+                buttons.push(
+                    <button className="Button" onClick={this.vendingMachineHandler}>Vending Machine</button>
+                );
+            }
+
             mainComponent = (
                 <div>
                     <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
-                    {meditateButton}
-                    {allCollectionsButton}
+                    {buttons}
                     <ul>
                         {learnedItems}
                     </ul>
@@ -178,15 +191,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
 }
 
 const Test = connect(
-    (store: model.Store) => ({
-        learned: store.learned,
-        flags: store.flags,
-        collections: store.collections,
-        steps: store.steps
-    }),
+    (store: model.Store) => ({ store }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
-        onReview: (id: model.LearnableId, correct: boolean) => 
+        onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
         onWander: () => dispatch(actions.wander()),
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
