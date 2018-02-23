@@ -160,67 +160,69 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // }
         });
 
-        let mainComponent = null;
+        let popupComponent = null;
 
         // Determine what to render in the main panel
         if (this.state.event !== null) {
-            mainComponent =
+            popupComponent =
                 <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
         }
         else if (this.state.question !== null) {
-            mainComponent =
+            popupComponent =
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
         }
-        else if (this.state.currentView === MainPanelViews.Map) {
-            // TODO: this is just a placeholder map
-            mainComponent =
-                <img src={require("./assets/map.svg")} />;
-        }
-        else if (this.state.currentView === MainPanelViews.Streets) {
-            let meditateButton = null;
-            const leftButtons = [];
-            const middleButtons = [];
-            leftButtons.push(
-                <button className="Button" id="Wander" key="wander-button" onClick={this.wanderClickHandler}>
-                    Wander
-                </button>
-            );
+        /* else if (this.state.currentView === MainPanelViews.Map) {
+         *     // TODO: this is just a placeholder map
+         *     mainComponent =
+         *         <img src={require("./assets/map.svg")} />;
+         * }
+         * else if (this.state.currentView === MainPanelViews.Streets) {
+         *     let meditateButton = null;
+         *     const leftButtons = [];
+         *     const middleButtons = [];
+         *     leftButtons.push(
+         *         <button className="Button" id="Wander" key="wander-button" onClick={this.wanderClickHandler}>
+         *             Wander
+         *         </button>
+         *     );
 
-            if (flags.get("meditate-button")) {
-                leftButtons.push(
-                    <button className="Button" id="Meditate" key="meditate-button" onClick={this.meditateClickHandler}>
-                        Meditate
-                    </button>
-                );
-            }
+         *     if (flags.get("meditate-button")) {
+         *         leftButtons.push(
+         *             <button className="Button" id="Meditate"
+         * key="meditate-button" onClick={this.meditateClickHandler}>
+         *                 Meditate
+         *             </button>
+         *         );
+         *     }
 
-            if (flags.get("vending-machine")) {
-                middleButtons.push(
-                    <button
-                      className="Button"
-                      id="VendingMachine"
-                      key="vending-machine-button"
-                      onClick={this.vendingMachineHandler}
-                    >
-                      Vending Machine
-                    </button>
-                );
-            }
+         *     if (flags.get("vending-machine")) {
+         *         middleButtons.push(
+         *             <button
+         *               className="Button"
+         *               id="VendingMachine"
+         *               key="vending-machine-button"
+         *               onClick={this.vendingMachineHandler}
+         *             >
+         *               Vending Machine
+         *             </button>
+         *         );
+         *     }
 
-            mainComponent = (
-                <div style={{"height": "100%"}}>
-                  <div id="StreetsLeft">
-                    {leftButtons}
-                  </div>
-                  <div id="StreetsRight">
-                    <div id="StreetsRightLeft">
-                      {middleButtons}
-                    </div>
-                    <div id="StreetsRightRight"/>
-                  </div>
-                </div>
-            );
-        }
+         *     mainComponent = (
+         *         <div style={{"height": "100%"}}>
+         *           <div id="StreetsLeft">
+         *             {leftButtons}
+         *           </div>
+         *           <div id="StreetsRight">
+         *             <div id="StreetsRightLeft">
+         *               {middleButtons}
+         *             </div>
+         *             <div id="StreetsRightRight"/>
+         *           </div>
+         *         </div>
+         *     );
+         * }
+         */
 
         let streetsStyle = {};
         if (this.state.currentView === MainPanelViews.Streets) {

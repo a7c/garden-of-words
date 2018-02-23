@@ -24,6 +24,23 @@
 
 /** Game Components **/
 
+main {
+    display: flex;
+
+    background-color: white;
+    border: medium solid #7A7A7A;
+
+    min-width: 700px;
+}
+
+#LeftPanel {
+    flex: 0 0 350px;
+}
+
+#RightPanel {
+    flex: 1 0 350px;
+}
+
 #inventory {
     display: flex;
 }

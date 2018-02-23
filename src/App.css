@@ -1,20 +1,6 @@
-#LeftPanel {
-  height: 100%;
-  width: 42%;
-  float: left;
-}
-
 img {
   max-width: 100%;
     max-height: 100%;
-}
-
-#RightPanel {
-  height: 100%;
-  width: 58%;
-  text-align: right;
-  float: right;
-  background:
 }
 
 #Stretcher {
@@ -24,11 +10,8 @@ img {
 }
 
 .App {
-  width: 100%;
-	padding-bottom: 50.00%; /* 16:9 */
-  background-color: white;
-	position: relative;
-  border: medium solid #7A7A7A;
+  /* width: 100%; */
+  /*       padding-bottom: 50.00%; /\* 16:9 *\/ */
 }
 
 #root {

@@ -33,7 +33,7 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
         const index = steps % scenes.length;
 
         return (
-            <div style={{ float: "left" }} >
+            <section id="scene">
                 <TransitionGroup>
                     <CSSTransition
                         key={index}
@@ -41,12 +41,11 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
                         classNames="fade"
                     >
                         <img
-                            style={{ float: "left" , position: "absolute"}}
                             src={scenes[index]}
                         />
                     </CSSTransition>
                 </TransitionGroup>
-            </div>
+            </section>
         );
     }
 }
