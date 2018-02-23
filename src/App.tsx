@@ -71,6 +71,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             word.effects.forEach(handleEventEffect);
         }
         else if (word) {
+            alert(`You learned ${word.romaji} (${word.unicode})!`);
             onLearn(word);
         }
         else {
