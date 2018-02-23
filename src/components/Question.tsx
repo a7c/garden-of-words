@@ -96,7 +96,9 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
 
             return (
                 <Fade ref={f => this.fade = f} onFinished={this.onFinished}>
+                  <div className="PopupBox">
                     {contents}
+                  </div>
                 </Fade>
             );
         }

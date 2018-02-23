@@ -160,9 +160,15 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
 
             mainComponent = (
-                <div>
-                    <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
-                    {meditateButton}
+                <div style={{"height": "100%"}}>
+                  <div id="StreetsLeft">
+                      <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
+                      {meditateButton}
+                  </div>
+                  <div id="StreetsRight">
+                    <div id="StreetsRightLeft">buttons go here</div>
+                    <div id="StreetsRightRight">more buttons</div>
+                  </div>
                 </div>
             );
         }
