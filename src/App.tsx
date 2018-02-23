@@ -76,7 +76,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
             word.effects.forEach(handleEventEffect);
         }
         else if (word) {
-            alert(`You learned ${word.romaji} (${word.unicode})!`);
             onLearn(word);
         }
         else {
@@ -158,6 +157,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         let mainComponent = null;
 
+        // Determine what to render in the main panel
         if (this.state.event !== null) {
             mainComponent =
                 <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
@@ -166,20 +166,30 @@ class TestComponent extends React.Component<TestProps, TestState> {
             mainComponent =
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
         }
-        // Determine what to render in the main panel
         else if (this.state.currentView === MainPanelViews.Collections) {
             mainComponent =
-                <AllCollectionsComponent collections={collections}/>;
+                <AllCollectionsComponent collections={collections} learned={learned} />;
+        }
+        else if (this.state.currentView === MainPanelViews.Map) {
+            // TODO: this is just a placeholder map
+            mainComponent =
+                <img src={require("./assets/map.svg")} />;
         }
         else if (this.state.currentView === MainPanelViews.Streets) {
             let meditateButton = null;
             const leftButtons = [];
             const middleButtons = [];
-            leftButtons.push(<button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>);
+            leftButtons.push(
+                <button className="Button" id="Wander" key="wander-button" onClick={this.wanderClickHandler}>
+                    Wander
+                </button>
+            );
 
             if (flags.get("meditate-button")) {
                 leftButtons.push(
-                    <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>
+                    <button className="Button" id="Meditate" key="meditate-button" onClick={this.meditateClickHandler}>
+                        Meditate
+                    </button>
                 );
             }
 
@@ -188,6 +198,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     <button
                       className="Button"
                       id="VendingMachine"
+                      key="vending-machine-button"
                       onClick={this.vendingMachineHandler}
                     >
                       Vending Machine
@@ -264,7 +275,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         return (
           <div id="Stretcher">
             <div id="LeftPanel">
-              <ScenePanel location="nowhere" steps={0}/>
+              <ScenePanel location="nowhere" steps={steps}/>
             </div>
             <div id="RightPanel">
               <div id="MenuButtonsPanel">

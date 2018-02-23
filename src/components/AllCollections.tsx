@@ -7,6 +7,7 @@ import CollectionComponent from "./Collection";
 
 interface AllCollectionsProps {
     collections: immutable.Map<model.CollectionId, model.Collection>;
+    learned: immutable.Map<model.LearnableId, model.Learned>;
 }
 
 interface AllCollectionsState {
@@ -42,7 +43,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
 
             contents = ids.map((id) =>
                             (
-                                <button key={id} onClick={() => this.getCollectionInfo(id)}>
+                                <button className="Button" key={id} onClick={() => this.getCollectionInfo(id)}>
                                     {id}
                                 </button>
                             ));
@@ -52,6 +53,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
             return (
                   <CollectionComponent
                     collection={this.props.collections.get(id)}
+                    learned={this.props.learned}
                     onFinished={() => this.setState({"viewCollection": null})}
                   />
                 );
