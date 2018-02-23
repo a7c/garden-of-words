@@ -8,6 +8,8 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
     immutable.Map<model.LearnableId, model.Learned> {
     switch (action.type) {
     case actions.LEARN: {
+        // TODO: temporary way of displaying newly learned words
+        alert(`You learned ${action.item.romaji} (${action.item.unicode})!`);
         return state.set(action.item.id, new model.Learned({
             item: action.item,
             lastReviewed: new Date(),
