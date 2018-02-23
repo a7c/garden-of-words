@@ -10,7 +10,7 @@ export class Effect {
         return;
     }
 
-    /** 
+    /**
      *  Converts an effect to a redux action that can be dispatched.
      */
     toAction(): actions.Action {
@@ -51,13 +51,17 @@ export class FlagEffect extends Effect {
 }
 
 export class ResourceEffect extends Effect {
-    resource: string;
+    resource: model.Resource;
     value: number;
 
-    constructor(resource: string, value: number) {
+    constructor(resource: model.Resource, value: number) {
         super();
         this.resource = resource;
         this.value = value;
+    }
+
+    toAction() {
+        return actions.modifyResource(this.resource, this.value);
     }
 }
 
@@ -77,6 +81,9 @@ export class LearnEffect extends Effect {
 }
 
 export class Filter {
+    check(store: model.Store): boolean {
+        return true;
+    }
 }
 
 export class LocationFilter extends Filter {
@@ -110,6 +117,22 @@ export class FlagFilter extends Filter {
     }
 }
 
+export class ResourceFilter extends Filter {
+    resource: model.Resource;
+    minimum: number;
+
+    constructor(resource: model.Resource, value: number) {
+        super();
+        this.resource = resource;
+        this.minimum = value;
+    }
+
+    check(store: model.Store): boolean {
+        const val = store.resources.get(this.resource);
+        return typeof val !== "undefined" && val >= this.minimum;
+    }
+}
+
 export class Event {
     filters: Filter[];
     effects: Effect[];
@@ -117,6 +140,15 @@ export class Event {
     constructor(filters: Filter[], effects: Effect[]) {
         this.filters = filters;
         this.effects = effects;
+    }
+
+    check(store: model.Store): boolean {
+        for (const filter of this.filters) {
+            if (!filter.check(store)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

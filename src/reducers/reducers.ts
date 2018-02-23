@@ -4,7 +4,7 @@ import * as immutable from "immutable";
 import * as model from "../model/model";
 import * as actions from "../actions/actions";
 
-function learned(state: immutable.Map<model.LearnableId, model.Learned> = immutable.Map(), action: actions.Action): 
+function learned(state: immutable.Map<model.LearnableId, model.Learned> = immutable.Map(), action: actions.Action):
     immutable.Map<model.LearnableId, model.Learned> {
     switch (action.type) {
     case actions.LEARN: {
@@ -28,7 +28,7 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
 }
 
 function collections(
-    state: immutable.Map<model.CollectionId, model.Collection> = immutable.Map(), 
+    state: immutable.Map<model.CollectionId, model.Collection> = immutable.Map(),
     action: actions.Action): immutable.Map<model.CollectionId, model.Collection> {
     switch (action.type) {
     case actions.LEARN: {
@@ -48,9 +48,14 @@ function collections(
     }
 }
 
-function resources(state: immutable.Map<model.Resource, number> = immutable.Map(), action: actions.Action): 
+function resources(state: immutable.Map<model.Resource, number> = immutable.Map(), action: actions.Action):
     immutable.Map<model.Resource, number> {
     switch (action.type) {
+    case actions.MODIFY_RESOURCE: {
+        const origValue = state.has(action.resource) ?
+            state.get(action.resource) : 0;
+        return state.set(action.resource, origValue + action.value);
+    }
     default:
         return state;
     }
@@ -63,20 +68,34 @@ function location(state: model.Location = "nowhere", action: actions.Action): mo
     }
 }
 
-function flags(state: immutable.Map<model.Flag, model.FlagValue> = immutable.Map(), action: actions.Action): 
+function flags(state: immutable.Map<model.Flag, model.FlagValue> = immutable.Map(), action: actions.Action):
     immutable.Map<model.Flag, model.FlagValue> {
     switch (action.type) {
     case actions.UPDATE_FLAG: {
         return state.set(action.flag, action.value);
     }
-    default: 
+    default:
         return state;
     }
 }
 
-function quests(state: immutable.Map<model.QuestId, model.QuestStage> = immutable.Map(), action: actions.Action): 
+function quests(state: immutable.Map<model.QuestId, model.QuestStage> = immutable.Map(), action: actions.Action):
     immutable.Map<model.QuestId, model.QuestStage> {
     switch (action.type) {
+    default:
+        return state;
+    }
+}
+
+/**
+ *  Keeps track of the number of wander actions that have occurred so far in the current location.
+ *  Used to update the scene panel.
+ */
+function steps(state: number = 0, action: actions.Action): number {
+    switch (action.type) {
+    case actions.WANDER: {
+        return state + 1;
+    }
     default:
         return state;
     }
@@ -89,7 +108,8 @@ const emptyStore = immutable.Record({
     resources: undefined,
     location: undefined,
     flags: undefined,
-    quests: undefined
+    quests: undefined,
+    steps: undefined
 });
 
 export const reducer = combineReducers(
@@ -99,7 +119,8 @@ export const reducer = combineReducers(
         resources,
         location,
         flags,
-        quests
-    }, 
+        quests,
+        steps
+    },
     emptyStore
 );

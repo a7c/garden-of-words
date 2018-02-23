@@ -10,15 +10,17 @@ import * as model from "./model/model";
 import { Question } from "./model/question";
 import meditate from "./meditate";
 import wander from "./wander";
-import { CollectionComponent, CollectionProps } from "./components/Collection";
+import CollectionComponent from "./components/Collection";
+import { CollectionProps } from "./components/Collection";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
+import AllCollectionsComponent from "./components/AllCollections";
 
 interface TestProps {
-    learned: immutable.Map<model.LearnableId, model.Learned>;
-    flags: immutable.Map<model.Flag, model.FlagValue>;
-    collections: immutable.Map<model.CollectionId, model.Collection>;
+    store: model.Store;
+
+    onWander: () => actions.Action;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
@@ -62,8 +64,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     wanderClickHandler = () => {
-        const { learned, onLearn, handleEventEffect } = this.props;
-        let word: model.Learnable | event.Event | null = wander(learned);
+        const { store, onLearn, onWander, handleEventEffect } = this.props;
+        let word: model.Learnable | event.Event | null = wander(store);
+
+        onWander();
 
         if (word instanceof event.Event) {
             this.setState({ event: word });
@@ -80,9 +84,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     meditateClickHandler = () => {
-        const { learned } = this.props;
+        const { store } = this.props;
 
-        const question = meditate(learned);
+        const question = meditate(store.learned);
         if (question) {
             this.setState({ question });
         }
@@ -100,8 +104,28 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.setState({ currentView: MainPanelViews.Collections });
     }
 
+    allCollectionsClickHandler = () => {
+        this.setState({ myCollections: "view" });
+    }
+
+    vendingMachineHandler = () => {
+        const { store, onLearn, handleEventEffect } = this.props;
+
+        // TODO: i think we should be dispatching an action to change the location?
+        let ev: model.Learnable | event.Event | null = wander(store.set("location", "vending-machine"));
+
+        if (ev instanceof event.Event) {
+            this.setState({ event: ev });
+            ev.effects.forEach(handleEventEffect);
+        }
+        else if (ev) {
+            onLearn(ev);
+        }
+    }
+
     render() {
-        const { learned, collections, flags, onReview, onLearn } = this.props;
+        const { store, onReview, onLearn } = this.props;
+        const { learned, flags, collections, steps } = store;
 
         const learnedItems: JSX.Element[] = [];
         learned.forEach((item, id) => {
@@ -133,18 +157,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
         let mainComponent = null;
 
-        // Determine what to render in the main panel
-        if (this.state.currentView === MainPanelViews.Collections) {
-            let Collections =
-              connect(
-                  (store: model.Store) => ({
-                    collections: store.collections
-                  }),
-                  (dispatch: Dispatch<actions.Action>) => ({})
-              )(CollectionComponent as React.ComponentType<CollectionProps>);
-            mainComponent = <Collections/>;
-        }
-        else if (this.state.event !== null) {
+        if (this.state.event !== null) {
             mainComponent =
                 <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
         }
@@ -152,22 +165,45 @@ class TestComponent extends React.Component<TestProps, TestState> {
             mainComponent =
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
         }
+        // Determine what to render in the main panel
+        else if (this.state.currentView === MainPanelViews.Collections) {
+            mainComponent =
+                <AllCollectionsComponent collections={collections}/>;
+        }
         else if (this.state.currentView === MainPanelViews.Streets) {
             let meditateButton = null;
+            const leftButtons = [];
+            const middleButtons = [];
+            leftButtons.push(<button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>);
+
             if (flags.get("meditate-button")) {
-                meditateButton =
-                    <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>;
+                leftButtons.push(
+                    <button className="Button" id="Meditate" onClick={this.meditateClickHandler}>Meditate</button>
+                );
+            }
+
+            if (flags.get("vending-machine")) {
+                middleButtons.push(
+                    <button
+                      className="Button"
+                      id="VendingMachine"
+                      onClick={this.vendingMachineHandler}
+                    >
+                      Vending Machine
+                    </button>
+                );
             }
 
             mainComponent = (
                 <div style={{"height": "100%"}}>
                   <div id="StreetsLeft">
-                      <button className="Button" id="Wander" onClick={this.wanderClickHandler}>Wander</button>
-                      {meditateButton}
+                    {leftButtons}
                   </div>
                   <div id="StreetsRight">
-                    <div id="StreetsRightLeft">buttons go here</div>
-                    <div id="StreetsRightRight">more buttons</div>
+                    <div id="StreetsRightLeft">
+                      {middleButtons}
+                    </div>
+                    <div id="StreetsRightRight"/>
                   </div>
                 </div>
             );
@@ -222,7 +258,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         return (
           <div id="Stretcher">
             <div id="LeftPanel">
-              <ScenePanel/>
+              <ScenePanel location="nowhere" steps={0}/>
             </div>
             <div id="RightPanel">
               <div id="MenuButtonsPanel">
@@ -241,15 +277,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
 }
 
 const Test = connect(
-    (store: model.Store) => ({
-        learned: store.learned,
-        flags: store.flags,
-        collections: store.collections
-    }),
+    (store: model.Store) => ({ store }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
+        onWander: () => dispatch(actions.wander()),
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
 )(TestComponent as React.ComponentType<TestProps>);

@@ -1,7 +1,7 @@
 [
     {
         "type": "flavor",
-        "text": "ayy lmao",
+        "text": "Stepping off the plane, you recall a fragment of high school Japanese.",
         "filters": [],
         "effects": [
             {
@@ -29,6 +29,18 @@
                 "type": "flag",
                 "flag": "vending-machine",
                 "value": true
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "A passerby gives you 100円.",
+        "filters": [],
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": 100
             }
         ]
     }

@@ -118,6 +118,7 @@ export interface StoreProps {
     readonly location: Location;
     readonly flags: immutable.Map<Flag, FlagValue>;
     readonly quests: immutable.Map<QuestId, QuestStage>;
+    readonly steps: number;
 }
 
 export interface Store extends StoreProps, ImmutableRecord<StoreProps> {
@@ -130,4 +131,5 @@ export const Store = immutable.Record({
     location: "nowhere",
     flags: immutable.Map(),
     quests: immutable.Map(),
+    steps: 0,
 }) as any as Store; // tslint:disable-line
