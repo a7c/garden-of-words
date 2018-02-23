@@ -10,12 +10,17 @@ import * as model from "./model/model";
 import { Question } from "./model/question";
 import meditate from "./meditate";
 import wander from "./wander";
+
+import ActionPanel from "./components/ActionPanel";
+import Inventory from "./components/Inventory";
+import Map from "./components/Map";
+import NavTab from "./components/NavTab";
 import CollectionComponent from "./components/Collection";
 import { CollectionProps } from "./components/Collection";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
-import AllCollectionsComponent from "./components/AllCollections";
+import CollectionList from "./components/AllCollections";
 import { StatsComponent, StatsProps } from "./components/StatsComponent";
 
 interface TestProps {
@@ -166,10 +171,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
             mainComponent =
                 <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
         }
-        else if (this.state.currentView === MainPanelViews.Collections) {
-            mainComponent =
-                <AllCollectionsComponent collections={collections} learned={learned} />;
-        }
         else if (this.state.currentView === MainPanelViews.Map) {
             // TODO: this is just a placeholder map
             mainComponent =
@@ -268,24 +269,19 @@ class TestComponent extends React.Component<TestProps, TestState> {
         );
 
         return (
-          <div id="Stretcher">
-            <div id="LeftPanel">
-              <ScenePanel location="nowhere" steps={steps}/>
-            </div>
-            <div id="RightPanel">
-              <div id="MenuButtonsPanel">
-                <div id="Stats">
-                  <StatsComponent resources={store.resources}/>
+            <main>
+                <div id="LeftPanel">
+                    <Inventory />
+                    <ScenePanel location="nowhere" steps={steps}/>
                 </div>
-                {streetsButton}
-                {mapButton}
-                {collectionsButton}
-              </div>
-              <div id="MainPanel">
-                {mainComponent}
-              </div>
-            </div>
-          </div>
+                <div id="RightPanel">
+                    <NavTab>
+                        <ActionPanel />
+                        <Map />
+                        <CollectionList collections={collections} learned={learned} />
+                    </NavTab>
+                </div>
+            </main>
         );
     }
 }
