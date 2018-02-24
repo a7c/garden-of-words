@@ -1,5 +1,9 @@
+declare module "react-countup";
+
 import * as immutable from "immutable";
 import * as React from "react";
+
+import CountUp from "react-countup";
 
 import * as model from "../model/model";
 
@@ -14,8 +18,18 @@ interface Props {
 }
 
 export default class Inventory extends React.Component<Props> {
+    prevYen: number;
+
+    constructor(props: Props) {
+        super(props);
+        this.prevYen = 0;
+    }
+
     render() {
         const { resources } = this.props;
+
+        const prevYen = this.prevYen;
+        this.prevYen = resources.get("yen") || 0;
 
         return (
             <div id="inventory" title="Inventory">
@@ -24,7 +38,7 @@ export default class Inventory extends React.Component<Props> {
                         Yen
                     </div>
                     <div>
-                        {resources.get("yen") || 0}
+                        <CountUp start={prevYen} end={resources.get("yen") || 0} duration={1} />
                     </div>
                 </LabeledPanel>
                 <LabeledPanel title="Stamina">
