@@ -10,12 +10,16 @@ import * as model from "./model/model";
 import { Question } from "./model/question";
 import meditate from "./meditate";
 import wander from "./wander";
-import CollectionComponent from "./components/Collection";
-import { CollectionProps } from "./components/Collection";
+
+import EventOverlay from "./components/EventOverlay";
+import Inventory from "./components/Inventory";
+import Map from "./components/Map";
+import NavTab from "./components/NavTab";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
-import AllCollectionsComponent from "./components/AllCollections";
+import Streets from "./components/Streets";
+import CollectionList from "./components/AllCollections";
 import { StatsComponent, StatsProps } from "./components/StatsComponent";
 
 interface TestProps {
@@ -34,258 +38,74 @@ enum MainPanelViews {
 }
 
 interface TestState {
-    currentView: MainPanelViews;
-    question: Question | null;
-    event: event.Event | null;
-    myCollections: string | null; // just set to "view" since no particular value is needed.
+    happening: Question | event.Event | model.Learnable | null;
+    eventLog: string[];
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
     constructor(props: TestProps) {
         super(props);
         this.state = {
-          currentView: MainPanelViews.Streets,
-          question: null,
-          event: null,
-          myCollections: null
+            happening: null,
+            eventLog: [],
         };
     }
 
-    subOnReview = (id: model.LearnableId, correct: boolean) => {
-        this.props.onReview(id, correct);
-        this.setState({ question: null });
-    }
-
-    onEventFinished = () => {
-        this.setState({ event: null });
-    }
-
-    onAllCollectionsDone = () => {
-        this.setState({ myCollections: null });
-    }
-
-    wanderClickHandler = () => {
-        const { store, onLearn, onWander, handleEventEffect } = this.props;
-        let word: model.Learnable | event.Event | null = wander(store);
-
-        onWander();
-
-        if (word instanceof event.Event) {
-            this.setState({ event: word });
-
-            word.effects.forEach(handleEventEffect);
+    onEvent = (happening: Question | event.Event | model.Learnable) => {
+        console.log(happening);
+        if (happening instanceof Question) {
         }
-        else if (word) {
-            onLearn(word);
+        else if (happening instanceof event.Event) {
+            happening.effects.forEach(this.props.handleEventEffect);
+            this.state.eventLog.push(happening.toEventLog());
         }
         else {
-            alert("Congratulations, you're fluent");
+            this.props.onLearn(happening);
+            this.state.eventLog.push(`You learned ${happening.front()} means ${happening.back()}.`);
         }
+        this.setState({ happening });
     }
 
-    meditateClickHandler = () => {
-        const { store } = this.props;
-
-        const question = meditate(store.learned);
-        if (question) {
-            this.setState({ question });
-        }
+    onNotHappening = () => {
+        this.setState({ happening: null });
     }
 
-    streetsClickHandler = () => {
-        this.setState({ currentView: MainPanelViews.Streets });
-    }
-
-    mapClickHandler = () => {
-        this.setState({ currentView: MainPanelViews.Map });
-    }
-
-    collectionsClickHandler = () => {
-        this.setState({ currentView: MainPanelViews.Collections });
-    }
-
-    allCollectionsClickHandler = () => {
-        this.setState({ myCollections: "view" });
-    }
-
-    vendingMachineHandler = () => {
-        const { store, onLearn, handleEventEffect } = this.props;
-
-        // TODO: i think we should be dispatching an action to change the location?
-        let ev: model.Learnable | event.Event | null = wander(store.set("location", "vending-machine"));
-
-        if (ev instanceof event.Event) {
-            this.setState({ event: ev });
-            ev.effects.forEach(handleEventEffect);
-        }
-        else if (ev) {
-            onLearn(ev);
-        }
+    onReviewFinished = (id: model.LearnableId, correct: boolean) => {
+        this.props.onReview(id, correct);
     }
 
     render() {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps } = store;
 
-        const learnedItems: JSX.Element[] = [];
-        learned.forEach((item, id) => {
-            if (!item || id === undefined || !item.item) {
-                return;
-            }
-
-            const displayedScore = item.score.toFixed(1);
-
-            // if (item.item.type === "katakana") {
-            //     learnedItems.push(
-            //         <li className="ReviewContainer" key={id}>
-            //         <button className="Button Review" onClick={() => onReview(id)}>
-            //         Review Katakana: {item.item.romaji} = {item.item.unicode} (score {displayedScore})
-            //         </button>
-            //         </li>
-            //     );
-            // }
-            // else if (item.item.type === "hiragana") {
-            learnedItems.push(
-                <li className="ReviewContainer" key={id}>
-                    <a className=" Review">
-                        {item.item.back()} = {item.item.front()} (score {displayedScore})
-                    </a>
-                </li>
-            );
-            // }
-        });
-
-        let mainComponent = null;
-
-        // Determine what to render in the main panel
-        if (this.state.event !== null) {
-            mainComponent =
-                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
-        }
-        else if (this.state.question !== null) {
-            mainComponent =
-                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
-        }
-        else if (this.state.currentView === MainPanelViews.Collections) {
-            mainComponent =
-                <AllCollectionsComponent collections={collections} learned={learned} />;
-        }
-        else if (this.state.currentView === MainPanelViews.Map) {
-            // TODO: this is just a placeholder map
-            mainComponent =
-                <img src={require("./assets/map.svg")} />;
-        }
-        else if (this.state.currentView === MainPanelViews.Streets) {
-            let meditateButton = null;
-            const leftButtons = [];
-            const middleButtons = [];
-            leftButtons.push(
-                <button className="Button" id="Wander" key="wander-button" onClick={this.wanderClickHandler}>
-                    Wander
-                </button>
-            );
-
-            if (flags.get("meditate-button")) {
-                leftButtons.push(
-                    <button className="Button" id="Meditate" key="meditate-button" onClick={this.meditateClickHandler}>
-                        Meditate
-                    </button>
-                );
-            }
-
-            if (flags.get("vending-machine")) {
-                middleButtons.push(
-                    <button
-                      className="Button"
-                      id="VendingMachine"
-                      key="vending-machine-button"
-                      onClick={this.vendingMachineHandler}
-                    >
-                      Vending Machine
-                    </button>
-                );
-            }
-
-            mainComponent = (
-                <div style={{"height": "100%"}}>
-                  <div id="StreetsLeft">
-                    {leftButtons}
-                  </div>
-                  <div id="StreetsRight">
-                    <div id="StreetsRightLeft">
-                      {middleButtons}
-                    </div>
-                    <div id="StreetsRightRight"/>
-                  </div>
-                </div>
-            );
-        }
-
-        let streetsStyle = {};
-        if (this.state.currentView === MainPanelViews.Streets) {
-            streetsStyle = {"background": "#BCBEC0"};
-        }
-
-        let mapStyle = {};
-        if (this.state.currentView === MainPanelViews.Map) {
-            mapStyle = {"background": "#BCBEC0"};
-        }
-
-        let collectionsStyle = {};
-        if (this.state.currentView === MainPanelViews.Collections) {
-            collectionsStyle = {"background": "#BCBEC0"};
-        }
-
-        let streetsButton = (
-          <button
-             id="StreetsButton"
-             style={streetsStyle}
-             onClick={this.streetsClickHandler}
-             className="Button"
-          >
-              The Streets
-          </button>
-        );
-        let mapButton = (
-          <button
-             id="MapButton"
-             style={mapStyle}
-             onClick={this.mapClickHandler}
-             className="Button"
-          >
-              Map
-          </button>
-        );
-        let collectionsButton = (
-          <button
-             id="CollectionsButton"
-             style={collectionsStyle}
-             onClick={this.collectionsClickHandler}
-             className="Button"
-          >
-              Collections
-          </button>
-        );
-
         return (
-          <div id="Stretcher">
-            <div id="LeftPanel">
-              <ScenePanel location="nowhere" steps={steps}/>
-            </div>
-            <div id="RightPanel">
-              <div id="MenuButtonsPanel">
-                <div id="Stats">
-                  <StatsComponent resources={store.resources}/>
+            <main>
+                <div id="LeftPanel">
+                    <Inventory resources={store.resources} />
+                    <EventOverlay
+                        happening={this.state.happening}
+                        onReviewFinished={this.onReviewFinished}
+                        onNotHappening={this.onNotHappening}
+                    />
+                    <ScenePanel
+                        location={store.location}
+                        steps={steps}
+                    />
                 </div>
-                {streetsButton}
-                {mapButton}
-                {collectionsButton}
-              </div>
-              <div id="MainPanel">
-                {mainComponent}
-              </div>
-            </div>
-          </div>
+                <div id="RightPanel">
+                    <NavTab labels={["The Street", "Map", "Collections"]}>
+                        <Streets
+                            store={store}
+                            onWander={this.props.onWander}
+                            onEvent={this.onEvent}
+                            paused={this.state.happening !== null}
+                            eventLog={this.state.eventLog}
+                        />
+                        <Map />
+                        <CollectionList collections={collections} learned={learned} />
+                    </NavTab>
+                </div>
+            </main>
         );
     }
 }
@@ -305,6 +125,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+          <h1>Michael Mauer Simulator 2017</h1>
           <Test/>
       </div>
     );

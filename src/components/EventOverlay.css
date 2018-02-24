@@ -1,0 +1,10 @@
+#event-overlay {
+    position: absolute;
+    left: calc(25px - 1rem);
+    bottom: 20px;
+    width: 400px;
+    padding: 1rem;
+    z-index: 10;
+
+    background: #FFF;
+}

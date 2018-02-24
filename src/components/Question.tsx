@@ -1,8 +1,11 @@
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import "../Common.css";
+
 import * as model from "../model/model";
 import * as question from "../model/question";
+
+import "../Common.css";
+import "./Question.css";
 
 import Dialog from "./Dialog";
 import Fade from "./Fade";
@@ -35,12 +38,12 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
         const q = this.props.question;
         const choices = q.choices.map((c, idx) =>
             (
-                <li className="ReviewContainer" key={idx}>
-                    <button className="Button Review" onClick={() => this.reviewWord(idx)}>{c.back()}</button>
+                <li className="review-item" key={idx}>
+                    <button className="review" onClick={() => this.reviewWord(idx)}>{c.back()}</button>
                 </li>
             ));
         return (
-            <section className="Question">
+            <section className="question">
                 <p>Find the matching choice: {q.question.front()}</p>
                 <ul>
                     {choices}

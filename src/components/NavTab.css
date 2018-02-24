@@ -1,0 +1,19 @@
+.nav-tab {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-tab > * {
+    flex: 1 1;
+}
+
+.nav-tab > nav {
+    display: flex;
+    flex: 0 0 3rem;
+}
+
+.nav-tab > nav > button {
+    flex: 1;
+
+    margin: 0.5rem;
+}
