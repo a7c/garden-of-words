@@ -125,6 +125,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+          <h1>Michael Mauer Simulator 2017</h1>
           <Test/>
       </div>
     );
