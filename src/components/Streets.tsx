@@ -18,6 +18,7 @@ import EventLog from "./EventLog";
 interface Props {
     paused: boolean;
     store: model.Store;
+    eventLog: string[];
 
     onEvent: (happening: question.Question | event.Event | model.Learnable) => void;
 }
@@ -27,7 +28,7 @@ export default class Streets extends React.Component<Props> {
         const { store } = this.props;
         return (
             <div id="streets">
-                <EventLog />
+                <EventLog entries={this.props.eventLog} />
                 <ActionPanel store={store} onEvent={this.props.onEvent} paused={this.props.paused} />
             </div>
         );

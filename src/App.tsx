@@ -39,8 +39,7 @@ enum MainPanelViews {
 
 interface TestState {
     happening: Question | event.Event | model.Learnable | null;
-    question: Question | null;
-    event: event.Event | null;
+    eventLog: string[];
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
@@ -48,8 +47,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         super(props);
         this.state = {
             happening: null,
-          question: null,
-          event: null,
+            eventLog: [],
         };
     }
 
@@ -59,9 +57,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
         else if (happening instanceof event.Event) {
             happening.effects.forEach(this.props.handleEventEffect);
+            this.state.eventLog.push(happening.toEventLog());
         }
         else {
             this.props.onLearn(happening);
+            this.state.eventLog.push(`You learned ${happening.front()} means ${happening.back()}.`);
         }
         this.setState({ happening });
     }
@@ -72,7 +72,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     onReviewFinished = (id: model.LearnableId, correct: boolean) => {
         this.props.onReview(id, correct);
-        this.setState({ question: null });
     }
 
     render() {
@@ -95,7 +94,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 </div>
                 <div id="RightPanel">
                     <NavTab labels={["The Street", "Map", "Collections"]}>
-                        <Streets store={store} onEvent={this.onEvent} paused={this.state.happening !== null} />
+                        <Streets
+                            store={store}
+                            onEvent={this.onEvent}
+                            paused={this.state.happening !== null}
+                            eventLog={this.state.eventLog}
+                        />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
                     </NavTab>

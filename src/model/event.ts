@@ -150,6 +150,10 @@ export class Event {
         }
         return true;
     }
+
+    toEventLog(): string {
+        return "Something cool happened. It's Japan.";
+    }
 }
 
 export class FlavorEvent extends Event {
@@ -158,6 +162,10 @@ export class FlavorEvent extends Event {
     constructor(filters: Filter[], effects: Effect[], flavor: string) {
         super(filters, effects);
         this.flavor = flavor;
+    }
+
+    toEventLog(): string {
+        return this.flavor;
     }
 }
 

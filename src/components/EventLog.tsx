@@ -4,15 +4,18 @@ import * as React from "react";
 import "../Common.css";
 import LabeledPanel from "./LabeledPanel";
 
-export default class EventLog extends React.Component {
+interface Props {
+    entries: string[];
+}
+
+export default class EventLog extends React.Component<Props> {
     render() {
+        const { entries } = this.props;
         return (
             <LabeledPanel title="Event Log" id="inventory">
                 <ul>
-                    <li>Here's a thing that happened.</li>
-                    <li>Here's a thing that happened.</li>
-                    <li>Here's a thing that happened.</li>
-                    <li>Here's a thing that happened.</li>
+                    {entries.map((entry, id) =>
+                        <li key={id}>{entry}</li>)}
                 </ul>
             </LabeledPanel>
         );
