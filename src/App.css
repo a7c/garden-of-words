@@ -7,9 +7,10 @@ img {
 }
 
 #root {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 html,body,#root {
@@ -20,8 +21,9 @@ main {
     display: flex;
     position: relative; /* absolute-in-relative trick for EventOverlay */
     width: 90vw;
-    min-width: 981.3px;
-    height: 620px;
+    min-width: 800px;
+    max-width: 1200px;
+    height: 550px;
     margin: 0 auto;
 
     background-color: white;
@@ -31,7 +33,7 @@ main {
 #LeftPanel {
     display: flex;
     flex-direction: column;
-    flex: 0 0 450px;
+    flex: 0 0 380px;
 }
 
 #LeftPanel > *:first-child {
@@ -43,7 +45,7 @@ main {
 }
 
 #RightPanel {
-    flex: 1 0 450px;
+    flex: 1;
 }
 
 #RightPanel > .nav-tab {
