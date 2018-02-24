@@ -48,7 +48,7 @@ export default class Fade extends React.Component<FadeProps, FadeState> {
         }
         else if (this.state.show) {
             key = "showing";
-            contents = React.cloneElement(this.props.children as any, { exit: this.exit }); //tslint:disable-line
+            contents = <div>{this.props.children}</div>;
         }
 
         return (
@@ -59,9 +59,7 @@ export default class Fade extends React.Component<FadeProps, FadeState> {
                     classNames="fade"
                     onExited={this.onExited}
                 >
-                    <div>
-                        {contents}
-                    </div>
+                    {contents}
                 </CSSTransition>
             </TransitionGroup>
         );
