@@ -11,8 +11,6 @@ import { Question } from "./model/question";
 import meditate from "./meditate";
 import wander from "./wander";
 
-import ActionPanel from "./components/ActionPanel";
-import EventLog from "./components/EventLog";
 import Inventory from "./components/Inventory";
 import Map from "./components/Map";
 import NavTab from "./components/NavTab";
@@ -21,6 +19,7 @@ import { CollectionProps } from "./components/Collection";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
+import Streets from "./components/Streets";
 import CollectionList from "./components/AllCollections";
 import { StatsComponent, StatsProps } from "./components/StatsComponent";
 
@@ -40,34 +39,40 @@ enum MainPanelViews {
 }
 
 interface TestState {
-    currentView: MainPanelViews;
+    happening: Question | event.Event | model.Learnable | null;
     question: Question | null;
     event: event.Event | null;
-    myCollections: string | null; // just set to "view" since no particular value is needed.
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
     constructor(props: TestProps) {
         super(props);
         this.state = {
-          currentView: MainPanelViews.Streets,
+            happening: null,
           question: null,
           event: null,
-          myCollections: null
         };
     }
 
-    subOnReview = (id: model.LearnableId, correct: boolean) => {
+    onEvent = (happening: Question | event.Event | model.Learnable) => {
+        console.log(happening);
+        if (happening instanceof Question) {
+        }
+        else if (happening instanceof event.Event) {
+        }
+        else {
+            this.props.onLearn(happening);
+        }
+        this.setState({ happening });
+    }
+
+    onNotHappening = () => {
+        this.setState({ happening: null });
+    }
+
+    onReviewFinished = (id: model.LearnableId, correct: boolean) => {
         this.props.onReview(id, correct);
         this.setState({ question: null });
-    }
-
-    onEventFinished = () => {
-        this.setState({ event: null });
-    }
-
-    onAllCollectionsDone = () => {
-        this.setState({ myCollections: null });
     }
 
     wanderClickHandler = () => {
@@ -98,22 +103,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
     }
 
-    streetsClickHandler = () => {
-        this.setState({ currentView: MainPanelViews.Streets });
-    }
-
-    mapClickHandler = () => {
-        this.setState({ currentView: MainPanelViews.Map });
-    }
-
-    collectionsClickHandler = () => {
-        this.setState({ currentView: MainPanelViews.Collections });
-    }
-
-    allCollectionsClickHandler = () => {
-        this.setState({ myCollections: "view" });
-    }
-
     vendingMachineHandler = () => {
         const { store, onLearn, handleEventEffect } = this.props;
 
@@ -133,45 +122,15 @@ class TestComponent extends React.Component<TestProps, TestState> {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps } = store;
 
-        const learnedItems: JSX.Element[] = [];
-        learned.forEach((item, id) => {
-            if (!item || id === undefined || !item.item) {
-                return;
-            }
-
-            const displayedScore = item.score.toFixed(1);
-
-            // if (item.item.type === "katakana") {
-            //     learnedItems.push(
-            //         <li className="ReviewContainer" key={id}>
-            //         <button className="Button Review" onClick={() => onReview(id)}>
-            //         Review Katakana: {item.item.romaji} = {item.item.unicode} (score {displayedScore})
-            //         </button>
-            //         </li>
-            //     );
-            // }
-            // else if (item.item.type === "hiragana") {
-            learnedItems.push(
-                <li className="ReviewContainer" key={id}>
-                    <a className=" Review">
-                        {item.item.back()} = {item.item.front()} (score {displayedScore})
-                    </a>
-                </li>
-            );
-            // }
-        });
-
-        let popupComponent = null;
-
         // Determine what to render in the main panel
-        if (this.state.event !== null) {
-            popupComponent =
-                <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
-        }
-        else if (this.state.question !== null) {
-            popupComponent =
-                <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
-        }
+        /* if (this.state.event !== null) {
+         *     popupComponent =
+         *         <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
+         * }
+         * else if (this.state.question !== null) {
+         *     popupComponent =
+         *         <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
+         * }*/
         /* else if (this.state.currentView === MainPanelViews.Map) {
          *     // TODO: this is just a placeholder map
          *     mainComponent =
@@ -208,81 +167,24 @@ class TestComponent extends React.Component<TestProps, TestState> {
          *             </button>
          *         );
          *     }
-
-         *     mainComponent = (
-         *         <div style={{"height": "100%"}}>
-         *           <div id="StreetsLeft">
-         *             {leftButtons}
-         *           </div>
-         *           <div id="StreetsRight">
-         *             <div id="StreetsRightLeft">
-         *               {middleButtons}
-         *             </div>
-         *             <div id="StreetsRightRight"/>
-         *           </div>
-         *         </div>
-         *     );
          * }
          */
 
-        let streetsStyle = {};
-        if (this.state.currentView === MainPanelViews.Streets) {
-            streetsStyle = {"background": "#BCBEC0"};
-        }
-
-        let mapStyle = {};
-        if (this.state.currentView === MainPanelViews.Map) {
-            mapStyle = {"background": "#BCBEC0"};
-        }
-
-        let collectionsStyle = {};
-        if (this.state.currentView === MainPanelViews.Collections) {
-            collectionsStyle = {"background": "#BCBEC0"};
-        }
-
-        let streetsButton = (
-          <button
-             id="StreetsButton"
-             style={streetsStyle}
-             onClick={this.streetsClickHandler}
-             className="Button"
-          >
-              The Streets
-          </button>
-        );
-        let mapButton = (
-          <button
-             id="MapButton"
-             style={mapStyle}
-             onClick={this.mapClickHandler}
-             className="Button"
-          >
-              Map
-          </button>
-        );
-        let collectionsButton = (
-          <button
-             id="CollectionsButton"
-             style={collectionsStyle}
-             onClick={this.collectionsClickHandler}
-             className="Button"
-          >
-              Collections
-          </button>
-        );
-
+        // TODO: split ScenePanel into EventOverlay and ScenePanel
         return (
             <main>
                 <div id="LeftPanel">
                     <Inventory />
-                    <ScenePanel location="nowhere" steps={steps}/>
+                    <ScenePanel
+                        location={store.location}
+                        steps={steps}
+                        happening={this.state.happening}
+                        onNotHappening={this.onNotHappening}
+                    />
                 </div>
                 <div id="RightPanel">
                     <NavTab labels={["The Street", "Map", "Collections"]}>
-                        <div id="street">
-                            <EventLog />
-                            <ActionPanel />
-                        </div>
+                        <Streets store={store} onEvent={this.onEvent} paused={this.state.happening !== null} />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
                     </NavTab>

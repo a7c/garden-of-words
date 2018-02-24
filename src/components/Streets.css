@@ -1,0 +1,9 @@
+#streets {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#streets > .labeled-panel {
+    flex: 1;
+}

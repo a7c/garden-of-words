@@ -25,13 +25,3 @@ html,body,#root {
 #RightPanel > .nav-tab {
     height: 100%;
 }
-
-#street {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-#street > .labeled-panel {
-    flex: 1;
-}

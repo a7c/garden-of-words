@@ -1,12 +1,18 @@
 import * as React from "react";
 
-import * as model from "../model/model";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+
+import * as event from "../model/event";
+import * as model from "../model/model";
+import { Question } from "../model/question";
 
 import "../Common.css";
 import "./ScenePanel.css";
 
 interface ScenePanelProps {
+    happening: Question | event.Event | model.Learnable | null;
+    onNotHappening: () => void;
+
     location: model.Location;
     steps: number;
 }
@@ -25,7 +31,6 @@ const scenes = [
 export default class ScenePanel extends React.Component<ScenePanelProps, ScenePanelState> {
     constructor(props: ScenePanelProps) {
         super(props);
-
     }
 
     render() {
