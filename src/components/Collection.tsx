@@ -1,9 +1,12 @@
 import * as immutable from "immutable";
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import "../Common.css";
+
 import * as event from "../model/event";
 import * as model from "../model/model";
+
+import "../Common.css";
+import "./Collection.css";
 
 import { hiraganaBasicDict } from "../model/kana";
 
@@ -86,10 +89,10 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     classNames="fade"
                     onExited={this.onExited}
                 >
-                    <div style={{"margin": "50px"}}>
+                    <section className="collection-display">
                         {contents}
                         {button}
-                    </div>
+                    </section>
                 </CSSTransition>
             </TransitionGroup>
         );

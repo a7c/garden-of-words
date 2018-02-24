@@ -1,8 +1,11 @@
 import * as immutable from "immutable";
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import "../Common.css";
 import * as model from "../model/model";
+
+import "../Common.css";
+import "./CollectionList.css";
+
 import CollectionComponent from "./Collection";
 
 interface AllCollectionsProps {
@@ -66,9 +69,9 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                     timeout={{ enter: 1000, exit: 800 }}
                     classNames="fade"
                 >
-                    <div style={{"margin": "50px"}}>
+                    <section id="collection-list">
                         {contents}
-                    </div>
+                    </section>
                 </CSSTransition>
             </TransitionGroup>
         );
