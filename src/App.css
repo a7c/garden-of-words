@@ -3,12 +3,6 @@ img {
     max-height: 100%;
 }
 
-#Stretcher {
-  position: absolute;
-  height: 100%;
-	top: 0; bottom: 0; left: 0; right: 0;
-}
-
 .App {
 }
 
@@ -20,6 +14,36 @@ img {
 
 html,body,#root {
   background-color: #BCBEC0;
+}
+
+main {
+    display: flex;
+    position: relative; /* absolute-in-relative trick for EventOverlay */
+    width: 90vw;
+    min-width: 981.3px;
+    height: 620px;
+    margin: 0 auto;
+
+    background-color: white;
+    border: medium solid #7A7A7A;
+}
+
+#LeftPanel {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 450px;
+}
+
+#LeftPanel > *:first-child {
+    flex: 1;
+}
+
+#LeftPanel > *:last-child {
+    flex: 0;
+}
+
+#RightPanel {
+    flex: 1 0 450px;
 }
 
 #RightPanel > .nav-tab {

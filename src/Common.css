@@ -22,38 +22,6 @@
   font-size: small;
 }
 
-/** Game Components **/
-
-main {
-    display: flex;
-    position: relative; /* absolute-in-relative trick for EventOverlay */
-    width: 90vw;
-    min-width: 981.3px;
-    height: 620px;
-    margin: 0 auto;
-
-    background-color: white;
-    border: medium solid #7A7A7A;
-}
-
-#LeftPanel {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 450px;
-}
-
-#LeftPanel > *:first-child {
-    flex: 1;
-}
-
-#LeftPanel > *:last-child {
-    flex: 0;
-}
-
-#RightPanel {
-    flex: 1 0 450px;
-}
-
 /** Effects **/
 .fade-enter {
     opacity: 0.01;
@@ -85,6 +53,14 @@ button {
 
     font-size: 0.9rem;
     text-align: center;
+}
+
+button:hover {
+    background: lightgray;
+}
+
+button:active {
+    background: lightgray;
 }
 
 button.active {

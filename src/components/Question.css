@@ -1,0 +1,17 @@
+.question ul {
+    display: flex;
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.review-item {
+    margin: 0;
+    padding: 0;
+    flex: 1;
+}
+
+button.review {
+    width: 100%;
+}
