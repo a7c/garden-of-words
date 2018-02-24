@@ -7,3 +7,11 @@
 #streets > .labeled-panel {
     flex: 1;
 }
+
+#event-log {
+    overflow: auto;
+}
+
+#actions {
+    flex: 1 0;
+}
