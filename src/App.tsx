@@ -75,34 +75,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.setState({ question: null });
     }
 
-    wanderClickHandler = () => {
-        const { store, onLearn, onWander, handleEventEffect } = this.props;
-        let word: model.Learnable | event.Event | null = wander(store);
-
-        onWander();
-
-        if (word instanceof event.Event) {
-            this.setState({ event: word });
-
-            word.effects.forEach(handleEventEffect);
-        }
-        else if (word) {
-            onLearn(word);
-        }
-        else {
-            alert("Congratulations, you're fluent");
-        }
-    }
-
-    meditateClickHandler = () => {
-        const { store } = this.props;
-
-        const question = meditate(store.learned);
-        if (question) {
-            this.setState({ question });
-        }
-    }
-
     vendingMachineHandler = () => {
         const { store, onLearn, handleEventEffect } = this.props;
 

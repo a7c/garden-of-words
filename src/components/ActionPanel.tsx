@@ -5,6 +5,7 @@ import * as model from "../model/model";
 import * as event from "../model/event";
 import * as question from "../model/question";
 import wander from "../wander";
+import meditate from "../meditate";
 
 import "../Common.css";
 import "./ActionPanel.css";
@@ -21,13 +22,26 @@ interface Props {
 
 export default class ActionPanel extends React.Component<Props> {
     wander = () => {
-        if (this.props.paused) {
+        const { store, paused, onEvent } = this.props;
+        if (paused) {
             return;
         }
 
-        const happening = wander(this.props.store);
+        const happening = wander(store);
         if (happening) {
-            this.props.onEvent(happening);
+            onEvent(happening);
+        }
+    }
+
+    meditate = () => {
+        const { store, paused, onEvent } = this.props;
+        if (paused) {
+            return;
+        }
+
+        const happening = meditate(store.learned);
+        if (happening) {
+            onEvent(happening);
         }
     }
 
@@ -40,7 +54,7 @@ export default class ActionPanel extends React.Component<Props> {
             <LabeledPanel title="Actions" id="actions">
                 <div>
                     <ActionButton label="Wander" onClick={this.wander} />
-                    {learned.size ? <ActionButton label="Meditate" /> : false}
+                    {learned.size ? <ActionButton label="Meditate" onClick={this.meditate} /> : false}
                     <ActionButton label="Transliterate" cost="+5 YEN" />
                 </div>
 

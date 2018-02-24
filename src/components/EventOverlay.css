@@ -1,7 +1,7 @@
 #event-overlay {
     position: absolute;
     left: calc(25px - 1rem);
-    bottom: 500px;
+    bottom: 20px;
     width: 400px;
     padding: 1rem;
 
