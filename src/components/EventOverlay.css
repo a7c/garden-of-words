@@ -4,6 +4,7 @@
     bottom: 20px;
     width: 400px;
     padding: 1rem;
+    z-index: 10;
 
     background: #FFF;
 }

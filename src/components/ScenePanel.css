@@ -1,3 +1,10 @@
 #scene > div {
     font-size: 0; /* Get rid of extra space under image */
 }
+
+#scene > div > img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 450px;
+}
