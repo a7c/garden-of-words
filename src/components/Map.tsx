@@ -5,9 +5,9 @@ import "../Common.css";
 export default class Map extends React.Component {
     render() {
         return (
-            <div id="inventory">
-                Inventory
-            </div>
+            <section id="map">
+                <img src={require("../assets/map.svg")} />
+            </section>
         );
     }
 }

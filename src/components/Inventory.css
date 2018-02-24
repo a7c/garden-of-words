@@ -4,6 +4,7 @@
 
 #inventory > * {
     flex: 1;
+    height: 1rem;
 }
 
 #money-meter {

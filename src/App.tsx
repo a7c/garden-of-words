@@ -279,7 +279,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 </div>
                 <div id="RightPanel">
                     <NavTab labels={["The Street", "Map", "Collections"]}>
-                        <div>
+                        <div id="street">
                             <EventLog />
                             <ActionPanel />
                         </div>

@@ -1,6 +1,8 @@
 import * as immutable from "immutable";
 import * as React from "react";
+
 import "../Common.css";
+import "./NavTab.css";
 
 interface NavTabProps {
     labels: string[];

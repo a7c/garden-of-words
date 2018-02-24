@@ -4,6 +4,7 @@ import * as model from "../model/model";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import "../Common.css";
+import "./ScenePanel.css";
 
 interface ScenePanelProps {
     location: model.Location;

@@ -26,19 +26,31 @@
 
 main {
     display: flex;
+    width: 90vw;
+    min-width: 981.3px;
+    height: 620px;
+    margin: 0 auto;
 
     background-color: white;
     border: medium solid #7A7A7A;
-
-    min-width: 850px;
 }
 
 #LeftPanel {
-    flex: 0 0 350px;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 450px;
+}
+
+#LeftPanel > *:first-child {
+    flex: 1;
+}
+
+#LeftPanel > *:last-child {
+    flex: 1;
 }
 
 #RightPanel {
-    flex: 1 0 500px;
+    flex: 1 0 450px;
 }
 
 /** Effects **/
@@ -105,17 +117,4 @@ button.inactive {
     font-weight: normal;
 
     text-transform: uppercase;
-}
-
-.nav-tab {
-}
-
-.nav-tab > nav {
-    display: flex;
-}
-
-.nav-tab > nav > button {
-    flex: 1;
-
-    margin: 0.5rem;
 }

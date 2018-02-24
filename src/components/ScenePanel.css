@@ -1,0 +1,3 @@
+#scene > div {
+    font-size: 0; /* Get rid of extra space under image */
+}

@@ -10,72 +10,28 @@ img {
 }
 
 .App {
-  /* width: 100%; */
-  /*       padding-bottom: 50.00%; /\* 16:9 *\/ */
 }
 
 #root {
   margin-left: auto;
   margin-right: auto;
   margin-top: 50px;
-  width: 90%;
 }
 
 html,body,#root {
   background-color: #BCBEC0;
 }
 
-#MenuButtonsPanel {
-  width: 100%;
-  height: 30%;
-  text-align: center;
-  vertical-align: text-top;
+#RightPanel > .nav-tab {
+    height: 100%;
 }
 
-#MainPanel {
-  height: 67%;
+#street {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-#Stats {
-  height: 65%;
-  width: 100%;
-}
-
-.Button {
-  font-size: large;
-}
-
-#StreetsButton {
-  width: 28%;
-  margin-left: 4%;
-}
-
-#MapButton {
-  width: 28%;
-  margin-left: 4%;
-  margin-right: 4%;
-}
-
-#CollectionsButton {
-  width: 28%;
-  margin-right: 4%;
-}
-
-#Wander {
-  margin: 5%;
-  width: 90%;
-}
-
-#Meditate {
-  width: 90%;
-  margin: 5%;
-}
-
-#VendingMachine {
-  width: 90%;
-  margin: 5%;
-}
-
-.PopupBox {
-  text-align: center;
+#street > .labeled-panel {
+    flex: 1;
 }
