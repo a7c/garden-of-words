@@ -13,6 +13,15 @@ interface Props {
 }
 
 export default class EventLog extends React.Component<Props> {
+    // Dummy element, used to scroll event log to bottom
+    dummy: HTMLElement | null;
+
+    componentDidUpdate() {
+        if (this.dummy) {
+            this.dummy.scrollIntoView({ behavior: "smooth" });
+        }
+    }
+
     render() {
         const { entries } = this.props;
         return (
@@ -30,6 +39,7 @@ export default class EventLog extends React.Component<Props> {
                         ))}
                     </TransitionGroup>
                 </ul>
+                <div ref={el => (this.dummy = el)}/>
             </LabeledPanel>
         );
     }
