@@ -10,6 +10,7 @@ import "../Common.css";
 import "./EventOverlay.css";
 
 import EventComponent from "./Event";
+import LearnedSomething from "./LearnedSomething";
 import QuestionComponent from "./Question";
 
 interface Props {
@@ -41,6 +42,9 @@ export default class EventOverlay extends React.Component<Props, State> {
         }
         else if (happening instanceof Question) {
             body = <QuestionComponent question={happening} onReview={this.onReview} />;
+        }
+        else if (happening) {
+            body = <LearnedSomething learnable={happening} onFinished={this.props.onNotHappening} />;
         }
 
         if (body) {
