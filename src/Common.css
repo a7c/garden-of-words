@@ -94,28 +94,3 @@ button.active {
 
 button.inactive {
 }
-
-.labeled-panel {
-    border: 1px solid gray;
-
-    margin: 0.5rem;
-    padding: 0.5rem;
-}
-
-.labeled-panel header {
-    position: absolute; /* Take this element out of the flex calculation */
-    margin-top: -1rem;
-}
-
-.labeled-panel header h2 {
-    display: block;
-    margin: 0;
-
-    background: #FFF;
-    color: gray;
-
-    font-size: 0.8rem;
-    font-weight: normal;
-
-    text-transform: uppercase;
-}

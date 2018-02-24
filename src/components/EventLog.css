@@ -1,0 +1,14 @@
+#event-log {
+
+}
+
+#event-log ul {
+    margin: 0;
+    padding: 0;
+
+    list-style-type: none;
+}
+
+#event-log li {
+    margin: 0.5em 0;
+}
