@@ -82,7 +82,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         return (
             <main>
                 <div id="LeftPanel">
-                    <Inventory />
+                    <Inventory resources={store.resources} />
                     <EventOverlay
                         happening={this.state.happening}
                         onReviewFinished={this.onReviewFinished}
