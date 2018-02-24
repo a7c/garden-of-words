@@ -20,6 +20,7 @@ interface Props {
     store: model.Store;
     eventLog: string[];
 
+    onWander: () => void;
     onEvent: (happening: question.Question | event.Event | model.Learnable) => void;
 }
 
@@ -29,7 +30,12 @@ export default class Streets extends React.Component<Props> {
         return (
             <div id="streets">
                 <EventLog entries={this.props.eventLog} />
-                <ActionPanel store={store} onEvent={this.props.onEvent} paused={this.props.paused} />
+                <ActionPanel
+                    store={store}
+                    onWander={this.props.onWander}
+                    onEvent={this.props.onEvent}
+                    paused={this.props.paused}
+                />
             </div>
         );
     }

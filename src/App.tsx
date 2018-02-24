@@ -96,6 +96,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     <NavTab labels={["The Street", "Map", "Collections"]}>
                         <Streets
                             store={store}
+                            onWander={this.props.onWander}
                             onEvent={this.onEvent}
                             paused={this.state.happening !== null}
                             eventLog={this.state.eventLog}

@@ -18,16 +18,18 @@ interface Props {
     paused: boolean;
 
     onEvent: (happening: question.Question | event.Event | model.Learnable) => void;
+    onWander: () => void;
 }
 
 export default class ActionPanel extends React.Component<Props> {
     wander = () => {
-        const { store, paused, onEvent } = this.props;
+        const { store, paused, onEvent, onWander } = this.props;
         if (paused) {
             return;
         }
 
         const happening = wander(store);
+        onWander();
         if (happening) {
             onEvent(happening);
         }
@@ -46,12 +48,13 @@ export default class ActionPanel extends React.Component<Props> {
     }
 
     vendingMachine = () => {
-        const { store, paused, onEvent } = this.props;
+        const { store, paused, onEvent, onWander } = this.props;
         if (paused) {
             return;
         }
 
         const happening = wander(store.set("location", "vending-machine"));
+        onWander();
         if (happening) {
             onEvent(happening);
         }
