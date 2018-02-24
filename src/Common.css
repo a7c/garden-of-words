@@ -26,6 +26,7 @@
 
 main {
     display: flex;
+    position: relative; /* absolute-in-relative trick for EventOverlay */
     width: 90vw;
     min-width: 981.3px;
     height: 620px;
@@ -46,7 +47,7 @@ main {
 }
 
 #LeftPanel > *:last-child {
-    flex: 1;
+    flex: 0;
 }
 
 #RightPanel {

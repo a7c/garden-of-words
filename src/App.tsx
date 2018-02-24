@@ -11,11 +11,10 @@ import { Question } from "./model/question";
 import meditate from "./meditate";
 import wander from "./wander";
 
+import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
 import Map from "./components/Map";
 import NavTab from "./components/NavTab";
-import CollectionComponent from "./components/Collection";
-import { CollectionProps } from "./components/Collection";
 import EventComponent from "./components/Event";
 import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
@@ -59,6 +58,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (happening instanceof Question) {
         }
         else if (happening instanceof event.Event) {
+            happening.effects.forEach(this.props.handleEventEffect);
         }
         else {
             this.props.onLearn(happening);
@@ -170,16 +170,18 @@ class TestComponent extends React.Component<TestProps, TestState> {
          * }
          */
 
-        // TODO: split ScenePanel into EventOverlay and ScenePanel
         return (
             <main>
                 <div id="LeftPanel">
                     <Inventory />
+                    <EventOverlay
+                        happening={this.state.happening}
+                        onReviewFinished={this.onReviewFinished}
+                        onNotHappening={this.onNotHappening}
+                    />
                     <ScenePanel
                         location={store.location}
                         steps={steps}
-                        happening={this.state.happening}
-                        onNotHappening={this.onNotHappening}
                     />
                 </div>
                 <div id="RightPanel">

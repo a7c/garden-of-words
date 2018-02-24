@@ -10,9 +10,6 @@ import "../Common.css";
 import "./ScenePanel.css";
 
 interface ScenePanelProps {
-    happening: Question | event.Event | model.Learnable | null;
-    onNotHappening: () => void;
-
     location: model.Location;
     steps: number;
 }
