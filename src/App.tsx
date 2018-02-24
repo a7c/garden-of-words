@@ -75,72 +75,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.setState({ question: null });
     }
 
-    vendingMachineHandler = () => {
-        const { store, onLearn, handleEventEffect } = this.props;
-
-        // TODO: i think we should be dispatching an action to change the location?
-        let ev: model.Learnable | event.Event | null = wander(store.set("location", "vending-machine"));
-
-        if (ev instanceof event.Event) {
-            this.setState({ event: ev });
-            ev.effects.forEach(handleEventEffect);
-        }
-        else if (ev) {
-            onLearn(ev);
-        }
-    }
-
     render() {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps } = store;
-
-        // Determine what to render in the main panel
-        /* if (this.state.event !== null) {
-         *     popupComponent =
-         *         <EventComponent event={this.state.event} onFinished={this.onEventFinished} />;
-         * }
-         * else if (this.state.question !== null) {
-         *     popupComponent =
-         *         <QuestionComponent question={this.state.question} onReview={this.subOnReview} />;
-         * }*/
-        /* else if (this.state.currentView === MainPanelViews.Map) {
-         *     // TODO: this is just a placeholder map
-         *     mainComponent =
-         *         <img src={require("./assets/map.svg")} />;
-         * }
-         * else if (this.state.currentView === MainPanelViews.Streets) {
-         *     let meditateButton = null;
-         *     const leftButtons = [];
-         *     const middleButtons = [];
-         *     leftButtons.push(
-         *         <button className="Button" id="Wander" key="wander-button" onClick={this.wanderClickHandler}>
-         *             Wander
-         *         </button>
-         *     );
-
-         *     if (flags.get("meditate-button")) {
-         *         leftButtons.push(
-         *             <button className="Button" id="Meditate"
-         * key="meditate-button" onClick={this.meditateClickHandler}>
-         *                 Meditate
-         *             </button>
-         *         );
-         *     }
-
-         *     if (flags.get("vending-machine")) {
-         *         middleButtons.push(
-         *             <button
-         *               className="Button"
-         *               id="VendingMachine"
-         *               key="vending-machine-button"
-         *               onClick={this.vendingMachineHandler}
-         *             >
-         *               Vending Machine
-         *             </button>
-         *         );
-         *     }
-         * }
-         */
 
         return (
             <main>

@@ -45,6 +45,18 @@ export default class ActionPanel extends React.Component<Props> {
         }
     }
 
+    vendingMachine = () => {
+        const { store, paused, onEvent } = this.props;
+        if (paused) {
+            return;
+        }
+
+        const happening = wander(store.set("location", "vending-machine"));
+        if (happening) {
+            onEvent(happening);
+        }
+    }
+
     render() {
         const { store } = this.props;
         const { learned, flags } = store;
@@ -59,7 +71,9 @@ export default class ActionPanel extends React.Component<Props> {
                 </div>
 
                 <div>
-                    {flags.get("vending-machine") ? <ActionButton label="Vending Machine" /> : false}
+                    {flags.get("vending-machine") ?
+                     <ActionButton label="Vending Machine" onClick={this.vendingMachine} /> :
+                     false}
                 </div>
 
                 <div>
