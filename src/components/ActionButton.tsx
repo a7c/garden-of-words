@@ -6,6 +6,7 @@ import "./ActionButton.css";
 
 interface Props {
     label: string;
+    benefit?: string;
     cost?: string;
     locked?: boolean;
     // If paused, then something else is going on in the UI, so block
@@ -23,10 +24,17 @@ export default class ActionButton extends React.Component<Props> {
     }
 
     render() {
+        let classes = "action-button";
+        if (this.props.locked || this.props.paused) {
+            classes += " inactive";
+        }
+
         return (
-            <button className="action-button" onClick={this.clickHandler}>
+            <button className={classes} onClick={this.clickHandler}>
                 {this.props.label}
-                {this.props.cost ? <span>{this.props.cost}</span> : false}
+
+                {this.props.benefit ? <span className="benefit">{this.props.benefit}</span> : false}
+                {this.props.cost ? <span className="cost">{this.props.cost}</span> : false}
             </button>
         );
     }

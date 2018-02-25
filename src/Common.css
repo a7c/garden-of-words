@@ -47,4 +47,6 @@ button.active {
 }
 
 button.inactive {
+    background: #CCCCCC;
+    cursor: not-allowed;
 }

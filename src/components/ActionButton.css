@@ -1,6 +1,8 @@
 .action-button {
+    position: relative;
 }
 
 .action-button span {
-    color: red;
+    position: absolute;
+    right: 0.25em;
 }
