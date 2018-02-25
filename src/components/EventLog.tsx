@@ -13,24 +13,16 @@ interface Props {
 }
 
 export default class EventLog extends React.Component<Props> {
-    // Dummy element, used to scroll event log to bottom
-    dummy: HTMLElement | null;
-
-    componentDidUpdate() {
-        if (this.dummy) {
-            this.dummy.scrollIntoView({ behavior: "smooth" });
-        }
-    }
-
     render() {
         const { entries } = this.props;
+        const latest = entries.slice(-10).reverse();
         return (
             <LabeledPanel title="Event Log" id="event-log">
                 <ul>
                     <TransitionGroup>
-                        {entries.map((entry, id) => (
+                        {latest.map((entry, id) => (
                             <CSSTransition
-                                key={id}
+                                key={entries.length - id}
                                 timeout={{ enter: 500, exit: 400 }}
                                 classNames="fade"
                             >
@@ -39,7 +31,6 @@ export default class EventLog extends React.Component<Props> {
                         ))}
                     </TransitionGroup>
                 </ul>
-                <div ref={el => (this.dummy = el)}/>
             </LabeledPanel>
         );
     }

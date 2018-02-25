@@ -1,5 +1,5 @@
 #event-log {
-
+    overflow: hidden;
 }
 
 #event-log ul {
@@ -11,4 +11,49 @@
 
 #event-log li {
     margin: 0.5em 0;
+    opacity: 0.1;
+}
+
+#event-log li:nth-child(1) {
+    opacity: 1;
+}
+
+#event-log li:nth-child(2) {
+    opacity: 0.9;
+}
+
+#event-log li:nth-child(3) {
+    opacity: 0.8;
+}
+
+#event-log li:nth-child(4) {
+    opacity: 0.7;
+}
+
+#event-log li:nth-child(5) {
+    opacity: 0.6;
+}
+
+#event-log li:nth-child(6) {
+    opacity: 0.5;
+}
+
+#event-log li:nth-child(7) {
+    opacity: 0.4;
+}
+
+#event-log li:nth-child(8) {
+    opacity: 0.3;
+}
+
+#event-log li:nth-child(9) {
+    opacity: 0.2;
+}
+
+#event-log li.fade-enter {
+    height: 1px !important;
+}
+
+#event-log li.fade-enter.fade-enter-active {
+    height: 1em !important;
 }
