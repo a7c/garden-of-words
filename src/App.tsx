@@ -52,18 +52,25 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     onEvent = (happening: Question | event.Event | model.Learnable) => {
-        console.log(happening);
+        let showEvent = true;
         if (happening instanceof Question) {
         }
         else if (happening instanceof event.Event) {
             happening.effects.forEach(this.props.handleEventEffect);
             this.state.eventLog.push(happening.toEventLog());
+            if (happening instanceof event.FlavorEvent) {
+                showEvent = false;
+            }
         }
         else {
+            showEvent = false;
             this.props.onLearn(happening);
             this.state.eventLog.push(`You learned ${happening.front()} means ${happening.back()}.`);
         }
-        this.setState({ happening });
+
+        if (showEvent) {
+            this.setState({ happening });
+        }
     }
 
     onNotHappening = () => {
