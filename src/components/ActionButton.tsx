@@ -24,13 +24,12 @@ export default class ActionButton extends React.Component<Props> {
     }
 
     render() {
-        let classes = "action-button";
-        if (this.props.locked || this.props.paused) {
-            classes += " inactive";
-        }
-
         return (
-            <button className={classes} onClick={this.clickHandler}>
+            <button
+                className="action-button"
+                onClick={this.clickHandler}
+                disabled={this.props.paused || this.props.locked}
+            >
                 {this.props.label}
 
                 {this.props.benefit ? <span className="benefit">{this.props.benefit}</span> : false}

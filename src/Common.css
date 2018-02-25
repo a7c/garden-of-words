@@ -37,16 +37,12 @@ button:hover {
     background: lightgray;
 }
 
-button:active {
-    background: lightgray;
-}
-
-button.active {
-    background: darkgray;
+button.active, button:active {
+    background: #646464;
     color: white;
 }
 
-button.inactive {
+button[disabled] {
     background: #CCCCCC;
     cursor: not-allowed;
 }
