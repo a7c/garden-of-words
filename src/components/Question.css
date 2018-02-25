@@ -6,6 +6,10 @@
     padding: 0;
 }
 
+.question p {
+    margin-top: 0;
+}
+
 .review-item {
     margin: 0;
     padding: 0;
