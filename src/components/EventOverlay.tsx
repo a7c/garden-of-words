@@ -39,13 +39,13 @@ export default class EventOverlay extends React.Component<Props, State> {
     }
 
     onNotHappening() {
-        this.setState({ showing: false });
+        setTimeout(() => this.setState({ showing: false }), 500);
         setTimeout(
             () => {
-                this.setState({ showing: true });
                 this.props.onNotHappening();
+                this.setState({ showing: true });
             },
-            500
+            1000
         );
     }
 
@@ -65,7 +65,7 @@ export default class EventOverlay extends React.Component<Props, State> {
 
         return (
             <CSSTransition
-                timeout={10000}
+                timeout={500}
                 in={body !== null && this.state.showing}
                 classNames="effect-slide-up"
             >

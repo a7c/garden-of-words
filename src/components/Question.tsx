@@ -54,9 +54,6 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
 }
 
 export default class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
-    learnableId: model.LearnableId | null;
-    fade: Fade | null;
-
     constructor(props: QuestionProps) {
         super(props);
         this.state = { status: "answering" };
@@ -66,12 +63,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
         this.setState({
             status: correct ? "right" : "wrong",
         });
-        this.learnableId = id;
-        this.fade!.delayedExit();
-    }
-
-    onFinished = () => {
-        this.props.onReview(this.learnableId!, this.state.status === "right");
+        this.props.onReview(id, correct);
     }
 
     render() {
@@ -97,11 +89,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
                 );
             }
 
-            return (
-                <Fade ref={f => this.fade = f} onFinished={this.onFinished}>
-                    {contents}
-                </Fade>
-            );
+            return contents;
         }
         else {
             return <p>Unsupported question!</p>;
