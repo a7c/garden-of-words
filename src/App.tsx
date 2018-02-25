@@ -15,12 +15,9 @@ import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
 import Map from "./components/Map";
 import NavTab from "./components/NavTab";
-import EventComponent from "./components/Event";
-import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
 import Streets from "./components/Streets";
 import CollectionList from "./components/AllCollections";
-import { StatsComponent, StatsProps } from "./components/StatsComponent";
 
 interface TestProps {
     store: model.Store;
