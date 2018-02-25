@@ -20,7 +20,6 @@ interface Props {
 }
 
 interface State {
-
 }
 
 export default class EventOverlay extends React.Component<Props, State> {
@@ -47,13 +46,16 @@ export default class EventOverlay extends React.Component<Props, State> {
             body = <LearnedSomething learnable={happening} onFinished={this.props.onNotHappening} />;
         }
 
-        if (body) {
-            return (
-                <section id="event-overlay">
+        return (
+            <CSSTransition
+                timeout={10000}
+                in={body !== null}
+                classNames="effect-slide-up"
+            >
+                <section id="event-overlay" className={body === null ? "hidden" : ""}>
                     {body}
                 </section>
-            );
-        }
-        return false;
+            </CSSTransition>
+        );
     }
 }
