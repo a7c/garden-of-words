@@ -16,6 +16,13 @@ export class Effect {
     toAction(): actions.Action {
         return {type: "PLACEHOLDER"};
     }
+
+    /**
+     * Return what this event should display in the event log (if anything).
+     */
+    toEventLog(): string | null {
+        return null;
+    }
 }
 
 export class QuestEffect extends Effect {
@@ -77,6 +84,12 @@ export class LearnEffect extends Effect {
     toAction() {
         // TODO: this is currently hard-coded for hiragana
         return actions.learn(hiraganaBasicDict.get(this.id));
+    }
+
+    toEventLog() {
+        // TODO: this is currently hard-coded for hiragana
+        const hiragana = hiraganaBasicDict.get(this.id);
+        return `You learned ${hiragana.front()} means ${hiragana.back()}.`;
     }
 }
 
@@ -165,6 +178,16 @@ export class FlavorEvent extends Event {
     }
 
     toEventLog(): string {
+        const effects: string[] = [];
+        this.effects.forEach((ef) => {
+            const el = ef.toEventLog();
+            if (el) {
+                effects.push(el);
+            }
+        });
+        if (effects.length > 0) {
+            return this.flavor + " " + effects.join(" ");
+        }
         return this.flavor;
     }
 }

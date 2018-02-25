@@ -53,8 +53,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (happening instanceof Question) {
         }
         else if (happening instanceof event.Event) {
-            happening.effects.forEach(this.props.handleEventEffect);
             this.state.eventLog.push(happening.toEventLog());
+            happening.effects.forEach(this.props.handleEventEffect);
             if (happening instanceof event.FlavorEvent) {
                 showEvent = false;
             }
