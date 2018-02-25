@@ -8,13 +8,16 @@ interface Props {
     label: string;
     cost?: string;
     locked?: boolean;
+    // If paused, then something else is going on in the UI, so block
+    // events from happening
+    paused?: boolean;
 
     onClick?: () => void;
 }
 
 export default class ActionButton extends React.Component<Props> {
     clickHandler = () => {
-        if (this.props.onClick) {
+        if (!this.props.paused && this.props.onClick) {
             this.props.onClick();
         }
     }

@@ -61,26 +61,26 @@ export default class ActionPanel extends React.Component<Props> {
     }
 
     render() {
-        const { store } = this.props;
+        const { store, paused } = this.props;
         const { learned, flags } = store;
 
         // TODO: make actionbutton also ignore click when paused
         return (
             <LabeledPanel title="Actions" id="actions">
                 <div>
-                    <ActionButton label="Wander" onClick={this.wander} />
-                    {learned.size ? <ActionButton label="Meditate" onClick={this.meditate} /> : false}
-                    <ActionButton label="Transliterate" cost="+5 YEN" />
+                    <ActionButton label="Wander" onClick={this.wander} paused={paused} />
+                    {learned.size ? <ActionButton label="Meditate" onClick={this.meditate} paused={paused} /> : false}
+                    <ActionButton label="Transliterate" cost="+5 YEN" paused={paused} />
                 </div>
 
                 <div>
                     {flags.get("vending-machine") ?
-                     <ActionButton label="Vending Machine" onClick={this.vendingMachine} /> :
+                     <ActionButton label="Vending Machine" onClick={this.vendingMachine} paused={paused} /> :
                      false}
                 </div>
 
                 <div>
-                    <ActionButton label="Subway" locked={true} />
+                    <ActionButton label="Subway" locked={true} paused={paused} />
                 </div>
             </LabeledPanel>
         );
