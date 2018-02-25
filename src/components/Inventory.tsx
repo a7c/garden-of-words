@@ -23,9 +23,7 @@ export default class Inventory extends React.Component<Props> {
         return (
             <div id="inventory" title="Inventory">
                 <LabeledPanel title="Money" id="money-meter">
-                    <div>
-                        Yen
-                    </div>
+                    <div>¥</div>
                     <div>
                         <AnimatedNumber value={resources.get("yen") || 0} duration={200} stepPrecision={0} />
                     </div>

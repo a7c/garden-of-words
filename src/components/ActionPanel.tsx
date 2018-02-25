@@ -70,7 +70,7 @@ export default class ActionPanel extends React.Component<Props> {
                 <div>
                     <ActionButton label="Wander" onClick={this.wander} paused={paused} />
                     {learned.size ? <ActionButton label="Meditate" onClick={this.meditate} paused={paused} /> : false}
-                    <ActionButton label="Transliterate" cost="+5 YEN" paused={paused} />
+                    <ActionButton label="Transliterate" cost="+¥" paused={paused} />
                 </div>
 
                 <div>
