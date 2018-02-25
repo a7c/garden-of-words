@@ -8,7 +8,7 @@ import * as model from "../model/model";
 import "../Common.css";
 import "./Collection.css";
 
-import { hiraganaBasicDict } from "../model/kana";
+import { hiraganaBasicDict, katakanaBasicDict } from "../model/kana";
 
 export interface CollectionProps {
     collection: model.Collection;
@@ -57,9 +57,17 @@ export default class CollectionComponent extends React.Component<CollectionProps
             // set contents
             contents = col.map((id) => {
                     if (id !== undefined) {
+                        let label: string;
+                        if (hiraganaBasicDict.get(id)) {
+                            label = hiraganaBasicDict.get(id).unicode;
+                        }
+                        else {
+                            label = katakanaBasicDict.get(id).unicode;
+                        }
+                        // TODO: logic for general vocab words
                         return (
                             <button className="Button" key={id} onClick={() => this.itemOnClick(id)} >
-                                {hiraganaBasicDict.get(id).unicode}
+                                {label}
                             </button>
                         );
                     }

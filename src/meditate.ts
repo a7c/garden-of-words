@@ -23,6 +23,7 @@ export default function meditate(
     });
 
     if (leastRecentlyReviewed !== null) {
+        // TODO: works for hiragana and katakana, but need to decide how to handle general vocab words
         let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
         // build a list of 3 wrong answers and the right answer
         let options: model.Learnable[] = [];
