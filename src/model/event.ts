@@ -1,8 +1,7 @@
 import * as model from "./model";
 import * as question from "./question";
 import * as actions from "../actions/actions";
-
-import { hiraganaBasicDict, katakanaBasicDict } from "../model/kana";
+import * as lookup from "./lookup";
 
 export class Effect {
     // TODO: this signature needs to be more precise
@@ -75,17 +74,7 @@ export class LearnEffect extends Effect {
     }
 
     toAction() {
-        // TODO: this is currently hard-coded for hiragana
-        let newLearnable: model.Learnable;
-        if (hiraganaBasicDict.get(this.id)) {
-            newLearnable = hiraganaBasicDict.get(this.id);
-        }
-        else {
-            newLearnable = katakanaBasicDict.get(this.id);
-        }
-        // TODO: logic for general vocab words
-
-        return actions.learn(newLearnable);
+        return actions.learn(lookup.getLearnable(this.id));
     }
 }
 
