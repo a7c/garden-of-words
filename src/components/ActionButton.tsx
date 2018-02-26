@@ -13,17 +13,51 @@ interface Props {
     // events from happening
     paused?: boolean;
 
+    cooldown?: number;
+
     onClick?: () => void;
 }
 
-export default class ActionButton extends React.Component<Props> {
+interface State {
+    onCooldown: boolean;
+    coolingDown: boolean;
+}
+
+export default class ActionButton extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = { onCooldown: false, coolingDown: false };
+    }
+
     clickHandler = () => {
-        if (!this.props.paused && this.props.onClick) {
+        if (!this.props.paused && !this.state.onCooldown && this.props.onClick) {
             this.props.onClick();
+            if (this.props.cooldown) {
+                this.setState({ onCooldown: true });
+                window.setTimeout(
+                    () => this.setState({ coolingDown: true }),
+                    100
+                );
+                window.setTimeout(
+                    () => this.setState({ coolingDown: false, onCooldown: false }),
+                    100 + this.props.cooldown
+                );
+            }
         }
     }
 
     render() {
+        const cooldown =
+            this.state.onCooldown ?
+            (
+                <div
+                    style={{ transitionDuration: `${this.props.cooldown || 500}ms` }}
+                    className={"action-button-progress" +
+                         (this.state.coolingDown ?
+                          " action-button-progress-countdown" : "")}
+                />
+            )
+            : false;
         return (
             <button
                 className="action-button"
@@ -38,6 +72,8 @@ export default class ActionButton extends React.Component<Props> {
                  <span className="action-button-lock">
                      <i className="material-icons">lock</i>
                  </span> : false}
+
+                {cooldown}
             </button>
         );
     }
