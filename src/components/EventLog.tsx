@@ -15,7 +15,7 @@ interface Props {
 export default class EventLog extends React.Component<Props> {
     render() {
         const { entries } = this.props;
-        const latest = entries.slice(-10).reverse();
+        const latest = entries.slice().reverse();
         return (
             <LabeledPanel title="Event Log" id="event-log">
                 <ul>
