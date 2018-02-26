@@ -81,6 +81,7 @@ export default class ActionPanel extends React.Component<Props> {
                          cost="-5 STA"
                          onClick={this.meditate}
                          paused={paused}
+                         cooldown={2000}
                      />
                      : false}
                     <ActionButton label="Transliterate" benefit="+¥" paused={paused} />
@@ -88,7 +89,12 @@ export default class ActionPanel extends React.Component<Props> {
 
                 <div>
                     {flags.get("vending-machine") ?
-                     <ActionButton label="Vending Machine" onClick={this.vendingMachine} paused={paused} /> :
+                     <ActionButton
+                         label="Vending Machine"
+                         onClick={this.vendingMachine}
+                         paused={paused}
+                         cooldown={1000}
+                     /> :
                      false}
                 </div>
 

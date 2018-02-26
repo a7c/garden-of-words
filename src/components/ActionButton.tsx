@@ -21,12 +21,13 @@ interface Props {
 interface State {
     onCooldown: boolean;
     coolingDown: boolean;
+    flashing: boolean;
 }
 
 export default class ActionButton extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = { onCooldown: false, coolingDown: false };
+        this.state = { onCooldown: false, coolingDown: false, flashing: false };
     }
 
     clickHandler = () => {
@@ -38,12 +39,16 @@ export default class ActionButton extends React.Component<Props, State> {
                     () => this.setState({ coolingDown: true }),
                     100
                 );
-                window.setTimeout(
-                    () => this.setState({ coolingDown: false, onCooldown: false }),
-                    100 + this.props.cooldown
-                );
             }
         }
+    }
+
+    progressBarEnd = () => {
+        this.setState({ coolingDown: false, onCooldown: false, flashing: true });
+    }
+
+    buttonEnd = () => {
+        this.setState({ flashing: false });
     }
 
     render() {
@@ -51,6 +56,7 @@ export default class ActionButton extends React.Component<Props, State> {
             this.state.onCooldown ?
             (
                 <div
+                    onTransitionEnd={this.progressBarEnd}
                     style={{ transitionDuration: `${this.props.cooldown || 500}ms` }}
                     className={"action-button-progress" +
                          (this.state.coolingDown ?
@@ -58,9 +64,12 @@ export default class ActionButton extends React.Component<Props, State> {
                 />
             )
             : false;
+        const classNames = "action-button" +
+                            (this.state.flashing ? " action-button-flashing" : "");
         return (
             <button
-                className="action-button"
+                onAnimationEnd={this.buttonEnd}
+                className={classNames}
                 onClick={this.clickHandler}
                 disabled={this.props.paused || this.props.locked}
             >
