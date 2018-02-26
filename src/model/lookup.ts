@@ -44,14 +44,19 @@ export function getNextLearnable(store: model.Store): model.Learnable | null {
 export function generateMultipleChoice(word: model.Learnable) {
     // build a list of 3 wrong answers and the right answer
     let options: model.Learnable[] = [];
-    let keyList = hiraganaBasicDict.keySeq().toArray();
-    keyList.splice(keyList.indexOf(word.id), 1);
 
-    for (let i = 0; i < 3; i++) {
-        let index = Math.floor(Math.random() * keyList.length);
-        options.push(hiraganaBasicDict.get(keyList[index]));
-        keyList.splice(index, 1);
+    // TODO: Same for advanced hiragana/katakana because same sounds
+    if (word.collection === "hira-basic" || word.collection === "kata-basic") {
+        let keyList = hiraganaBasicDict.keySeq().toArray();
+        keyList.splice(keyList.indexOf(word.id), 1);
+
+        for (let i = 0; i < 3; i++) {
+            let index = Math.floor(Math.random() * keyList.length);
+            options.push(hiraganaBasicDict.get(keyList[index]));
+            keyList.splice(index, 1);
+        }
     }
+    // TODO: will need more logic for normal vocab
 
     // insert correct answer in a random place
     let correctIdx = Math.floor(Math.random() * (options.length + 1));
@@ -69,8 +74,3 @@ export function getLearnable(id: model.LearnableId): model.Learnable {
     }
     // TODO: logic for general vocab words
 }
-
-// TODO: Necessary?
-// export function getLearnableId(learnable: model.Learnable): model.LearnableId{
-
-// }
