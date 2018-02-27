@@ -8,7 +8,7 @@ import * as model from "../model/model";
 import "../Common.css";
 import "./Collection.css";
 
-import { hiraganaBasicDict } from "../model/kana";
+import * as lookup from "../model/lookup";
 
 export interface CollectionProps {
     collection: model.Collection;
@@ -59,7 +59,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     if (id !== undefined) {
                         return (
                             <button className="Button" key={id} onClick={() => this.itemOnClick(id)} >
-                                {hiraganaBasicDict.get(id).unicode}
+                                {lookup.getLearnable(id).unicode}
                             </button>
                         );
                     }

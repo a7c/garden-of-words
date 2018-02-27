@@ -1,0 +1,235 @@
+{
+    "collection": "kata-basic",
+    "items": [
+        {
+            "id": "kata-a",
+            "unicode": "ア",
+            "romaji": "a"
+        },
+        {
+            "id": "kata-i",
+            "unicode": "イ",
+            "roumaji": "i"
+        },
+        {
+            "id": "kata-u",
+            "unicode": "ウ",
+            "roumaji": "u"
+        },
+        {
+            "id": "kata-e",
+            "unicode": "エ",
+            "roumaji": "e"
+        },
+        {
+            "id": "kata-o",
+            "unicode": "オ",
+            "roumaji": "o"
+        },
+        {
+            "id": "kata-ka",
+            "unicode": "カ",
+            "roumaji": "ka"
+        },
+        {
+            "id": "kata-ki",
+            "unicode": "キ",
+            "roumaji": "ki"
+        },
+        {
+            "id": "kata-ku",
+            "unicode": "ク",
+            "roumaji": "ku"
+        },
+        {
+            "id": "kata-ke",
+            "unicode": "ケ",
+            "roumaji": "ke"
+        },
+        {
+            "id": "kata-ko",
+            "unicode": "コ",
+            "roumaji": "ko"
+        },
+        {
+            "id": "kata-sa",
+            "unicode": "サ",
+            "roumaji": "sa"
+        },
+        {
+            "id": "kata-shi",
+            "unicode": "シ",
+            "roumaji": "shi"
+        },
+        {
+            "id": "kata-su",
+            "unicode": "ス",
+            "roumaji": "su"
+        },
+        {
+            "id": "kata-se",
+            "unicode": "セ",
+            "roumaji": "se"
+        },
+        {
+            "id": "kata-so",
+            "unicode": "ソ",
+            "roumaji": "so"
+        },
+        {
+            "id": "kata-ta",
+            "unicode": "タ",
+            "roumaji": "ta"
+        },
+        {
+            "id": "kata-chi",
+            "unicode": "チ",
+            "roumaji": "chi"
+        },
+        {
+            "id": "kata-tsu",
+            "unicode": "ツ",
+            "roumaji": "tsu"
+        },
+        {
+            "id": "kata-te",
+            "unicode": "テ",
+            "roumaji": "te"
+        },
+        {
+            "id": "kata-to",
+            "unicode": "ト",
+            "roumaji": "to"
+        },
+        {
+            "id": "kata-na",
+            "unicode": "ナ",
+            "roumaji": "na"
+        },
+        {
+            "id": "kata-ni",
+            "unicode": "ニ",
+            "roumaji": "ni"
+        },
+        {
+            "id": "kata-nu",
+            "unicode": "ヌ",
+            "roumaji": "nu"
+        },
+        {
+            "id": "kata-ne",
+            "unicode": "ネ",
+            "roumaji": "ne"
+        },
+        {
+            "id": "kata-no",
+            "unicode": "ノ",
+            "roumaji": "no"
+        },
+        {
+            "id": "kata-ha",
+            "unicode": "ハ",
+            "roumaji": "ha"
+        },
+        {
+            "id": "kata-hi",
+            "unicode": "ヒ",
+            "roumaji": "hi"
+        },
+        {
+            "id": "kata-hu",
+            "unicode": "フ",
+            "roumaji": "hu"
+        },
+        {
+            "id": "kata-he",
+            "unicode": "ヘ",
+            "roumaji": "he"
+        },
+        {
+            "id": "kata-ho",
+            "unicode": "ホ",
+            "roumaji": "ho"
+        },
+        {
+            "id": "kata-ma",
+            "unicode": "マ",
+            "roumaji": "ma"
+        },
+        {
+            "id": "kata-mi",
+            "unicode": "ミ",
+            "roumaji": "mi"
+        },
+        {
+            "id": "kata-mu",
+            "unicode": "ム",
+            "roumaji": "mu"
+        },
+        {
+            "id": "kata-me",
+            "unicode": "メ",
+            "roumaji": "me"
+        },
+        {
+            "id": "kata-mo",
+            "unicode": "モ",
+            "roumaji": "mo"
+        },
+        {
+            "id": "kata-ya",
+            "unicode": "ヤ",
+            "roumaji": "ya"
+        },
+        {
+            "id": "kata-yu",
+            "unicode": "ユ",
+            "roumaji": "yu"
+        },
+        {
+            "id": "kata-yo",
+            "unicode": "ヨ",
+            "roumaji": "yo"
+        },
+        {
+            "id": "kata-ra",
+            "unicode": "ラ",
+            "roumaji": "ra"
+        },
+        {
+            "id": "kata-ri",
+            "unicode": "リ",
+            "roumaji": "ri"
+        },
+        {
+            "id": "kata-ru",
+            "unicode": "ル",
+            "roumaji": "ru"
+        },
+        {
+            "id": "kata-re",
+            "unicode": "レ",
+            "roumaji": "re"
+        },
+        {
+            "id": "kata-ro",
+            "unicode": "ロ",
+            "roumaji": "ro"
+        },
+        {
+            "id": "kata-wa",
+            "unicode": "ワ",
+            "roumaji": "wa"
+        },
+        {
+            "id": "kata-wo",
+            "unicode": "ヲ",
+            "roumaji": "wo"
+        },
+        {
+            "id": "kata-n",
+            "unicode": "ン",
+            "roumaji": "n"
+        }
+    ]
+}
