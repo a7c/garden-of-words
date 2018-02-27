@@ -97,9 +97,8 @@ export class LearnEffect extends Effect {
     }
 
     toEventLog() {
-        // TODO: this is currently hard-coded for hiragana
-        const hiragana = hiraganaBasicDict.get(this.id);
-        return `You learned ${hiragana.front()} means ${hiragana.back()}.`;
+        const learnable = lookup.getLearnable(this.id);
+        return `You learned ${learnable.front()} means ${learnable.back()}.`;
     }
 }
 
