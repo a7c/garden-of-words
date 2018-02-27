@@ -14,9 +14,12 @@ import LearnedSomething from "./LearnedSomething";
 import QuestionComponent from "./Question";
 
 interface Props {
+    store: model.Store;
+
     happening: Question | event.Event | model.Learnable | null;
     onNotHappening: () => void;
     onReviewFinished: (id: model.LearnableId, correct: boolean) => void;
+    handleEventEffect: (effect: event.Effect) => void;
 }
 
 interface State {
@@ -54,7 +57,15 @@ export default class EventOverlay extends React.Component<Props, State> {
 
         let body = null;
         if (happening instanceof event.Event) {
-            body = <EventComponent event={happening} onFinished={this.onEventFinished} />;
+            body = (
+                <EventComponent
+                    store={this.props.store}
+                    event={happening}
+                    onFinished={this.onEventFinished}
+                    onReview={this.onReview}
+                    handleEventEffect={this.props.handleEventEffect}
+                />
+            );
         }
         else if (happening instanceof Question) {
             body = <QuestionComponent question={happening} onReview={this.onReview} />;

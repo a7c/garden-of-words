@@ -54,8 +54,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
         else if (happening instanceof event.Event) {
             this.state.eventLog.push(happening.toEventLog());
-            happening.effects.forEach(this.props.handleEventEffect);
             if (happening instanceof event.FlavorEvent) {
+                // Dispatch effects now since we aren't showing the effect
+                happening.effects.forEach(this.props.handleEventEffect);
                 showEvent = false;
             }
         }
@@ -87,8 +88,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 <div id="LeftPanel">
                     <Inventory resources={store.resources} />
                     <EventOverlay
+                        store={this.props.store}
                         happening={this.state.happening}
                         onReviewFinished={this.onReviewFinished}
+                        handleEventEffect={this.props.handleEventEffect}
                         onNotHappening={this.onNotHappening}
                     />
                     <ScenePanel

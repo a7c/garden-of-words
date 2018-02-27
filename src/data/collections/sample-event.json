@@ -39,7 +39,7 @@
         ]
     },
     {
-        "type": "flavor",
+        "type": "question",
         "text": "A passerby gives you 100円.",
         "filters": [
             {
@@ -48,12 +48,18 @@
                 "stage": "need-yen"
             }
         ],
+        "question": {
+            "type": "mc",
+            "collection": "hira-basic",
+            "onlySeen": true
+        },
         "effects": [
             {
                 "type": "resource",
                 "resource": "yen",
                 "value": 100
             }
-        ]
+        ],
+        "failureEffects": []
     }
 ]
