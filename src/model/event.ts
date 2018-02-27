@@ -206,10 +206,12 @@ export class FlavorEvent extends Event {
 }
 
 export class QuestionEvent extends Event {
-    question: question.Question;
+    question: question.QuestionTemplate;
     failureEffects: Effect[];
 
-    constructor(filters: Filter[], effects: Effect[], q: question.Question,
+    constructor(filters: Filter[],
+                effects: Effect[],
+                q: question.QuestionTemplate,
                 failureEffects: Effect[]) {
         super(filters, effects);
         this.question = q;

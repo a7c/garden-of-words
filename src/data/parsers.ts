@@ -1,6 +1,7 @@
 import * as event from "../model/event";
 import * as model from "../model/model";
 import * as quest from "../model/quest";
+import * as question from "../model/question";
 
 export class ParseError {
     message: string;
@@ -24,7 +25,12 @@ type FilterProps =
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage };
 
-type EventProps = { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] };
+type QuestionTemplateProps = { type: "mc", collection: string, onlySeen?: boolean };
+
+type EventProps =
+    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] }
+    | { type: "question", effects: EffectProps[], filters: FilterProps[],
+        question: QuestionTemplateProps, failureEffects: EffectProps[] };
 
 type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
     [ stage: string ]: EventProps[],
@@ -71,6 +77,14 @@ export function parseEvent(json: EventProps): event.Event {
             json.text
         );
     }
+    else if (json.type === "question") {
+        return new event.QuestionEvent(
+            json.filters.map(parseFilter),
+            json.effects.map(parseEffect),
+            parseQuestionTemplate(json.question),
+            json.failureEffects.map(parseEffect),
+        );
+    }
     throw new ParseError("Unrecognized event", json);
 }
 
@@ -80,4 +94,12 @@ export function parseQuest(json: QuestProps): quest.Quest {
         events.set(stage, json.events[stage].map(parseEvent));
     }
     return new quest.Quest(json.id, events, json.complete);
+}
+
+export function parseQuestionTemplate(json: QuestionTemplateProps): question.QuestionTemplate {
+    if (json.type === "mc") {
+        return new question.MultipleChoiceQuestionTemplate(json.collection, json.onlySeen || false);
+    }
+
+    throw new ParseError("Unrecognized question template", json);
 }
