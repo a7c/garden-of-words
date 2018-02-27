@@ -4,7 +4,11 @@ import * as event from "./model/event";
 import * as model from "./model/model";
 
 import { hiraganaBasicDict } from "./model/kana";
+import { katakanaBasicDict } from "./model/kana";
 import events from "./data/events";
+import * as actions from "./actions/actions";
+
+import * as lookup from "./model/lookup";
 
 export default function wander(store: model.Store):
 model.Learnable | event.Event | null {
@@ -24,17 +28,8 @@ model.Learnable | event.Event | null {
         return events.events.shift();
     }
 
-    let word: model.Learnable | null = null;
+    // let word: model.Learnable | null = null;
+    // return word;
 
-    hiraganaBasicDict.keySeq().some((key: string | undefined) => {
-        if (key !== undefined && !learned.has(key)) {
-            word = hiraganaBasicDict.get(key);
-            return true;
-        }
-        else {
-            return false;
-        }
-    });
-
-    return word;
+    return lookup.getNextLearnable(store);
 }
