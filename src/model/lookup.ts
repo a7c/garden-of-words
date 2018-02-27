@@ -12,15 +12,6 @@ const jsonObjects = [
     require("../data/collections/katakana-basic.json")
 ];
 
-// list of the json files
-// const collectionPaths = [
-//     "../data/collections/hiragana-basic.json",
-//     "../data/collections/katakana-basic.json"
-// ];
-
-// const hiraganaBasicJson = require(`${collectionPaths[1]}`);
-
-// const allIds = {};
 const allCollections = {};
 const idToLearnable = {};
 
@@ -30,7 +21,7 @@ jsonObjects.forEach((value) => {
     let collectionID = value.collection;
     value.items.forEach((obj: model.LearnableProps) => {
         obj.collection = collectionID;
-        // TODO: Maybe factor out the typecasting nastiness and replace with this
+        // TODO: Maybe factor out the typecasting nastiness and replace with this:
         // collection[obj.id] = new Learnable(obj);
         if (collectionID === "hira-basic") {
             idToLearnable[obj.id] = new HiraganaLearnable(obj as HiraganaLearnableProps);
@@ -41,12 +32,10 @@ jsonObjects.forEach((value) => {
             collection.push(obj.id);
         }
         // TODO: cases for other types
-        // allIds[obj.id] = collectionID;
     });
     allCollections[collectionID] = collection;
 });
 
-// const idToCollection = immutable.Map(allIds) as immutable.Map<model.LearnableId, model.CollectionId>;
 const collectionList = immutable.Map(allCollections) as immutable.Map<model.CollectionId, model.Collection>;
 const dictionary = immutable.Map(idToLearnable) as immutable.Map<model.LearnableId, model.Learnable>;
 
