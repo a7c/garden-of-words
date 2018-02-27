@@ -163,6 +163,20 @@ export class Event {
     filters: Filter[];
     effects: Effect[];
 
+    static effectsToText(efs: Effect[]): string | null {
+        const effects: string[] = [];
+        efs.forEach((ef) => {
+            const el = ef.toEventLog();
+            if (el) {
+                effects.push(el);
+            }
+        });
+        if (effects.length > 0) {
+            return effects.join(" ");
+        }
+        return null;
+    }
+
     constructor(filters: Filter[], effects: Effect[]) {
         this.filters = filters;
         this.effects = effects;
@@ -178,7 +192,11 @@ export class Event {
     }
 
     toEventLog(): string {
-        return "Something cool happened. It's Japan.";
+        const effectText = Event.effectsToText(this.effects);
+        if (effectText !== null) {
+            return effectText;
+        }
+        return "DEFAULT PLACEHOLDER TEXT";
     }
 }
 
@@ -191,15 +209,9 @@ export class FlavorEvent extends Event {
     }
 
     toEventLog(): string {
-        const effects: string[] = [];
-        this.effects.forEach((ef) => {
-            const el = ef.toEventLog();
-            if (el) {
-                effects.push(el);
-            }
-        });
-        if (effects.length > 0) {
-            return this.flavor + " " + effects.join(" ");
+        const effectText = Event.effectsToText(this.effects);
+        if (effectText !== null) {
+            return `${this.flavor} ${effectText}`;
         }
         return this.flavor;
     }
