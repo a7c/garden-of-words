@@ -40,6 +40,14 @@ export class QuestEffect extends Effect {
         this.stage = stage;
         this.journal = journal || null;
     }
+
+    toAction() {
+        return actions.updateQuest(this.questId, this.stage);
+    }
+
+    toEventLog() {
+        return this.journal;
+    }
 }
 
 export class FlagEffect extends Effect {
@@ -69,6 +77,10 @@ export class ResourceEffect extends Effect {
 
     toAction() {
         return actions.modifyResource(this.resource, this.value);
+    }
+
+    toEventLog() {
+        return `You ${this.value > 0 ? "gained" : "lost"} ${Math.abs(this.value)} ${this.resource}.`;
     }
 }
 
@@ -116,6 +128,10 @@ export class QuestFilter extends Filter {
         super();
         this.quest = quest;
         this.stage = stage;
+    }
+
+    check(store: model.Store): boolean {
+        return store.quests.get(this.quest) === this.stage;
     }
 }
 

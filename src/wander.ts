@@ -20,8 +20,13 @@ model.Learnable | event.Event | null {
         }
     }
 
-    if (events.events.length > 0) {
-        return events.events.shift();
+    for (let i = 0; i < events.events.length; i++) {
+        const ev = events.events[i];
+        if (!ev.check(store)) {
+            continue;
+        }
+
+        return events.events.splice(i, 1)[0];
     }
 
     let word: model.Learnable | null = null;

@@ -73,7 +73,7 @@ export default class ActionPanel extends React.Component<Props> {
                         cost="-5 STA"
                         onClick={this.wander}
                         paused={paused}
-                        cooldown={5000}
+                        cooldown={1000}
                     />
                     {learned.size ?
                      <ActionButton

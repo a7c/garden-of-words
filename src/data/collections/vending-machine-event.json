@@ -14,13 +14,38 @@
                 "type": "resource",
                 "resource": "yen",
                 "value": -100
+            },
+            {
+                "type": "quest",
+                "quest": "meiji-choco",
+                "stage": "complete",
+                "journal": "Somehow, it takes away your thirst."
             }
         ]
     },
     {
         "type": "flavor",
-        "text": "As you approach the vending machine, you realize you forgot your wallet at home. Somehow you got through the TSA anyways. Looks like you'll be thirsty until you can get some cash.",
-        "filters": [],
+        "text": "You don't feel a need to buy anything else.",
+        "filters": [
+            {
+                "type": "quest",
+                "quest": "meiji-choco",
+                "stage": "complete"
+            }
+        ],
         "effects": []
+    },
+    {
+        "type": "flavor",
+        "text": "As you approach the vending machine, you realize you have no yen. Maybe someone can help you out.",
+        "filters": [],
+        "effects": [
+            {
+                "type": "quest",
+                "quest": "meiji-choco",
+                "stage": "need-yen",
+                "journal": "Let's keep wandering."
+            }
+        ]
     }
 ]

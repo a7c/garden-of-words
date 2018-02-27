@@ -5,6 +5,7 @@ export const REVIEW = "review";
 export const LEARN = "learn";
 export const MEDITATE = "meditate";
 export const UPDATE_FLAG = "update_flag";
+export const UPDATE_QUEST = "update_quest";
 export const WANDER = "wander";
 export const MODIFY_RESOURCE = "modify_resource";
 
@@ -38,6 +39,12 @@ export interface ModifyResourceAction extends redux.AnyAction {
     type: typeof MODIFY_RESOURCE;
     resource: model.Resource;
     value: number;
+}
+
+export interface UpdateQuestAction extends redux.AnyAction {
+    type: typeof UPDATE_QUEST;
+    quest: model.QuestId;
+    stage: model.QuestStage;
 }
 
 export type Action =
@@ -82,5 +89,13 @@ export function modifyResource(resource: model.Resource, value: number): Action 
         type: MODIFY_RESOURCE,
         resource,
         value
+    };
+}
+
+export function updateQuest(quest: model.QuestId, stage: model.QuestStage): Action {
+    return {
+        type: UPDATE_QUEST,
+        quest,
+        stage,
     };
 }
