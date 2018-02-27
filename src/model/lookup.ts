@@ -1,7 +1,54 @@
+import * as immutable from "immutable";
+import { HiraganaLearnable, HiraganaLearnableProps } from "./model";
+import { KatakanaLearnable, KatakanaLearnableProps } from "./model";
+
 import * as model from "./model";
-import { katakanaBasicDict, hiraganaBasicDict } from "./kana";
+// import { katakanaBasicDict, hiraganaBasicDict } from "./kana";
 import * as actions from "../actions/actions";
 import * as question from "./question";
+
+const jsonObjects = [
+    require("../data/collections/hiragana-basic.json"),
+    require("../data/collections/katakana-basic.json")
+];
+
+// list of the json files
+// const collectionPaths = [
+//     "../data/collections/hiragana-basic.json",
+//     "../data/collections/katakana-basic.json"
+// ];
+
+// const hiraganaBasicJson = require(`${collectionPaths[1]}`);
+
+// const allIds = {};
+const allCollections = {};
+const idToLearnable = {};
+
+jsonObjects.forEach((value) => {
+    // let collectionJson = require(`${value}`);
+    let collection: model.LearnableId[] = [];
+    let collectionID = value.collection;
+    value.items.forEach((obj: model.LearnableProps) => {
+        obj.collection = collectionID;
+        // TODO: Maybe factor out the typecasting nastiness and replace with this
+        // collection[obj.id] = new Learnable(obj);
+        if (collectionID === "hira-basic") {
+            idToLearnable[obj.id] = new HiraganaLearnable(obj as HiraganaLearnableProps);
+            collection.push(obj.id);
+        }
+        else if (collectionID === "kata-basic") {
+            idToLearnable[obj.id] = new KatakanaLearnable(obj as KatakanaLearnableProps);
+            collection.push(obj.id);
+        }
+        // TODO: cases for other types
+        // allIds[obj.id] = collectionID;
+    });
+    allCollections[collectionID] = collection;
+});
+
+// const idToCollection = immutable.Map(allIds) as immutable.Map<model.LearnableId, model.CollectionId>;
+const collectionList = immutable.Map(allCollections) as immutable.Map<model.CollectionId, model.Collection>;
+const dictionary = immutable.Map(idToLearnable) as immutable.Map<model.LearnableId, model.Learnable>;
 
 export function getNextLearnable(store: model.Store): model.Learnable | null {
     const{ learned, flags } = store;
@@ -9,23 +56,24 @@ export function getNextLearnable(store: model.Store): model.Learnable | null {
     let word: model.Learnable | null = null;
 
     if (!flags.get("hiragana-complete")) {
-        let hiraNotComplete = hiraganaBasicDict.keySeq().some((key: string | undefined) => {
-            if (key !== undefined && !learned.has(key)) {
-                word = hiraganaBasicDict.get(key);
+        let hiraNotComplete = collectionList.get("hira-basic").some((value, key) => {
+            if (value !== undefined && !learned.has(value)) {
+                word = dictionary.get(value);
                 return true;
             }
             else {
                 return false;
             }
         });
+        // TODO: This method of flag setting doesn't work. May have to update reducer
         if (!hiraNotComplete) {
             actions.updateFlag("hiragana-complete", true);
         }
     }
     else if (!flags.get("katakana-complete")) {
-        let kataNotComplete = katakanaBasicDict.keySeq().some((key: string | undefined) => {
-            if (key !== undefined && !learned.has(key)) {
-                word = katakanaBasicDict.get(key);
+        let kataNotComplete = collectionList.get("kata-basic").some((value, key) => {
+            if (value !== undefined && !learned.has(value)) {
+                word = dictionary.get(value);
                 return true;
             }
             else {
@@ -45,16 +93,21 @@ export function generateMultipleChoice(word: model.Learnable) {
     // build a list of 3 wrong answers and the right answer
     let options: model.Learnable[] = [];
 
-    // TODO: Same for advanced hiragana/katakana because same sounds
-    if (word.collection === "hira-basic" || word.collection === "kata-basic") {
-        let keyList = hiraganaBasicDict.keySeq().toArray();
-        keyList.splice(keyList.indexOf(word.id), 1);
-
-        for (let i = 0; i < 3; i++) {
-            let index = Math.floor(Math.random() * keyList.length);
-            options.push(hiraganaBasicDict.get(keyList[index]));
-            keyList.splice(index, 1);
+    // hack because for some reason it wouldn't let me convert straight to array
+    let collection = collectionList.get(word.collection);
+    let keyList: model.LearnableId[] = [];
+    collection.forEach((value) => {
+        if (value !== undefined ) {
+            keyList.push(value);
         }
+    });
+
+    keyList.splice(keyList.indexOf(word.id), 1);
+
+    for (let i = 0; i < 3; i++) {
+        let index = Math.floor(Math.random() * keyList.length);
+        options.push(dictionary.get(keyList[index]));
+        keyList.splice(index, 1);
     }
     // TODO: will need more logic for normal vocab
 
@@ -66,11 +119,5 @@ export function generateMultipleChoice(word: model.Learnable) {
 }
 
 export function getLearnable(id: model.LearnableId): model.Learnable {
-    if (hiraganaBasicDict.get(id)) {
-        return hiraganaBasicDict.get(id);
-    }
-    else {
-        return katakanaBasicDict.get(id);
-    }
-    // TODO: logic for general vocab words
+    return dictionary.get(id);
 }
