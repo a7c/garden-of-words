@@ -110,3 +110,17 @@ export function generateMultipleChoice(word: model.Learnable) {
 export function getLearnable(id: model.LearnableId): model.Learnable {
     return dictionary.get(id);
 }
+
+export function getCollection(item: model.LearnableId | model.Learnable | model.CollectionId) {
+    if (typeof item === "string") {
+        if (collectionList.has(item)) {
+            return collectionList.get(item);
+        }
+        else {
+            return collectionList.get(getLearnable(item).collection);
+        }
+    }
+    else {
+        return collectionList.get(item.collection);
+    }
+}
