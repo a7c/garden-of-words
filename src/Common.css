@@ -1,11 +1,11 @@
 /** Effects **/
 .fade-enter {
-    opacity: 0.01;
+    opacity: 0.01 !important;
 }
 
 .fade-enter.fade-enter-active {
-    opacity: 1;
-    transition: opacity 500ms ease-in;
+    opacity: 1 !important;
+    transition: all 500ms ease-in;
 }
 
 .fade-exit {
@@ -22,9 +22,9 @@
 button {
     padding: 0.5rem 1.5rem;
 
-    border: 1px solid gray;
+    border: 1px solid #646464;
     background: #FFF;
-    color: gray;
+    color: #646464;
     cursor: pointer;
 
     font-size: 0.9rem;
@@ -37,14 +37,12 @@ button:hover {
     background: lightgray;
 }
 
-button:active {
-    background: lightgray;
-}
-
-button.active {
-    background: darkgray;
+button.active, button:active {
+    background: #646464;
     color: white;
 }
 
-button.inactive {
+button[disabled] {
+    background: #CCCCCC;
+    cursor: not-allowed;
 }

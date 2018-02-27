@@ -15,6 +15,13 @@ export class Effect {
     toAction(): actions.Action {
         return {type: "PLACEHOLDER"};
     }
+
+    /**
+     * Return what this event should display in the event log (if anything).
+     */
+    toEventLog(): string | null {
+        return null;
+    }
 }
 
 export class QuestEffect extends Effect {
@@ -31,6 +38,14 @@ export class QuestEffect extends Effect {
         this.questId = questId;
         this.stage = stage;
         this.journal = journal || null;
+    }
+
+    toAction() {
+        return actions.updateQuest(this.questId, this.stage);
+    }
+
+    toEventLog() {
+        return this.journal;
     }
 }
 
@@ -62,6 +77,10 @@ export class ResourceEffect extends Effect {
     toAction() {
         return actions.modifyResource(this.resource, this.value);
     }
+
+    toEventLog() {
+        return `You ${this.value > 0 ? "gained" : "lost"} ${Math.abs(this.value)} ${this.resource}.`;
+    }
 }
 
 /** An effect that represents learning a new word. */
@@ -75,6 +94,11 @@ export class LearnEffect extends Effect {
 
     toAction() {
         return actions.learn(lookup.getLearnable(this.id));
+    }
+
+    toEventLog() {
+        const learnable = lookup.getLearnable(this.id);
+        return `You learned ${learnable.front()} means ${learnable.back()}.`;
     }
 }
 
@@ -101,6 +125,10 @@ export class QuestFilter extends Filter {
         super();
         this.quest = quest;
         this.stage = stage;
+    }
+
+    check(store: model.Store): boolean {
+        return store.quests.get(this.quest) === this.stage;
     }
 }
 
@@ -163,6 +191,16 @@ export class FlavorEvent extends Event {
     }
 
     toEventLog(): string {
+        const effects: string[] = [];
+        this.effects.forEach((ef) => {
+            const el = ef.toEventLog();
+            if (el) {
+                effects.push(el);
+            }
+        });
+        if (effects.length > 0) {
+            return this.flavor + " " + effects.join(" ");
+        }
         return this.flavor;
     }
 }

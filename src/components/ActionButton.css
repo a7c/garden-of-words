@@ -1,6 +1,38 @@
 .action-button {
+    position: relative;
 }
 
 .action-button span {
-    color: red;
+    position: absolute;
+    right: 0.25em;
+}
+
+.action-button-lock {
+    font-size: 1.5em;
+    margin-top: -0.125em;
+}
+
+.action-button-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+
+    background: #646464;
+    transition: width 0.5s linear;
+}
+
+.action-button-progress-countdown {
+    width: 0;
+}
+
+.action-button-flashing {
+    animation: 0.2s 5 flash-animation;
+}
+
+@keyframes flash-animation {
+    to {
+        background: #CCC;
+    }
 }

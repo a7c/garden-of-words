@@ -20,17 +20,33 @@ interface Props {
 }
 
 interface State {
-
+    showing: boolean;
 }
 
 export default class EventOverlay extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = { showing: true };
+    }
+
     onEventFinished = () => {
-        this.props.onNotHappening();
+        this.onNotHappening();
     }
 
     onReview = (id: model.LearnableId, correct: boolean) => {
         this.props.onReviewFinished(id, correct);
-        this.props.onNotHappening();
+        this.onNotHappening();
+    }
+
+    onNotHappening() {
+        setTimeout(() => this.setState({ showing: false }), 500);
+        setTimeout(
+            () => {
+                this.props.onNotHappening();
+                this.setState({ showing: true });
+            },
+            1000
+        );
     }
 
     render() {
@@ -47,13 +63,16 @@ export default class EventOverlay extends React.Component<Props, State> {
             body = <LearnedSomething learnable={happening} onFinished={this.props.onNotHappening} />;
         }
 
-        if (body) {
-            return (
-                <section id="event-overlay">
+        return (
+            <CSSTransition
+                timeout={500}
+                in={body !== null && this.state.showing}
+                classNames="effect-slide-up"
+            >
+                <section id="event-overlay" className={body === null ? "hidden" : ""}>
                     {body}
                 </section>
-            );
-        }
-        return false;
+            </CSSTransition>
+        );
     }
 }

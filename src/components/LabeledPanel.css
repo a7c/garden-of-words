@@ -1,5 +1,5 @@
 .labeled-panel {
-    border: 1px solid gray;
+    border: 1px solid #9A9A9A;
 
     margin: 0.5rem;
     padding: 0.5rem;
@@ -15,10 +15,10 @@
     margin: 0;
 
     background: #FFF;
-    color: gray;
+    color: #9A9A9A;
 
-    font-size: 0.8rem;
-    font-weight: normal;
+    font-size: 1rem;
+    font-weight: medium;
 
     text-transform: uppercase;
 }

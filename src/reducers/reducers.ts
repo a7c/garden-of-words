@@ -82,6 +82,8 @@ function flags(state: immutable.Map<model.Flag, model.FlagValue> = immutable.Map
 function quests(state: immutable.Map<model.QuestId, model.QuestStage> = immutable.Map(), action: actions.Action):
     immutable.Map<model.QuestId, model.QuestStage> {
     switch (action.type) {
+    case actions.UPDATE_QUEST:
+        return state.set(action.quest, action.stage);
     default:
         return state;
     }

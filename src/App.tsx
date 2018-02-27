@@ -15,12 +15,9 @@ import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
 import Map from "./components/Map";
 import NavTab from "./components/NavTab";
-import EventComponent from "./components/Event";
-import QuestionComponent from "./components/Question";
 import ScenePanel from "./components/ScenePanel";
 import Streets from "./components/Streets";
 import CollectionList from "./components/AllCollections";
-import { StatsComponent, StatsProps } from "./components/StatsComponent";
 
 interface TestProps {
     store: model.Store;
@@ -56,8 +53,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (happening instanceof Question) {
         }
         else if (happening instanceof event.Event) {
-            happening.effects.forEach(this.props.handleEventEffect);
             this.state.eventLog.push(happening.toEventLog());
+            happening.effects.forEach(this.props.handleEventEffect);
             if (happening instanceof event.FlavorEvent) {
                 showEvent = false;
             }

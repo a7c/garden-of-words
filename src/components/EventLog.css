@@ -1,5 +1,5 @@
 #event-log {
-
+    overflow-y: scroll;
 }
 
 #event-log ul {
@@ -11,4 +11,26 @@
 
 #event-log li {
     margin: 0.5em 0;
+    opacity: 0.7;
+
+    transition: all 0.5s ease-in;
+}
+
+#event-log li:nth-child(1) {
+    opacity: 1;
+}
+
+#event-log li:nth-child(2) {
+    opacity: 0.8;
+}
+
+#event-log li.fade-enter {
+    transform-origin: top;
+    max-height: 0px !important;
+    transform: scaleY(0) !important;
+}
+
+#event-log li.fade-enter.fade-enter-active {
+    max-height: 100em !important;
+    transform: scaleY(1) !important;
 }

@@ -68,14 +68,33 @@ export default class ActionPanel extends React.Component<Props> {
         return (
             <LabeledPanel title="Actions" id="actions">
                 <div>
-                    <ActionButton label="Wander" onClick={this.wander} paused={paused} />
-                    {learned.size ? <ActionButton label="Meditate" onClick={this.meditate} paused={paused} /> : false}
-                    <ActionButton label="Transliterate" cost="+5 YEN" paused={paused} />
+                    <ActionButton
+                        label="Wander"
+                        cost="-5 STA"
+                        onClick={this.wander}
+                        paused={paused}
+                        cooldown={1000}
+                    />
+                    {learned.size ?
+                     <ActionButton
+                         label="Meditate"
+                         cost="-5 STA"
+                         onClick={this.meditate}
+                         paused={paused}
+                         cooldown={2000}
+                     />
+                     : false}
+                    <ActionButton label="Transliterate" benefit="+¥" paused={paused} />
                 </div>
 
                 <div>
                     {flags.get("vending-machine") ?
-                     <ActionButton label="Vending Machine" onClick={this.vendingMachine} paused={paused} /> :
+                     <ActionButton
+                         label="Vending Machine"
+                         onClick={this.vendingMachine}
+                         paused={paused}
+                         cooldown={1000}
+                     /> :
                      false}
                 </div>
 

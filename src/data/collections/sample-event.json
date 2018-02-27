@@ -29,13 +29,25 @@
                 "type": "flag",
                 "flag": "vending-machine",
                 "value": true
+            },
+            {
+                "type": "quest",
+                "quest": "meiji-choco",
+                "stage": "found-machine",
+                "journal": "You feel thirsty. Perhaps you should check it out."
             }
         ]
     },
     {
         "type": "flavor",
         "text": "A passerby gives you 100円.",
-        "filters": [],
+        "filters": [
+            {
+                "type": "quest",
+                "quest": "meiji-choco",
+                "stage": "need-yen"
+            }
+        ],
         "effects": [
             {
                 "type": "resource",
