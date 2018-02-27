@@ -121,7 +121,6 @@ export default class EventComponent extends React.Component<EventProps> {
             <Fade onFinished={this.onFinished} ref={f => (this.fade = f)}>
                 <div className="PopupBox">
                     {contents}
-                    {button}
                 </div>
             </Fade>
         );
