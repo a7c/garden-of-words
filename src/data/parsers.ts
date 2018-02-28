@@ -21,6 +21,7 @@ type EffectProps =
 
 type FilterProps =
     { type: "resource", resource: model.Resource, minimum: number } |
+    { type: "vocabsize", collection: model.CollectionId, minimum: number } |
     { type: "location", location: model.Location } |
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage };
@@ -67,6 +68,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     }
     else if (json.type === "resource") {
         return new event.ResourceFilter(json.resource, json.minimum);
+    }
+    else if (json.type === "vocabsize") {
+        return new event.VocabSizeFilter(json.collection, json.minimum);
     }
 
     throw new ParseError("Unrecognized filter", json);

@@ -159,6 +159,22 @@ export class ResourceFilter extends Filter {
     }
 }
 
+export class VocabSizeFilter extends Filter {
+    collection: model.CollectionId;
+    size: number;
+
+    constructor(collection: model.CollectionId, size: number) {
+        super();
+        this.collection = collection;
+        this.size = size;
+    }
+
+    check(store: model.Store): boolean {
+        const val = store.collections.get(this.collection);
+        return val && val.size >= this.size;
+    }
+}
+
 export class Event {
     filters: Filter[];
     effects: Effect[];

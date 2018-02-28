@@ -48,6 +48,11 @@
                 "type": "quest",
                 "quest": "meiji-choco",
                 "stage": "need-yen"
+            },
+            {
+                "type": "vocabsize",
+                "collection": "hira-basic",
+                "minimum": "6"
             }
         ],
         "question": {
