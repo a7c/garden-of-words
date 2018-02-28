@@ -226,17 +226,23 @@ export class QuestionEvent extends Event {
     failureEffects: Effect[];
     flavor: string | null;
     postFlavor: string | null;
+    correctPostFlavor: string | null;
+    wrongPostFlavor: string | null;
 
     constructor(filters: Filter[],
                 effects: Effect[],
                 q: question.QuestionTemplate,
                 flavor: string | null,
                 postFlavor: string | null,
+                correctPostFlavor: string | null,
+                wrongPostFlavor: string | null,
                 failureEffects: Effect[]) {
         super(filters, effects);
         this.question = q;
         this.flavor = flavor;
         this.postFlavor = postFlavor;
+        this.correctPostFlavor = correctPostFlavor;
+        this.wrongPostFlavor = wrongPostFlavor;
         this.failureEffects = failureEffects;
     }
 
@@ -245,6 +251,25 @@ export class QuestionEvent extends Event {
     }
 
     toPostEventLog() {
-        return this.postFlavor;
+        return null;
+    }
+
+    toResultEventLog(correct: boolean) {
+        if (correct) {
+            const effectText = Event.effectsToText(this.effects);
+            if (effectText !== null) {
+                return `${this.correctPostFlavor} ${effectText}`;
+            }
+
+            return this.correctPostFlavor;
+        }
+        else {
+            const effectText = Event.effectsToText(this.failureEffects);
+            if (effectText !== null) {
+                return `${this.wrongPostFlavor} ${effectText}`;
+            }
+
+            return this.wrongPostFlavor;
+        }
     }
 }

@@ -88,6 +88,14 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     onReviewFinished = (id: model.LearnableId, correct: boolean) => {
+        const happening = this.state.happening;
+        if (happening && happening instanceof event.QuestionEvent) {
+            const logText = happening.toResultEventLog(correct);
+            if (logText !== null) {
+                this.state.eventLog.push(logText);
+            }
+        }
+
         this.props.onReview(id, correct);
     }
 

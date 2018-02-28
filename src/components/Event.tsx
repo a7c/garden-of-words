@@ -49,6 +49,7 @@ class Question extends React.Component<QuestionProps> {
     render() {
         return (
             <section className="Event">
+                {this.props.event.flavor ? <p>{this.props.event.flavor}</p> : false}
                 <QuestionComponent question={this.question} onReview={this.props.onReview} />
             </section>
         );

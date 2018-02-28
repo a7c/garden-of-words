@@ -41,7 +41,8 @@
     {
         "type": "question",
         "text": "A passerby asks you how to pronounce something written on a scrap of paper.",
-        "postText": "They thank you and give you 100円.",
+        "correctPostText": "They thank you and give you 100円.",
+        "wrongPostText": "They look disappointed and walk away.",
         "filters": [
             {
                 "type": "quest",

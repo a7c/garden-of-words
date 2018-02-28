@@ -32,6 +32,7 @@ type EventProps =
     | { type: "question", effects: EffectProps[], filters: FilterProps[],
         question: QuestionTemplateProps,
         text?: string | null, postText?: string | null,
+        correctPostText?: string | null, wrongPostText?: string | null,
         failureEffects: EffectProps[] };
 
 type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
@@ -86,6 +87,8 @@ export function parseEvent(json: EventProps): event.Event {
             parseQuestionTemplate(json.question),
             json.text || null,
             json.postText || null,
+            json.correctPostText || null,
+            json.wrongPostText || null,
             json.failureEffects.map(parseEffect),
         );
     }
