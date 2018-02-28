@@ -191,12 +191,16 @@ export class Event {
         return true;
     }
 
-    toEventLog(): string {
+    toEventLog(): string | null {
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
             return effectText;
         }
         return "DEFAULT PLACEHOLDER TEXT";
+    }
+
+    toPostEventLog(): string | null {
+        return null;
     }
 }
 
@@ -220,13 +224,27 @@ export class FlavorEvent extends Event {
 export class QuestionEvent extends Event {
     question: question.QuestionTemplate;
     failureEffects: Effect[];
+    flavor: string | null;
+    postFlavor: string | null;
 
     constructor(filters: Filter[],
                 effects: Effect[],
                 q: question.QuestionTemplate,
+                flavor: string | null,
+                postFlavor: string | null,
                 failureEffects: Effect[]) {
         super(filters, effects);
         this.question = q;
+        this.flavor = flavor;
+        this.postFlavor = postFlavor;
         this.failureEffects = failureEffects;
+    }
+
+    toEventLog() {
+        return this.flavor;
+    }
+
+    toPostEventLog() {
+        return this.postFlavor;
     }
 }

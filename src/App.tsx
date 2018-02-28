@@ -53,7 +53,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (happening instanceof Question) {
         }
         else if (happening instanceof event.Event) {
-            this.state.eventLog.push(happening.toEventLog());
+            const logText = happening.toEventLog();
+            if (logText !== null) {
+                this.state.eventLog.push(logText);
+            }
+
             if (happening instanceof event.FlavorEvent) {
                 // Dispatch effects now since we aren't showing the effect
                 happening.effects.forEach(this.props.handleEventEffect);
@@ -72,6 +76,14 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     onNotHappening = () => {
+        const happening = this.state.happening;
+        if (happening && happening instanceof event.Event) {
+            const logText = happening.toPostEventLog();
+            if (logText !== null) {
+                this.state.eventLog.push(logText);
+            }
+        }
+
         this.setState({ happening: null });
     }
 

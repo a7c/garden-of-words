@@ -30,7 +30,9 @@ type QuestionTemplateProps = { type: "mc", collection: string, onlySeen?: boolea
 type EventProps =
     { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] }
     | { type: "question", effects: EffectProps[], filters: FilterProps[],
-        question: QuestionTemplateProps, failureEffects: EffectProps[] };
+        question: QuestionTemplateProps,
+        text?: string | null, postText?: string | null,
+        failureEffects: EffectProps[] };
 
 type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
     [ stage: string ]: EventProps[],
@@ -82,6 +84,8 @@ export function parseEvent(json: EventProps): event.Event {
             json.filters.map(parseFilter),
             json.effects.map(parseEffect),
             parseQuestionTemplate(json.question),
+            json.text || null,
+            json.postText || null,
             json.failureEffects.map(parseEffect),
         );
     }
