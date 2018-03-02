@@ -24,6 +24,11 @@ model.Learnable | event.Event | null {
         }
     }
 
+    const transliterateGetJob = events.transliterate[0];
+    if (transliterateGetJob.check(store)) {
+        return transliterateGetJob;
+    }
+
     for (let i = 0; i < events.events.length; i++) {
         const ev = events.events[i];
         if (!ev.check(store)) {

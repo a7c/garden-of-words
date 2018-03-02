@@ -6,6 +6,7 @@ import * as event from "../model/event";
 import * as question from "../model/question";
 import wander from "../wander";
 import meditate from "../meditate";
+import events from "../data/events";
 
 import "../Common.css";
 import "./ActionPanel.css";
@@ -47,6 +48,11 @@ export default class ActionPanel extends React.Component<Props> {
         }
     }
 
+    transliterate = () => {
+        const { store, paused, onEvent } = this.props;
+        onEvent(events.transliterate[1]);
+    }
+
     vendingMachine = () => {
         const { store, paused, onEvent, onWander } = this.props;
         if (paused) {
@@ -81,16 +87,26 @@ export default class ActionPanel extends React.Component<Props> {
                          cost="-5 STA"
                          onClick={this.meditate}
                          paused={paused}
-                         cooldown={2000}
+                         cooldown={1000}
                      />
                      : false}
-                    <ActionButton label="Transliterate" benefit="+¥" paused={paused} />
+                    {learned.size ?
+                    <ActionButton
+                        label="Transliterate"
+                        benefit="+¥"
+                        onClick={this.transliterate}
+                        cooldown={1000}
+                        locked={!store.flags.get("has-transliteration-job")}
+                        paused={paused}
+                    />
+                    : false}
                 </div>
 
                 <div>
                     {flags.get("vending-machine") ?
                      <ActionButton
                          label="Vending Machine"
+                         cost="-100¥"
                          onClick={this.vendingMachine}
                          paused={paused}
                          cooldown={1000}

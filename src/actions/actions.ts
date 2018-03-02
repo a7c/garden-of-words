@@ -38,7 +38,8 @@ export interface WanderAction extends redux.AnyAction {
 export interface ModifyResourceAction extends redux.AnyAction {
     type: typeof MODIFY_RESOURCE;
     resource: model.Resource;
-    value: number;
+    newValue?: number;
+    newMaxValue?: number;
 }
 
 export interface UpdateQuestAction extends redux.AnyAction {
@@ -84,11 +85,19 @@ export function wander(): Action {
     };
 }
 
+export function modifyResourceMax(resource: model.Resource, value: number): Action {
+    return {
+        type: MODIFY_RESOURCE,
+        resource,
+        newMaxValue: value
+    };
+}
+
 export function modifyResource(resource: model.Resource, value: number): Action {
     return {
         type: MODIFY_RESOURCE,
         resource,
-        value
+        newValue: value
     };
 }
 
