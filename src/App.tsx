@@ -10,6 +10,7 @@ import * as model from "./model/model";
 import { Question } from "./model/question";
 import meditate from "./meditate";
 import wander from "./wander";
+import { parseEffect } from "./data/parsers";
 
 import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
@@ -148,15 +149,39 @@ const Test = connect(
     })
 )(TestComponent as React.ComponentType<TestProps>);
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-          <h1>Michael Mauer Simulator 2017</h1>
-          <Test/>
-      </div>
-    );
-  }
+interface AppProps {
+    dispatch: Dispatch<actions.Action>;
 }
+
+class BaseApp extends React.Component<AppProps> {
+
+    // Stuff that needs to be initialized on app load goes here
+    componentDidMount() {
+        const { dispatch } = this.props;
+
+        const initEffectsJson = require("./data/init-effects.json");
+        const initEffects = initEffectsJson.map(parseEffect);
+
+        initEffects.forEach((effect: event.Effect) =>
+            this.props.dispatch(effect.toAction())
+        );
+    }
+
+    render() {
+        return (
+            <div className="App">
+            <h1>Michael Mauer Simulator 2017</h1>
+            <Test/>
+        </div>
+        );
+    }
+}
+
+const App = connect(
+    () => ({}),
+    (dispatch: Dispatch<actions.Action>) => ({
+        dispatch
+    })
+)(BaseApp as React.ComponentType<AppProps>);
 
 export default App;

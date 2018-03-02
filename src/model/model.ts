@@ -1,6 +1,4 @@
 import * as immutable from "immutable";
-import { parseEffect } from "../data/parsers";
-const initEffectsJson = require("../data/init-effects.json");
 
 interface ImmutableRecord<T> {
     new (props?: T): this;
@@ -130,10 +128,7 @@ export interface StoreProps {
 export interface Store extends StoreProps, ImmutableRecord<StoreProps> {
 }
 
-console.log(initEffectsJson);
-const initEffects = initEffectsJson.map(parseEffect);
-
-let storeSoFar = immutable.Record({
+export const Store = immutable.Record({
     learned: immutable.Map(),
     collections: immutable.Map(),
     resources: immutable.Map(),
@@ -141,10 +136,4 @@ let storeSoFar = immutable.Record({
     flags: immutable.Map(),
     quests: immutable.Map(),
     steps: 0,
-});
-
-for (let effect of initEffects) {
-    storeSoFar = effect.apply(storeSoFar);
-}
-
-export const Store = storeSoFar as any as Store; // tslint:disable-line
+}) as any as Store; // tslint:disable-line

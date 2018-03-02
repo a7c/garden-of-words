@@ -21,7 +21,7 @@ export default class Inventory extends React.Component<Props> {
         const { resources } = this.props;
 
         const currentYen = (resources.get("yen")) ? resources.get("yen").currentValue : 0;
-        const currentStamina = (resources.get("stamina")) ? resources.get("yen").currentValue : 0;
+        const currentStamina = (resources.get("stamina")) ? resources.get("stamina").currentValue : 0;
         const maxStamina = (resources.get("stamina")) ? resources.get("stamina").maxValue : 0;
 
         return (
