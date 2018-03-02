@@ -52,38 +52,24 @@ function resources(state: immutable.Map<model.Resource, model.ResourceProps> = i
     immutable.Map<model.Resource, model.ResourceProps> {
     switch (action.type) {
     case actions.MODIFY_RESOURCE: {
+        const origProps = state.has(action.resource) ?
+            state.get(action.resource) : model.defaultResourceProps;
 
-        const origValue = state.has(action.resource) ?
-            state.get(action.resource).currentValue : 0;
+        const props = {
+            currentValue: origProps.currentValue + action.value,
+            maxValue: origProps.maxValue
+        };
 
-        let addValue: number;
-        if (action.newValue) {
-            addValue = action.newValue;
-        } else {
-            addValue = 0;
-        }
+        return state.set(action.resource, props);
+    }
+    case actions.MODIFY_RESOURCE_MAX: {
+        const origProps = state.has(action.resource) ?
+            state.get(action.resource) : model.defaultResourceProps;
 
-        let newValue = addValue + origValue;
-
-        let max: number = 0;
-        let hasMax: boolean;
-
-        if (action.newMaxValue) {
-            max = action.newMaxValue;
-            hasMax = true;
-        } else if (state.has(action.resource) && state.get(action.resource).maxValue) {
-            max = state.get(action.resource).maxValue!;
-            hasMax = true;
-        } else {
-            hasMax = false;
-        }
-
-        let props: model.ResourceProps;
-        if (hasMax) {
-            props = { currentValue: newValue, maxValue: max };
-        } else {
-            props = { currentValue: newValue };
-        }
+        const props = {
+            currentValue: origProps.currentValue,
+            maxValue: origProps.maxValue + action.value
+        };
 
         return state.set(action.resource, props);
     }

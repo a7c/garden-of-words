@@ -11,7 +11,7 @@ import "./index.css";
 
 const store = createStore(
     reducers.reducer,
-    // Comment/uncomment the line below to toggle logging
+    /* Comment/uncomment the line below to toggle logging */
     // applyMiddleware(logger)
 );
 

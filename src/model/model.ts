@@ -105,8 +105,13 @@ export interface Learned extends LearnedProps, ImmutableRecord<LearnedProps> {
 
 export interface ResourceProps {
     readonly currentValue: number;
-    readonly maxValue?: number;
+    readonly maxValue: number | null;
 }
+
+export const defaultResourceProps: ResourceProps = {
+    currentValue: 0,
+    maxValue: null
+};
 
 export const Learned = immutable.Record({
     item: null,
