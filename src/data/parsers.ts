@@ -1,6 +1,7 @@
 import * as event from "../model/event";
 import * as model from "../model/model";
 import * as quest from "../model/quest";
+import * as question from "../model/question";
 
 export class ParseError {
     message: string;
@@ -20,11 +21,20 @@ type EffectProps =
 
 type FilterProps =
     { type: "resource", resource: model.Resource, minimum: number } |
+    { type: "vocabsize", collection: model.CollectionId, minimum: number } |
     { type: "location", location: model.Location } |
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage };
 
-type EventProps = { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] };
+type QuestionTemplateProps = { type: "mc", collection: string, onlySeen?: boolean };
+
+type EventProps =
+    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] }
+    | { type: "question", effects: EffectProps[], filters: FilterProps[],
+        question: QuestionTemplateProps,
+        text?: string | null, postText?: string | null,
+        correctPostText?: string | null, wrongPostText?: string | null,
+        failureEffects: EffectProps[] };
 
 type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
     [ stage: string ]: EventProps[],
@@ -59,6 +69,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     else if (json.type === "resource") {
         return new event.ResourceFilter(json.resource, json.minimum);
     }
+    else if (json.type === "vocabsize") {
+        return new event.VocabSizeFilter(json.collection, json.minimum);
+    }
 
     throw new ParseError("Unrecognized filter", json);
 }
@@ -71,6 +84,18 @@ export function parseEvent(json: EventProps): event.Event {
             json.text
         );
     }
+    else if (json.type === "question") {
+        return new event.QuestionEvent(
+            json.filters.map(parseFilter),
+            json.effects.map(parseEffect),
+            parseQuestionTemplate(json.question),
+            json.text || null,
+            json.postText || null,
+            json.correctPostText || null,
+            json.wrongPostText || null,
+            json.failureEffects.map(parseEffect),
+        );
+    }
     throw new ParseError("Unrecognized event", json);
 }
 
@@ -80,4 +105,12 @@ export function parseQuest(json: QuestProps): quest.Quest {
         events.set(stage, json.events[stage].map(parseEvent));
     }
     return new quest.Quest(json.id, events, json.complete);
+}
+
+export function parseQuestionTemplate(json: QuestionTemplateProps): question.QuestionTemplate {
+    if (json.type === "mc") {
+        return new question.MultipleChoiceQuestionTemplate(json.collection, json.onlySeen || false);
+    }
+
+    throw new ParseError("Unrecognized question template", json);
 }

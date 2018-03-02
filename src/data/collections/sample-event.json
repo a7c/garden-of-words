@@ -39,21 +39,34 @@
         ]
     },
     {
-        "type": "flavor",
-        "text": "A passerby gives you 100円.",
+        "type": "question",
+        "text": "A passerby asks you how to pronounce something written on a scrap of paper.",
+        "correctPostText": "They thank you and give you 100円.",
+        "wrongPostText": "They look disappointed and walk away.",
         "filters": [
             {
                 "type": "quest",
                 "quest": "meiji-choco",
                 "stage": "need-yen"
+            },
+            {
+                "type": "vocabsize",
+                "collection": "hira-basic",
+                "minimum": "6"
             }
         ],
+        "question": {
+            "type": "mc",
+            "collection": "hira-basic",
+            "onlySeen": true
+        },
         "effects": [
             {
                 "type": "resource",
                 "resource": "yen",
                 "value": 100
             }
-        ]
+        ],
+        "failureEffects": []
     }
 ]

@@ -159,9 +159,39 @@ export class ResourceFilter extends Filter {
     }
 }
 
+export class VocabSizeFilter extends Filter {
+    collection: model.CollectionId;
+    size: number;
+
+    constructor(collection: model.CollectionId, size: number) {
+        super();
+        this.collection = collection;
+        this.size = size;
+    }
+
+    check(store: model.Store): boolean {
+        const val = store.collections.get(this.collection);
+        return val && val.size >= this.size;
+    }
+}
+
 export class Event {
     filters: Filter[];
     effects: Effect[];
+
+    static effectsToText(efs: Effect[]): string | null {
+        const effects: string[] = [];
+        efs.forEach((ef) => {
+            const el = ef.toEventLog();
+            if (el) {
+                effects.push(el);
+            }
+        });
+        if (effects.length > 0) {
+            return effects.join(" ");
+        }
+        return null;
+    }
 
     constructor(filters: Filter[], effects: Effect[]) {
         this.filters = filters;
@@ -177,8 +207,16 @@ export class Event {
         return true;
     }
 
-    toEventLog(): string {
-        return "Something cool happened. It's Japan.";
+    toEventLog(): string | null {
+        const effectText = Event.effectsToText(this.effects);
+        if (effectText !== null) {
+            return effectText;
+        }
+        return "DEFAULT PLACEHOLDER TEXT";
+    }
+
+    toPostEventLog(): string | null {
+        return null;
     }
 }
 
@@ -191,28 +229,63 @@ export class FlavorEvent extends Event {
     }
 
     toEventLog(): string {
-        const effects: string[] = [];
-        this.effects.forEach((ef) => {
-            const el = ef.toEventLog();
-            if (el) {
-                effects.push(el);
-            }
-        });
-        if (effects.length > 0) {
-            return this.flavor + " " + effects.join(" ");
+        const effectText = Event.effectsToText(this.effects);
+        if (effectText !== null) {
+            return `${this.flavor} ${effectText}`;
         }
         return this.flavor;
     }
 }
 
 export class QuestionEvent extends Event {
-    question: question.Question;
+    question: question.QuestionTemplate;
     failureEffects: Effect[];
+    flavor: string | null;
+    postFlavor: string | null;
+    correctPostFlavor: string | null;
+    wrongPostFlavor: string | null;
 
-    constructor(filters: Filter[], effects: Effect[], q: question.Question,
+    constructor(filters: Filter[],
+                effects: Effect[],
+                q: question.QuestionTemplate,
+                flavor: string | null,
+                postFlavor: string | null,
+                correctPostFlavor: string | null,
+                wrongPostFlavor: string | null,
                 failureEffects: Effect[]) {
         super(filters, effects);
         this.question = q;
+        this.flavor = flavor;
+        this.postFlavor = postFlavor;
+        this.correctPostFlavor = correctPostFlavor;
+        this.wrongPostFlavor = wrongPostFlavor;
         this.failureEffects = failureEffects;
+    }
+
+    toEventLog() {
+        return this.flavor;
+    }
+
+    toPostEventLog() {
+        return null;
+    }
+
+    toResultEventLog(correct: boolean) {
+        if (correct) {
+            const effectText = Event.effectsToText(this.effects);
+            if (effectText !== null) {
+                return `${this.correctPostFlavor} ${effectText}`;
+            }
+
+            return this.correctPostFlavor;
+        }
+        else {
+            const effectText = Event.effectsToText(this.failureEffects);
+            if (effectText !== null) {
+                return `${this.wrongPostFlavor} ${effectText}`;
+            }
+
+            return this.wrongPostFlavor;
+        }
     }
 }

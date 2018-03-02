@@ -47,3 +47,41 @@ export class MadLib extends Question {
         this.blanks = blanks;
     }
 }
+
+export abstract class QuestionTemplate {
+    makeQuestion(store: model.Store): Question {
+        throw "@QuestionTemplate#makeQuestion: virtual method not implemented";
+    }
+}
+
+export class MultipleChoiceQuestionTemplate {
+    collection: model.CollectionId;
+    onlySeen: boolean;
+
+    constructor(collection: model.CollectionId, onlySeen: boolean) {
+        this.collection = collection;
+        this.onlySeen = onlySeen;
+    }
+
+    makeQuestion(store: model.Store): Question {
+        const choices = store.collections.get(this.collection).toArray();
+        // TODO: support onlySeen = false
+        if (choices.length < 4) {
+            throw "@MultipleChoiceQuestionTemplate#makeQuestion: not enough choices";
+        }
+
+        const items = [];
+        for (let i = 0; i < 4; i++) {
+            const idx = Math.floor(Math.random() * choices.length);
+            items.push(choices.splice(idx, 1)[0]);
+        }
+
+        const correct = Math.floor(Math.random() * items.length);
+        return new MultipleChoice(
+            [ items[correct] ],
+            items.map(id => store.learned.get(id).item),
+            correct,
+            correct
+        );
+    }
+}

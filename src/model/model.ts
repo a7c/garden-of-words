@@ -95,7 +95,7 @@ export const LearnedRecord = immutable.Record({
 // Even bigger hack to get it to work with TypeScript
 // https://gist.github.com/HeyImAlex/099922105b83bacfb69a30989e1fa086
 export interface LearnedProps {
-    readonly item: Learnable | null;
+    readonly item: Learnable;
     readonly lastReviewed: Date;
     readonly score: number;
 }

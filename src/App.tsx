@@ -53,9 +53,14 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (happening instanceof Question) {
         }
         else if (happening instanceof event.Event) {
-            this.state.eventLog.push(happening.toEventLog());
-            happening.effects.forEach(this.props.handleEventEffect);
+            const logText = happening.toEventLog();
+            if (logText !== null) {
+                this.state.eventLog.push(logText);
+            }
+
             if (happening instanceof event.FlavorEvent) {
+                // Dispatch effects now since we aren't showing the effect
+                happening.effects.forEach(this.props.handleEventEffect);
                 showEvent = false;
             }
         }
@@ -71,10 +76,26 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     onNotHappening = () => {
+        const happening = this.state.happening;
+        if (happening && happening instanceof event.Event) {
+            const logText = happening.toPostEventLog();
+            if (logText !== null) {
+                this.state.eventLog.push(logText);
+            }
+        }
+
         this.setState({ happening: null });
     }
 
     onReviewFinished = (id: model.LearnableId, correct: boolean) => {
+        const happening = this.state.happening;
+        if (happening && happening instanceof event.QuestionEvent) {
+            const logText = happening.toResultEventLog(correct);
+            if (logText !== null) {
+                this.state.eventLog.push(logText);
+            }
+        }
+
         this.props.onReview(id, correct);
     }
 
@@ -87,8 +108,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 <div id="LeftPanel">
                     <Inventory resources={store.resources} />
                     <EventOverlay
+                        store={this.props.store}
                         happening={this.state.happening}
                         onReviewFinished={this.onReviewFinished}
+                        handleEventEffect={this.props.handleEventEffect}
                         onNotHappening={this.onNotHappening}
                     />
                     <ScenePanel
