@@ -2,6 +2,10 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    /* Needed to allow this to shrink (i.e. for the event log not to push
+     * action bar down). This is default in Chrome, contrary to
+     * standards, but not other browsers. */
+    min-height: 0;
 }
 
 #streets > .labeled-panel {
