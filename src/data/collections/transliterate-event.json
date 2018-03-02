@@ -7,6 +7,11 @@
                 "type": "vocabsize",
                 "collection": "hira-basic",
                 "minimum": "6"
+            },
+            {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": false
             }
         ],
         "effects": [

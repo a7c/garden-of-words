@@ -50,7 +50,6 @@ export default class ActionPanel extends React.Component<Props> {
 
     transliterate = () => {
         const { store, paused, onEvent } = this.props;
-
         onEvent(events.transliterate[1]);
     }
 
@@ -91,7 +90,7 @@ export default class ActionPanel extends React.Component<Props> {
                          cooldown={1000}
                      />
                      : false}
-                    {learned.size > 3 ?
+                    {learned.size ?
                     <ActionButton
                         label="Transliterate"
                         benefit="+¥"

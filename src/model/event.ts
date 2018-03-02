@@ -141,6 +141,11 @@ export class FlagFilter extends Filter {
         this.flag = flag;
         this.value = value;
     }
+
+    check(store: model.Store): boolean {
+        const actualValue = store.flags.get(this.flag);
+        return actualValue === this.value;
+    }
 }
 
 export class ResourceFilter extends Filter {
