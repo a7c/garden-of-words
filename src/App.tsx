@@ -11,6 +11,7 @@ import { Question } from "./model/question";
 import meditate from "./meditate";
 import wander from "./wander";
 import { parseEffect } from "./data/parsers";
+import * as resources from "./data/constants/resources";
 
 import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
@@ -144,7 +145,10 @@ const Test = connect(
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
-        onWander: () => dispatch(actions.wander()),
+        onWander: () => {
+            dispatch(actions.wander());
+            dispatch(actions.modifyResource(resources.STAMINA, resources.WANDER_STA));
+        },
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
 )(TestComponent as React.ComponentType<TestProps>);

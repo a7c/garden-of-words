@@ -4,6 +4,7 @@ import * as React from "react";
 import * as model from "../model/model";
 import * as event from "../model/event";
 import * as question from "../model/question";
+import * as resources from "../data/constants/resources";
 import wander from "../wander";
 import meditate from "../meditate";
 import events from "../data/events";
@@ -70,6 +71,9 @@ export default class ActionPanel extends React.Component<Props> {
         const { store, paused } = this.props;
         const { learned, flags } = store;
 
+        const staminaProp = store.resources.get(resources.STAMINA);
+        const stamina = staminaProp ? staminaProp.currentValue : 0;
+
         // TODO: make actionbutton also ignore click when paused
         return (
             <LabeledPanel title="Actions" id="actions">
@@ -79,12 +83,13 @@ export default class ActionPanel extends React.Component<Props> {
                         cost="-5 STA"
                         onClick={this.wander}
                         paused={paused}
+                        locked={stamina <= 0}
                         cooldown={1000}
                     />
                     {learned.size ?
                      <ActionButton
                          label="Meditate"
-                         cost="-5 STA"
+                         benefit="+5 STA"
                          onClick={this.meditate}
                          paused={paused}
                          cooldown={1000}
