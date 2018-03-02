@@ -179,8 +179,11 @@ export class ResourceFilter extends Filter {
 
     check(store: model.Store): boolean {
         const resourceProps = store.resources.get(this.resource);
-        const val = resourceProps.currentValue;
-        return typeof val !== "undefined" && val >= this.minimum;
+        if (resourceProps) {
+            const val = resourceProps.currentValue;
+            return val >= this.minimum;
+        }
+        return false;
     }
 }
 
