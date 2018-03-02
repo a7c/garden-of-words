@@ -21,6 +21,7 @@ interface Props {
 
     onEvent: (happening: question.Question | event.Event | model.Learnable) => void;
     onWander: () => void;
+    onMeditate: () => void;
 }
 
 export default class ActionPanel extends React.Component<Props> {
@@ -38,12 +39,13 @@ export default class ActionPanel extends React.Component<Props> {
     }
 
     meditate = () => {
-        const { store, paused, onEvent } = this.props;
+        const { store, paused, onEvent, onMeditate } = this.props;
         if (paused) {
             return;
         }
 
         const happening = meditate(store.learned);
+        onMeditate();
         if (happening) {
             onEvent(happening);
         }

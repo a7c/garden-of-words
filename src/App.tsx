@@ -25,6 +25,7 @@ interface TestProps {
     store: model.Store;
 
     onWander: () => actions.Action;
+    onMeditate: () => actions.Action;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
@@ -126,6 +127,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         <Streets
                             store={store}
                             onWander={this.props.onWander}
+                            onMeditate={this.props.onMeditate}
                             onEvent={this.onEvent}
                             paused={this.state.happening !== null}
                             eventLog={this.state.eventLog}
@@ -148,6 +150,9 @@ const Test = connect(
         onWander: () => {
             dispatch(actions.wander());
             dispatch(actions.modifyResource(resources.STAMINA, resources.WANDER_STA));
+        },
+        onMeditate: () => {
+            dispatch(actions.modifyResource(resources.STAMINA, resources.MEDITATE_STA));
         },
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
