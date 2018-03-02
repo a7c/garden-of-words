@@ -1,0 +1,12 @@
+[
+    {
+        "type": "resource",
+        "resource": "stamina",
+        "value": 99
+    },
+    {
+        "type": "resource-max",
+        "resource": "stamina",
+        "value": 99
+    }
+]

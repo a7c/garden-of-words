@@ -48,13 +48,44 @@ function collections(
     }
 }
 
-function resources(state: immutable.Map<model.Resource, number> = immutable.Map(), action: actions.Action):
-    immutable.Map<model.Resource, number> {
+function resources(state: immutable.Map<model.Resource, model.ResourceProps> = immutable.Map(), action: actions.Action):
+    immutable.Map<model.Resource, model.ResourceProps> {
     switch (action.type) {
     case actions.MODIFY_RESOURCE: {
+
         const origValue = state.has(action.resource) ?
-            state.get(action.resource) : 0;
-        return state.set(action.resource, origValue + action.value);
+            state.get(action.resource).currentValue : 0;
+
+        let addValue: number;
+        if (action.newValue) {
+            addValue = action.newValue;
+        } else {
+            addValue = 0;
+        }
+
+        let newValue = addValue + origValue;
+
+        let max: number = 0;
+        let hasMax: boolean;
+
+        if (action.newMaxValue) {
+            max = action.newMaxValue;
+            hasMax = true;
+        } else if (state.has(action.resource) && state.get(action.resource).maxValue) {
+            max = state.get(action.resource).maxValue!;
+            hasMax = true;
+        } else {
+            hasMax = false;
+        }
+
+        let props: model.ResourceProps;
+        if (hasMax) {
+            props = { currentValue: newValue, maxValue: max };
+        } else {
+            props = { currentValue: newValue };
+        }
+
+        return state.set(action.resource, props);
     }
     default:
         return state;

@@ -1,4 +1,6 @@
 import * as immutable from "immutable";
+import { parseEffect } from "../data/parsers";
+const initEffectsJson = require("../data/init-effects.json");
 
 interface ImmutableRecord<T> {
     new (props?: T): this;
@@ -103,6 +105,11 @@ export interface LearnedProps {
 export interface Learned extends LearnedProps, ImmutableRecord<LearnedProps> {
 }
 
+export interface ResourceProps {
+    readonly currentValue: number;
+    readonly maxValue?: number;
+}
+
 export const Learned = immutable.Record({
     item: null,
     lastReviewed: new Date(),
@@ -113,7 +120,7 @@ export const Learned = immutable.Record({
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
     readonly collections: immutable.Map<CollectionId, Collection>;
-    readonly resources: immutable.Map<Resource, number>;
+    readonly resources: immutable.Map<Resource, ResourceProps>;
     readonly location: Location;
     readonly flags: immutable.Map<Flag, FlagValue>;
     readonly quests: immutable.Map<QuestId, QuestStage>;
@@ -123,7 +130,10 @@ export interface StoreProps {
 export interface Store extends StoreProps, ImmutableRecord<StoreProps> {
 }
 
-export const Store = immutable.Record({
+console.log(initEffectsJson);
+const initEffects = initEffectsJson.map(parseEffect);
+
+let storeSoFar = immutable.Record({
     learned: immutable.Map(),
     collections: immutable.Map(),
     resources: immutable.Map(),
@@ -131,4 +141,10 @@ export const Store = immutable.Record({
     flags: immutable.Map(),
     quests: immutable.Map(),
     steps: 0,
-}) as any as Store; // tslint:disable-line
+});
+
+for (let effect of initEffects) {
+    storeSoFar = effect.apply(storeSoFar);
+}
+
+export const Store = storeSoFar as any as Store; // tslint:disable-line
