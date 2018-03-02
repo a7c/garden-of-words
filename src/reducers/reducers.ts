@@ -55,8 +55,13 @@ function resources(state: immutable.Map<model.Resource, model.ResourceProps> = i
         const origProps = state.has(action.resource) ?
             state.get(action.resource) : model.defaultResourceProps;
 
+        let newValue = origProps.currentValue + action.value;
+        if (origProps.maxValue && newValue > origProps.maxValue) {
+            newValue = origProps.maxValue;
+        }
+
         const props = {
-            currentValue: origProps.currentValue + action.value,
+            currentValue: newValue,
             maxValue: origProps.maxValue
         };
 
