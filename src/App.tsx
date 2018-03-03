@@ -157,23 +157,7 @@ const Test = connect(
     })
 )(TestComponent as React.ComponentType<TestProps>);
 
-interface AppProps {
-    dispatch: Dispatch<actions.Action>;
-}
-
-class BaseApp extends React.Component<AppProps> {
-
-    // Stuff that needs to be initialized on app load goes here
-    componentDidMount() {
-        const { dispatch } = this.props;
-
-        const initEffectsJson = require("./data/init-effects.json");
-        const initEffects = initEffectsJson.map(parseEffect);
-
-        initEffects.forEach((effect: event.Effect) =>
-            this.props.dispatch(effect.toAction())
-        );
-    }
+export default class App extends React.Component {
 
     render() {
         return (
@@ -184,12 +168,3 @@ class BaseApp extends React.Component<AppProps> {
         );
     }
 }
-
-const App = connect(
-    () => ({}),
-    (dispatch: Dispatch<actions.Action>) => ({
-        dispatch
-    })
-)(BaseApp as React.ComponentType<AppProps>);
-
-export default App;

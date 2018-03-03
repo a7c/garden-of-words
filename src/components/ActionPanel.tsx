@@ -83,7 +83,7 @@ export default class ActionPanel extends React.Component<Props> {
                 <div>
                     <ActionButton
                         label="Wander"
-                        cost="-5 STA"
+                        cost={`${resources.WANDER_STA} STA`}
                         onClick={this.wander}
                         paused={paused}
                         locked={stamina <= 0}
@@ -92,7 +92,7 @@ export default class ActionPanel extends React.Component<Props> {
                     {learned.size ?
                      <ActionButton
                          label="Meditate"
-                         benefit="+5 STA"
+                         benefit={`${resources.MEDITATE_STA} STA`}
                          onClick={this.meditate}
                          paused={paused}
                          cooldown={1000}
