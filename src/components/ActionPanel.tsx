@@ -21,31 +21,32 @@ interface Props {
 
     onEvent: (happening: question.Question | event.Event | model.Learnable) => void;
     onWander: () => void;
-    onMeditate: () => void;
+    modifyResource: (resource: model.Resource, amount: number) => void;
 }
 
 export default class ActionPanel extends React.Component<Props> {
     wander = () => {
-        const { store, paused, onEvent, onWander } = this.props;
+        const { store, paused, onEvent, onWander, modifyResource } = this.props;
         if (paused) {
             return;
         }
 
         const happening = wander(store);
         onWander();
+        modifyResource(resources.STAMINA, resources.WANDER_STA);
         if (happening) {
             onEvent(happening);
         }
     }
 
     meditate = () => {
-        const { store, paused, onEvent, onMeditate } = this.props;
+        const { store, paused, onEvent, modifyResource } = this.props;
         if (paused) {
             return;
         }
 
         const happening = meditate(store.learned);
-        onMeditate();
+        modifyResource(resources.STAMINA, resources.MEDITATE_STA);
         if (happening) {
             onEvent(happening);
         }

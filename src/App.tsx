@@ -24,10 +24,10 @@ import CollectionList from "./components/AllCollections";
 interface TestProps {
     store: model.Store;
 
-    onWander: () => actions.Action;
-    onMeditate: () => actions.Action;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
+    onWander: () => actions.Action;
+    modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
 }
 
@@ -127,7 +127,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         <Streets
                             store={store}
                             onWander={this.props.onWander}
-                            onMeditate={this.props.onMeditate}
+                            modifyResource={this.props.modifyResource}
                             onEvent={this.onEvent}
                             paused={this.state.happening !== null}
                             eventLog={this.state.eventLog}
@@ -149,10 +149,9 @@ const Test = connect(
             dispatch(actions.review(id, correct)),
         onWander: () => {
             dispatch(actions.wander());
-            dispatch(actions.modifyResource(resources.STAMINA, resources.WANDER_STA));
         },
-        onMeditate: () => {
-            dispatch(actions.modifyResource(resources.STAMINA, resources.MEDITATE_STA));
+        modifyResource: (resource: model.Resource, amount: number) => {
+            dispatch(actions.modifyResource(resource, amount));
         },
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })

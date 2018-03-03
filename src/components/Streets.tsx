@@ -21,7 +21,7 @@ interface Props {
     eventLog: string[];
 
     onWander: () => void;
-    onMeditate: () => void;
+    modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     onEvent: (happening: question.Question | event.Event | model.Learnable) => void;
 }
 
@@ -34,7 +34,7 @@ export default class Streets extends React.Component<Props> {
                 <ActionPanel
                     store={store}
                     onWander={this.props.onWander}
-                    onMeditate={this.props.onMeditate}
+                    modifyResource={this.props.modifyResource}
                     onEvent={this.props.onEvent}
                     paused={this.props.paused}
                 />
