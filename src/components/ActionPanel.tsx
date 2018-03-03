@@ -98,13 +98,12 @@ export default class ActionPanel extends React.Component<Props> {
                          cooldown={1000}
                      />
                      : false}
-                    {learned.size ?
+                    {store.flags.get("has-transliteration-job") ?
                     <ActionButton
                         label="Transliterate"
                         benefit="+¥"
                         onClick={this.transliterate}
-                        cooldown={1000}
-                        locked={!store.flags.get("has-transliteration-job")}
+                        cooldown={5000}
                         paused={paused}
                     />
                     : false}
