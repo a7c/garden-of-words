@@ -92,7 +92,7 @@ export default class ActionPanel extends React.Component<Props> {
                     {learned.size ?
                      <ActionButton
                          label="Meditate"
-                         benefit={`${resources.MEDITATE_STA} STA`}
+                         benefit={`+${resources.MEDITATE_STA} STA`}
                          onClick={this.meditate}
                          paused={paused}
                          cooldown={1000}
