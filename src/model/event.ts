@@ -64,6 +64,25 @@ export class FlagEffect extends Effect {
     }
 }
 
+export class ResourceMaxEffect extends Effect {
+    resource: model.Resource;
+    value: number;
+
+    constructor(resource: model.Resource, value: number) {
+        super();
+        this.resource = resource;
+        this.value = value;
+    }
+
+    toAction() {
+        return actions.modifyResourceMax(this.resource, this.value);
+    }
+
+    toEventLog() {
+        return `You now have a maximum of ${this.value} ${this.resource}.`;
+    }
+}
+
 export class ResourceEffect extends Effect {
     resource: model.Resource;
     value: number;
@@ -141,6 +160,11 @@ export class FlagFilter extends Filter {
         this.flag = flag;
         this.value = value;
     }
+
+    check(store: model.Store): boolean {
+        const actualValue = store.flags.get(this.flag);
+        return actualValue === this.value;
+    }
 }
 
 export class ResourceFilter extends Filter {
@@ -154,8 +178,12 @@ export class ResourceFilter extends Filter {
     }
 
     check(store: model.Store): boolean {
-        const val = store.resources.get(this.resource);
-        return typeof val !== "undefined" && val >= this.minimum;
+        const resourceProps = store.resources.get(this.resource);
+        if (resourceProps) {
+            const val = resourceProps.currentValue;
+            return val >= this.minimum;
+        }
+        return false;
     }
 }
 

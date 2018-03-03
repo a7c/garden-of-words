@@ -103,6 +103,16 @@ export interface LearnedProps {
 export interface Learned extends LearnedProps, ImmutableRecord<LearnedProps> {
 }
 
+export interface ResourceProps {
+    readonly currentValue: number;
+    readonly maxValue: number | null;
+}
+
+export const defaultResourceProps: ResourceProps = {
+    currentValue: 0,
+    maxValue: null
+};
+
 export const Learned = immutable.Record({
     item: null,
     lastReviewed: new Date(),
@@ -113,7 +123,7 @@ export const Learned = immutable.Record({
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
     readonly collections: immutable.Map<CollectionId, Collection>;
-    readonly resources: immutable.Map<Resource, number>;
+    readonly resources: immutable.Map<Resource, ResourceProps>;
     readonly location: Location;
     readonly flags: immutable.Map<Flag, FlagValue>;
     readonly quests: immutable.Map<QuestId, QuestStage>;

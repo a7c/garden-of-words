@@ -17,6 +17,7 @@ type EffectProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage, journal?: string } |
     { type: "flag", flag: string, value: boolean } |
     { type: "resource", resource: model.Resource, value: number } |
+    { type: "resource-max", resource: model.Resource, value: number } |
     { type: "learn", id: model.LearnableId };
 
 type FilterProps =
@@ -46,6 +47,9 @@ export function parseEffect(json: EffectProps): event.Effect {
     }
     else if (json.type === "resource") {
         return new event.ResourceEffect(json.resource, json.value);
+    }
+    else if (json.type === "resource-max") {
+        return new event.ResourceMaxEffect(json.resource, json.value);
     }
     else if (json.type === "quest") {
         return new event.QuestEffect(json.quest, json.stage, json.journal);

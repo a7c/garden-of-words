@@ -1,0 +1,51 @@
+[
+    {
+        "type": "flavor",
+        "text": "An American tourist approaches you. He says he could use some help reading.",
+        "filters": [
+            {
+                "type": "vocabsize",
+                "collection": "hira-basic",
+                "minimum": "6"
+            },
+            {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": false
+            }
+        ],
+        "effects": [
+            {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": true
+            }
+        ]
+    },
+    {
+        "type": "question",
+        "text": "A tourist asks you for help reading a sign.",
+        "correctPostText": "They thank you and give you 50円.",
+        "wrongPostText": "They look disappointed and walk away.",
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": true
+            }
+        ],
+        "question": {
+            "type": "mc",
+            "collection": "hira-basic",
+            "onlySeen": true
+        },
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": 50
+            }
+        ],
+        "failureEffects": []
+    }
+]

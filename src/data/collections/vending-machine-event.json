@@ -20,6 +20,11 @@
                 "quest": "meiji-choco",
                 "stage": "complete",
                 "journal": "Somehow, it takes away your thirst."
+            },
+            {
+                "type": "resource",
+                "resource": "stamina",
+                "value": 50
             }
         ]
     },

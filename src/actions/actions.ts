@@ -8,6 +8,7 @@ export const UPDATE_FLAG = "update_flag";
 export const UPDATE_QUEST = "update_quest";
 export const WANDER = "wander";
 export const MODIFY_RESOURCE = "modify_resource";
+export const MODIFY_RESOURCE_MAX = "modify_resource_max";
 
 export interface ReviewAction extends redux.AnyAction {
     type: typeof REVIEW;
@@ -38,7 +39,8 @@ export interface WanderAction extends redux.AnyAction {
 export interface ModifyResourceAction extends redux.AnyAction {
     type: typeof MODIFY_RESOURCE;
     resource: model.Resource;
-    value: number;
+    newValue?: number;
+    newMaxValue?: number;
 }
 
 export interface UpdateQuestAction extends redux.AnyAction {
@@ -84,11 +86,21 @@ export function wander(): Action {
     };
 }
 
+/** Adds `value` to the max amount of the given resource. */
+export function modifyResourceMax(resource: model.Resource, value: number): Action {
+    return {
+        type: MODIFY_RESOURCE_MAX,
+        resource,
+        value: value
+    };
+}
+
+/** Adds `value` to the amount of the given resource. */
 export function modifyResource(resource: model.Resource, value: number): Action {
     return {
         type: MODIFY_RESOURCE,
         resource,
-        value
+        value: value
     };
 }
 
