@@ -86,7 +86,7 @@ export default class ActionPanel extends React.Component<Props> {
                         cost={`${resources.WANDER_STA} STA`}
                         onClick={this.wander}
                         paused={paused}
-                        locked={stamina <= resources.WANDER_STA}
+                        locked={stamina < -resources.WANDER_STA}
                         cooldown={1000}
                     />
                     {learned.size ?
