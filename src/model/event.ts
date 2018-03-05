@@ -147,6 +147,23 @@ export class LocationFilter extends Filter {
         super();
         this.location = location;
     }
+
+    check(store: model.Store) {
+        return store.location.current === this.location;
+    }
+}
+
+export class KnowLocationFilter extends Filter {
+    location: model.Location;
+
+    constructor(location: model.Location) {
+        super();
+        this.location = location;
+    }
+
+    check(store: model.Store) {
+        return store.location.discovered.includes(this.location);
+    }
 }
 
 export class QuestFilter extends Filter {
