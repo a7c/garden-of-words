@@ -64,6 +64,15 @@ export class FlagEffect extends Effect {
     }
 }
 
+export class DiscoverEffect extends Effect {
+    location: model.Location;
+
+    constructor(location: model.Location) {
+        super();
+        this.location = location;
+    }
+}
+
 export class ResourceMaxEffect extends Effect {
     resource: model.Resource;
     value: number;

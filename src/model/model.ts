@@ -121,7 +121,7 @@ export const Learned = immutable.Record({
 
 export interface LocationProps {
     readonly current: Location;
-    readonly discovered: immutable.List<Location>;
+    readonly discovered: immutable.Set<Location>;
 }
 
 export interface LocationRecord extends LocationProps, ImmutableRecord<LocationProps> {
@@ -129,7 +129,7 @@ export interface LocationRecord extends LocationProps, ImmutableRecord<LocationP
 
 export const LocationRecord = immutable.Record({
     current: "airport-gate",
-    discovered: immutable.List(),
+    discovered: immutable.Set(["airport-gate"]),
 }) as any as LocationRecord; // tslint:disable-line
 
 export interface StoreProps {
