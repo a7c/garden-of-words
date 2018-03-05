@@ -4,8 +4,10 @@ import * as React from "react";
 import "../Common.css";
 import "./NavTab.css";
 
+import ActionButton from "./ActionButton";
+
 interface NavTabProps {
-    labels: string[];
+    labels: [string, boolean][];
 }
 
 interface NavTabState {
@@ -25,14 +27,14 @@ export default class NavTab extends React.Component<NavTabProps, NavTabState> {
     render() {
         const children = this.props.children || [];
         const navbar =
-            this.props.labels.map((label, i) => (
-                <button
-                    key={i}
+            this.props.labels.map(([ label, enabled ], i) => (
+                <ActionButton
                     className={i === this.state.tabIndex ? "active" : "inactive"}
+                    key={i}
+                    label={label}
                     onClick={() => this.changeTab(i)}
-                >
-                    {label}
-                </button>
+                    locked={!enabled}
+                />
             ));
         return (
             <section className="nav-tab">

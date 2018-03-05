@@ -119,7 +119,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     />
                 </div>
                 <div id="RightPanel">
-                    <NavTab labels={["The Street", "Map", "Collections"]}>
+                    <NavTab
+                        labels={[
+                            ["The Street", true],
+                            ["Map", false],
+                            ["Collections", this.props.store.learned.size > 0]
+                        ]}
+                    >
                         <Streets
                             store={store}
                             onWander={this.props.onWander}

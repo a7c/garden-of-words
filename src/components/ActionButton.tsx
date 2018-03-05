@@ -12,10 +12,9 @@ interface Props {
     // If paused, then something else is going on in the UI, so block
     // events from happening
     paused?: boolean;
-
     hint?: string;
-
     cooldown?: number;
+    className?: string;
 
     onClick?: () => void;
     onHint?: (hint: string) => void;
@@ -78,8 +77,9 @@ export default class ActionButton extends React.Component<Props, State> {
             )
             : false;
         const classNames = "action-button" +
+                             (this.props.className ? ` ${this.props.className}` : "") +
                              (this.state.flashing ? " action-button-flashing" : "") +
-                            ((this.props.paused || this.props.locked) ? " action-button-disabled" : "");
+                             ((this.props.paused || this.props.locked) ? " action-button-disabled" : "");
         return (
             <button
                 onAnimationEnd={this.buttonEnd}

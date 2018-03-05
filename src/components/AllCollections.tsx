@@ -28,7 +28,6 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
     }
 
     getCollectionInfo = (id: model.CollectionId) => {
-        // console.log(this.props.collections.get(id));
         // set up a new component for the collection they clicked on
         this.setState({ viewCollection: id });
     }
@@ -39,7 +38,6 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
         let contents = [<span key="blank"/>];
 
         if (this.state.viewCollection === null) {
-            console.log("Showing Collections");
             key = "collection";
 
             let ids = this.props.collections.keySeq().toArray();
