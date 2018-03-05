@@ -54,7 +54,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (happening instanceof event.Event) {
             const logText = happening.toEventLog();
             if (logText !== null) {
-                this.state.eventLog.push(logText);
+                this.setState({ eventLog: this.state.eventLog.concat([logText]) });
             }
 
             if (happening instanceof event.FlavorEvent) {
