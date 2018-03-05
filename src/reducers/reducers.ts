@@ -88,6 +88,8 @@ function location(
     action: actions.Action
 ): model.LocationRecord {
     switch (action.type) {
+    case actions.DISCOVER:
+        return state.set("discovered", state.discovered.add(action.location));
     default:
         return state;
     }

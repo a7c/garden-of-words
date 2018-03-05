@@ -71,6 +71,10 @@ export class DiscoverEffect extends Effect {
         super();
         this.location = location;
     }
+
+    toAction() {
+        return actions.discover(this.location);
+    }
 }
 
 export class ResourceMaxEffect extends Effect {

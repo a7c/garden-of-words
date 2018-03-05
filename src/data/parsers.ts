@@ -16,6 +16,7 @@ export class ParseError {
 type EffectProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage, journal?: string } |
     { type: "flag", flag: string, value: boolean } |
+    { type: "discover", location: model.Location } |
     { type: "resource", resource: model.Resource, value: number } |
     { type: "resource-max", resource: model.Resource, value: number } |
     { type: "learn", id: model.LearnableId };
@@ -44,6 +45,9 @@ type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
 export function parseEffect(json: EffectProps): event.Effect {
     if (json.type === "flag") {
         return new event.FlagEffect(json.flag, json.value);
+    }
+    if (json.type === "discover") {
+        return new event.DiscoverEffect(json.location);
     }
     else if (json.type === "resource") {
         return new event.ResourceEffect(json.resource, json.value);
