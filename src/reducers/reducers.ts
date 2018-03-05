@@ -83,7 +83,10 @@ function resources(state: immutable.Map<model.Resource, model.ResourceProps> = i
     }
 }
 
-function location(state: model.Location = "airport-gate", action: actions.Action): model.Location {
+function location(
+    state: model.LocationRecord = new model.LocationRecord(),
+    action: actions.Action
+): model.LocationRecord {
     switch (action.type) {
     default:
         return state;
@@ -136,7 +139,7 @@ const emptyStore = immutable.Record({
     steps: undefined
 });
 
-export const reducer = combineReducers(
+export const reducer = combineReducers<model.Store, string>(
     {
         learned,
         collections,

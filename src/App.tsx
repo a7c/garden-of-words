@@ -118,7 +118,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         onNotHappening={this.onNotHappening}
                     />
                     <ScenePanel
-                        location={store.location}
+                        location={store.location.current}
                         steps={steps}
                     />
                 </div>

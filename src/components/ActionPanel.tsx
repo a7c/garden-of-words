@@ -30,7 +30,8 @@ export default class ActionPanel extends React.Component<Props> {
             return;
         }
 
-        const modStore = location === null ? store : store.set("location", location);
+        const modStore = location === null ? store :
+                         store.set("location", store.location.set("current", location));
         const happening = wander(modStore);
         onWander();
         if (stamina !== 0) {

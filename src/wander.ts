@@ -15,10 +15,9 @@ model.Learnable | event.Event | null {
     const { location, learned } = store;
 
     // Turn location-name into locationName
-    const locationKey = location.replace(/-[a-z]/g, (a) => a.slice(1).toUpperCase());
+    const locationKey = location.current.replace(/-[a-z]/g, (a) => a.slice(1).toUpperCase());
 
     const eventList = events[locationKey];
-    console.log(location, eventList);
 
     for (const ev of eventList) {
         if (!ev.check(store)) {
