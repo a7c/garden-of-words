@@ -36,7 +36,7 @@ enum MainPanelViews {
 }
 
 interface TestState {
-    happening: Question | event.Event | model.Learnable | null;
+    happening: event.Event | model.Learnable | null;
     eventLog: string[];
 }
 
@@ -49,11 +49,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
         };
     }
 
-    onEvent = (happening: Question | event.Event | model.Learnable) => {
+    onEvent = (happening: event.Event | model.Learnable) => {
         let showEvent = true;
-        if (happening instanceof Question) {
-        }
-        else if (happening instanceof event.Event) {
+        if (happening instanceof event.Event) {
             const logText = happening.toEventLog();
             if (logText !== null) {
                 this.state.eventLog.push(logText);
@@ -129,8 +127,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             onEvent={this.onEvent}
                             paused={this.state.happening !== null}
                             eventLog={this.state.eventLog}
-                            isQuizMode={this.state.happening instanceof Question ||
-                                this.state.happening instanceof event.QuestionEvent}
+                            isQuizMode={this.state.happening instanceof event.QuestionEvent}
                         />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />

@@ -19,7 +19,7 @@ interface Props {
     store: model.Store;
     paused: boolean;
 
-    onEvent: (happening: question.Question | event.Event | model.Learnable) => void;
+    onEvent: (happening: event.Event | model.Learnable) => void;
     onWander: () => void;
     modifyResource: (resource: model.Resource, amount: number) => void;
 }
