@@ -33,7 +33,7 @@ export default class ActionPanel extends React.Component<Props> {
 
         const happening = wander(store);
         onWander();
-        modifyResource(resources.STAMINA, resources.WANDER_STA);
+        modifyResource(resources.STAMINA, -resources.WANDER_STA_COST);
         if (happening) {
             onEvent(happening);
         }
@@ -46,7 +46,7 @@ export default class ActionPanel extends React.Component<Props> {
         }
 
         const happening = meditate(store.learned);
-        modifyResource(resources.STAMINA, resources.MEDITATE_STA);
+        modifyResource(resources.STAMINA, -resources.MEDITATE_STA_COST);
         if (happening) {
             onEvent(happening);
         }
@@ -83,16 +83,16 @@ export default class ActionPanel extends React.Component<Props> {
                 <div>
                     <ActionButton
                         label="Wander"
-                        cost={`${resources.WANDER_STA} STA`}
+                        cost={`-${resources.WANDER_STA_COST} STA`}
                         onClick={this.wander}
                         paused={paused}
-                        locked={stamina < -resources.WANDER_STA}
+                        locked={stamina < resources.WANDER_STA_COST}
                         cooldown={1000}
                     />
                     {learned.size ?
                      <ActionButton
                          label="Meditate"
-                         benefit={`+${resources.MEDITATE_STA} STA`}
+                         benefit={`+${-resources.MEDITATE_STA_COST} STA`}
                          onClick={this.meditate}
                          paused={paused}
                          cooldown={1000}
@@ -113,7 +113,7 @@ export default class ActionPanel extends React.Component<Props> {
                     {flags.get("vending-machine") ?
                      <ActionButton
                          label="Vending Machine"
-                         cost="-100¥"
+                         cost="-¥100"
                          onClick={this.vendingMachine}
                          paused={paused}
                          cooldown={1000}
