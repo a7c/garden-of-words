@@ -46,6 +46,10 @@ export default class ActionPanel extends React.Component<Props> {
     transliterate = () => this.wanderHelper(0, "transliterate-job");
     vendingMachine = () => this.wanderHelper(0, "vending-machine");
 
+    onHint = (hint: string) => {
+        this.props.onEvent(new event.FlavorEvent([], [], hint));
+    }
+
     meditate = () => {
         const { store, paused, onEvent, modifyResource } = this.props;
         if (paused) {
@@ -76,6 +80,8 @@ export default class ActionPanel extends React.Component<Props> {
                         paused={paused}
                         locked={stamina < resources.WANDER_STA_COST}
                         cooldown={1000}
+                        hint="You need stamina. Try meditating."
+                        onHint={this.onHint}
                     />
                     {learned.size ?
                      <ActionButton

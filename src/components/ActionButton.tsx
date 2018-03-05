@@ -13,9 +13,12 @@ interface Props {
     // events from happening
     paused?: boolean;
 
+    hint?: string;
+
     cooldown?: number;
 
     onClick?: () => void;
+    onHint?: (hint: string) => void;
 }
 
 interface State {
@@ -44,7 +47,13 @@ export default class ActionButton extends React.Component<Props, State> {
     }
 
     clickHandler = () => {
-        if (!this.props.paused && !this.state.onCooldown && this.props.onClick) {
+        if (this.props.paused || this.props.locked) {
+            if (this.props.locked && this.props.onHint && this.props.hint) {
+                this.props.onHint(this.props.hint);
+            }
+            return;
+        }
+        if (!this.state.onCooldown && this.props.onClick) {
             this.props.onClick();
             if (this.props.cooldown) {
                 this.setState({ onCooldown: true });
@@ -69,13 +78,14 @@ export default class ActionButton extends React.Component<Props, State> {
             )
             : false;
         const classNames = "action-button" +
-                            (this.state.flashing ? " action-button-flashing" : "");
+                             (this.state.flashing ? " action-button-flashing" : "") +
+                            ((this.props.paused || this.props.locked) ? " action-button-disabled" : "");
         return (
             <button
                 onAnimationEnd={this.buttonEnd}
                 className={classNames}
                 onClick={this.clickHandler}
-                disabled={this.props.paused || this.props.locked}
+                title={this.props.locked ? this.props.hint : undefined}
             >
                 {this.props.label}
 
