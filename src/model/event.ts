@@ -301,19 +301,11 @@ export class QuestionEvent extends Event {
     toResultEventLog(correct: boolean) {
         if (correct) {
             const effectText = Event.effectsToText(this.effects);
-            if (effectText !== null) {
-                return `${this.correctPostFlavor} ${effectText}`;
-            }
-
-            return this.correctPostFlavor;
+            return `${this.correctPostFlavor ? this.correctPostFlavor : ""} ${effectText ? effectText : ""}`;
         }
         else {
             const effectText = Event.effectsToText(this.failureEffects);
-            if (effectText !== null) {
-                return `${this.wrongPostFlavor} ${effectText}`;
-            }
-
-            return this.wrongPostFlavor;
+            return `${this.wrongPostFlavor ? this.wrongPostFlavor : ""} ${effectText ? effectText : ""}`;
         }
     }
 }

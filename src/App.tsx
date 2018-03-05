@@ -8,8 +8,6 @@ import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
 import { Question } from "./model/question";
-import meditate from "./meditate";
-import wander from "./wander";
 import { parseEffect } from "./data/parsers";
 import * as resources from "./data/constants/resources";
 
@@ -38,7 +36,7 @@ enum MainPanelViews {
 }
 
 interface TestState {
-    happening: Question | event.Event | model.Learnable | null;
+    happening: event.Event | model.Learnable | null;
     eventLog: string[];
 }
 
@@ -51,11 +49,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
         };
     }
 
-    onEvent = (happening: Question | event.Event | model.Learnable) => {
+    onEvent = (happening: event.Event | model.Learnable) => {
         let showEvent = true;
-        if (happening instanceof Question) {
-        }
-        else if (happening instanceof event.Event) {
+        if (happening instanceof event.Event) {
             const logText = happening.toEventLog();
             if (logText !== null) {
                 this.state.eventLog.push(logText);
@@ -131,6 +127,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             onEvent={this.onEvent}
                             paused={this.state.happening !== null}
                             eventLog={this.state.eventLog}
+                            isQuizMode={this.state.happening instanceof event.QuestionEvent}
                         />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
