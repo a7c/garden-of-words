@@ -25,19 +25,27 @@ interface Props {
 }
 
 export default class ActionPanel extends React.Component<Props> {
-    wander = () => {
+    wanderHelper(stamina: number, location: model.Location | null) {
         const { store, paused, onEvent, onWander, modifyResource } = this.props;
         if (paused) {
             return;
         }
 
-        const happening = wander(store);
+        const modStore = location === null ? store : store.set("location", location);
+        const happening = wander(modStore);
         onWander();
-        modifyResource(resources.STAMINA, -resources.WANDER_STA_COST);
+        if (stamina !== 0) {
+            modifyResource(resources.STAMINA, stamina);
+        }
+
         if (happening) {
             onEvent(happening);
         }
     }
+
+    wander = () => this.wanderHelper(-resources.WANDER_STA_COST, null);
+    transliterate = () => this.wanderHelper(0, "transliterate-job");
+    vendingMachine = () => this.wanderHelper(0, "vending-machine");
 
     meditate = () => {
         const { store, paused, onEvent, modifyResource } = this.props;
@@ -46,24 +54,6 @@ export default class ActionPanel extends React.Component<Props> {
         }
 
         const happening = meditate(store.learned);
-        if (happening) {
-            onEvent(happening);
-        }
-    }
-
-    transliterate = () => {
-        const { store, paused, onEvent } = this.props;
-        onEvent(events.transliterate[1]);
-    }
-
-    vendingMachine = () => {
-        const { store, paused, onEvent, onWander } = this.props;
-        if (paused) {
-            return;
-        }
-
-        const happening = wander(store.set("location", "vending-machine"));
-        onWander();
         if (happening) {
             onEvent(happening);
         }

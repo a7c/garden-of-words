@@ -83,7 +83,7 @@ function resources(state: immutable.Map<model.Resource, model.ResourceProps> = i
     }
 }
 
-function location(state: model.Location = "nowhere", action: actions.Action): model.Location {
+function location(state: model.Location = "airport-gate", action: actions.Action): model.Location {
     switch (action.type) {
     default:
         return state;

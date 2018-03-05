@@ -137,7 +137,7 @@ export const Store = immutable.Record({
     learned: immutable.Map(),
     collections: immutable.Map(),
     resources: immutable.Map(),
-    location: "nowhere",
+    location: "airport-gate",
     flags: immutable.Map(),
     quests: immutable.Map(),
     steps: 0,
