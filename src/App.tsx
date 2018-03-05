@@ -8,8 +8,6 @@ import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
 import { Question } from "./model/question";
-import meditate from "./meditate";
-import wander from "./wander";
 import { parseEffect } from "./data/parsers";
 import * as resources from "./data/constants/resources";
 
@@ -131,6 +129,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             onEvent={this.onEvent}
                             paused={this.state.happening !== null}
                             eventLog={this.state.eventLog}
+                            isQuizMode={this.state.happening instanceof Question ||
+                                this.state.happening instanceof event.QuestionEvent}
                         />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />

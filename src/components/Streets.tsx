@@ -19,6 +19,8 @@ interface Props {
     paused: boolean;
     store: model.Store;
     eventLog: string[];
+    // True if player is being tested on something. Determines whether we render event log contents.
+    isQuizMode: boolean;
 
     onWander: () => void;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
@@ -30,7 +32,10 @@ export default class Streets extends React.Component<Props> {
         const { store } = this.props;
         return (
             <div id="streets">
-                <EventLog entries={this.props.eventLog} />
+                <EventLog
+                    entries={this.props.eventLog}
+                    hideLog={this.props.isQuizMode}
+                />
                 <ActionPanel
                     store={store}
                     onWander={this.props.onWander}
