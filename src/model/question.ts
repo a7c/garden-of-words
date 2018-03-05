@@ -54,8 +54,10 @@ export abstract class QuestionTemplate {
     }
 }
 
-// TODO: hacky? used when we already have a multiple choice question generated but
-// we still want to make a QuestionEvent
+/**
+ * Used when we already have a multiple choice question generated but
+ * we still want to make a QuestionEvent.
+ */
 export class MultipleChoiceWrapperQuestionTemplate {
     question: Question;
 
