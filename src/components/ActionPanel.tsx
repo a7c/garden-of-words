@@ -80,7 +80,7 @@ export default class ActionPanel extends React.Component<Props> {
                         paused={paused}
                         locked={stamina < resources.WANDER_STA_COST}
                         cooldown={1000}
-                        hint="You need stamina. Try meditating."
+                        hint="You need stamina to wander. Try meditating."
                         onHint={this.onHint}
                     />
                     {learned.size ?
@@ -116,7 +116,13 @@ export default class ActionPanel extends React.Component<Props> {
                 </div>
 
                 <div>
-                    <ActionButton label="Subway" locked={true} paused={paused} />
+                    <ActionButton
+                        label="Subway"
+                        locked={true}
+                        paused={paused}
+                        hint="The subway is far. Walk on and you'll find it eventually."
+                        onHint={this.onHint}
+                    />
                 </div>
             </LabeledPanel>
         );
