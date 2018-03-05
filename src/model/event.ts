@@ -79,7 +79,7 @@ export class ResourceMaxEffect extends Effect {
     }
 
     toEventLog() {
-        return `You now have a maximum of ${this.value} ${this.resource}.`;
+        return `You gained ${this.value} maximum of ${this.resource}.`;
     }
 }
 
