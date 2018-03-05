@@ -8,26 +8,27 @@
 
     background: #FFF;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease-in-out;
 }
 
 #event-overlay.hidden {
-    bottom: -500px !important;
+    transform: translateY(100vh);
 }
 
 .effect-slide-up-enter {
-    bottom: -500px !important;
+    transform: translateY(0);
 }
 
 .effect-slide-up-enter-active {
     transition: all 0.5s ease-in-out;
-    bottom: 20px !important;
+    transform: translateY(0);
 }
 
 .effect-slide-up-exit {
-    bottom: 20px !important;
+    transform: translateY(0);
 }
 
 .effect-slide-up-exit-active {
     transition: all 0.3s ease-in-out;
-    bottom: -500px !important;
+    transform: translateY(100vh);
 }
