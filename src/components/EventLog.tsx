@@ -19,7 +19,10 @@ export default class EventLog extends React.Component<Props> {
 
     componentDidUpdate() {
         if (this.dummy) {
-            this.dummy.scrollIntoView({ behavior: "smooth" });
+            // scrollIntoView scrolls the entire body in Firefox,
+            // which is annoying because we have the hidden question
+            // element
+            (this.dummy.parentNode! as any).scrollTop = 0; //tslint:disable-line
         }
     }
 
