@@ -69,7 +69,12 @@
             {
                 "type": "vocabsize",
                 "collection": "hira-basic",
-                "minimum": "6"
+                "minimum": "4"
+            },
+            {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": false
             }
         ],
         "question": {
@@ -82,8 +87,31 @@
                 "type": "resource",
                 "resource": "yen",
                 "value": 100
+            },
+            {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": true
             }
         ],
         "failureEffects": []
+    },
+    {
+        "type": "flavor",
+        "text": "As you get your bearings, you notice a food court.",
+        "filters": [
+            {
+                "type": "quest",
+                "quest": "meiji-choco",
+                "stage": "complete"
+            }
+        ],
+        "effects": [
+            {
+                "type": "flag",
+                "flag": "airport-food-court",
+                "value": true
+            }
+        ]
     }
 ]
