@@ -35,6 +35,10 @@ export default class ActionButton extends React.Component<Props, State> {
         if (nextState.onCooldown && !nextState.coolingDown) {
             if (!nextProps.paused) {
                 setTimeout(() => this.setState({ coolingDown: true }), 100);
+                setTimeout(
+                    () => this.setState({ coolingDown: false, onCooldown: false, flashing: true }),
+                    100 + this.props.cooldown!
+                );
             }
         }
     }
@@ -48,10 +52,6 @@ export default class ActionButton extends React.Component<Props, State> {
         }
     }
 
-    progressBarEnd = () => {
-        this.setState({ coolingDown: false, onCooldown: false, flashing: true });
-    }
-
     buttonEnd = () => {
         this.setState({ flashing: false });
     }
@@ -61,7 +61,6 @@ export default class ActionButton extends React.Component<Props, State> {
             this.state.onCooldown ?
             (
                 <div
-                    onTransitionEnd={this.progressBarEnd}
                     style={{ transitionDuration: `${this.props.cooldown || 500}ms` }}
                     className={"action-button-progress" +
                          (this.state.coolingDown ?
