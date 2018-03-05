@@ -46,7 +46,6 @@ export default class ActionPanel extends React.Component<Props> {
         }
 
         const happening = meditate(store.learned);
-        modifyResource(resources.STAMINA, -resources.MEDITATE_STA_COST);
         if (happening) {
             onEvent(happening);
         }
