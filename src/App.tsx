@@ -98,6 +98,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.props.onReview(id, correct);
     }
 
+    onNavTabHint = (hint: string) => {
+        this.onEvent(new event.FlavorEvent([], [], hint));
+    }
+
     render() {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps } = store;
@@ -121,9 +125,24 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 <div id="RightPanel">
                     <NavTab
                         labels={[
-                            ["The Street", true],
-                            ["Map", false],
-                            ["Collections", this.props.store.learned.size > 0]
+                            {
+                                label: "The Street",
+                                enabled: true,
+                                hint: "",
+                                onHint: this.onNavTabHint,
+                            },
+                            {
+                                label: "Map",
+                                enabled: false,
+                                hint: "Gotta get your bearings before looking for a map.",
+                                onHint: this.onNavTabHint,
+                            },
+                            {
+                                label: "Collections",
+                                enabled: this.props.store.learned.size > 0,
+                                hint: "Maybe wandering around will give you some vocabulary to collect.",
+                                onHint: this.onNavTabHint,
+                            }
                         ]}
                     >
                         <Streets
