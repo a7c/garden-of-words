@@ -163,7 +163,8 @@ export class FlagFilter extends Filter {
 
     check(store: model.Store): boolean {
         const actualValue = store.flags.get(this.flag);
-        return actualValue === this.value;
+        // Cast to boolean
+        return !!actualValue === this.value;
     }
 }
 

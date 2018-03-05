@@ -7,7 +7,6 @@ import * as question from "../model/question";
 import * as resources from "../data/constants/resources";
 import wander from "../wander";
 import meditate from "../meditate";
-import events from "../data/events";
 
 import "../Common.css";
 import "./ActionPanel.css";

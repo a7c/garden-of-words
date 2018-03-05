@@ -2,7 +2,13 @@
     {
         "type": "flavor",
         "text": "Stepping off the plane, you recall a fragment of high school Japanese.",
-        "filters": [],
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "meditate-button",
+                "value": false
+            }
+        ],
         "effects": [
             {
                 "type": "flag",
@@ -28,7 +34,13 @@
     {
         "type": "flavor",
         "text": "You find a fabled Japanese vending machine.",
-        "filters": [],
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "vending-machine",
+                "value": false
+            }
+        ],
         "effects": [
             {
                 "type": "flag",
