@@ -154,3 +154,7 @@ export const Store = immutable.Record({
     quests: immutable.Map(),
     steps: 0,
 }) as any as Store; // tslint:disable-line
+
+export function locationDiscovered(store: Store, location: Location): boolean {
+    return store.location.discovered.includes(location);
+}

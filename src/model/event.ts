@@ -65,6 +65,23 @@ export class FlagEffect extends Effect {
     }
 }
 
+export class TravelEffect extends Effect {
+    location: model.Location;
+
+    constructor(location: model.Location) {
+        super();
+        this.location = location;
+    }
+
+    toAction() {
+        return actions.travel(this.location);
+    }
+
+    toEventLog() {
+        return `You walk to ${locations[this.location].name}.`;
+    }
+}
+
 export class DiscoverEffect extends Effect {
     location: model.Location;
 
@@ -97,7 +114,7 @@ export class ResourceMaxEffect extends Effect {
     }
 
     toEventLog() {
-        return `You gained ${this.value} maximum of ${this.resource}.`;
+        return `You gained ${this.value} maximum ${this.resource}.`;
     }
 }
 

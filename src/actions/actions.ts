@@ -8,6 +8,7 @@ export const UPDATE_FLAG = "update_flag";
 export const UPDATE_QUEST = "update_quest";
 export const WANDER = "wander";
 export const DISCOVER = "discover";
+export const TRAVEL = "travel";
 export const MODIFY_RESOURCE = "modify_resource";
 export const MODIFY_RESOURCE_MAX = "modify_resource_max";
 
@@ -35,6 +36,11 @@ export interface UpdateFlagAction extends redux.AnyAction {
 
 export interface DiscoverAction extends redux.AnyAction {
     type: typeof DISCOVER;
+    location: model.Location;
+}
+
+export interface TravelAction extends redux.AnyAction {
+    type: typeof TRAVEL;
     location: model.Location;
 }
 
@@ -113,6 +119,13 @@ export function modifyResource(resource: model.Resource, value: number): Action 
 export function discover(location: model.Location): Action {
     return {
         type: DISCOVER,
+        location: location,
+    };
+}
+
+export function travel(location: model.Location): Action {
+    return {
+        type: TRAVEL,
         location: location,
     };
 }

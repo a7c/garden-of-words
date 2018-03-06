@@ -63,6 +63,16 @@ export default class ActionPanel extends React.Component<Props> {
         }
     }
 
+    travel = (location: model.Location) => {
+        this.props.onEvent(new event.FlavorEvent(
+            [],
+            [
+                new event.TravelEffect(location),
+            ],
+            ""
+        ));
+    }
+
     render() {
         const { store, paused } = this.props;
         const { learned, flags } = store;
@@ -116,14 +126,23 @@ export default class ActionPanel extends React.Component<Props> {
                      false}
                 </div>
 
+                {/* TODO: want some model of what is adjacent to what */}
                 <div>
-                    <ActionButton
-                        label="Subway"
-                        locked={true}
-                        paused={paused}
-                        hint="The subway is far. Walk on and you'll find it eventually."
-                        onHint={this.onHint}
-                    />
+                    {(model.locationDiscovered(store, "airport-food-court") &&
+                      store.location.current !== "airport-food-court") ?
+                     <ActionButton
+                         label="Food Court"
+                         paused={paused}
+                         onClick={() => this.travel("airport-food-court")}
+                     />
+                     : false}
+                <ActionButton
+                    label="Subway"
+                    locked={true}
+                    paused={paused}
+                    hint="The subway is far. Walk on and you'll find it eventually."
+                    onHint={this.onHint}
+                />
                 </div>
             </LabeledPanel>
         );

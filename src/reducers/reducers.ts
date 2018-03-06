@@ -90,6 +90,8 @@ function location(
     switch (action.type) {
     case actions.DISCOVER:
         return state.set("discovered", state.discovered.add(action.location));
+    case actions.TRAVEL:
+        return state.set("current", action.location);
     default:
         return state;
     }
