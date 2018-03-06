@@ -50,9 +50,11 @@ export default class EventLog extends React.Component<Props> {
         }
         else {
             content = (
-                <ul>
-                    <li>(log hidden!)</li>
-                </ul>
+                <div className="log-hidden">
+                    <p>
+                        You clear your mind of distractions and meditate on what you've learned.
+                    </p>
+                </div>
             );
         }
 
