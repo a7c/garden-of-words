@@ -126,7 +126,9 @@ export default class ActionPanel extends React.Component<Props> {
                      false}
                 </div>
 
-                {/* TODO: want some model of what is adjacent to what */}
+                {/* TODO: want some model of what is adjacent to
+                what. Also, reusable component for this would be
+                nice. */}
                 <div>
                     {(model.locationDiscovered(store, "airport-food-court") &&
                       store.location.current !== "airport-food-court") ?
@@ -134,6 +136,14 @@ export default class ActionPanel extends React.Component<Props> {
                          label="Food Court"
                          paused={paused}
                          onClick={() => this.travel("airport-food-court")}
+                     />
+                     : false}
+                    {(model.locationDiscovered(store, "airport-gate") &&
+                      store.location.current !== "airport-gate") ?
+                     <ActionButton
+                         label="Back to gate"
+                         paused={paused}
+                         onClick={() => this.travel("airport-gate")}
                      />
                      : false}
                 <ActionButton
