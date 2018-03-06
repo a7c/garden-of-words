@@ -2,6 +2,7 @@ import * as model from "./model";
 import * as question from "./question";
 import * as actions from "../actions/actions";
 import * as lookup from "./lookup";
+import locations from "../data/locations";
 
 export class Effect {
     // TODO: this signature needs to be more precise
@@ -74,6 +75,10 @@ export class DiscoverEffect extends Effect {
 
     toAction() {
         return actions.discover(this.location);
+    }
+
+    toEventLog() {
+        return `You discovered ${locations[this.location].name}.`;
     }
 }
 

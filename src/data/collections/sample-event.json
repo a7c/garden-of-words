@@ -108,9 +108,8 @@
         ],
         "effects": [
             {
-                "type": "flag",
-                "flag": "airport-food-court",
-                "value": true
+                "type": "discover",
+                "location": "airport-food-court"
             }
         ]
     }
