@@ -104,6 +104,11 @@
                 "type": "quest",
                 "quest": "meiji-choco",
                 "stage": "complete"
+            },
+            {
+                "type": "flag",
+                "flag": "discovered:airport-food-court",
+                "value": false
             }
         ],
         "effects": [

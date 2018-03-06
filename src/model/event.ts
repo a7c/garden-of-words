@@ -214,6 +214,10 @@ export class FlagFilter extends Filter {
     }
 
     check(store: model.Store): boolean {
+        if (this.flag.slice(0, 11) === "discovered:") {
+            // Actually querying whether we've discovered a place
+            return !!model.locationDiscovered(store, this.flag.slice(11)) === this.value;
+        }
         const actualValue = store.flags.get(this.flag);
         // Cast to boolean
         return !!actualValue === this.value;
