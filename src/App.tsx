@@ -133,7 +133,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             },
                             {
                                 label: "Map",
-                                enabled: false,
+                                enabled: this.props.store.location.discovered.size > 1,
                                 hint: "Gotta get your bearings before looking for a map.",
                                 onHint: this.onNavTabHint,
                             },
