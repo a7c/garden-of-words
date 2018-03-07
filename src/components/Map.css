@@ -4,3 +4,12 @@ svg {
     max-height: 90%;
     max-width: 100%;
 }
+
+svg circle {
+    transition: all ease-in 0.3s;
+    cursor: pointer;
+}
+
+svg circle:hover {
+    fill: #FFF;
+}
