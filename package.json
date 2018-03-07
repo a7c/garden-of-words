@@ -15,7 +15,8 @@
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-immutable": "^4.0.0",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "svgr": "^1.8.1"
   },
   "scripts": {
     "start": "react-scripts-ts start",
