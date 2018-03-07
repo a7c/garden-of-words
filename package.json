@@ -19,6 +19,7 @@
     "svgr": "^1.8.1"
   },
   "scripts": {
+    "generate-svg": "svgr --ext tsx --template svgr-typescript.js src/assets/map.svg",
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
