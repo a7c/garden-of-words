@@ -126,7 +126,13 @@
                 "type": "resource",
                 "resource": "stamina",
                 "minimum": 11
+            },
+            {
+                "type": "flag",
+                "flag": "has-luggage-job",
+                "value": false
             }
+
         ],
         "effects": [
             {
