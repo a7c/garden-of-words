@@ -64,29 +64,6 @@ export default class ActionPanel extends React.Component<Props> {
         }
     }
 
-    // transliterate = () => {
-    //     const { store, paused, onEvent } = this.props;
-    //     onEvent(events.transliterate[1]);
-    // }
-
-    // haulLuggage = () => {
-    //     const { store, paused, onEvent } = this.props;
-    //     onEvent(events.luggageEvent[0]);
-    // }
-
-    // vendingMachine = () => {
-    //     const { store, paused, onEvent, onWander } = this.props;
-    //     if (paused) {
-    //         return;
-    //     }
-
-    //     const happening = wander(store.set("location", "vending-machine"));
-    //     onWander();
-    //     if (happening) {
-    //         onEvent(happening);
-    //     }
-    // }
-
     travel = (location: model.Location) => {
         this.props.onEvent(new event.FlavorEvent(
             [],
@@ -136,8 +113,7 @@ export default class ActionPanel extends React.Component<Props> {
                         paused={paused}
                     />
                     : false}
-                    {stamina >= resources.LUGGAGE_UNLOCK_STAMINA ||
-                     store.flags.get("has-luggage-job") ?
+                    {store.flags.get("has-luggage-job") ?
                     <ActionButton
                         label="Haul Luggage"
                         benefit={`-${resources.LUGGAGE_STA_COST} STA`}
@@ -145,6 +121,8 @@ export default class ActionPanel extends React.Component<Props> {
                         locked={stamina < resources.LUGGAGE_STA_COST}
                         paused={paused}
                         cooldown={2500}
+                        hint="Meiji chocolates really seem to get your stamina up."
+                        onHint={this.onHint}
                     />
                     : false}
                 </div>

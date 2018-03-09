@@ -11,5 +11,5 @@ export default {
     airportFoodCourt: events,
     transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
-    luggageEvent: luggageEventJson.map(parsers.parseEvent)
+    luggageJob: luggageEventJson.map(parsers.parseEvent)
 };
