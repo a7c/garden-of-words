@@ -2,7 +2,13 @@
     {
         "type": "flavor",
         "text": "Stepping off the plane, you recall a fragment of high school Japanese.",
-        "filters": [],
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "meditate-button",
+                "value": false
+            }
+        ],
         "effects": [
             {
                 "type": "flag",
@@ -28,7 +34,13 @@
     {
         "type": "flavor",
         "text": "You find a fabled Japanese vending machine.",
-        "filters": [],
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "vending-machine",
+                "value": false
+            }
+        ],
         "effects": [
             {
                 "type": "flag",
@@ -57,7 +69,12 @@
             {
                 "type": "vocabsize",
                 "collection": "hira-basic",
-                "minimum": "6"
+                "minimum": "4"
+            },
+            {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": false
             }
         ],
         "question": {
@@ -70,9 +87,36 @@
                 "type": "resource",
                 "resource": "yen",
                 "value": 100
+            },
+            {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": true
             }
         ],
         "failureEffects": []
+    },
+    {
+        "type": "flavor",
+        "text": "As you get your bearings, you notice a food court.",
+        "filters": [
+            {
+                "type": "quest",
+                "quest": "meiji-choco",
+                "stage": "complete"
+            },
+            {
+                "type": "flag",
+                "flag": "discovered:airport-food-court",
+                "value": false
+            }
+        ],
+        "effects": [
+            {
+                "type": "discover",
+                "location": "airport-food-court"
+            }
+        ]
     },
     {
         "type": "flavor",

@@ -2,6 +2,7 @@ import * as model from "./model";
 import * as question from "./question";
 import * as actions from "../actions/actions";
 import * as lookup from "./lookup";
+import locations from "../data/locations";
 
 export class Effect {
     // TODO: this signature needs to be more precise
@@ -64,6 +65,40 @@ export class FlagEffect extends Effect {
     }
 }
 
+export class TravelEffect extends Effect {
+    location: model.Location;
+
+    constructor(location: model.Location) {
+        super();
+        this.location = location;
+    }
+
+    toAction() {
+        return actions.travel(this.location);
+    }
+
+    toEventLog() {
+        return `You walk to ${locations[this.location].name}.`;
+    }
+}
+
+export class DiscoverEffect extends Effect {
+    location: model.Location;
+
+    constructor(location: model.Location) {
+        super();
+        this.location = location;
+    }
+
+    toAction() {
+        return actions.discover(this.location);
+    }
+
+    toEventLog() {
+        return `You discovered ${locations[this.location].name}.`;
+    }
+}
+
 export class ResourceMaxEffect extends Effect {
     resource: model.Resource;
     value: number;
@@ -79,7 +114,7 @@ export class ResourceMaxEffect extends Effect {
     }
 
     toEventLog() {
-        return `You now have a maximum of ${this.value} ${this.resource}.`;
+        return `You gained ${this.value} maximum ${this.resource}.`;
     }
 }
 
@@ -134,6 +169,23 @@ export class LocationFilter extends Filter {
         super();
         this.location = location;
     }
+
+    check(store: model.Store) {
+        return store.location.current === this.location;
+    }
+}
+
+export class KnowLocationFilter extends Filter {
+    location: model.Location;
+
+    constructor(location: model.Location) {
+        super();
+        this.location = location;
+    }
+
+    check(store: model.Store) {
+        return store.location.discovered.includes(this.location);
+    }
 }
 
 export class QuestFilter extends Filter {
@@ -162,8 +214,13 @@ export class FlagFilter extends Filter {
     }
 
     check(store: model.Store): boolean {
+        if (this.flag.slice(0, 11) === "discovered:") {
+            // Actually querying whether we've discovered a place
+            return !!model.locationDiscovered(store, this.flag.slice(11)) === this.value;
+        }
         const actualValue = store.flags.get(this.flag);
-        return actualValue === this.value;
+        // Cast to boolean
+        return !!actualValue === this.value;
     }
 }
 

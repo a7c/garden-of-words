@@ -7,8 +7,9 @@ const luggageEventJson = require("./collections/luggage-event.json");
 const events = sampleEventJson.map(parsers.parseEvent);
 
 export default {
-    events,
-    transliterate: transliterateEventJson.map(parsers.parseEvent),
+    airportGate: events,
+    airportFoodCourt: events,
+    transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
     luggageEvent: luggageEventJson.map(parsers.parseEvent)
 };

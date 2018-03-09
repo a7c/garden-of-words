@@ -54,7 +54,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (happening instanceof event.Event) {
             const logText = happening.toEventLog();
             if (logText !== null) {
-                this.state.eventLog.push(logText);
+                this.setState({ eventLog: this.state.eventLog.concat([logText]) });
             }
 
             if (happening instanceof event.FlavorEvent) {
@@ -98,6 +98,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.props.onReview(id, correct);
     }
 
+    onNavTabHint = (hint: string) => {
+        this.onEvent(new event.FlavorEvent([], [], hint));
+    }
+
     render() {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps } = store;
@@ -114,12 +118,33 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         onNotHappening={this.onNotHappening}
                     />
                     <ScenePanel
-                        location={store.location}
+                        location={store.location.current}
                         steps={steps}
                     />
                 </div>
                 <div id="RightPanel">
-                    <NavTab labels={["The Street", "Map", "Collections"]}>
+                    <NavTab
+                        labels={[
+                            {
+                                label: "The Street",
+                                enabled: true,
+                                hint: "",
+                                onHint: this.onNavTabHint,
+                            },
+                            {
+                                label: "Map",
+                                enabled: this.props.store.location.discovered.size > 1,
+                                hint: "Gotta get your bearings before looking for a map.",
+                                onHint: this.onNavTabHint,
+                            },
+                            {
+                                label: "Collections",
+                                enabled: this.props.store.learned.size > 0,
+                                hint: "Maybe wandering around will give you some vocabulary to collect.",
+                                onHint: this.onNavTabHint,
+                            }
+                        ]}
+                    >
                         <Streets
                             store={store}
                             onWander={this.props.onWander}

@@ -8,5 +8,9 @@
         "type": "resource-max",
         "resource": "stamina",
         "value": 10
+    },
+    {
+        "type": "discover",
+        "location": "airport-gate"
     }
 ]

@@ -7,7 +7,6 @@ import * as question from "../model/question";
 import * as resources from "../data/constants/resources";
 import wander from "../wander";
 import meditate from "../meditate";
-import events from "../data/events";
 
 import "../Common.css";
 import "./ActionPanel.css";
@@ -25,18 +24,32 @@ interface Props {
 }
 
 export default class ActionPanel extends React.Component<Props> {
-    wander = () => {
+    wanderHelper(stamina: number, location: model.Location | null) {
         const { store, paused, onEvent, onWander, modifyResource } = this.props;
         if (paused) {
             return;
         }
 
-        const happening = wander(store);
+        const modStore = location === null ? store :
+                         store.set("location", store.location.set("current", location));
+        const happening = wander(modStore);
         onWander();
-        modifyResource(resources.STAMINA, -resources.WANDER_STA_COST);
+        if (stamina !== 0) {
+            modifyResource(resources.STAMINA, stamina);
+        }
+
         if (happening) {
             onEvent(happening);
         }
+    }
+
+    wander = () => this.wanderHelper(-resources.WANDER_STA_COST, null);
+    transliterate = () => this.wanderHelper(0, "transliterate-job");
+    vendingMachine = () => this.wanderHelper(0, "vending-machine");
+    haulLuggage = () => this.wanderHelper(-resources.LUGGAGE_STA_COST, "luggage-job");
+
+    onHint = (hint: string) => {
+        this.props.onEvent(new event.FlavorEvent([], [], hint));
     }
 
     meditate = () => {
@@ -51,27 +64,37 @@ export default class ActionPanel extends React.Component<Props> {
         }
     }
 
-    transliterate = () => {
-        const { store, paused, onEvent } = this.props;
-        onEvent(events.transliterate[1]);
-    }
+    // transliterate = () => {
+    //     const { store, paused, onEvent } = this.props;
+    //     onEvent(events.transliterate[1]);
+    // }
 
-    haulLuggage = () => {
-        const { store, paused, onEvent } = this.props;
-        onEvent(events.luggageEvent[0]);
-    }
+    // haulLuggage = () => {
+    //     const { store, paused, onEvent } = this.props;
+    //     onEvent(events.luggageEvent[0]);
+    // }
 
-    vendingMachine = () => {
-        const { store, paused, onEvent, onWander } = this.props;
-        if (paused) {
-            return;
-        }
+    // vendingMachine = () => {
+    //     const { store, paused, onEvent, onWander } = this.props;
+    //     if (paused) {
+    //         return;
+    //     }
 
-        const happening = wander(store.set("location", "vending-machine"));
-        onWander();
-        if (happening) {
-            onEvent(happening);
-        }
+    //     const happening = wander(store.set("location", "vending-machine"));
+    //     onWander();
+    //     if (happening) {
+    //         onEvent(happening);
+    //     }
+    // }
+
+    travel = (location: model.Location) => {
+        this.props.onEvent(new event.FlavorEvent(
+            [],
+            [
+                new event.TravelEffect(location),
+            ],
+            ""
+        ));
     }
 
     render() {
@@ -92,6 +115,8 @@ export default class ActionPanel extends React.Component<Props> {
                         paused={paused}
                         locked={stamina < resources.WANDER_STA_COST}
                         cooldown={1000}
+                        hint="You need stamina to wander. Try meditating."
+                        onHint={this.onHint}
                     />
                     {learned.size ?
                      <ActionButton
@@ -136,8 +161,33 @@ export default class ActionPanel extends React.Component<Props> {
                      false}
                 </div>
 
+                {/* TODO: want some model of what is adjacent to
+                what. Also, reusable component for this would be
+                nice. */}
                 <div>
-                    <ActionButton label="Subway" locked={true} paused={paused} />
+                    {(model.locationDiscovered(store, "airport-food-court") &&
+                      store.location.current !== "airport-food-court") ?
+                     <ActionButton
+                         label="Food Court"
+                         paused={paused}
+                         onClick={() => this.travel("airport-food-court")}
+                     />
+                     : false}
+                    {(model.locationDiscovered(store, "airport-gate") &&
+                      store.location.current !== "airport-gate") ?
+                     <ActionButton
+                         label="Back to gate"
+                         paused={paused}
+                         onClick={() => this.travel("airport-gate")}
+                     />
+                     : false}
+                <ActionButton
+                    label="Subway"
+                    locked={true}
+                    paused={paused}
+                    hint="The subway is far. Walk on and you'll find it eventually."
+                    onHint={this.onHint}
+                />
                 </div>
             </LabeledPanel>
         );
