@@ -119,12 +119,24 @@ export const Learned = immutable.Record({
     score: 0.0,
 }) as any as Learned; // tslint:disable-line
 
-// TODO: are these Store types still needed?
+export interface LocationProps {
+    readonly current: Location;
+    readonly discovered: immutable.Set<Location>;
+}
+
+export interface LocationRecord extends LocationProps, ImmutableRecord<LocationProps> {
+}
+
+export const LocationRecord = immutable.Record({
+    current: "airport-gate",
+    discovered: immutable.Set(["airport-gate"]),
+}) as any as LocationRecord; // tslint:disable-line
+
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
     readonly collections: immutable.Map<CollectionId, Collection>;
     readonly resources: immutable.Map<Resource, ResourceProps>;
-    readonly location: Location;
+    readonly location: LocationRecord;
     readonly flags: immutable.Map<Flag, FlagValue>;
     readonly quests: immutable.Map<QuestId, QuestStage>;
     readonly steps: number;
@@ -137,8 +149,12 @@ export const Store = immutable.Record({
     learned: immutable.Map(),
     collections: immutable.Map(),
     resources: immutable.Map(),
-    location: "nowhere",
+    location: new LocationRecord(),
     flags: immutable.Map(),
     quests: immutable.Map(),
     steps: 0,
 }) as any as Store; // tslint:disable-line
+
+export function locationDiscovered(store: Store, location: Location): boolean {
+    return store.location.discovered.includes(location);
+}

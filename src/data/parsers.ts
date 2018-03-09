@@ -16,6 +16,7 @@ export class ParseError {
 type EffectProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage, journal?: string } |
     { type: "flag", flag: string, value: boolean } |
+    { type: "discover", location: model.Location } |
     { type: "resource", resource: model.Resource, value: number } |
     { type: "resource-max", resource: model.Resource, value: number } |
     { type: "learn", id: model.LearnableId };
@@ -24,6 +25,7 @@ type FilterProps =
     { type: "resource", resource: model.Resource, minimum: number } |
     { type: "vocabsize", collection: model.CollectionId, minimum: number } |
     { type: "location", location: model.Location } |
+    { type: "know-location", location: model.Location } |
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage };
 
@@ -44,6 +46,9 @@ type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
 export function parseEffect(json: EffectProps): event.Effect {
     if (json.type === "flag") {
         return new event.FlagEffect(json.flag, json.value);
+    }
+    if (json.type === "discover") {
+        return new event.DiscoverEffect(json.location);
     }
     else if (json.type === "resource") {
         return new event.ResourceEffect(json.resource, json.value);
@@ -66,6 +71,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     }
     else if (json.type === "location") {
         return new event.LocationFilter(json.location);
+    }
+    else if (json.type === "know-location") {
+        return new event.KnowLocationFilter(json.location);
     }
     else if (json.type === "quest") {
         return new event.QuestFilter(json.quest, json.stage);
