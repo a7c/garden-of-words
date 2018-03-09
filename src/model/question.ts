@@ -54,6 +54,22 @@ export abstract class QuestionTemplate {
     }
 }
 
+/**
+ * Used when we already have a multiple choice question generated but
+ * we still want to make a QuestionEvent.
+ */
+export class MultipleChoiceWrapperQuestionTemplate {
+    question: Question;
+
+    constructor(question: Question) {
+        this.question = question;
+    }
+
+    makeQuestion(store: model.Store): Question {
+        return this.question;
+    }
+}
+
 export class MultipleChoiceQuestionTemplate {
     collection: model.CollectionId;
     onlySeen: boolean;

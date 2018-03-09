@@ -30,21 +30,26 @@ export default class ActionButton extends React.Component<Props, State> {
         this.state = { onCooldown: false, coolingDown: false, flashing: false };
     }
 
-    clickHandler = () => {
-        if (!this.props.paused && !this.state.onCooldown && this.props.onClick) {
-            this.props.onClick();
-            if (this.props.cooldown) {
-                this.setState({ onCooldown: true });
-                window.setTimeout(
-                    () => this.setState({ coolingDown: true }),
-                    100
+    componentWillUpdate(nextProps: Props, nextState: State) {
+        // Don't set cooldown until pause ends
+        if (nextState.onCooldown && !nextState.coolingDown) {
+            if (!nextProps.paused) {
+                setTimeout(() => this.setState({ coolingDown: true }), 100);
+                setTimeout(
+                    () => this.setState({ coolingDown: false, onCooldown: false, flashing: true }),
+                    100 + this.props.cooldown!
                 );
             }
         }
     }
 
-    progressBarEnd = () => {
-        this.setState({ coolingDown: false, onCooldown: false, flashing: true });
+    clickHandler = () => {
+        if (!this.props.paused && !this.state.onCooldown && this.props.onClick) {
+            this.props.onClick();
+            if (this.props.cooldown) {
+                this.setState({ onCooldown: true });
+            }
+        }
     }
 
     buttonEnd = () => {
@@ -56,7 +61,6 @@ export default class ActionButton extends React.Component<Props, State> {
             this.state.onCooldown ?
             (
                 <div
-                    onTransitionEnd={this.progressBarEnd}
                     style={{ transitionDuration: `${this.props.cooldown || 500}ms` }}
                     className={"action-button-progress" +
                          (this.state.coolingDown ?

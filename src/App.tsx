@@ -8,8 +8,8 @@ import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
 import { Question } from "./model/question";
-import meditate from "./meditate";
-import wander from "./wander";
+import { parseEffect } from "./data/parsers";
+import * as resources from "./data/constants/resources";
 
 import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
@@ -22,9 +22,10 @@ import CollectionList from "./components/AllCollections";
 interface TestProps {
     store: model.Store;
 
-    onWander: () => actions.Action;
     onLearn: (item: model.Learnable) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
+    onWander: () => actions.Action;
+    modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     handleEventEffect: (effect: event.Effect) => actions.Action;
 }
 
@@ -35,7 +36,7 @@ enum MainPanelViews {
 }
 
 interface TestState {
-    happening: Question | event.Event | model.Learnable | null;
+    happening: event.Event | model.Learnable | null;
     eventLog: string[];
 }
 
@@ -48,11 +49,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
         };
     }
 
-    onEvent = (happening: Question | event.Event | model.Learnable) => {
+    onEvent = (happening: event.Event | model.Learnable) => {
         let showEvent = true;
-        if (happening instanceof Question) {
-        }
-        else if (happening instanceof event.Event) {
+        if (happening instanceof event.Event) {
             const logText = happening.toEventLog();
             if (logText !== null) {
                 this.state.eventLog.push(logText);
@@ -124,9 +123,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         <Streets
                             store={store}
                             onWander={this.props.onWander}
+                            modifyResource={this.props.modifyResource}
                             onEvent={this.onEvent}
                             paused={this.state.happening !== null}
                             eventLog={this.state.eventLog}
+                            isQuizMode={this.state.happening instanceof event.QuestionEvent}
                         />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
@@ -143,20 +144,24 @@ const Test = connect(
         onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
-        onWander: () => dispatch(actions.wander()),
+        onWander: () => {
+            dispatch(actions.wander());
+        },
+        modifyResource: (resource: model.Resource, amount: number) => {
+            dispatch(actions.modifyResource(resource, amount));
+        },
         handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
     })
 )(TestComponent as React.ComponentType<TestProps>);
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-          <h1>Michael Mauer Simulator 2017</h1>
-          <Test/>
-      </div>
-    );
-  }
-}
+export default class App extends React.Component {
 
-export default App;
+    render() {
+        return (
+            <div className="App">
+            <h1>Michael Mauer Simulator 2017</h1>
+            <Test/>
+        </div>
+        );
+    }
+}

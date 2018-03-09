@@ -15,6 +15,11 @@
                 "value": true
             },
             {
+                "type": "flag",
+                "flag": "has-transliteration-job",
+                "value": false
+            },
+            {
                 "type": "learn",
                 "id": "hira-a"
             }
