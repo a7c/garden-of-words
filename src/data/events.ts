@@ -6,7 +6,8 @@ const transliterateEventJson = require("./collections/transliterate-event.json")
 const events = sampleEventJson.map(parsers.parseEvent);
 
 export default {
-    events,
-    transliterate: transliterateEventJson.map(parsers.parseEvent),
+    airportGate: events,
+    airportFoodCourt: events,
+    transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
 };

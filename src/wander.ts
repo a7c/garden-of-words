@@ -13,33 +13,21 @@ import * as lookup from "./model/lookup";
 export default function wander(store: model.Store):
 model.Learnable | event.Event | null {
     const { location, learned } = store;
-    // TODO: full location-based event system
-    if (location === "vending-machine") {
-        for (const ev of events.vendingMachine) {
-            if (!ev.check(store)) {
-                continue;
-            }
 
-            return ev;
-        }
-    }
+    // Turn location-name into locationName
+    const locationKey = location.current.replace(/-[a-z]/g, (a) => a.slice(1).toUpperCase());
 
-    const transliterateGetJob = events.transliterate[0];
-    if (transliterateGetJob.check(store)) {
-        return transliterateGetJob;
-    }
+    const eventList = events[locationKey];
 
-    for (let i = 0; i < events.events.length; i++) {
-        const ev = events.events[i];
+    for (const ev of eventList) {
         if (!ev.check(store)) {
             continue;
         }
 
-        return events.events.splice(i, 1)[0];
+        return ev;
     }
 
-    // let word: model.Learnable | null = null;
-    // return word;
+    // return events.airportGate.splice(i, 1)[0];
 
     return lookup.getNextLearnable(store);
 }

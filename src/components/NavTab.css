@@ -5,6 +5,7 @@
 
 .nav-tab > * {
     flex: 1 1;
+    max-height: calc(100% - 3rem);
 }
 
 .nav-tab > nav {

@@ -12,6 +12,11 @@
     margin-top: -0.125em;
 }
 
+.action-button-disabled {
+    cursor: not-allowed;
+    background: #CCC;
+}
+
 .action-button-progress {
     position: absolute;
     top: 0;
