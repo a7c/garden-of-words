@@ -86,7 +86,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
 
         return (
           <section id="collection-list">
-              <LabeledPanel id="collections-panel" title="Collections">
+              <LabeledPanel id="collections-panel">
                   <div id="search-menu">
                       <LabeledPanel id="collections-search" title="Search">
                           <input
@@ -102,7 +102,9 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                           </div>
                       </LabeledPanel>
                   </div>
-                  {contents}
+                  <div id="collections-table">
+                      {contents}
+                  </div>
               </LabeledPanel>
           </section>
         );

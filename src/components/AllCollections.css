@@ -37,15 +37,15 @@
     flex: 0;
 }
 
-#collections-panel > button {
+#collections-table > button {
   width: 100px;
   height: 100px;
   padding: 5px;
   margin: 10px;
 }
 
-#collections-panel {
+#collections-table {
   overflow-y: scroll;
-  height: 425px;
+  height: 380px;
   min-height: 0px;
 }
