@@ -14,11 +14,6 @@
                 "type": "resource",
                 "resource": "yen",
                 "value": 80
-            },
-            {
-                "type": "resource",
-                "resource": "stamina",
-                "value": -15
             }
         ]
     }
