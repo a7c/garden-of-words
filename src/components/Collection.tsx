@@ -10,10 +10,12 @@ import "./Collection.css";
 
 import * as lookup from "../model/lookup";
 
+import ActionButton from "./ActionButton";
+
 export interface CollectionProps {
+    name: string;
     collection: model.Collection;
     learned: immutable.Map<model.LearnableId, model.Learned>;
-
     onFinished: () => void;
 }
 
@@ -34,7 +36,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
         );
     }
 
-    onExited = (node: HTMLElement) => {
+    onExited = () => {
         if (this.state.showedCollection) {
             this.props.onFinished();
         }
@@ -50,10 +52,21 @@ export default class CollectionComponent extends React.Component<CollectionProps
     render() {
         const col = this.props.collection;
         let contents = [<span key="blank"/>];
-        let button = <span/>;
+        let header = <span/>;
         let key = "blank";
         if (this.state.showCollection) {
             key = "notblank";
+
+            header = (
+                <ActionButton
+                    onClick={() => this.setState({
+                      showCollection: false,
+                      showedCollection: true
+                    })}
+                    label={this.props.name}
+                />
+            );
+
             // set contents
             contents = col.map((id) => {
                     if (id !== undefined) {
@@ -67,18 +80,6 @@ export default class CollectionComponent extends React.Component<CollectionProps
                         return <span key="blank"/>;
                     }
                 }).toArray();
-
-            button = (
-                <button
-                    className="Button"
-                    onClick={() => this.setState({
-                            showCollection: false,
-                            showedCollection: true
-                        })}
-                >
-                    Back
-                </button>
-            );
         }
 
         return (
@@ -90,8 +91,10 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     onExited={this.onExited}
                 >
                     <section className="collection-display">
+                        <div id="collections-header">
+                        {header}
+                        </div>
                         {contents}
-                        {button}
                     </section>
                 </CSSTransition>
             </TransitionGroup>
