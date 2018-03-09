@@ -73,5 +73,23 @@
             }
         ],
         "failureEffects": []
+    },
+    {
+        "type": "flavor",
+        "text": "You realize it could be lucrative to charge old tourists to help haul their bags around...but you'll need to get your endurance up.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "stamina",
+                "minimum": 11
+            }
+        ],
+        "effects": [
+            {
+                "type": "flag",
+                "flag": "has-luggage-job",
+                "value": true
+            }
+        ]
     }
 ]

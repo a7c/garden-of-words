@@ -1,0 +1,25 @@
+[
+    {
+        "type": "flavor",
+        "text": "A tourist asks for help hauling some luggage to their taxi.",
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "has-luggage-job",
+                "value": true
+            }
+        ],
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": 80
+            },
+            {
+                "type": "resource",
+                "resource": "stamina",
+                "value": -15
+            }
+        ]
+    }
+]

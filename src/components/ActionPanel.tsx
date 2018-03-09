@@ -56,6 +56,11 @@ export default class ActionPanel extends React.Component<Props> {
         onEvent(events.transliterate[1]);
     }
 
+    haulLuggage = () => {
+        const { store, paused, onEvent } = this.props;
+        onEvent(events.luggageEvent[0]);
+    }
+
     vendingMachine = () => {
         const { store, paused, onEvent, onWander } = this.props;
         if (paused) {
@@ -104,6 +109,17 @@ export default class ActionPanel extends React.Component<Props> {
                         onClick={this.transliterate}
                         cooldown={5000}
                         paused={paused}
+                    />
+                    : false}
+                    {stamina >= resources.LUGGAGE_UNLOCK_STAMINA ||
+                     store.flags.get("has-luggage-job") ?
+                    <ActionButton
+                        label="Haul Luggage"
+                        benefit={`-${resources.LUGGAGE_STA_COST} STA`}
+                        onClick={this.haulLuggage}
+                        locked={stamina < resources.LUGGAGE_STA_COST}
+                        paused={paused}
+                        cooldown={2500}
                     />
                     : false}
                 </div>
