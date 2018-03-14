@@ -5,6 +5,7 @@ import * as model from "../model/model";
 import * as event from "../model/event";
 import * as question from "../model/question";
 import * as resources from "../data/constants/resources";
+import locations from "../data/locations";
 import wander from "../wander";
 import meditate from "../meditate";
 
@@ -75,7 +76,9 @@ export default class ActionPanel extends React.Component<Props> {
 
     render() {
         const { store, paused } = this.props;
-        const { learned, flags } = store;
+        const { learned, flags, location } = store;
+
+        const locationData = locations[location.current];
 
         const staminaProp = store.resources.get(resources.STAMINA);
         const stamina = staminaProp ? staminaProp.currentValue : 0;
@@ -89,9 +92,11 @@ export default class ActionPanel extends React.Component<Props> {
                         cost={`-${resources.WANDER_STA_COST} STA`}
                         onClick={this.wander}
                         paused={paused}
-                        locked={stamina < resources.WANDER_STA_COST}
+                        locked={!locationData.wanderlust || stamina < resources.WANDER_STA_COST}
                         cooldown={1000}
-                        hint="You need stamina to wander. Try meditating."
+                        hint={locationData.wanderlust ?
+                              "You need stamina to wander. Try meditating." :
+                              "This doesn't look like a good area to wander around in."}
                         onHint={this.onHint}
                     />
                     {learned.size ?
