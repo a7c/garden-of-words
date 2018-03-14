@@ -6,6 +6,8 @@ export interface PointOfInterest {
     label: string;
     eventSource: model.Location;
     flag: model.Flag;
+    cooldown: number;
+    cost?: [ model.Resource, number ];
 }
 
 export interface LocationData {

@@ -9,6 +9,14 @@
         "name": "the gate you just arrived at",
         "wanderlust": true,
         "connected": ["airport-food-court"],
-        "pois": []
+        "pois": [
+            {
+                "label": "Vending Machine",
+                "eventSource": "vending-machine",
+                "flag": "vending-machine",
+                "cooldown": 1000,
+                "cost": [ "yen", 100 ]
+            }
+        ]
     }
 }

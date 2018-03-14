@@ -46,7 +46,6 @@ export default class ActionPanel extends React.Component<Props> {
 
     wander = () => this.wanderHelper(-resources.WANDER_STA_COST, null);
     transliterate = () => this.wanderHelper(0, "transliterate-job");
-    vendingMachine = () => this.wanderHelper(0, "vending-machine");
 
     onHint = (hint: string) => {
         this.props.onEvent(new event.FlavorEvent([], [], hint));
@@ -74,6 +73,16 @@ export default class ActionPanel extends React.Component<Props> {
         ));
     }
 
+    formatCost(costInfo: [ model.Resource, number ] | undefined) {
+        if (!costInfo) {
+            return "";
+        }
+        const [ resource, cost ] = costInfo;
+        // TODO: full lookup table
+        const resourceLabel = resource === "yen" ? "¥" : resource;
+        return `${cost < 0 ? "" : "-"}${resourceLabel}${cost}`;
+    }
+
     render() {
         const { store, paused } = this.props;
         const { learned, flags, location } = store;
@@ -82,6 +91,22 @@ export default class ActionPanel extends React.Component<Props> {
 
         const staminaProp = store.resources.get(resources.STAMINA);
         const stamina = staminaProp ? staminaProp.currentValue : 0;
+
+        const pois = locationData.pois.map((poi, idx) => {
+            if (flags.get(poi.flag)) {
+                return (
+                    <ActionButton
+                        key={idx}
+                        label={poi.label}
+                        cost={this.formatCost(poi.cost)}
+                        onClick={() => this.wanderHelper(0, poi.eventSource)}
+                        paused={paused}
+                        cooldown={poi.cooldown}
+                    />
+                );
+            }
+            return false;
+        });
 
         // TODO: make actionbutton also ignore click when paused
         return (
@@ -120,15 +145,7 @@ export default class ActionPanel extends React.Component<Props> {
                 </div>
 
                 <div>
-                    {flags.get("vending-machine") ?
-                     <ActionButton
-                         label="Vending Machine"
-                         cost="-¥100"
-                         onClick={this.vendingMachine}
-                         paused={paused}
-                         cooldown={1000}
-                     /> :
-                     false}
+                    {pois}
                 </div>
 
                 {/* TODO: want some model of what is adjacent to
