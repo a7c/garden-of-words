@@ -108,6 +108,21 @@ export default class ActionPanel extends React.Component<Props> {
             return false;
         });
 
+        const adjacent = locationData.connected.map((loc, idx) => {
+            if (model.locationDiscovered(store, loc)) {
+                const targetLoc = locations[loc];
+                return (
+                    <ActionButton
+                        key={idx}
+                        label={targetLoc.label || targetLoc.name}
+                        paused={paused}
+                        onClick={() => this.travel(loc)}
+                    />
+                );
+            }
+            return false;
+        });
+
         // TODO: make actionbutton also ignore click when paused
         return (
             <LabeledPanel title="Actions" id="actions">
@@ -152,29 +167,14 @@ export default class ActionPanel extends React.Component<Props> {
                 what. Also, reusable component for this would be
                 nice. */}
                 <div>
-                    {(model.locationDiscovered(store, "airport-food-court") &&
-                      store.location.current !== "airport-food-court") ?
-                     <ActionButton
-                         label="Food Court"
-                         paused={paused}
-                         onClick={() => this.travel("airport-food-court")}
-                     />
-                     : false}
-                    {(model.locationDiscovered(store, "airport-gate") &&
-                      store.location.current !== "airport-gate") ?
-                     <ActionButton
-                         label="Back to gate"
-                         paused={paused}
-                         onClick={() => this.travel("airport-gate")}
-                     />
-                     : false}
-                <ActionButton
-                    label="Subway"
-                    locked={true}
-                    paused={paused}
-                    hint="The subway is far. Walk on and you'll find it eventually."
-                    onHint={this.onHint}
-                />
+                    {adjacent}
+                    <ActionButton
+                        label="Subway"
+                        locked={true}
+                        paused={paused}
+                        hint="The subway is far. Walk on and you'll find it eventually."
+                        onHint={this.onHint}
+                    />
                 </div>
             </LabeledPanel>
         );

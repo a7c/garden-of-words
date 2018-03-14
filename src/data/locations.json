@@ -1,12 +1,14 @@
 {
     "airport-food-court": {
         "name": "Naruta Airport Food Court",
+        "label": "Food Court",
         "wanderlust": true,
         "connected": ["airport-gate"],
         "pois": []
     },
     "airport-gate": {
         "name": "the gate you just arrived at",
+        "label": "Back to Gate",
         "wanderlust": true,
         "connected": ["airport-food-court"],
         "pois": [

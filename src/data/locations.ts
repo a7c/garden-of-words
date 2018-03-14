@@ -12,6 +12,7 @@ export interface PointOfInterest {
 
 export interface LocationData {
     name: string;
+    label?: string;
     pois: PointOfInterest[];
     connected: model.Location[];
 
