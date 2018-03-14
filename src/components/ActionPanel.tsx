@@ -92,9 +92,11 @@ export default class ActionPanel extends React.Component<Props> {
         const staminaProp = store.resources.get(resources.STAMINA);
         const stamina = staminaProp ? staminaProp.currentValue : 0;
 
-        const pois = locationData.pois.map((poi, idx) => {
-            if (flags.get(poi.flag)) {
-                return (
+        const pois: JSX.Element[] = [];
+        const adjacent: JSX.Element[] = [];
+        locationData.pois.forEach((poi, idx) => {
+            if (!poi.flag || flags.get(poi.flag)) {
+                pois.push(
                     <ActionButton
                         key={idx}
                         label={poi.label}
@@ -105,13 +107,12 @@ export default class ActionPanel extends React.Component<Props> {
                     />
                 );
             }
-            return false;
         });
 
-        const adjacent = locationData.connected.map((loc, idx) => {
+        locationData.connected.forEach((loc, idx) => {
             if (model.locationDiscovered(store, loc)) {
                 const targetLoc = locations[loc];
-                return (
+                const button = (
                     <ActionButton
                         key={idx}
                         label={targetLoc.label || targetLoc.name}
@@ -119,8 +120,14 @@ export default class ActionPanel extends React.Component<Props> {
                         onClick={() => this.travel(loc)}
                     />
                 );
+
+                if (targetLoc.wanderlust) {
+                    adjacent.push(button);
+                }
+                else {
+                    pois.push(button);
+                }
             }
-            return false;
         });
 
         // TODO: make actionbutton also ignore click when paused
@@ -149,14 +156,14 @@ export default class ActionPanel extends React.Component<Props> {
                      />
                      : false}
                     {store.flags.get("has-transliteration-job") ?
-                    <ActionButton
-                        label="Transliterate"
-                        benefit="+¥"
-                        onClick={this.transliterate}
-                        cooldown={5000}
-                        paused={paused}
-                    />
-                    : false}
+                     <ActionButton
+                         label="Transliterate"
+                         benefit="+¥"
+                         onClick={this.transliterate}
+                         cooldown={5000}
+                         paused={paused}
+                     />
+                     : false}
                 </div>
 
                 <div>

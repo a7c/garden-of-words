@@ -33,19 +33,18 @@
     },
     {
         "type": "flavor",
-        "text": "You find a fabled Japanese vending machine.",
+        "text": "",
         "filters": [
             {
                 "type": "flag",
-                "flag": "vending-machine",
+                "flag": "discovered:airport-gate-vending-machine",
                 "value": false
             }
         ],
         "effects": [
             {
-                "type": "flag",
-                "flag": "vending-machine",
-                "value": true
+                "type": "discover",
+                "location": "airport-gate-vending-machine"
             },
             {
                 "type": "quest",

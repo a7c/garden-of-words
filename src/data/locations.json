@@ -10,12 +10,19 @@
         "name": "the gate you just arrived at",
         "label": "Back to Gate",
         "wanderlust": true,
-        "connected": ["airport-food-court"],
+        "connected": ["airport-food-court", "airport-gate-vending-machine"],
+        "pois": [
+        ]
+    },
+    "airport-gate-vending-machine": {
+        "name": "a fabled Japanese vending machine",
+        "label": "Vending Machine",
+        "wanderlust": false,
+        "connected": ["airport-gate"],
         "pois": [
             {
-                "label": "Vending Machine",
+                "label": "Buy Drink",
                 "eventSource": "vending-machine",
-                "flag": "vending-machine",
                 "cooldown": 1000,
                 "cost": [ "yen", 100 ]
             }

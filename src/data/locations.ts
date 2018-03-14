@@ -5,7 +5,7 @@ const locations = require("./locations.json");
 export interface PointOfInterest {
     label: string;
     eventSource: model.Location;
-    flag: model.Flag;
+    flag?: model.Flag;
     cooldown: number;
     cost?: [ model.Resource, number ];
 }
