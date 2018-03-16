@@ -2,6 +2,7 @@ import * as immutable from "immutable";
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import * as model from "../model/model";
+import { allCollections } from "../model/lookup";
 import LabeledPanel from "./LabeledPanel";
 
 import "../Common.css";
@@ -57,7 +58,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
         if (this.state.viewCollection === null) {
             key = "collection";
 
-            let ids = this.props.collections.keySeq().toArray().concat(this.fakeCollections);
+            let ids = Object.keys(allCollections);
 
             contents = ids.map((id) =>
                             (
@@ -72,7 +73,8 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
             contents = ([(
                   <CollectionComponent
                     name={id}
-                    collection={this.props.collections.get(id)}
+                    exists={allCollections[id]}
+                    encountered={this.props.collections.get(id)}
                     learned={this.props.learned}
                     onFinished={() => this.setState({"viewCollection": null})}
                   />
