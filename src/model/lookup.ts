@@ -12,7 +12,7 @@ const jsonObjects = [
     require("../data/collections/katakana-basic.json")
 ];
 
-const allCollections = {};
+export const allCollections = {};
 const idToLearnable = {};
 
 jsonObjects.forEach((value) => {

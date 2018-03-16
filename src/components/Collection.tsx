@@ -14,7 +14,8 @@ import ActionButton from "./ActionButton";
 
 export interface CollectionProps {
     name: string;
-    collection: model.Collection;
+    exists: string[];
+    encountered: model.Collection;
     learned: immutable.Map<model.LearnableId, model.Learned>;
     onFinished: () => void;
 }
@@ -50,7 +51,6 @@ export default class CollectionComponent extends React.Component<CollectionProps
     }
 
     render() {
-        const col = this.props.collection;
         let contents = [<span key="blank"/>];
         let header = <span/>;
         let key = "blank";
@@ -67,19 +67,29 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 />
             );
 
+            let isLocked = (id: string) => {
+                if (this.props.encountered) {
+                    return !this.props.encountered.has(id);
+                } else {
+                    return true;
+                }
+            };
+
             // set contents
-            contents = col.map((id) => {
+            contents = this.props.exists.map((id) => {
                     if (id !== undefined) {
                         return (
-                            <button className="Button" key={id} onClick={() => this.itemOnClick(id)} >
-                                {lookup.getLearnable(id).unicode}
-                            </button>
+                            <ActionButton
+                                label={lookup.getLearnable(id).unicode}
+                                locked={isLocked(id)}
+                                onClick={() => this.itemOnClick(id)}
+                            />
                         );
                     }
                     else {
                         return <span key="blank"/>;
                     }
-                }).toArray();
+                });
         }
 
         return (
