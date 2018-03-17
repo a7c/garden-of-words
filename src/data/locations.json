@@ -4,15 +4,16 @@
         "label": "Food Court",
         "wanderlust": true,
         "connected": ["airport-gate"],
-        "pois": []
+        "pois": [],
+        "structures": []
     },
     "airport-gate": {
         "name": "the gate you just arrived at",
         "label": "Back to Gate",
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
-        "pois": [
-        ]
+        "pois": [],
+        "structures": []
     },
     "airport-gate-vending-machine": {
         "name": "a fabled Japanese vending machine",
@@ -26,6 +27,7 @@
                 "cooldown": 1000,
                 "cost": [ "yen", 100 ]
             }
-        ]
+        ],
+        "structures": []
     }
 }

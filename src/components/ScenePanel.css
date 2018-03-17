@@ -2,9 +2,10 @@
     font-size: 0; /* Get rid of extra space under image */
 }
 
-#scene > div > img {
+#scene > div > div > img {
     position: absolute;
+    /* TODO: these need to be adjusted once we've fixed the image sizes */
     left: 0;
-    bottom: 0;
+    bottom: -42px;
     width: 380px;
 }

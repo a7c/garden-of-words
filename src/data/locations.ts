@@ -13,10 +13,16 @@ export interface PointOfInterest {
 export interface LocationData {
     name: string;
     label?: string;
-    pois: PointOfInterest[];
-    connected: model.Location[];
-
     wanderlust: boolean;
+    connected: model.Location[];
+    pois: PointOfInterest[];
+    /**
+     *  The structures that should scroll by as the player wanders through
+     *  the location.
+     *  These should be filepaths to the images but with suffixes and file
+     *  extensions removed.
+     */
+    structures: string[];
 }
 
 export default locations as { [key: string]: LocationData };
