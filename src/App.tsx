@@ -66,7 +66,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
         else {
             showEvent = false;
             this.props.onLearn(happening);
-            this.state.eventLog.push(`You learned ${happening.front()} means ${happening.back()}.`);
+
+            this.state.eventLog.push(new event.LearnEffect(happening.id).toEventLog());
         }
 
         if (showEvent) {

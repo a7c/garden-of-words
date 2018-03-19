@@ -6,14 +6,14 @@
             {
                 "type": "resource",
                 "resource": "yen",
-                "minimum": 100
+                "minimum": 160
             }
         ],
         "effects": [
             {
                 "type": "resource",
                 "resource": "yen",
-                "value": -100
+                "value": -160
             },
             {
                 "type": "quest",

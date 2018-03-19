@@ -152,7 +152,13 @@ export class LearnEffect extends Effect {
 
     toEventLog() {
         const learnable = lookup.getLearnable(this.id);
-        return `You learned ${learnable.front()} means ${learnable.back()}.`;
+
+        if (learnable instanceof model.HiraganaLearnable || learnable instanceof model.KatakanaLearnable) {
+            return `You learned ${learnable.front()} is pronounced ${learnable.back()}.`;
+        }
+        else {
+            return `You learned ${learnable.front()} means ${learnable.back()}.`;
+        }
     }
 }
 

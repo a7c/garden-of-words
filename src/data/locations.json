@@ -31,7 +31,7 @@
                 "label": "Buy Drink",
                 "eventSource": "vending-machine",
                 "cooldown": 1000,
-                "cost": [ "yen", 100 ]
+                "cost": [ "yen", 160 ]
             }
         ],
         "structures": [
