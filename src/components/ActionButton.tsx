@@ -5,7 +5,7 @@ import "../Common.css";
 import "./ActionButton.css";
 
 interface Props {
-    label: string;
+    label?: string;
     benefit?: string;
     cost?: string;
     locked?: boolean;
@@ -87,7 +87,7 @@ export default class ActionButton extends React.Component<Props, State> {
                 onClick={this.clickHandler}
                 title={this.props.locked ? this.props.hint : undefined}
             >
-                {this.props.label}
+                {this.props.label || this.props.children}
 
                 {this.props.benefit ? <span className="benefit">{this.props.benefit}</span> : false}
                 {this.props.cost ? <span className="cost">{this.props.cost}</span> : false}

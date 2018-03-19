@@ -62,11 +62,15 @@ export default class CollectionComponent extends React.Component<CollectionProps
             header = (
                 <ActionButton
                     onClick={() => this.setState({
-                      showCollection: false,
-                      showedCollection: true
-                    })}
-                    label={collection.name}
-                />
+                            showCollection: false,
+                            showedCollection: true
+                        })}
+                >
+                    <span className="collection-title">{collection.name}</span>
+                    <span className="collection-learned-count">{this.props.encountered.size}</span>
+                    <span className="collection-count-frac" />
+                    <span className="collection-count">{collection.learnables.length}</span>
+                </ActionButton>
             );
 
             const isLocked = (id: string) => {
@@ -81,6 +85,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 if (id !== undefined) {
                     return (
                         <ActionButton
+                            key={id}
                             label={lookup.getLearnable(id).front}
                             locked={isLocked(id)}
                             onClick={() => this.itemOnClick(id)}
@@ -102,10 +107,12 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     onExited={this.onExited}
                 >
                     <section className="collection-display">
-                        <div id="collections-header">
-                        {header}
+                        <div id="collection-header">
+                            {header}
                         </div>
-                        {contents}
+                        <div id="collection-body">
+                            {contents}
+                        </div>
                     </section>
                 </CSSTransition>
             </TransitionGroup>
