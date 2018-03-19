@@ -18,6 +18,7 @@ import NavTab from "./components/NavTab";
 import ScenePanel from "./components/ScenePanel";
 import Streets from "./components/Streets";
 import CollectionList from "./components/AllCollections";
+import QuestLog from "./components/QuestLog";
 
 interface TestProps {
     store: model.Store;
@@ -143,6 +144,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
                                 enabled: this.props.store.learned.size > 0,
                                 hint: "Maybe wandering around will give you some vocabulary to collect.",
                                 onHint: this.onNavTabHint,
+                            },
+                            {
+                                label: "Quests",
+                                enabled: this.props.store.quests.size > 0,
+                                hint: "Maybe wandering around will give you some things to do.",
+                                onHint: this.onNavTabHint,
                             }
                         ]}
                     >
@@ -157,6 +164,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
+                        <QuestLog quests={store.quests} />
                     </NavTab>
                 </div>
             </main>
