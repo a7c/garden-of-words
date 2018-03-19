@@ -61,23 +61,3 @@ export function makeLearnables(entry: VocabEntry): model.Learnable[] {
 //         } as model.Learnable;
 //     }
 // }
-
-// TODO: move to JSON
-export const vocabBasicProps: VocabEntry[] = [
-    {
-        "id": "vocab-赤い",
-        "collection": "vocab-basic",
-        "kanji": ["赤い"],
-        "readings": ["あかい"],
-        "meanings": ["red"],
-        "romaji": ["akai"]
-    },
-    {
-        "id": "vocab-青い",
-        "collection": "vocab-basic",
-        "kanji": ["青い"],
-        "readings": ["あおい"],
-        "meanings": ["blue"],
-        "romaji": ["aoi"]
-    }
-];

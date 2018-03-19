@@ -1,0 +1,20 @@
+{
+    "collection": "vocab-basic",
+    "name": "Basic Vocab",
+    "items": [
+        {
+            "id": "vocab-赤い",
+            "kanji": ["赤い"],
+            "readings": ["あかい"],
+            "meanings": ["red"],
+            "romaji": ["akai"]
+        },
+        {
+            "id": "vocab-青い",
+            "kanji": ["青い"],
+            "readings": ["あおい"],
+            "meanings": ["blue"],
+            "romaji": ["aoi"]
+        }
+    ]
+}
