@@ -67,6 +67,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                         })}
                 >
                     <span className="collection-title">{collection.name}</span>
+                    {collection.subtitle ? <span className="collection-subtitle">{collection.subtitle}</span> : false}
                     <span className="collection-learned-count">{this.props.encountered.size}</span>
                     <span className="collection-count-frac" />
                     <span className="collection-count">{collection.learnables.length}</span>
@@ -86,10 +87,12 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     return (
                         <ActionButton
                             key={id}
-                            label={lookup.getLearnable(id).front}
                             locked={isLocked(id)}
                             onClick={() => this.itemOnClick(id)}
-                        />
+                        >
+                            <span className="collection-item-title">{lookup.getLearnable(id).front}</span>
+                            <span className="collection-item-subtitle">{lookup.getLearnable(id).back}</span>
+                        </ActionButton>
                     );
                 }
                 else {

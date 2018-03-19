@@ -17,16 +17,25 @@
 
 #collection-header > button {
     width: 200px;
-    height: 50px;
-    padding: 5px;
-    margin: 10px;
+    padding: 0.25em;
+    margin: 0.5em;
+    font-size: 1.1em;
+}
+
+.collection-title, .collection-subtitle {
+    right: auto !important;
+    left: 0;
+    width: 100%;
+    text-align: center;
 }
 
 .collection-title {
-    top: 0.15em !important;
-    right: auto !important;
-    left: 25%;
+    top: 0.15em;
     font-weight: bold;
+}
+
+.collection-subtitle {
+    bottom: 0.15em;
 }
 
 .collection-learned-count {
@@ -58,6 +67,34 @@
 
 #collection-body button {
     flex: 0 0 6em;
+}
+
+#collection-body button span {
+}
+
+#collection-body button .collection-item-title, #collection-body button .collection-item-subtitle {
+    display: block;
+    left: 0;
+    right: auto !important;
+    width: 100%;
+    text-align: center;
+}
+
+#collection-body button .collection-item-title {
+    top: 0.25em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#collection-body button .collection-item-subtitle {
+    bottom: 0.25em;
+}
+
+#collection-body button .action-button-lock {
+    top: 0;
+    right: 0;
+    transform: translateX(30%) translateY(-30%);
+    margin-top: 0;
 }
 
 #search-box {

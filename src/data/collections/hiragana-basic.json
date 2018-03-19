@@ -1,6 +1,7 @@
 {
   "collection": "hira-basic",
   "name": "Hiragana",
+  "subtitle": "ひらがな",
   "items": [
     {
       "id": "hira-a",
