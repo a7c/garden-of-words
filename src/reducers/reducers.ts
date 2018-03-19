@@ -16,6 +16,11 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
     }
     case actions.REVIEW: {
         const learnedItem = state.get(action.id);
+        if (learnedItem === undefined) {
+            console.warn(`'learned' reducer received REVIEW action for id ${action.id}
+                but haven't learned that yet!`);
+            return state;
+        }
         const scoreEarned = action.correct ? Math.random() : 0;
         const updatedLearned = learnedItem.set("score", learnedItem.get("score") + scoreEarned)
                                       .set("lastReviewed", new Date());

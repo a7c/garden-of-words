@@ -1,4 +1,5 @@
 import * as model from "./model";
+import { vocabDict } from "./vocab";
 
 export class Question {
     teaches: model.LearnableId[];
@@ -95,3 +96,18 @@ export class MultipleChoiceQuestionTemplate {
         );
     }
 }
+
+// TODO: WIP
+// export class TypeInQuestionTemplate  {
+//     /** Whether to only display words for which the kana has already been learned */
+//     onlySeenKana: boolean;
+
+//     constructor(onlySeenKana: boolean) {
+//         this.onlySeenKana = onlySeenKana;
+//     }
+
+//     makeQuestion(store: model.Store): Question {
+//         //
+//         return null;
+//     }
+// }

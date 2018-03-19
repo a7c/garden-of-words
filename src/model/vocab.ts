@@ -1,5 +1,5 @@
 import * as immutable from "immutable";
-// TODO: make types declarations for this library
+// TODO: make type declarations for this library
 // import * as wanakana from "wanakana";
 
 import * as model from "./model";
@@ -72,6 +72,14 @@ export class VocabEntry extends VocabEntryRecord {
 }
 
 const vocabBasicProps = [
+    {
+        "id": "vocab-赤い",
+        "collection": "vocab-basic",
+        "kanji": ["赤い"],
+        "readings": ["あかい"],
+        "meanings": ["red"],
+        "romaji": ["akai"]
+    },
     {
         "id": "vocab-青い",
         "collection": "vocab-basic",
