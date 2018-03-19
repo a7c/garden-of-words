@@ -6,6 +6,7 @@ import * as lookup from "./model/lookup";
 import * as event from "./model/event";
 
 import * as resources from "./data/constants/resources";
+import { vocabDict } from "./model/vocab";
 
 export default function meditate(
     learned: immutable.Map<model.LearnableId, model.Learned>
@@ -28,7 +29,9 @@ export default function meditate(
         // TODO: works for hiragana and katakana, but need to decide how to handle general vocab words
         let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
 
-        const q = lookup.generateMultipleChoice(reviewedWord);
+        // const q = lookup.generateMultipleChoice(reviewedWord);
+        console.log(vocabDict);
+        const q = new question.TypeIn(["vocab-青い"], vocabDict.get("vocab-青い").toKanaRomajiLearnable());
         const questionEvent = new event.QuestionEvent(
             [], // filters
             [new event.ResourceEffect(resources.STAMINA, -resources.MEDITATE_STA_COST)], // effects

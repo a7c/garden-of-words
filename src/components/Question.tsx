@@ -63,9 +63,11 @@ class TypeIn extends React.Component<TypeInProps> {
     }
 
     render() {
+        const q = this.props.question;
+        // TODO: support for different types of type-in questions
         return (
             <section className="question">
-                <p>Find the matching choice: </p>
+                <p>Type the reading: {q.learnable.front()}</p>
             </section>
         );
     }

@@ -35,9 +35,12 @@ export class MultipleChoice extends Question {
 }
 
 export class TypeIn extends Question {
+    learnable: model.VocabKanaRomajiLearnable;
 
-    constructor(teaches: model.LearnableId[]) {
+    // TODO: currently only supports one type of learnable
+    constructor(teaches: model.LearnableId[], learnable: model.VocabKanaRomajiLearnable) {
         super(teaches);
+        this.learnable = learnable;
     }
 }
 

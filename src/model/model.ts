@@ -72,7 +72,28 @@ export const KatakanaLearnable = learnableRecord<KatakanaLearnableProps, Katakan
     "romaji"
 );
 
-export type Learnable = HiraganaLearnable | KatakanaLearnable;
+// TODO: this is a temporary learnable type until we figure out how to do kanji etc
+export interface VocabKanaRomajiLearnableProps extends LearnableProps {
+    type: "vocab-kana-romaji";
+    unicode: string;
+    romaji: string;
+}
+export interface VocabKanaRomajiLearnable extends VocabKanaRomajiLearnableProps,
+    ImmutableRecord<VocabKanaRomajiLearnableProps> {}
+export const VocabKanaRomajiLearnable = learnableRecord<VocabKanaRomajiLearnableProps, VocabKanaRomajiLearnable>(
+    {
+        type: "vocab-kana-romaji",
+        id: "",
+        subId: "kana-romaji",
+        collection: "",
+        unicode: "",
+        romaji: "",
+    },
+    "unicode",
+    "romaji"
+);
+
+export type Learnable = HiraganaLearnable | KatakanaLearnable | VocabKanaRomajiLearnable;
 
 export type Location = string;
 export type Resource = string;
