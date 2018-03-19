@@ -13,7 +13,13 @@
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
         "pois": [],
-        "structures": []
+        "structures": [
+            "blank",
+            "blank",
+            "vendin",
+            "blank",
+            "esc"
+        ]
     },
     "airport-gate-vending-machine": {
         "name": "a fabled Japanese vending machine",
@@ -28,6 +34,8 @@
                 "cost": [ "yen", 100 ]
             }
         ],
-        "structures": []
+        "structures": [
+            "vendclose"
+        ]
     }
 }
