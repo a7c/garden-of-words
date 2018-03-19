@@ -1,6 +1,6 @@
 {
     "airport-food-court": {
-        "name": "Naruta Airport Food Court",
+        "name": "the airport food court",
         "label": "Food Court",
         "wanderlust": true,
         "connected": ["airport-gate"],
@@ -14,6 +14,7 @@
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
         "pois": [],
         "structures": [
+            "blank",
             "blank",
             "blank",
             "vendin",

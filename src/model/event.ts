@@ -266,6 +266,65 @@ export class VocabSizeFilter extends Filter {
     }
 }
 
+/** A filter that requires the player to be near the specified structure. */
+export class StructureNearbyFilter extends Filter {
+    structureRequired: string;
+    /** Number of steps until structure is right in front of player */
+    distanceRequired: number;
+    /**
+     *  True if we should check if the structure is exactly [distance] steps ahead,
+     *  false for less than or equal to
+     */
+    exact: boolean;
+
+    constructor(structure: string, distance: number = 0, exact: boolean = false) {
+        super();
+        this.structureRequired = structure;
+        this.distanceRequired = distance;
+        this.exact = exact;
+    }
+
+    // TODO: this whole thing could be optimized but is it worth it? (no)
+    check(store: model.Store): boolean {
+        const { steps, location } = store;
+        const structures = locations[location.current].structures;
+
+        const playerIndex = steps % structures.length;
+
+        // There could be multiples of the structure, so find the closest one
+        let minDist = null;
+        for (let i = 0; i < structures.length; i++) {
+            const struct = structures[i];
+            if (struct === this.structureRequired) {
+                const dist = (i - playerIndex) % structures.length;
+                if (minDist) {
+                    if (dist < minDist) {
+                        minDist = dist;
+                    }
+                }
+                else {
+                    minDist = dist;
+                }
+            }
+        }
+
+        // structure not found
+        if (minDist == null) {
+            throw `StructureNearbyFilter could not find the structure
+                ${this.structureRequired} in location ${location.current}`;
+        }
+
+        // Add one step because the filter check occurs BEFORE the step takes place
+        if (this.exact) {
+            return minDist === this.distanceRequired + 1;
+        }
+        else {
+            return minDist <= this.distanceRequired + 1;
+        }
+
+    }
+}
+
 export class Event {
     filters: Filter[];
     effects: Effect[];

@@ -36,6 +36,10 @@
         "text": "",
         "filters": [
             {
+                "type": "structure-nearby",
+                "structure": "vendin"
+            },
+            {
                 "type": "flag",
                 "flag": "discovered:airport-gate-vending-machine",
                 "value": false
