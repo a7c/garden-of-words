@@ -42,6 +42,11 @@ export class TypeIn extends Question {
         super(teaches);
         this.learnable = learnable;
     }
+
+    correct(input: string) {
+        console.log(this.learnable, input);
+        return input.trim() === this.learnable.back;
+    }
 }
 
 export class MadLib extends Question {

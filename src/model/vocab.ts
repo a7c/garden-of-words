@@ -25,7 +25,7 @@ export function makeLearnables(entry: VocabEntry): model.Learnable[] {
             id: `${entry.id}-kana-romaji-${i}`,
             collection: entry.collection,  // TODO: which to put in collection?
             front: entry.readings[i],
-            back: entry.meanings[i],
+            back: entry.romaji[i],
             subId: "kana-romaji",
         };
         result.push(learnable);

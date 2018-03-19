@@ -77,8 +77,7 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
         const q = this.props.question;
         const input = this.state.input.trim();
 
-        this.props.onReview(q.teaches[0], q.learnable.back === input);
-
+        this.props.onReview(q.teaches[0], q.correct(input));
     }
 
     render() {
