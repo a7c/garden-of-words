@@ -3,8 +3,6 @@ import * as immutable from "immutable";
 import * as event from "./model/event";
 import * as model from "./model/model";
 
-import { hiraganaBasicDict } from "./model/kana";
-import { katakanaBasicDict } from "./model/kana";
 import events from "./data/events";
 import * as actions from "./actions/actions";
 
