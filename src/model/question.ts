@@ -1,4 +1,5 @@
 import * as model from "./model";
+import * as lookup from "./lookup";
 import { vocabDict } from "./vocab";
 
 export class Question {
@@ -36,10 +37,9 @@ export class MultipleChoice extends Question {
 }
 
 export class TypeIn extends Question {
-    learnable: model.VocabKanaRomajiLearnable;
+    learnable: model.Learnable;
 
-    // TODO: currently only supports one type of learnable
-    constructor(teaches: model.LearnableId[], learnable: model.VocabKanaRomajiLearnable) {
+    constructor(teaches: model.LearnableId[], learnable: model.Learnable) {
         super(teaches);
         this.learnable = learnable;
     }
@@ -90,7 +90,7 @@ export class MultipleChoiceQuestionTemplate {
         const correct = Math.floor(Math.random() * items.length);
         return new MultipleChoice(
             [ items[correct] ],
-            items.map(id => store.learned.get(id).item),
+            items.map(id => lookup.getLearnable(id)),
             correct,
             correct
         );

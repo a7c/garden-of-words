@@ -43,7 +43,8 @@ export default class CollectionComponent extends React.Component<CollectionProps
     itemOnClick = (id: model.LearnableId) => {
         const word = this.props.learned.get(id);
         if (word !== null && word.item !== null) {
-            alert(`${word.item.unicode} ${word.item.romaji}\nscore: ${word.score}`);
+            const learnable = lookup.getLearnable(word.item);
+            alert(`${learnable.front} ${learnable.back}\nscore: ${word.score}`);
         }
     }
 
@@ -59,7 +60,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     if (id !== undefined) {
                         return (
                             <button className="Button" key={id} onClick={() => this.itemOnClick(id)} >
-                                {lookup.getLearnable(id).unicode}
+                                {lookup.getLearnable(id).front}
                             </button>
                         );
                     }

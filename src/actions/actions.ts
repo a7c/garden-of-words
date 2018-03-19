@@ -25,7 +25,7 @@ export interface MeditateAction extends redux.AnyAction {
 
 export interface LearnAction extends redux.AnyAction {
     type: typeof LEARN;
-    item: model.Learnable;
+    item: model.LearnableId;
 }
 
 export interface UpdateFlagAction extends redux.AnyAction {
@@ -77,7 +77,7 @@ export function review(id: model.LearnableId, correct: boolean): Action {
     };
 }
 
-export function learn(item: model.Learnable): Action {
+export function learn(item: model.LearnableId): Action {
     return {
         type: LEARN,
         item

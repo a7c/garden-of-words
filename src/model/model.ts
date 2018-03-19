@@ -17,10 +17,13 @@ export type QuestStage = string;
 export type Flag = string;
 export type FlagValue = boolean;
 
-export interface LearnableProps {
+export interface Learnable {
+    type: string;
     id: LearnableId;
     subId: LearnableId | null;
     collection: string;
+    front: string;
+    back: string;
 }
 
 function learnableRecord<P, T>(defaults: P, front: string, back: string): T {
@@ -34,66 +37,66 @@ function learnableRecord<P, T>(defaults: P, front: string, back: string): T {
     return result;
 }
 
-export interface HiraganaLearnableProps extends LearnableProps {
-    type: "hiragana";
-    unicode: string;
-    romaji: string;
-}
-export interface HiraganaLearnable extends HiraganaLearnableProps, ImmutableRecord<HiraganaLearnableProps> {}
-export const HiraganaLearnable = learnableRecord<HiraganaLearnableProps, HiraganaLearnable>(
-    {
-        type: "hiragana",
-        id: "",
-        subId: null,
-        collection: "",
-        unicode: "",
-        romaji: "",
-    },
-    "unicode",
-    "romaji"
-);
+// export interface HiraganaLearnableProps extends LearnableProps {
+//     type: "hiragana";
+//     unicode: string;
+//     romaji: string;
+// }
+// export interface HiraganaLearnable extends HiraganaLearnableProps, ImmutableRecord<HiraganaLearnableProps> {}
+// export const HiraganaLearnable = learnableRecord<HiraganaLearnableProps, HiraganaLearnable>(
+//     {
+//         type: "hiragana",
+//         id: "",
+//         subId: null,
+//         collection: "",
+//         unicode: "",
+//         romaji: "",
+//     },
+//     "unicode",
+//     "romaji"
+// );
 
-export interface KatakanaLearnableProps extends LearnableProps {
-    type: "katakana";
-    unicode: string;
-    romaji: string;
-}
-export interface KatakanaLearnable extends KatakanaLearnableProps, ImmutableRecord<KatakanaLearnableProps> {}
-export const KatakanaLearnable = learnableRecord<KatakanaLearnableProps, KatakanaLearnable>(
-    {
-        type: "katakana",
-        id: "",
-        subId: null,
-        collection: "",
-        unicode: "",
-        romaji: "",
-    },
-    "unicode",
-    "romaji"
-);
+// export interface KatakanaLearnableProps extends LearnableProps {
+//     type: "katakana";
+//     unicode: string;
+//     romaji: string;
+// }
+// export interface KatakanaLearnable extends KatakanaLearnableProps, ImmutableRecord<KatakanaLearnableProps> {}
+// export const KatakanaLearnable = learnableRecord<KatakanaLearnableProps, KatakanaLearnable>(
+//     {
+//         type: "katakana",
+//         id: "",
+//         subId: null,
+//         collection: "",
+//         unicode: "",
+//         romaji: "",
+//     },
+//     "unicode",
+//     "romaji"
+// );
 
-// TODO: this is a temporary learnable type until we figure out how to do kanji etc
-export interface VocabKanaRomajiLearnableProps extends LearnableProps {
-    type: "vocab-kana-romaji";
-    unicode: string;
-    romaji: string;
-}
-export interface VocabKanaRomajiLearnable extends VocabKanaRomajiLearnableProps,
-    ImmutableRecord<VocabKanaRomajiLearnableProps> {}
-export const VocabKanaRomajiLearnable = learnableRecord<VocabKanaRomajiLearnableProps, VocabKanaRomajiLearnable>(
-    {
-        type: "vocab-kana-romaji",
-        id: "",
-        subId: "kana-romaji",
-        collection: "",
-        unicode: "",
-        romaji: "",
-    },
-    "unicode",
-    "romaji"
-);
+// // TODO: this is a temporary learnable type until we figure out how to do kanji etc
+// export interface VocabKanaRomajiLearnableProps extends LearnableProps {
+//     type: "vocab-kana-romaji";
+//     unicode: string;
+//     romaji: string;
+// }
+// export interface VocabKanaRomajiLearnable extends VocabKanaRomajiLearnableProps,
+//     ImmutableRecord<VocabKanaRomajiLearnableProps> {}
+// export const VocabKanaRomajiLearnable = learnableRecord<VocabKanaRomajiLearnableProps, VocabKanaRomajiLearnable>(
+//     {
+//         type: "vocab-kana-romaji",
+//         id: "",
+//         subId: "kana-romaji",
+//         collection: "",
+//         unicode: "",
+//         romaji: "",
+//     },
+//     "unicode",
+//     "romaji"
+// );
 
-export type Learnable = HiraganaLearnable | KatakanaLearnable | VocabKanaRomajiLearnable;
+// export type Learnable = HiraganaLearnable | KatakanaLearnable | VocabKanaRomajiLearnable;
 
 export type Location = string;
 export type Resource = string;
@@ -116,7 +119,7 @@ export const LearnedRecord = immutable.Record({
 // Even bigger hack to get it to work with TypeScript
 // https://gist.github.com/HeyImAlex/099922105b83bacfb69a30989e1fa086
 export interface LearnedProps {
-    readonly item: Learnable;
+    readonly item: LearnableId;
     readonly lastReviewed: Date;
     readonly score: number;
 }

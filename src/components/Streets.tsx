@@ -24,7 +24,7 @@ interface Props {
 
     onWander: () => void;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
-    onEvent: (happening: event.Event | model.Learnable) => void;
+    onEvent: (happening: event.Event | model.LearnableId) => void;
 }
 
 export default class Streets extends React.Component<Props> {

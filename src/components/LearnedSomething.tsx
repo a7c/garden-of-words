@@ -30,7 +30,7 @@ export default class LearnedSomething extends React.Component<Props> {
         return (
             <Fade onFinished={onFinished} ref={f => (this.fade = f)}>
                 <div className="PopupBox">
-                    <p>You learned {learnable.unicode} ({learnable.romaji})!</p>
+                    <p>You learned {learnable.front} ({learnable.back})!</p>
                     {button}
                 </div>
             </Fade>

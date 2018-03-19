@@ -10,8 +10,7 @@ import * as actions from "./actions/actions";
 
 import * as lookup from "./model/lookup";
 
-export default function wander(store: model.Store):
-model.Learnable | event.Event | null {
+export default function wander(store: model.Store): model.LearnableId | event.Event | null {
     const { location, learned } = store;
 
     // Turn location-name into locationName

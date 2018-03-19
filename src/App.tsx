@@ -22,7 +22,7 @@ import CollectionList from "./components/AllCollections";
 interface TestProps {
     store: model.Store;
 
-    onLearn: (item: model.Learnable) => actions.Action;
+    onLearn: (item: model.LearnableId) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     onWander: () => actions.Action;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
@@ -49,7 +49,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         };
     }
 
-    onEvent = (happening: event.Event | model.Learnable) => {
+    onEvent = (happening: event.Event | model.LearnableId) => {
         let showEvent = true;
         if (happening instanceof event.Event) {
             const logText = happening.toEventLog();
@@ -62,16 +62,16 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 happening.effects.forEach(this.props.handleEventEffect);
                 showEvent = false;
             }
+
+            if (showEvent) {
+                this.setState({ happening });
+            }
         }
         else {
             showEvent = false;
             this.props.onLearn(happening);
 
-            this.state.eventLog.push(new event.LearnEffect(happening.id).toEventLog());
-        }
-
-        if (showEvent) {
-            this.setState({ happening });
+            this.state.eventLog.push(new event.LearnEffect(happening).toEventLog());
         }
     }
 
@@ -167,7 +167,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 const Test = connect(
     (store: model.Store) => ({ store }),
     (dispatch: Dispatch<actions.Action>) => ({
-        onLearn: (item: model.Learnable) => dispatch(actions.learn(item)),
+        onLearn: (item: model.LearnableId) => dispatch(actions.learn(item)),
         onReview: (id: model.LearnableId, correct: boolean) =>
             dispatch(actions.review(id, correct)),
         onWander: () => {

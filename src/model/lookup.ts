@@ -1,6 +1,4 @@
 import * as immutable from "immutable";
-import { HiraganaLearnable, HiraganaLearnableProps } from "./model";
-import { KatakanaLearnable, KatakanaLearnableProps } from "./model";
 
 import * as model from "./model";
 import * as actions from "../actions/actions";
@@ -15,57 +13,35 @@ const collectionList = {};
 const dictionary = {};
 
 jsonObjects.forEach((value) => {
-    let collection: model.LearnableId[] = [];
-    let collectionID = value.collection;
-    value.items.forEach((obj: model.LearnableProps) => {
+    const collection: model.LearnableId[] = [];
+    const collectionID = value.collection;
+    value.items.forEach((obj: model.Learnable) => {
         obj.collection = collectionID;
-        // TODO: Maybe factor out the typecasting nastiness and replace with this:
-        // collection[obj.id] = new Learnable(obj);
-        if (collectionID === "hira-basic") {
-            dictionary[obj.id] = new HiraganaLearnable(obj as HiraganaLearnableProps);
-            collection.push(obj.id);
-        }
-        else if (collectionID === "kata-basic") {
-            dictionary[obj.id] = new KatakanaLearnable(obj as KatakanaLearnableProps);
-            collection.push(obj.id);
-        }
-        // TODO: cases for other types
+        dictionary[obj.id] = obj;
+        collection.push(obj.id);
     });
     collectionList[collectionID] = collection;
 });
 
-export function getNextLearnable(store: model.Store): model.Learnable | null {
+export function getNextLearnable(store: model.Store): model.LearnableId | null {
     const{ learned, flags } = store;
 
-    let word: model.Learnable | null = null;
+    let word: model.LearnableId | null = null;
 
     if (!flags.get("hiragana-complete")) {
-        let hiraNotComplete = collectionList["hira-basic"].some((value: model.LearnableId) => {
-            if (value !== undefined && !learned.has(value)) {
-                word = dictionary[value];
-                return true;
+        for (const id of collectionList["hira-basic"]) {
+            if (!learned.has(id)) {
+                word = id;
+                break;
             }
-            else {
-                return false;
-            }
-        });
-        // TODO: This method of flag setting doesn't work. May have to update reducer
-        if (!hiraNotComplete) {
-            actions.updateFlag("hiragana-complete", true);
         }
     }
     else if (!flags.get("katakana-complete")) {
-        let kataNotComplete = collectionList["kata-basic"].some((value: model.LearnableId) => {
-            if (value !== undefined && !learned.has(value)) {
-                word = dictionary[value];
-                return true;
+        for (const id of collectionList["kata-basic"]) {
+            if (!learned.has(id)) {
+                word = id;
+                break;
             }
-            else {
-                return false;
-            }
-        });
-        if (!kataNotComplete) {
-            actions.updateFlag("katakana-complete", true);
         }
     }
     // TODO: Decision making for actual vocab words
@@ -73,7 +49,11 @@ export function getNextLearnable(store: model.Store): model.Learnable | null {
     return word;
 }
 
-export function generateMultipleChoice(word: model.Learnable) {
+export function generateMultipleChoice(word: model.Learnable | model.LearnableId) {
+    if (typeof word === "string") {
+        word = getLearnable(word);
+    }
+
     // build a list of 3 wrong answers and the right answer
     let options: model.Learnable[] = [];
 

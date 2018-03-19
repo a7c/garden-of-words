@@ -2,13 +2,14 @@ import { combineReducers } from "redux-immutable";
 import * as immutable from "immutable";
 
 import * as model from "../model/model";
+import * as lookup from "../model/lookup";
 import * as actions from "../actions/actions";
 
 function learned(state: immutable.Map<model.LearnableId, model.Learned> = immutable.Map(), action: actions.Action):
     immutable.Map<model.LearnableId, model.Learned> {
     switch (action.type) {
     case actions.LEARN: {
-        return state.set(action.item.id, new model.Learned({
+        return state.set(action.item, new model.Learned({
             item: action.item,
             lastReviewed: new Date(),
             score: 0.0,
@@ -37,15 +38,16 @@ function collections(
     action: actions.Action): immutable.Map<model.CollectionId, model.Collection> {
     switch (action.type) {
     case actions.LEARN: {
-        const collectionName = action.item.collection;
+        const learnable = lookup.getLearnable(action.item);
+        const collectionName = learnable.collection;
 
         // Check whether player already has this collection and update accordingly
         if (state.has(collectionName)) {
             const collection = state.get(collectionName);
-            return state.set(collectionName, collection.add(action.item.id));
+            return state.set(collectionName, collection.add(action.item));
         }
         else {
-            return state.set(collectionName, immutable.Set([action.item.id]));
+            return state.set(collectionName, immutable.Set([action.item]));
         }
     }
     default:

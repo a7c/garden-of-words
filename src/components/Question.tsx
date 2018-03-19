@@ -39,12 +39,12 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
         const choices = q.choices.map((c, idx) =>
             (
                 <li className="review-item" key={idx}>
-                    <button className="review" onClick={() => this.reviewWord(idx)}>{c.back()}</button>
+                    <button className="review" onClick={() => this.reviewWord(idx)}>{c.back}</button>
                 </li>
             ));
         return (
             <section className="question">
-                <p>Find the matching choice: {q.question.front()}</p>
+                <p>Find the matching choice: {q.question.front}</p>
                 <ul>
                     {choices}
                 </ul>
@@ -77,7 +77,7 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
         const q = this.props.question;
         const input = this.state.input.trim();
 
-        this.props.onReview(q.teaches[0], q.learnable.back() === input);
+        this.props.onReview(q.teaches[0], q.learnable.back === input);
 
     }
 
@@ -86,7 +86,7 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
         // TODO: support for different types of type-in questions
         return (
             <section className="question">
-                <p>Type the reading: {q.learnable.front()}</p>
+                <p>Type the reading: {q.learnable.front}</p>
                 <form onSubmit={this._handleSubmit}>
                     <label>
                         <input type="text" value={this.state.input} onChange={this._handleChange} />

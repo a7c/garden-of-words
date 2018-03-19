@@ -147,17 +147,17 @@ export class LearnEffect extends Effect {
     }
 
     toAction() {
-        return actions.learn(lookup.getLearnable(this.id));
+        return actions.learn(this.id);
     }
 
     toEventLog() {
         const learnable = lookup.getLearnable(this.id);
 
-        if (learnable instanceof model.HiraganaLearnable || learnable instanceof model.KatakanaLearnable) {
-            return `You learned ${learnable.front()} is pronounced ${learnable.back()}.`;
+        if (learnable.type === "hiragana" || learnable.type === "katakana") {
+            return `You learned ${learnable.front} is pronounced ${learnable.back}.`;
         }
         else {
-            return `You learned ${learnable.front()} means ${learnable.back()}.`;
+            return `You learned ${learnable.front} means ${learnable.back}.`;
         }
     }
 }

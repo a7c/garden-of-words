@@ -27,11 +27,10 @@ export default function meditate(
 
     if (leastRecentlyReviewed !== null) {
         // TODO: works for hiragana and katakana, but need to decide how to handle general vocab words
-        let reviewedWord: model.Learnable = learned.get(leastRecentlyReviewed).get("item")!;
-
-        // const q = lookup.generateMultipleChoice(reviewedWord);
+        const reviewedWord: model.LearnableId = learned.get(leastRecentlyReviewed).get("item")!;
+        const q = lookup.generateMultipleChoice(reviewedWord);
         console.log(vocabDict);
-        const q = new question.TypeIn(["vocab-青い"], vocabDict.get("vocab-青い").toKanaRomajiLearnable());
+        // const q = new question.TypeIn(["vocab-青い"], vocabDict.get("vocab-青い").toKanaRomajiLearnable());
         const questionEvent = new event.QuestionEvent(
             [], // filters
             [new event.ResourceEffect(resources.STAMINA, -resources.MEDITATE_STA_COST)], // effects

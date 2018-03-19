@@ -45,7 +45,7 @@ export interface VocabEntry extends VocabEntryRecord {
     /** Converts the reading at [index] to romaji and returns the result. */
     toRomaji: (index?: number) => string;
 
-    toKanaRomajiLearnable: () => model.VocabKanaRomajiLearnable;
+    toKanaRomajiLearnable: () => model.Learnable;
 }
 export class VocabEntry extends VocabEntryRecord {
     constructor(props: VocabEntryProps) {
@@ -58,16 +58,14 @@ export class VocabEntry extends VocabEntryRecord {
     }
 
     toKanaRomajiLearnable = () => {
-        return new model.VocabKanaRomajiLearnable(
-            {
-                type: "vocab-kana-romaji", // TODO: how to make it so that you don't need to pass this in ):
-                id: this.id,
-                subId: "kana-romaji", // TODO: same
-                collection: this.collection,
-                unicode: this.readings[0],
-                romaji: this.toRomaji()
-            }
-        );
+        return {
+            type: "vocab-kana-romaji",
+            id: this.id,
+            subId: "kana-romaji",
+            collection: this.collection,
+            front: this.readings[0],
+            back: this.toRomaji()
+        } as model.Learnable;
     }
 }
 
