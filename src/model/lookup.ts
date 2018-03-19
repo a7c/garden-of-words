@@ -3,6 +3,7 @@ import * as immutable from "immutable";
 import * as model from "./model";
 import * as actions from "../actions/actions";
 import * as question from "./question";
+import * as vocab from "./vocab";
 
 const jsonObjects = [
     require("../data/collections/hiragana-basic.json"),
@@ -22,6 +23,14 @@ jsonObjects.forEach((value) => {
     });
     collectionList[collectionID] = collection;
 });
+
+collectionList["vocab-basic"] = [];
+for (const vocabEntry of vocab.vocabBasicProps) {
+    for (const learnable of vocab.makeLearnables(vocabEntry)) {
+        dictionary[learnable.id] = learnable;
+        collectionList["vocab-basic"].push(learnable.id);
+    }
+}
 
 export function getNextLearnable(store: model.Store): model.LearnableId | null {
     const{ learned, flags } = store;

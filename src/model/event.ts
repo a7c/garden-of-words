@@ -153,6 +153,7 @@ export class LearnEffect extends Effect {
     toEventLog() {
         const learnable = lookup.getLearnable(this.id);
 
+        // TODO: factor out this check
         if (learnable.type === "hiragana" || learnable.type === "katakana") {
             return `You learned ${learnable.front} is pronounced ${learnable.back}.`;
         }

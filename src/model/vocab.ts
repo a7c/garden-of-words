@@ -17,7 +17,27 @@ export interface VocabEntry {
 }
 
 export function makeLearnables(entry: VocabEntry): model.Learnable[] {
-    return [];
+    const result: model.Learnable[] = [];
+
+    for (let i = 0; i < entry.readings.length; i++) {
+        const learnable = {
+            type: "vocab-kana-romaji",
+            id: `${entry.id}-kana-romaji-${i}`,
+            collection: entry.collection,  // TODO: which to put in collection?
+            front: entry.readings[i],
+            back: entry.meanings[i],
+            subId: "kana-romaji",
+        };
+        result.push(learnable);
+        result.push({
+            front: learnable.back,
+            back: learnable.front,
+            id: `${learnable.id}-reverse`,
+            ...learnable,
+        });
+    }
+
+    return result;
 }
 
 // export class VocabEntry extends VocabEntryRecord {
@@ -43,7 +63,7 @@ export function makeLearnables(entry: VocabEntry): model.Learnable[] {
 // }
 
 // TODO: move to JSON
-const vocabBasicProps: VocabEntry[] = [
+export const vocabBasicProps: VocabEntry[] = [
     {
         "id": "vocab-赤い",
         "collection": "vocab-basic",
