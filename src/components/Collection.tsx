@@ -10,10 +10,13 @@ import "./Collection.css";
 
 import * as lookup from "../model/lookup";
 
-export interface CollectionProps {
-    collection: model.Collection;
-    learned: immutable.Map<model.LearnableId, model.Learned>;
+import ActionButton from "./ActionButton";
 
+export interface CollectionProps {
+    name: string;
+    exists: string[];
+    encountered: model.Collection;
+    learned: immutable.Map<model.LearnableId, model.Learned>;
     onFinished: () => void;
 }
 
@@ -34,7 +37,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
         );
     }
 
-    onExited = (node: HTMLElement) => {
+    onExited = () => {
         if (this.state.showedCollection) {
             this.props.onFinished();
         }
@@ -49,37 +52,45 @@ export default class CollectionComponent extends React.Component<CollectionProps
     }
 
     render() {
-        const col = this.props.collection;
         let contents = [<span key="blank"/>];
-        let button = <span/>;
+        let header = <span/>;
         let key = "blank";
         if (this.state.showCollection) {
             key = "notblank";
+
+            header = (
+                <ActionButton
+                    onClick={() => this.setState({
+                      showCollection: false,
+                      showedCollection: true
+                    })}
+                    label={this.props.name}
+                />
+            );
+
+            let isLocked = (id: string) => {
+                if (this.props.encountered) {
+                    return !this.props.encountered.has(id);
+                } else {
+                    return true;
+                }
+            };
+
             // set contents
-            contents = col.map((id) => {
+            contents = this.props.exists.map((id) => {
                     if (id !== undefined) {
                         return (
-                            <button className="Button" key={id} onClick={() => this.itemOnClick(id)} >
-                                {lookup.getLearnable(id).front}
-                            </button>
+                            <ActionButton
+                                label={lookup.getLearnable(id).front}
+                                locked={isLocked(id)}
+                                onClick={() => this.itemOnClick(id)}
+                            />
                         );
                     }
                     else {
                         return <span key="blank"/>;
                     }
-                }).toArray();
-
-            button = (
-                <button
-                    className="Button"
-                    onClick={() => this.setState({
-                            showCollection: false,
-                            showedCollection: true
-                        })}
-                >
-                    Back
-                </button>
-            );
+                });
         }
 
         return (
@@ -91,8 +102,10 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     onExited={this.onExited}
                 >
                     <section className="collection-display">
+                        <div id="collections-header">
+                        {header}
+                        </div>
                         {contents}
-                        {button}
                     </section>
                 </CSSTransition>
             </TransitionGroup>

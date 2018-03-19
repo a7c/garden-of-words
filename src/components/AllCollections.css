@@ -1,0 +1,51 @@
+#search-menu {
+    display: flex;
+    flex-direction: row;
+}
+
+#search-menu > * {
+    flex: 1;
+    height: 2.7rem;
+}
+
+#search-box {
+    width: 100%;
+    margin-top: 10px;
+    font-size: large;
+    height: 25px;
+    border-color: #CCCCCC;
+}
+
+#collections-search {
+    display: flex;
+    flex: 1;
+}
+
+#dropdown {
+    padding: 5px;
+}
+
+#collections-search div {
+    flex: 1;
+}
+
+#collections-search div:first-child {
+    flex: 0;
+}
+
+#collections-search div:first-child {
+    flex: 0;
+}
+
+#collections-table > button {
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+  margin: 10px;
+}
+
+#collections-table {
+  overflow-y: scroll;
+  height: 380px;
+  min-height: 0px;
+}

@@ -104,6 +104,10 @@ export function getCollection(item: model.LearnableId | model.Learnable | model.
     }
 }
 
+export function getCollections(): { [key: string]: model.Learnable[] } {
+    return collectionList;
+}
+
 const quests = new Map();
 (require("../data/quests.json") as parsers.QuestProps[])
     .map(parsers.parseQuest)
