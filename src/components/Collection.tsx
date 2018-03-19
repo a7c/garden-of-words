@@ -68,7 +68,10 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 >
                     <span className="collection-title">{collection.name}</span>
                     {collection.subtitle ? <span className="collection-subtitle">{collection.subtitle}</span> : false}
-                    <span className="collection-learned-count">{this.props.encountered.size}</span>
+                    <span className="collection-learned-count">
+                        {this.props.encountered ?
+                         this.props.encountered.size : 0}
+                    </span>
                     <span className="collection-count-frac" />
                     <span className="collection-count">{collection.learnables.length}</span>
                 </ActionButton>
