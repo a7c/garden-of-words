@@ -72,7 +72,6 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
             contents = ([(
                   <CollectionComponent
                     name={id}
-                    exists={lookup.getCollection(id)}
                     encountered={this.props.collections.get(id)}
                     learned={this.props.learned}
                     onFinished={() => this.setState({"viewCollection": null})}

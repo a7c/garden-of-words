@@ -7,32 +7,43 @@ import * as question from "./question";
 import * as vocab from "./vocab";
 import * as parsers from "../data/parsers";
 
-const jsonObjects = [
-    require("../data/collections/hiragana-basic.json"),
-    require("../data/collections/katakana-basic.json"),
-];
+export interface Collection {
+    name: string;
+    learnables: model.LearnableId[];
+}
 
-const collectionList = {};
+const collectionList: { [key: string]: Collection } = {};
 const dictionary = {};
 
-jsonObjects.forEach((value) => {
-    const collection: model.LearnableId[] = [];
-    const collectionID = value.collection;
-    value.items.forEach((obj: model.Learnable) => {
-        obj.collection = collectionID;
-        dictionary[obj.id] = obj;
-        collection.push(obj.id);
-    });
-    collectionList[collectionID] = collection;
-});
-
-collectionList["vocab-basic"] = [];
-for (const vocabEntry of vocab.vocabBasicProps) {
-    for (const learnable of vocab.makeLearnables(vocabEntry)) {
-        dictionary[learnable.id] = learnable;
-        collectionList["vocab-basic"].push(learnable.id);
-    }
+function loadCollection(json: any) { //tslint:disable-line
+    collectionList[json.collection] = {
+        name: json.name,
+        learnables: json.items.map((obj: model.Learnable) => {
+            obj.collection = json.collection;
+            dictionary[obj.id] = obj;
+            return obj.id;
+        }),
+    };
 }
+
+function loadVocab(json: any) { //tslint:disable-line
+    const learnables: model.LearnableId[] = [];
+    json.items.forEach((vocabEntry: vocab.VocabEntry) => {
+        vocabEntry.collection = vocabEntry.collection || json.collection;
+
+        for (const learnable of vocab.makeLearnables(vocabEntry)) {
+            dictionary[learnable.id] = learnable;
+            learnables.push(learnable.id);
+        }
+    });
+    collectionList[json.collection] = {
+        name: json.name,
+        learnables,
+    };
+}
+
+loadCollection(require("../data/collections/hiragana-basic.json"));
+loadCollection(require("../data/collections/katakana-basic.json"));
 
 export function getNextLearnable(store: model.Store): model.LearnableId | null {
     const{ learned, flags } = store;
@@ -40,7 +51,7 @@ export function getNextLearnable(store: model.Store): model.LearnableId | null {
     let word: model.LearnableId | null = null;
 
     if (!flags.get("hiragana-complete")) {
-        for (const id of collectionList["hira-basic"]) {
+        for (const id of collectionList["hira-basic"].learnables) {
             if (!learned.has(id)) {
                 word = id;
                 break;
@@ -48,7 +59,7 @@ export function getNextLearnable(store: model.Store): model.LearnableId | null {
         }
     }
     else if (!flags.get("katakana-complete")) {
-        for (const id of collectionList["kata-basic"]) {
+        for (const id of collectionList["kata-basic"].learnables) {
             if (!learned.has(id)) {
                 word = id;
                 break;
@@ -68,7 +79,7 @@ export function generateMultipleChoice(word: model.Learnable | model.LearnableId
     // build a list of 3 wrong answers and the right answer
     const options: model.Learnable[] = [];
 
-    const keyList: model.LearnableId[] = collectionList[word.collection];
+    const keyList: model.LearnableId[] = collectionList[word.collection].learnables.slice();
 
     keyList.splice(keyList.indexOf(word.id), 1);
 
@@ -104,7 +115,7 @@ export function getCollection(item: model.LearnableId | model.Learnable | model.
     }
 }
 
-export function getCollections(): { [key: string]: model.Learnable[] } {
+export function getCollections(): { [key: string]: Collection } {
     return collectionList;
 }
 
