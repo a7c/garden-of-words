@@ -4,18 +4,9 @@ import * as immutable from "immutable";
 
 import * as model from "./model";
 
-// TODO: code duplication-ish
-interface ImmutableRecord<T> {
-    new (props?: T): this;
-
-    get<K extends keyof this>(key: K): this[K];
-    set<K extends keyof this>(key: K, value: this[K]): this;
-    toJS(): T;
-}
-
-export interface VocabEntryProps {
-    id: model.LearnableId;
-    collection: model.CollectionId;
+export interface VocabEntry {
+    id: string;
+    collection: string;
     /** Ways to write the word (even if it doesn't contain kanji) */
     kanji: string[];
     /** How to pronounce the word (in kana) */
@@ -25,51 +16,34 @@ export interface VocabEntryProps {
     romaji: string[];
 }
 
-function toVocabRecord<P, T>(defaults: P): T {
-    const result = immutable.Record(defaults) as any as T; // tslint:disable-line
-    return result;
+export function makeLearnables(entry: VocabEntry): model.Learnable[] {
+    return [];
 }
 
-interface VocabEntryRecord extends VocabEntryProps, ImmutableRecord<VocabEntryProps> {}
-const VocabEntryRecord = toVocabRecord<VocabEntryProps, VocabEntryRecord>(
-    {
-        id: "",
-        collection: "",
-        kanji: [],
-        readings: [],
-        meanings: [],
-        romaji: []
-    }
-);
-export interface VocabEntry extends VocabEntryRecord {
-    /** Converts the reading at [index] to romaji and returns the result. */
-    toRomaji: (index?: number) => string;
+// export class VocabEntry extends VocabEntryRecord {
+//     constructor(props: VocabEntryProps) {
+//         super(props);
+//     }
 
-    toKanaRomajiLearnable: () => model.Learnable;
-}
-export class VocabEntry extends VocabEntryRecord {
-    constructor(props: VocabEntryProps) {
-        super(props);
-    }
+//     toRomaji = (index: number = 0) => {
+//         return this.romaji[index];
+//         // return wanakana.toRomaji(this.readings[index]) as string;
+//     }
 
-    toRomaji = (index: number = 0) => {
-        return this.romaji[index];
-        // return wanakana.toRomaji(this.readings[index]) as string;
-    }
+//     toKanaRomajiLearnable = () => {
+//         return {
+//             type: "vocab-kana-romaji",
+//             id: this.id,
+//             subId: "kana-romaji",
+//             collection: this.collection,
+//             front: this.readings[0],
+//             back: this.toRomaji()
+//         } as model.Learnable;
+//     }
+// }
 
-    toKanaRomajiLearnable = () => {
-        return {
-            type: "vocab-kana-romaji",
-            id: this.id,
-            subId: "kana-romaji",
-            collection: this.collection,
-            front: this.readings[0],
-            back: this.toRomaji()
-        } as model.Learnable;
-    }
-}
-
-const vocabBasicProps = [
+// TODO: move to JSON
+const vocabBasicProps: VocabEntry[] = [
     {
         "id": "vocab-赤い",
         "collection": "vocab-basic",
@@ -87,10 +61,3 @@ const vocabBasicProps = [
         "romaji": ["aoi"]
     }
 ];
-
-const vocab = {};
-for (let p of vocabBasicProps) {
-    vocab[p.id] = new VocabEntry(p);
-}
-export interface VocabDict extends immutable.Map<string, VocabEntry> {}
-export const vocabDict = immutable.Map(vocab) as VocabDict;

@@ -1,6 +1,5 @@
 import * as model from "./model";
 import * as lookup from "./lookup";
-import { vocabDict } from "./vocab";
 
 export class Question {
     teaches: model.LearnableId[];

@@ -6,7 +6,7 @@ import * as question from "./question";
 
 const jsonObjects = [
     require("../data/collections/hiragana-basic.json"),
-    require("../data/collections/katakana-basic.json")
+    require("../data/collections/katakana-basic.json"),
 ];
 
 const collectionList = {};
