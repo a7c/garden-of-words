@@ -143,9 +143,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
             return contents;
         }
         else if (q instanceof question.TypeIn) {
-            let contents = <TypeIn key="ti" question={q} onReview={this.onReview} />;
-
-            return contents;
+            return <TypeIn key="ti" question={q} onReview={this.onReview} />;
         }
         else {
             return <p>Unsupported question!</p>;

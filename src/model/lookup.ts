@@ -66,21 +66,21 @@ export function generateMultipleChoice(word: model.Learnable | model.LearnableId
     }
 
     // build a list of 3 wrong answers and the right answer
-    let options: model.Learnable[] = [];
+    const options: model.Learnable[] = [];
 
-    let keyList: model.LearnableId[] = collectionList[word.collection];
+    const keyList: model.LearnableId[] = collectionList[word.collection];
 
     keyList.splice(keyList.indexOf(word.id), 1);
 
     for (let i = 0; i < 3; i++) {
-        let index = Math.floor(Math.random() * keyList.length);
+        const index = Math.floor(Math.random() * keyList.length);
         options.push(dictionary[keyList[index]]);
         keyList.splice(index, 1);
     }
     // TODO: will need more logic for normal vocab
 
     // insert correct answer in a random place
-    let correctIdx = Math.floor(Math.random() * (options.length + 1));
+    const correctIdx = Math.floor(Math.random() * (options.length + 1));
     options.splice(correctIdx, 0, word);
 
     return new question.MultipleChoice([word.id], options, correctIdx, correctIdx);

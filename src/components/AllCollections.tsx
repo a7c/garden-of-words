@@ -57,7 +57,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
         if (this.state.viewCollection === null) {
             key = "collection";
 
-            let ids = Object.keys(lookup.getCollections());
+            const ids = Object.keys(lookup.getCollections());
 
             contents = ids.map((id) =>
                             (
@@ -68,7 +68,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                             ));
         }
         else {
-            let id = this.state.viewCollection;
+            const id = this.state.viewCollection;
             contents = ([(
                   <CollectionComponent
                     name={id}
@@ -80,10 +80,10 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                 )]);
         }
 
-        let options = ["Unlocked", "Alphabetical", "Recently Learned"];
+        const options = ["Unlocked", "Alphabetical", "Recently Learned"];
 
         // tslint:disable-next-line
-        let onSearch = this.handleKeyPress as any;
+        const onSearch = this.handleKeyPress as any;
 
         return (
           <section id="collection-list">

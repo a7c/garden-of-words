@@ -52,9 +52,11 @@ export default class CollectionComponent extends React.Component<CollectionProps
     }
 
     render() {
+        const collection = lookup.getCollection(this.props.name);
         let contents = [<span key="blank"/>];
         let header = <span/>;
         let key = "blank";
+
         if (this.state.showCollection) {
             key = "notblank";
 
@@ -68,7 +70,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 />
             );
 
-            let isLocked = (id: string) => {
+            const isLocked = (id: string) => {
                 if (this.props.encountered) {
                     return !this.props.encountered.has(id);
                 } else {
