@@ -8,6 +8,7 @@ import * as quest from "../model/quest";
 
 import LabeledPanel from "./LabeledPanel";
 import "../Common.css";
+import "./QuestLog.css";
 
 interface Props {
     quests: immutable.Map<model.QuestId, model.QuestStage>;
@@ -36,14 +37,20 @@ export default class QuestLog extends React.Component<Props> {
         console.log(incomplete);
 
         return (
-            <div>
-                {incomplete.map(([ q, stage ], idx) => (
+            <div id="quest-log">
+                {incomplete.length === 0 ?
+                 <h2>No current quests.</h2>
+                 :
+                 incomplete.map(([ q, stage ], idx) => (
                     <LabeledPanel key={idx} title={q.name}>
                         <p>{q.journal.get(stage)}</p>
                     </LabeledPanel>
                 ))}
                 <hr/>
-                {complete.map((q, idx) => (
+                {complete.length === 0 ?
+                 <h2>No completed quests.</h2>
+                 :
+                 complete.map((q, idx) => (
                     <LabeledPanel key={idx} title={`${q.name} (completed)`}>
                         <p>{q.journal.get(q.complete)}</p>
                     </LabeledPanel>
