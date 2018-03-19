@@ -1,236 +1,283 @@
 {
     "collection": "kata-basic",
     "name": "Katakana",
+    "subtitle": "カタカナ",
     "items": [
         {
             "id": "kata-a",
-            "unicode": "ア",
-            "romaji": "a"
+            "type": "katakana",
+            "front": "ア",
+            "back": "a"
         },
         {
             "id": "kata-i",
-            "unicode": "イ",
-            "roumaji": "i"
+            "type": "katakana",
+            "front": "イ",
+            "back": "i"
         },
         {
             "id": "kata-u",
-            "unicode": "ウ",
-            "roumaji": "u"
+            "type": "katakana",
+            "front": "ウ",
+            "back": "u"
         },
         {
             "id": "kata-e",
-            "unicode": "エ",
-            "roumaji": "e"
+            "type": "katakana",
+            "front": "エ",
+            "back": "e"
         },
         {
             "id": "kata-o",
-            "unicode": "オ",
-            "roumaji": "o"
+            "type": "katakana",
+            "front": "オ",
+            "back": "o"
         },
         {
             "id": "kata-ka",
-            "unicode": "カ",
-            "roumaji": "ka"
+            "type": "katakana",
+            "front": "カ",
+            "back": "ka"
         },
         {
             "id": "kata-ki",
-            "unicode": "キ",
-            "roumaji": "ki"
+            "type": "katakana",
+            "front": "キ",
+            "back": "ki"
         },
         {
             "id": "kata-ku",
-            "unicode": "ク",
-            "roumaji": "ku"
+            "type": "katakana",
+            "front": "ク",
+            "back": "ku"
         },
         {
             "id": "kata-ke",
-            "unicode": "ケ",
-            "roumaji": "ke"
+            "type": "katakana",
+            "front": "ケ",
+            "back": "ke"
         },
         {
             "id": "kata-ko",
-            "unicode": "コ",
-            "roumaji": "ko"
+            "type": "katakana",
+            "front": "コ",
+            "back": "ko"
         },
         {
             "id": "kata-sa",
-            "unicode": "サ",
-            "roumaji": "sa"
+            "type": "katakana",
+            "front": "サ",
+            "back": "sa"
         },
         {
             "id": "kata-shi",
-            "unicode": "シ",
-            "roumaji": "shi"
+            "type": "katakana",
+            "front": "シ",
+            "back": "shi"
         },
         {
             "id": "kata-su",
-            "unicode": "ス",
-            "roumaji": "su"
+            "type": "katakana",
+            "front": "ス",
+            "back": "su"
         },
         {
             "id": "kata-se",
-            "unicode": "セ",
-            "roumaji": "se"
+            "type": "katakana",
+            "front": "セ",
+            "back": "se"
         },
         {
             "id": "kata-so",
-            "unicode": "ソ",
-            "roumaji": "so"
+            "type": "katakana",
+            "front": "ソ",
+            "back": "so"
         },
         {
             "id": "kata-ta",
-            "unicode": "タ",
-            "roumaji": "ta"
+            "type": "katakana",
+            "front": "タ",
+            "back": "ta"
         },
         {
             "id": "kata-chi",
-            "unicode": "チ",
-            "roumaji": "chi"
+            "type": "katakana",
+            "front": "チ",
+            "back": "chi"
         },
         {
             "id": "kata-tsu",
-            "unicode": "ツ",
-            "roumaji": "tsu"
+            "type": "katakana",
+            "front": "ツ",
+            "back": "tsu"
         },
         {
             "id": "kata-te",
-            "unicode": "テ",
-            "roumaji": "te"
+            "type": "katakana",
+            "front": "テ",
+            "back": "te"
         },
         {
             "id": "kata-to",
-            "unicode": "ト",
-            "roumaji": "to"
+            "type": "katakana",
+            "front": "ト",
+            "back": "to"
         },
         {
             "id": "kata-na",
-            "unicode": "ナ",
-            "roumaji": "na"
+            "type": "katakana",
+            "front": "ナ",
+            "back": "na"
         },
         {
             "id": "kata-ni",
-            "unicode": "ニ",
-            "roumaji": "ni"
+            "type": "katakana",
+            "front": "ニ",
+            "back": "ni"
         },
         {
             "id": "kata-nu",
-            "unicode": "ヌ",
-            "roumaji": "nu"
+            "type": "katakana",
+            "front": "ヌ",
+            "back": "nu"
         },
         {
             "id": "kata-ne",
-            "unicode": "ネ",
-            "roumaji": "ne"
+            "type": "katakana",
+            "front": "ネ",
+            "back": "ne"
         },
         {
             "id": "kata-no",
-            "unicode": "ノ",
-            "roumaji": "no"
+            "type": "katakana",
+            "front": "ノ",
+            "back": "no"
         },
         {
             "id": "kata-ha",
-            "unicode": "ハ",
-            "roumaji": "ha"
+            "type": "katakana",
+            "front": "ハ",
+            "back": "ha"
         },
         {
             "id": "kata-hi",
-            "unicode": "ヒ",
-            "roumaji": "hi"
+            "type": "katakana",
+            "front": "ヒ",
+            "back": "hi"
         },
         {
             "id": "kata-hu",
-            "unicode": "フ",
-            "roumaji": "hu"
+            "type": "katakana",
+            "front": "フ",
+            "back": "hu"
         },
         {
             "id": "kata-he",
-            "unicode": "ヘ",
-            "roumaji": "he"
+            "type": "katakana",
+            "front": "ヘ",
+            "back": "he"
         },
         {
             "id": "kata-ho",
-            "unicode": "ホ",
-            "roumaji": "ho"
+            "type": "katakana",
+            "front": "ホ",
+            "back": "ho"
         },
         {
             "id": "kata-ma",
-            "unicode": "マ",
-            "roumaji": "ma"
+            "type": "katakana",
+            "front": "マ",
+            "back": "ma"
         },
         {
             "id": "kata-mi",
-            "unicode": "ミ",
-            "roumaji": "mi"
+            "type": "katakana",
+            "front": "ミ",
+            "back": "mi"
         },
         {
             "id": "kata-mu",
-            "unicode": "ム",
-            "roumaji": "mu"
+            "type": "katakana",
+            "front": "ム",
+            "back": "mu"
         },
         {
             "id": "kata-me",
-            "unicode": "メ",
-            "roumaji": "me"
+            "type": "katakana",
+            "front": "メ",
+            "back": "me"
         },
         {
             "id": "kata-mo",
-            "unicode": "モ",
-            "roumaji": "mo"
+            "type": "katakana",
+            "front": "モ",
+            "back": "mo"
         },
         {
             "id": "kata-ya",
-            "unicode": "ヤ",
-            "roumaji": "ya"
+            "type": "katakana",
+            "front": "ヤ",
+            "back": "ya"
         },
         {
             "id": "kata-yu",
-            "unicode": "ユ",
-            "roumaji": "yu"
+            "type": "katakana",
+            "front": "ユ",
+            "back": "yu"
         },
         {
             "id": "kata-yo",
-            "unicode": "ヨ",
-            "roumaji": "yo"
+            "type": "katakana",
+            "front": "ヨ",
+            "back": "yo"
         },
         {
             "id": "kata-ra",
-            "unicode": "ラ",
-            "roumaji": "ra"
+            "type": "katakana",
+            "front": "ラ",
+            "back": "ra"
         },
         {
             "id": "kata-ri",
-            "unicode": "リ",
-            "roumaji": "ri"
+            "type": "katakana",
+            "front": "リ",
+            "back": "ri"
         },
         {
             "id": "kata-ru",
-            "unicode": "ル",
-            "roumaji": "ru"
+            "type": "katakana",
+            "front": "ル",
+            "back": "ru"
         },
         {
             "id": "kata-re",
-            "unicode": "レ",
-            "roumaji": "re"
+            "type": "katakana",
+            "front": "レ",
+            "back": "re"
         },
         {
             "id": "kata-ro",
-            "unicode": "ロ",
-            "roumaji": "ro"
+            "type": "katakana",
+            "front": "ロ",
+            "back": "ro"
         },
         {
             "id": "kata-wa",
-            "unicode": "ワ",
-            "roumaji": "wa"
+            "type": "katakana",
+            "front": "ワ",
+            "back": "wa"
         },
         {
             "id": "kata-wo",
-            "unicode": "ヲ",
-            "roumaji": "wo"
+            "type": "katakana",
+            "front": "ヲ",
+            "back": "wo"
         },
         {
             "id": "kata-n",
-            "unicode": "ン",
-            "roumaji": "n"
+            "type": "katakana",
+            "front": "ン",
+            "back": "n"
         }
     ]
 }
