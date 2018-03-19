@@ -1,0 +1,13 @@
+[
+    {
+        "id": "meiji-choco",
+        "name": "The Fabled Vending Machine",
+        "complete": "complete",
+        "events": {},
+        "journal": {
+            "found-machine": "You feel a bit dehydrated. Maybe you can get a drink from the vending machine.",
+            "need-yen": "You need to get some yen to feed the machine. Wandering around might give you ideas.",
+            "complete": "Meiji Chocolate is the most delicious thing in the world."
+        }
+    }
+]

@@ -40,9 +40,17 @@ type EventProps =
         correctPostText?: string | null, wrongPostText?: string | null,
         failureEffects: EffectProps[] };
 
-type QuestProps = { id: model.QuestId, complete: model.QuestStage, events: {
-    [ stage: string ]: EventProps[],
-} };
+export type QuestProps = {
+    id: model.QuestId,
+    name: string,
+    complete: model.QuestStage,
+    events: {
+        [ stage: string ]: EventProps[],
+    },
+    journal: {
+        [ stage: string ]: string,
+    },
+};
 
 export function parseEffect(json: EffectProps): event.Effect {
     if (json.type === "flag") {
@@ -117,10 +125,14 @@ export function parseEvent(json: EventProps): event.Event {
 
 export function parseQuest(json: QuestProps): quest.Quest {
     const events = new Map();
+    const journal = new Map();
     for (const stage of Object.keys(json.events)) {
         events.set(stage, json.events[stage].map(parseEvent));
     }
-    return new quest.Quest(json.id, events, json.complete);
+    for (const stage of Object.keys(json.journal)) {
+        journal.set(stage, json.journal[stage]);
+    }
+    return new quest.Quest(json.id, json.name, events, journal, json.complete);
 }
 
 export function parseQuestionTemplate(json: QuestionTemplateProps): question.QuestionTemplate {

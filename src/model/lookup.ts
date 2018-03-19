@@ -2,8 +2,10 @@ import * as immutable from "immutable";
 
 import * as model from "./model";
 import * as actions from "../actions/actions";
+import * as quest from "./quest";
 import * as question from "./question";
 import * as vocab from "./vocab";
+import * as parsers from "../data/parsers";
 
 const jsonObjects = [
     require("../data/collections/hiragana-basic.json"),
@@ -100,4 +102,13 @@ export function getCollection(item: model.LearnableId | model.Learnable | model.
     else {
         return collectionList[item.collection];
     }
+}
+
+const quests = new Map();
+(require("../data/quests.json") as parsers.QuestProps[])
+    .map(parsers.parseQuest)
+    .forEach(q => quests.set(q.id, q));
+
+export function getQuest(id: model.QuestId): quest.Quest {
+    return quests.get(id);
 }
