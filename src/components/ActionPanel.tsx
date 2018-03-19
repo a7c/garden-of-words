@@ -46,6 +46,7 @@ export default class ActionPanel extends React.Component<Props> {
 
     wander = () => this.wanderHelper(-resources.WANDER_STA_COST, null);
     transliterate = () => this.wanderHelper(0, "transliterate-job");
+    haulLuggage = () => this.wanderHelper(-resources.LUGGAGE_STA_COST, "luggage-job");
 
     onHint = (hint: string) => {
         this.props.onEvent(new event.FlavorEvent([], [], hint));
@@ -155,20 +156,35 @@ export default class ActionPanel extends React.Component<Props> {
                      />
                      : false}
                     {store.flags.get("has-transliteration-job") ?
-                     <ActionButton
-                         label="Transliterate"
-                         benefit="+¥"
-                         onClick={this.transliterate}
-                         cooldown={5000}
-                         paused={paused}
-                     />
-                     : false}
+                    <ActionButton
+                        label="Transliterate"
+                        benefit="+¥"
+                        onClick={this.transliterate}
+                        cooldown={5000}
+                        paused={paused}
+                    />
+                    : false}
+                    {store.flags.get("has-luggage-job") ?
+                    <ActionButton
+                        label="Haul Luggage"
+                        benefit={`-${resources.LUGGAGE_STA_COST} STA`}
+                        onClick={this.haulLuggage}
+                        locked={stamina < resources.LUGGAGE_STA_COST}
+                        paused={paused}
+                        cooldown={2500}
+                        hint="Meiji chocolates really seem to get your stamina up."
+                        onHint={this.onHint}
+                    />
+                    : false}
                 </div>
 
                 <div>
                     {pois}
                 </div>
 
+                {/* TODO: want some model of what is adjacent to
+                what. Also, reusable component for this would be
+                nice. */}
                 <div>
                     {adjacent}
                     <ActionButton

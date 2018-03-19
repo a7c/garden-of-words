@@ -3,7 +3,6 @@ import { HiraganaLearnable, HiraganaLearnableProps } from "./model";
 import { KatakanaLearnable, KatakanaLearnableProps } from "./model";
 
 import * as model from "./model";
-// import { katakanaBasicDict, hiraganaBasicDict } from "./kana";
 import * as actions from "../actions/actions";
 import * as question from "./question";
 
@@ -12,11 +11,10 @@ const jsonObjects = [
     require("../data/collections/katakana-basic.json")
 ];
 
-const allCollections = {};
-const idToLearnable = {};
+const collectionList = {};
+const dictionary = {};
 
 jsonObjects.forEach((value) => {
-    // let collectionJson = require(`${value}`);
     let collection: model.LearnableId[] = [];
     let collectionID = value.collection;
     value.items.forEach((obj: model.LearnableProps) => {
@@ -24,20 +22,17 @@ jsonObjects.forEach((value) => {
         // TODO: Maybe factor out the typecasting nastiness and replace with this:
         // collection[obj.id] = new Learnable(obj);
         if (collectionID === "hira-basic") {
-            idToLearnable[obj.id] = new HiraganaLearnable(obj as HiraganaLearnableProps);
+            dictionary[obj.id] = new HiraganaLearnable(obj as HiraganaLearnableProps);
             collection.push(obj.id);
         }
         else if (collectionID === "kata-basic") {
-            idToLearnable[obj.id] = new KatakanaLearnable(obj as KatakanaLearnableProps);
+            dictionary[obj.id] = new KatakanaLearnable(obj as KatakanaLearnableProps);
             collection.push(obj.id);
         }
         // TODO: cases for other types
     });
-    allCollections[collectionID] = collection;
+    collectionList[collectionID] = collection;
 });
-
-const collectionList = immutable.Map(allCollections) as immutable.Map<model.CollectionId, model.Collection>;
-const dictionary = immutable.Map(idToLearnable) as immutable.Map<model.LearnableId, model.Learnable>;
 
 export function getNextLearnable(store: model.Store): model.Learnable | null {
     const{ learned, flags } = store;
@@ -45,9 +40,9 @@ export function getNextLearnable(store: model.Store): model.Learnable | null {
     let word: model.Learnable | null = null;
 
     if (!flags.get("hiragana-complete")) {
-        let hiraNotComplete = collectionList.get("hira-basic").some((value, key) => {
+        let hiraNotComplete = collectionList["hira-basic"].some((value: model.LearnableId) => {
             if (value !== undefined && !learned.has(value)) {
-                word = dictionary.get(value);
+                word = dictionary[value];
                 return true;
             }
             else {
@@ -60,9 +55,9 @@ export function getNextLearnable(store: model.Store): model.Learnable | null {
         }
     }
     else if (!flags.get("katakana-complete")) {
-        let kataNotComplete = collectionList.get("kata-basic").some((value, key) => {
+        let kataNotComplete = collectionList["kata-basic"].some((value: model.LearnableId) => {
             if (value !== undefined && !learned.has(value)) {
-                word = dictionary.get(value);
+                word = dictionary[value];
                 return true;
             }
             else {
@@ -82,20 +77,13 @@ export function generateMultipleChoice(word: model.Learnable) {
     // build a list of 3 wrong answers and the right answer
     let options: model.Learnable[] = [];
 
-    // hack because for some reason it wouldn't let me convert straight to array
-    let collection = collectionList.get(word.collection);
-    let keyList: model.LearnableId[] = [];
-    collection.forEach((value) => {
-        if (value !== undefined ) {
-            keyList.push(value);
-        }
-    });
+    let keyList: model.LearnableId[] = collectionList[word.collection];
 
     keyList.splice(keyList.indexOf(word.id), 1);
 
     for (let i = 0; i < 3; i++) {
         let index = Math.floor(Math.random() * keyList.length);
-        options.push(dictionary.get(keyList[index]));
+        options.push(dictionary[keyList[index]]);
         keyList.splice(index, 1);
     }
     // TODO: will need more logic for normal vocab
@@ -108,19 +96,19 @@ export function generateMultipleChoice(word: model.Learnable) {
 }
 
 export function getLearnable(id: model.LearnableId): model.Learnable {
-    return dictionary.get(id);
+    return dictionary[id];
 }
 
 export function getCollection(item: model.LearnableId | model.Learnable | model.CollectionId) {
     if (typeof item === "string") {
-        if (collectionList.has(item)) {
-            return collectionList.get(item);
+        if (item in collectionList) {
+            return collectionList[item];
         }
         else {
-            return collectionList.get(getLearnable(item).collection);
+            return collectionList[getLearnable(item).collection];
         }
     }
     else {
-        return collectionList.get(item.collection);
+        return collectionList[item.collection];
     }
 }

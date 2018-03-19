@@ -1,7 +1,7 @@
 {
     "airport-food-court": {
         "name": "the airport food court",
-        "label": "Food Court",
+        "label": "Narita Airport Food Court",
         "wanderlust": true,
         "connected": ["airport-gate"],
         "pois": [],
