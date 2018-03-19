@@ -53,6 +53,24 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
     }
 }
 
+interface TypeInProps extends QuestionProps {
+    question: question.TypeIn;
+}
+
+class TypeIn extends React.Component<TypeInProps> {
+    constructor(props: TypeInProps) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <section className="question">
+                <p>Find the matching choice: </p>
+            </section>
+        );
+    }
+}
+
 export default class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
     constructor(props: QuestionProps) {
         super(props);
@@ -88,6 +106,11 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
                     />
                 );
             }
+
+            return contents;
+        }
+        else if (q instanceof question.TypeIn) {
+            let contents = <TypeIn key="ti" question={q} onReview={this.onReview} />;
 
             return contents;
         }

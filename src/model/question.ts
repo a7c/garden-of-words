@@ -34,6 +34,13 @@ export class MultipleChoice extends Question {
     }
 }
 
+export class TypeIn extends Question {
+
+    constructor(teaches: model.LearnableId[]) {
+        super(teaches);
+    }
+}
+
 export class MadLib extends Question {
     sentence: model.Learnable[];
     choices: model.Learnable[];
@@ -51,22 +58,6 @@ export class MadLib extends Question {
 export abstract class QuestionTemplate {
     makeQuestion(store: model.Store): Question {
         throw "@QuestionTemplate#makeQuestion: virtual method not implemented";
-    }
-}
-
-/**
- * Used when we already have a multiple choice question generated but
- * we still want to make a QuestionEvent.
- */
-export class MultipleChoiceWrapperQuestionTemplate {
-    question: Question;
-
-    constructor(question: Question) {
-        this.question = question;
-    }
-
-    makeQuestion(store: model.Store): Question {
-        return this.question;
     }
 }
 

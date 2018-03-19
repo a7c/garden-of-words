@@ -43,7 +43,13 @@ class Question extends React.Component<QuestionProps> {
 
     constructor(props: QuestionProps) {
         super(props);
-        this.question = this.props.event.question.makeQuestion(this.props.store);
+
+        if (this.props.event.question instanceof question.QuestionTemplate) {
+            this.question = this.props.event.question.makeQuestion(this.props.store);
+        }
+        else if (this.props.event.question instanceof question.Question) {
+            this.question = this.props.event.question;
+        }
     }
 
     render() {

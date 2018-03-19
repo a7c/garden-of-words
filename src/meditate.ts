@@ -32,7 +32,7 @@ export default function meditate(
         const questionEvent = new event.QuestionEvent(
             [], // filters
             [new event.ResourceEffect(resources.STAMINA, -resources.MEDITATE_STA_COST)], // effects
-            new question.MultipleChoiceWrapperQuestionTemplate(q), // question template
+            q, // question template
             null, // flavor
             null, // postFlavor
             "You feel refreshed after meditating.", // correctPostFlavor

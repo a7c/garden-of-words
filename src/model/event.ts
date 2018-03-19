@@ -388,7 +388,7 @@ export class FlavorEvent extends Event {
 }
 
 export class QuestionEvent extends Event {
-    question: question.QuestionTemplate;
+    question: question.QuestionTemplate | question.Question;
     failureEffects: Effect[];
     flavor: string | null;
     postFlavor: string | null;
@@ -397,7 +397,7 @@ export class QuestionEvent extends Event {
 
     constructor(filters: Filter[],
                 effects: Effect[],
-                q: question.QuestionTemplate,
+                q: question.QuestionTemplate | question.Question,
                 flavor: string | null,
                 postFlavor: string | null,
                 correctPostFlavor: string | null,
