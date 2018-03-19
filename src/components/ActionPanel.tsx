@@ -130,7 +130,6 @@ export default class ActionPanel extends React.Component<Props> {
             }
         });
 
-        // TODO: make actionbutton also ignore click when paused
         return (
             <LabeledPanel title="Actions" id="actions">
                 <div>
@@ -170,9 +169,6 @@ export default class ActionPanel extends React.Component<Props> {
                     {pois}
                 </div>
 
-                {/* TODO: want some model of what is adjacent to
-                what. Also, reusable component for this would be
-                nice. */}
                 <div>
                     {adjacent}
                     <ActionButton
