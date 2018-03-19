@@ -80,12 +80,19 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
         this.props.onReview(q.teaches[0], q.correct(input));
     }
 
+    prompt(learnable: model.Learnable) {
+        if (learnable.type === "vocab-kana-romaji") {
+            return `Type the reading (in romaji): ${learnable.front}`;
+        }
+        return `Type the equivalent: ${learnable.front}`;
+    }
+
     render() {
         const q = this.props.question;
         // TODO: support for different types of type-in questions
         return (
             <section className="question">
-                <p>Type the reading: {q.learnable.front}</p>
+                <p>{this.prompt(q.learnable)}</p>
                 <form onSubmit={this._handleSubmit}>
                     <label>
                         <input type="text" value={this.state.input} onChange={this._handleChange} />
