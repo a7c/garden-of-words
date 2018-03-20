@@ -66,7 +66,8 @@
 }
 
 #collection-body button {
-    flex: 0 0 6em;
+    flex: 1 0 auto;
+    min-width: 6em;
 }
 
 #collection-body button span {
@@ -80,6 +81,11 @@
     text-align: center;
 }
 
+#collection-body button.collection-item-expanded {
+    width: 100%;
+    height: 130px;
+}
+
 #collection-body button .collection-item-title {
     top: 0.25em;
     font-size: 1.5em;
@@ -88,6 +94,24 @@
 
 #collection-body button .collection-item-subtitle {
     bottom: 0.25em;
+}
+
+#collection-body button .collection-item-detail {
+    display: none;
+}
+
+#collection-body button.collection-item-expanded .collection-item-title {
+    width: 20%;
+    font-size: 2em;
+}
+
+#collection-body button.collection-item-expanded .collection-item-subtitle {
+    width: 20%;
+    font-size: 2em;
+}
+
+#collection-body button.collection-item-expanded .collection-item-detail {
+    display: block;
 }
 
 #collection-body button .action-button-lock {

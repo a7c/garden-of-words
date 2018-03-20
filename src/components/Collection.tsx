@@ -22,12 +22,14 @@ export interface CollectionProps {
 interface CollectionState {
     showCollection: boolean;
     showedCollection: boolean;
+
+    expandedId: model.LearnableId | null;
 }
 
 export default class CollectionComponent extends React.Component<CollectionProps, CollectionState> {
     constructor(props: CollectionProps) {
         super(props);
-        this.state = { showCollection: false, showedCollection: false };
+        this.state = { showCollection: false, showedCollection: false, expandedId: null };
         window.setTimeout(
             () => {
                 this.setState({ showCollection: true });
@@ -43,10 +45,16 @@ export default class CollectionComponent extends React.Component<CollectionProps
     }
 
     itemOnClick = (id: model.LearnableId) => {
+        if (this.state.expandedId === id) {
+            this.setState({ expandedId: null });
+        }
+        else {
+            this.setState({ expandedId: id });
+        }
         const word = this.props.learned.get(id);
         if (word && word.item) {
             const learnable = lookup.getLearnable(word.item);
-            alert(`${learnable.front} ${learnable.back}\nscore: ${word.score}`);
+            /* alert(`${learnable.front} ${learnable.back}\nscore: ${word.score}`);*/
         }
     }
 
@@ -107,12 +115,18 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 const record = groupedLearnables[id];
                 return (
                     <ActionButton
+                        className={id === this.state.expandedId ? "collection-item-expanded" : ""}
                         key={id}
                         locked={!record.learned}
                         onClick={() => this.itemOnClick(id)}
                     >
                         <span className="collection-item-title">{lookup.getLearnable(id).front}</span>
                         <span className="collection-item-subtitle">{lookup.getLearnable(id).back}</span>
+                        <div className="collection-item-detail">
+                            {groupedLearnables[id].items.map(learnable => (
+                                 <p>{learnable.id}</p>
+                             ))}
+                        </div>
                     </ActionButton>
                 );
             });
