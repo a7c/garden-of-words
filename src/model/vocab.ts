@@ -17,7 +17,16 @@ export interface VocabEntry {
 }
 
 export function makeLearnables(entry: VocabEntry): model.Learnable[] {
-    const result: model.Learnable[] = [];
+    const result: model.Learnable[] = [
+        {
+            type: "vocab",
+            id: entry.id,
+            collection: "",
+            front: entry.readings[0],
+            back: entry.meanings[0],
+            parentId: null,
+        },
+    ];
 
     for (let i = 0; i < entry.readings.length; i++) {
         const learnable = {

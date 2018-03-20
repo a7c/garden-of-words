@@ -44,7 +44,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
 
     itemOnClick = (id: model.LearnableId) => {
         const word = this.props.learned.get(id);
-        if (word !== null && word.item !== null) {
+        if (word && word.item) {
             const learnable = lookup.getLearnable(word.item);
             alert(`${learnable.front} ${learnable.back}\nscore: ${word.score}`);
         }
@@ -85,22 +85,36 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 }
             };
 
-            contents = collection.learnables.map((id) => {
-                if (id !== undefined) {
-                    return (
-                        <ActionButton
-                            key={id}
-                            locked={isLocked(id)}
-                            onClick={() => this.itemOnClick(id)}
-                        >
-                            <span className="collection-item-title">{lookup.getLearnable(id).front}</span>
-                            <span className="collection-item-subtitle">{lookup.getLearnable(id).back}</span>
-                        </ActionButton>
-                    );
+            // Collate learnables by their parent ID
+            const groupedLearnables: { [parentId: string]: {
+                items: model.Learnable[];
+                learned: boolean;
+            } } = {};
+            for (const id of collection.learnables) {
+                const learnable = lookup.getLearnable(id);
+                const canonicalId = learnable.parentId || learnable.id;
+                if (!groupedLearnables[canonicalId]) {
+                    groupedLearnables[canonicalId] = { items: [], learned: false };
                 }
-                else {
-                    return <span key="blank"/>;
-                }
+                groupedLearnables[canonicalId].items.push(learnable);
+                groupedLearnables[canonicalId].learned = !isLocked(id);
+            }
+
+            const keys = Object.keys(groupedLearnables);
+            keys.sort((k1, k2) => k1.localeCompare(k2));
+
+            contents = keys.map((id) => {
+                const record = groupedLearnables[id];
+                return (
+                    <ActionButton
+                        key={id}
+                        locked={!record.learned}
+                        onClick={() => this.itemOnClick(id)}
+                    >
+                        <span className="collection-item-title">{lookup.getLearnable(id).front}</span>
+                        <span className="collection-item-subtitle">{lookup.getLearnable(id).back}</span>
+                    </ActionButton>
+                );
             });
         }
 
