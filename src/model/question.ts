@@ -106,7 +106,7 @@ export class MultipleChoiceQuestionTemplate {
  *  A template for that produces kana -> romaji type-in questions that teach you a new
  *  vocab word afterward.
  */
-export class TypeInLearnVocabTemplate  {
+export class TypeInLearnVocabTemplate {
     collection: model.CollectionId;
     /** Whether to only display words for which the kana has already been learned */
     onlySeenKana: boolean;
@@ -127,10 +127,17 @@ export class TypeInLearnVocabTemplate  {
             if (learned.has(wordId)) {
                 continue;
             }
+
+            const learnable = lookup.getLearnable(wordId);
+
+            // Don't choose a word they can't type
+            if (!learnable.back.match(/^[a-zA-Z]+$/)) {
+                continue;
+            }
+
             // If desired, don't choose a word that the player hasn't learned the kana for
             if (this.onlySeenKana) {
-                // TODO: this assumes that the front of the learnable is the kana reading
-                const kanaReading = lookup.getLearnable(wordId).front;
+                const kanaReading = learnable.front;
                 for (const k of kanaReading) {
                     if (!learned.has(`hira-${k}`) && !learned.has(`kata-${k}`)) {
                         continue;
