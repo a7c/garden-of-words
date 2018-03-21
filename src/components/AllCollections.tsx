@@ -59,9 +59,10 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
 
             const ids = Object.keys(lookup.getCollections());
 
-            contents = ids.map((id) =>
+            contents = ids.map((id, idx) =>
                             (
                                 <ActionButton
+                                    key={idx}
                                     label={id}
                                     onClick={() => this.getCollectionInfo(id)}
                                 />

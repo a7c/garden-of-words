@@ -39,10 +39,10 @@ export function makeLearnables(entry: VocabEntry): model.Learnable[] {
         };
         result.push(learnable);
         result.push({
+            ...learnable,
             front: learnable.back,
             back: learnable.front,
             id: `${learnable.id}-reverse`,
-            ...learnable,
         });
     }
 

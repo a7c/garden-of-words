@@ -105,7 +105,8 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     groupedLearnables[canonicalId] = { items: [], learned: false };
                 }
                 groupedLearnables[canonicalId].items.push(learnable);
-                groupedLearnables[canonicalId].learned = !isLocked(id);
+                groupedLearnables[canonicalId].learned = groupedLearnables[canonicalId].learned ||
+                                                         !isLocked(id);
             }
 
             const keys = Object.keys(groupedLearnables);
