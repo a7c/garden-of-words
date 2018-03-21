@@ -138,10 +138,15 @@ export class TypeInLearnVocabTemplate {
             // If desired, don't choose a word that the player hasn't learned the kana for
             if (this.onlySeenKana) {
                 const kanaReading = learnable.front;
+                let skipWord = false;
                 for (const k of kanaReading) {
                     if (!learned.has(`hira-${k}`) && !learned.has(`kata-${k}`)) {
-                        continue;
+                        skipWord = true;
+                        break;
                     }
+                }
+                if (skipWord) {
+                    continue;
                 }
             }
             return [
