@@ -67,8 +67,8 @@
 
 #collection-body button {
     flex: 1 0 auto;
-    min-width: 6em;
-    max-width: 6em;
+    min-width: 9em;
+    max-width: 9em;
     transition: all 0.2s ease-in-out;
 }
 
