@@ -133,7 +133,9 @@ export default class CollectionComponent extends React.Component<CollectionProps
                             <span
                                 className="collection-item-progress-inner"
                                 style={{ right: `${score}%` }}
-                            />
+                            >
+                                {(100 - score).toFixed()}%
+                            </span>
                         </span>
                         <div className="collection-item-detail">
                             {groupedLearnables[id].items.map((learnable, idx) => {
@@ -145,7 +147,9 @@ export default class CollectionComponent extends React.Component<CollectionProps
                                          </p>
                                      );
                                  }
-                                 return false;
+                                 return (
+                                     <p key={idx}>Component locked…keep wandering!</p>
+                                 );
                              })}
                         </div>
                     </ActionButton>
