@@ -101,17 +101,50 @@ export class MultipleChoiceQuestionTemplate {
     }
 }
 
-// TODO: WIP
-// export class TypeInQuestionTemplate  {
-//     /** Whether to only display words for which the kana has already been learned */
-//     onlySeenKana: boolean;
+/**
+ *  A template for that produces kana -> romaji type-in questions that teach you a new
+ *  vocab word afterward.
+ */
+export class TypeInLearnVocabTemplate  {
+    collection: model.CollectionId;
+    /** Whether to only display words for which the kana has already been learned */
+    onlySeenKana: boolean;
 
-//     constructor(onlySeenKana: boolean) {
-//         this.onlySeenKana = onlySeenKana;
-//     }
+    constructor(collection: model.CollectionId, onlySeenKana: boolean) {
+        this.collection = collection;
+        this.onlySeenKana = onlySeenKana;
+    }
 
-//     makeQuestion(store: model.Store): Question {
-//         //
-//         return null;
-//     }
-// }
+    makeQuestion(store: model.Store): Question {
+        const { learned, collections } = store;
+
+        const learnables = lookup.getCollections()[this.collection].learnables.filter(
+            (id: string) => id.includes("kana-romaji")
+        );
+        for (const wordId of learnables) {
+            // Don't choose a word that's already been learned
+            if (learned.has(wordId)) {
+                continue;
+            }
+            // If desired, don't choose a word that the player hasn't learned the kana for
+            if (this.onlySeenKana) {
+                // TODO: this assumes that the front of the learnable is the kana reading
+                const kanaReading = lookup.getLearnable(wordId).front;
+                for (const k of kanaReading) {
+                    if (!learned.has(`hira-${k}`) && !learned.has(`kata-${k}`)) {
+                        continue;
+                    }
+                }
+            }
+            return lookup.generateTypeIn(lookup.getLearnable(wordId));
+        }
+
+        // If no suitable words are found, default to generating a review
+        const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(learned);
+        if (leastRecentlyReviewed !== null) {
+            return lookup.generateTypeIn(leastRecentlyReviewed);
+        }
+        // If you can't even do that, then you shouldn't really have done this in the first place
+        throw "Tried to make question with TypeInLearnVocabTemplate but the player hasn't even learned anything yet!";
+    }
+}

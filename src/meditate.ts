@@ -10,23 +10,9 @@ import * as resources from "./data/constants/resources";
 export default function meditate(
     learned: immutable.Map<model.LearnableId, model.Learned>
 ): event.QuestionEvent | null {
-    let leastRecentlyReviewed: model.LearnableId | null = null;
-    let lastDate: Date | null = null;
-
-    learned.forEach((v, k) => {
-        if (!v || !k) {
-            return;
-        }
-
-        if (lastDate == null || v.get("lastReviewed") < lastDate) {
-            leastRecentlyReviewed = k;
-            lastDate = v.get("lastReviewed");
-        }
-    });
-
+    const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(learned);
     if (leastRecentlyReviewed !== null) {
-        const reviewedWord: model.LearnableId = learned.get(leastRecentlyReviewed).get("item")!;
-        const q = lookup.generateQuestion(lookup.getLearnable(reviewedWord));
+        const q = lookup.generateQuestion(leastRecentlyReviewed);
 
         const questionEvent = new event.QuestionEvent(
             [], // filters

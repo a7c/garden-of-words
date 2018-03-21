@@ -151,3 +151,25 @@ const quests = new Map();
 export function getQuest(id: model.QuestId): quest.Quest {
     return quests.get(id);
 }
+
+export function getLeastRecentlyReviewed(learned: immutable.Map<model.LearnableId, model.Learned>):
+    model.Learnable | null {
+    let leastRecentlyReviewed: model.LearnableId | null = null;
+    let lastDate: Date | null = null;
+
+    learned.forEach((v, k) => {
+        if (!v || !k) {
+            return;
+        }
+
+        if (lastDate == null || v.get("lastReviewed") < lastDate) {
+            leastRecentlyReviewed = k;
+            lastDate = v.get("lastReviewed");
+        }
+    });
+
+    if (leastRecentlyReviewed !== null) {
+        return getLearnable(learned.get(leastRecentlyReviewed).get("item"));
+    }
+    return null;
+}

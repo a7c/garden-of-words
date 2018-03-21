@@ -12,9 +12,9 @@
             }
         ],
         "question": {
-            "type": "mc",
-            "collection": "hira-basic",
-            "onlySeen": true
+            "type": "ti-learn-vocab",
+            "collection": "vocab-basic-colors",
+            "onlySeenKana": true
         },
         "effects": [
             {

@@ -30,7 +30,9 @@ type FilterProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage } |
     { type: "structure-nearby", structure: string, distance?: number, exact?: boolean };
 
-type QuestionTemplateProps = { type: "mc", collection: string, onlySeen?: boolean };
+type QuestionTemplateProps =
+    { type: "mc", collection: string, onlySeen?: boolean } |
+    { type: "ti-learn-vocab", collection: string, onlySeenKana?: boolean };
 
 type EventProps =
     { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] }
@@ -138,6 +140,9 @@ export function parseQuest(json: QuestProps): quest.Quest {
 export function parseQuestionTemplate(json: QuestionTemplateProps): question.QuestionTemplate {
     if (json.type === "mc") {
         return new question.MultipleChoiceQuestionTemplate(json.collection, json.onlySeen || false);
+    }
+    else if (json.type === "ti-learn-vocab") {
+        return new question.TypeInLearnVocabTemplate(json.collection, json.onlySeenKana || false);
     }
 
     throw new ParseError("Unrecognized question template", json);
