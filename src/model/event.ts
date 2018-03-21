@@ -370,6 +370,10 @@ export class Event {
     toPostEventLog(): string | null {
         return null;
     }
+
+    clone(): Event {
+        throw `Unimplemented!`;
+    }
 }
 
 export class FlavorEvent extends Event {
@@ -386,6 +390,12 @@ export class FlavorEvent extends Event {
             return `${this.flavor} ${effectText}`;
         }
         return this.flavor;
+    }
+
+    clone() {
+        return new FlavorEvent(this.filters.slice(),
+                               this.effects.slice(),
+                               this.flavor);
     }
 }
 
@@ -431,5 +441,16 @@ export class QuestionEvent extends Event {
             const effectText = Event.effectsToText(this.failureEffects);
             return `${this.wrongPostFlavor ? this.wrongPostFlavor : ""} ${effectText ? effectText : ""}`;
         }
+    }
+
+    clone() {
+        return new QuestionEvent(this.filters.slice(),
+                                 this.effects.slice(),
+                                 this.question,
+                                 this.flavor,
+                                 this.postFlavor,
+                                 this.correctPostFlavor,
+                                 this.wrongPostFlavor,
+                                 this.failureEffects.slice());
     }
 }

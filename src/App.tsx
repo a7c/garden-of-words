@@ -53,6 +53,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
     onEvent = (happening: event.Event | model.LearnableId) => {
         let showEvent = true;
         if (happening instanceof event.Event) {
+            happening = happening.clone();
+
             const logText = happening.toEventLog();
             if (logText !== null) {
                 this.setState({ eventLog: this.state.eventLog.concat([logText]) });
