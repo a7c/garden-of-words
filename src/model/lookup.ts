@@ -75,19 +75,28 @@ export function getNextLearnable(store: model.Store): model.LearnableId | null {
     return word;
 }
 
-export function generateMultipleChoice(word: model.Learnable | model.LearnableId) {
-    if (typeof word === "string") {
-        word = getLearnable(word);
-    }
+export function generateMultipleChoice(_word: model.Learnable | model.LearnableId) {
+    const word = typeof _word === "string" ? getLearnable(_word) : _word as model.Learnable;
 
     // build a list of 3 wrong answers and the right answer
     const options: model.Learnable[] = [];
 
-    const keyList: model.LearnableId[] = collectionList[word.collection].learnables.slice();
+    const keyList: model.LearnableId[] =
+        collectionList[word.collection].learnables
+        .slice()
+        .filter(learnableId => {
+            // Only consider options that are of the same learnable
+            // type, and which are reversed/not reversed as
+            // appropriate
+            const learnable = getLearnable(learnableId);
+            return word.type === learnable.type &&
+                word.id.endsWith("-reverse") === learnable.id.endsWith("-reverse");
+        });
 
     keyList.splice(keyList.indexOf(word.id), 1);
 
-    for (let i = 0; i < 3; i++) {
+    // Don't take more options than are available
+    for (let i = 0; i < Math.min(3, keyList.length); i++) {
         const index = Math.floor(Math.random() * keyList.length);
         options.push(dictionary[keyList[index]]);
         keyList.splice(index, 1);
