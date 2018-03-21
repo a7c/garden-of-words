@@ -110,6 +110,17 @@ export function generateMultipleChoice(_word: model.Learnable | model.LearnableI
     return new question.MultipleChoice([word.id], options, correctIdx, correctIdx);
 }
 
+export function generateTypeIn(word: model.Learnable) {
+    return new question.TypeIn([ word.id ], word);
+}
+
+export function generateQuestion(word: model.Learnable) {
+    if (Math.random() < 0.5 && word.back.match(/^[a-zA-Z]+$/)) {
+        return generateTypeIn(word);
+    }
+    return generateMultipleChoice(word);
+}
+
 export function getLearnable(id: model.LearnableId): model.Learnable {
     return dictionary[id];
 }

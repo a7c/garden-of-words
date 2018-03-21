@@ -25,10 +25,8 @@ export default function meditate(
     });
 
     if (leastRecentlyReviewed !== null) {
-        // TODO: works for hiragana and katakana, but need to decide how to handle general vocab words
-        // const reviewedWord: model.LearnableId = learned.get(leastRecentlyReviewed).get("item")!;
-        // const q = lookup.generateMultipleChoice(reviewedWord);
-        const q = new question.TypeIn(["vocab-青い-kana-romaji-0"], lookup.getLearnable("vocab-青い-kana-romaji-0"));
+        const reviewedWord: model.LearnableId = learned.get(leastRecentlyReviewed).get("item")!;
+        const q = lookup.generateQuestion(lookup.getLearnable(reviewedWord));
 
         const questionEvent = new event.QuestionEvent(
             [], // filters
