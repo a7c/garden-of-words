@@ -113,6 +113,13 @@ export default class CollectionComponent extends React.Component<CollectionProps
 
             contents = keys.map((id) => {
                 const record = groupedLearnables[id];
+                let score = 0;
+                for (const item of record.items) {
+                    const learnedRecord = this.props.learned.get(item.id);
+                    score += learnedRecord ? (learnedRecord.score / record.items.length) : 0;
+                }
+                score = 100 * (1 - score);
+
                 return (
                     <ActionButton
                         className={id === this.state.expandedId ? "collection-item-expanded" : ""}
@@ -122,6 +129,12 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     >
                         <span className="collection-item-title">{lookup.getLearnable(id).front}</span>
                         <span className="collection-item-subtitle">{lookup.getLearnable(id).back}</span>
+                        <span className="collection-item-progress">
+                            <span
+                                className="collection-item-progress-inner"
+                                style={{ right: `${score}%` }}
+                            />
+                        </span>
                         <div className="collection-item-detail">
                             {groupedLearnables[id].items.map((learnable, idx) => {
                                  if (!isLocked(learnable.id)) {
