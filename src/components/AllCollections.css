@@ -19,6 +19,11 @@
 #collections-search {
     display: flex;
     flex: 1;
+    margin: 0.25em;
+}
+
+#sort-by {
+    margin: 0.25em;
 }
 
 #dropdown {
@@ -37,15 +42,30 @@
     flex: 0;
 }
 
-#collections-table > button {
-  width: 100px;
-  height: 100px;
-  padding: 5px;
-  margin: 10px;
-}
-
 #collections-table {
   overflow-y: scroll;
   height: 380px;
   min-height: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+#collections-table > button {
+  width: 9em;
+  height: 9em;
+  padding: 0.25em;
+  margin: 0.25em;
+}
+
+#collections-table > button .collection-title {
+    font-size: 1.25em;
+    top: 30%;
+    width: 80%;
+    left: 10%;
+    text-align: center;
+}
+
+#collections-table > button .collection-subtitle {
+    bottom: 25%;
 }
