@@ -146,7 +146,10 @@ export class TypeInLearnVocabTemplate {
             }
             return [
                 lookup.generateTypeIn(lookup.getLearnable(wordId)),
-                [new event.LearnEffect(wordId)],
+                [
+                    new event.LearnEffect(wordId),
+                    new event.LearnEffect(wordId + "-reverse"),
+                ],
                 [] as event.Effect[],
             ];
         }
