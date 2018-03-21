@@ -67,24 +67,6 @@ export default class CollectionComponent extends React.Component<CollectionProps
         if (this.state.showCollection) {
             key = "notblank";
 
-            header = (
-                <ActionButton
-                    onClick={() => this.setState({
-                            showCollection: false,
-                            showedCollection: true
-                        })}
-                >
-                    <span className="collection-title">{collection.name}</span>
-                    {collection.subtitle ? <span className="collection-subtitle">{collection.subtitle}</span> : false}
-                    <span className="collection-learned-count">
-                        {this.props.encountered ?
-                         this.props.encountered.size : 0}
-                    </span>
-                    <span className="collection-count-frac" />
-                    <span className="collection-count">{collection.learnables.length}</span>
-                </ActionButton>
-            );
-
             const isLocked = (id: string) => {
                 if (this.props.encountered) {
                     return !this.props.encountered.has(id);
@@ -111,6 +93,23 @@ export default class CollectionComponent extends React.Component<CollectionProps
 
             const keys = Object.keys(groupedLearnables);
             keys.sort((k1, k2) => k1.localeCompare(k2));
+
+            header = (
+                <ActionButton
+                    onClick={() => this.setState({
+                            showCollection: false,
+                            showedCollection: true
+                        })}
+                >
+                    <span className="collection-title">{collection.name}</span>
+                    {collection.subtitle ? <span className="collection-subtitle">{collection.subtitle}</span> : false}
+                    <span className="collection-learned-count">
+                        {Object.keys(groupedLearnables).filter(k => groupedLearnables[k].learned).length}
+                    </span>
+                    <span className="collection-count-frac" />
+                    <span className="collection-count">{Object.keys(groupedLearnables).length}</span>
+                </ActionButton>
+            );
 
             contents = keys.map((id) => {
                 const record = groupedLearnables[id];
