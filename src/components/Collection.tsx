@@ -124,10 +124,10 @@ export default class CollectionComponent extends React.Component<CollectionProps
                         <span className="collection-item-title">{lookup.getLearnable(id).front}</span>
                         <span className="collection-item-subtitle">{lookup.getLearnable(id).back}</span>
                         <div className="collection-item-detail">
-                            {groupedLearnables[id].items.map((learnable) => {
+                            {groupedLearnables[id].items.map((learnable, idx) => {
                                  if (!isLocked(learnable.id)) {
                                      return (
-                                         <p>
+                                         <p key={idx}>
                                              {learnable.front} = {learnable.back}&nbsp;
                                              Score: {this.props.learned.get(learnable.id).score}
                                          </p>

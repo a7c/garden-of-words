@@ -72,10 +72,11 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
             const id = this.state.viewCollection;
             contents = ([(
                   <CollectionComponent
-                    name={id}
-                    encountered={this.props.collections.get(id)}
-                    learned={this.props.learned}
-                    onFinished={() => this.setState({"viewCollection": null})}
+                      key={0}
+                      name={id}
+                      encountered={this.props.collections.get(id)}
+                      learned={this.props.learned}
+                      onFinished={() => this.setState({"viewCollection": null})}
                   />
                 )]);
         }
