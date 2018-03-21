@@ -45,7 +45,11 @@ class Question extends React.Component<QuestionProps> {
         super(props);
 
         if ("makeQuestion" in this.props.event.question) {
-            this.question = this.props.event.question.makeQuestion(this.props.store);
+            const [ q, successEfx, failEfx ] =
+                this.props.event.question.makeQuestion(this.props.store);
+            this.question = q;
+            successEfx.forEach(e => this.props.event.effects.push(e));
+            failEfx.forEach(e => this.props.event.failureEffects.push(e));
         }
         else {
             this.question = this.props.event.question;
