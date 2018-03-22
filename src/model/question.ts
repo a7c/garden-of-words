@@ -45,7 +45,6 @@ export class TypeIn extends Question {
     }
 
     correct(input: string) {
-        console.log(this.learnable, input);
         return input.trim() === this.learnable.back;
     }
 }
@@ -136,10 +135,9 @@ export class TypeInLearnVocabTemplate {
             }
 
             // If desired, don't choose a word that the player hasn't learned the kana for
+            const kanaReading = learnable.front;
             if (this.onlySeenKana) {
-                const kanaReading = learnable.front;
                 let skipWord = false;
-                console.log(kanaReading);
                 for (const k of kanaReading) {
                     if (!learned.has(`hira-${k}`) && !learned.has(`kata-${k}`)) {
                         skipWord = true;
@@ -152,12 +150,17 @@ export class TypeInLearnVocabTemplate {
             }
 
             const effects = [
-                new event.LearnEffect(wordId),
-                new event.LearnEffect(wordId + "-reverse")
+                new event.LearnEffect(wordId, ""),
+                new event.LearnEffect(wordId + "-reverse", "")
             ];
 
             if (learnable.parentId) {
                 effects.push(new event.LearnEffect(learnable.parentId));
+            }
+
+            // TODO: what if this.onlySeenKana is false
+            for (const k of kanaReading) {
+                effects.push(new event.ReviewCorrectEffect(`hira-${k}`));
             }
 
             return [

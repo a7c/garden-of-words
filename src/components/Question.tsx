@@ -30,8 +30,9 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
 
     reviewWord = (idx: number) => {
         const q = this.props.question;
-        // TODO: review all taught items
-        this.props.onReview(q.teaches[0], q.correct(idx));
+        for (const learnable of q.teaches) {
+            this.props.onReview(learnable, q.correct(idx));
+        }
     }
 
     render() {
@@ -77,7 +78,9 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
         const q = this.props.question;
         const input = this.state.input.trim();
 
-        this.props.onReview(q.teaches[0], q.correct(input));
+        for (const learnable of q.teaches) {
+            this.props.onReview(learnable, q.correct(input));
+        }
     }
 
     prompt(learnable: model.Learnable) {

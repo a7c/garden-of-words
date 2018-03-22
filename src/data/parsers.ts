@@ -19,7 +19,8 @@ type EffectProps =
     { type: "discover", location: model.Location } |
     { type: "resource", resource: model.Resource, value: number } |
     { type: "resource-max", resource: model.Resource, value: number } |
-    { type: "learn", id: model.LearnableId };
+    { type: "learn", id: model.LearnableId } |
+    { type: "review-correct", id: model.LearnableId };
 
 type FilterProps =
     { type: "resource", resource: model.Resource, minimum: number } |
@@ -72,6 +73,9 @@ export function parseEffect(json: EffectProps): event.Effect {
     }
     else if (json.type === "learn") {
         return new event.LearnEffect(json.id);
+    }
+    else if (json.type === "review-correct") {
+        return new event.ReviewCorrectEffect(json.id);
     }
     throw new ParseError("Unrecognized effect", json);
 }

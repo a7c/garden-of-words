@@ -75,7 +75,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             this.props.onLearn(happening);
 
             const logMessage = new event.LearnEffect(happening).toEventLog();
-            if (logMessage) {
+            if (logMessage !== null) {
                 this.state.eventLog.push(logMessage);
             }
         }

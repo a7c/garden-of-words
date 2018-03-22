@@ -5,10 +5,20 @@ import * as lookup from "./lookup";
 import locations from "../data/locations";
 
 export class Effect {
+    /**
+     *  A custom log message to be displayed. If null, a default message (or no
+     *  message) will be displayed in the event log.
+     */
     customLogMessage: string | null;
 
     constructor(customLogMessage?: string) {
-        this.customLogMessage = customLogMessage || null;
+        // Empty string is a valid custom log message
+        if (customLogMessage !== undefined) {
+            this.customLogMessage = customLogMessage;
+        }
+        else {
+            this.customLogMessage = null;
+        }
     }
 
     /**
@@ -79,7 +89,7 @@ export class TravelEffect extends Effect {
     }
 
     toEventLog() {
-        if (this.customLogMessage) {
+        if (this.customLogMessage !== null) {
             return super.toEventLog();
         }
         return `You walk to ${locations[this.location].name}.`;
@@ -99,7 +109,7 @@ export class DiscoverEffect extends Effect {
     }
 
     toEventLog() {
-        if (this.customLogMessage) {
+        if (this.customLogMessage !== null) {
             return super.toEventLog();
         }
         return `You discovered ${locations[this.location].name}.`;
@@ -121,7 +131,7 @@ export class ResourceMaxEffect extends Effect {
     }
 
     toEventLog() {
-        if (this.customLogMessage) {
+        if (this.customLogMessage !== null) {
             return super.toEventLog();
         }
         return `You gained ${this.value} maximum ${this.resource}.`;
@@ -143,7 +153,7 @@ export class ResourceEffect extends Effect {
     }
 
     toEventLog() {
-        if (this.customLogMessage) {
+        if (this.customLogMessage !== null) {
             return super.toEventLog();
         }
         return `You ${this.value > 0 ? "gained" : "lost"} ${Math.abs(this.value)} ${this.resource}.`;
@@ -164,7 +174,7 @@ export class LearnEffect extends Effect {
     }
 
     toEventLog() {
-        if (this.customLogMessage) {
+        if (this.customLogMessage !== null) {
             return super.toEventLog();
         }
 
@@ -178,6 +188,20 @@ export class LearnEffect extends Effect {
 
         // TODO: factor out this check
         return `You learned ${learnable.front} ${phrase} ${learnable.back}.`;
+    }
+}
+
+/** An effect that represents correctly reviewing an already learned word. */
+export class ReviewCorrectEffect extends Effect {
+    id: model.LearnableId;
+
+    constructor(id: model.LearnableId, customLogMessage?: string) {
+        super(customLogMessage);
+        this.id = id;
+    }
+
+    toAction() {
+        return actions.review(this.id, true);
     }
 }
 
