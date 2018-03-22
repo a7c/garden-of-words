@@ -5,9 +5,10 @@ import * as lookup from "./lookup";
 import locations from "../data/locations";
 
 export class Effect {
-    // TODO: this signature needs to be more precise
-    apply(store: model.Store) {
-        return;
+    customLogMessage: string | null;
+
+    constructor(customLogMessage?: string) {
+        this.customLogMessage = customLogMessage || null;
     }
 
     /**
@@ -21,7 +22,7 @@ export class Effect {
      * Return what this event should display in the event log (if anything).
      */
     toEventLog(): string | null {
-        return null;
+        return this.customLogMessage;
     }
 }
 
@@ -35,7 +36,7 @@ export class QuestEffect extends Effect {
     journal: string | null;
 
     constructor(questId: model.QuestId, stage: model.QuestStage, journal?: string) {
-        super();
+        super(journal);
         this.questId = questId;
         this.stage = stage;
         this.journal = journal || null;
@@ -54,8 +55,8 @@ export class FlagEffect extends Effect {
     flag: string;
     value: boolean;
 
-    constructor(flag: string, value: boolean) {
-        super();
+    constructor(flag: string, value: boolean, customLogMessage?: string) {
+        super(customLogMessage);
         this.flag = flag;
         this.value = value;
     }
@@ -68,8 +69,8 @@ export class FlagEffect extends Effect {
 export class TravelEffect extends Effect {
     location: model.Location;
 
-    constructor(location: model.Location) {
-        super();
+    constructor(location: model.Location, customLogMessage?: string) {
+        super(customLogMessage);
         this.location = location;
     }
 
@@ -78,6 +79,9 @@ export class TravelEffect extends Effect {
     }
 
     toEventLog() {
+        if (this.customLogMessage) {
+            return super.toEventLog();
+        }
         return `You walk to ${locations[this.location].name}.`;
     }
 }
@@ -85,8 +89,8 @@ export class TravelEffect extends Effect {
 export class DiscoverEffect extends Effect {
     location: model.Location;
 
-    constructor(location: model.Location) {
-        super();
+    constructor(location: model.Location, customLogMessage?: string) {
+        super(customLogMessage);
         this.location = location;
     }
 
@@ -95,6 +99,9 @@ export class DiscoverEffect extends Effect {
     }
 
     toEventLog() {
+        if (this.customLogMessage) {
+            return super.toEventLog();
+        }
         return `You discovered ${locations[this.location].name}.`;
     }
 }
@@ -103,8 +110,8 @@ export class ResourceMaxEffect extends Effect {
     resource: model.Resource;
     value: number;
 
-    constructor(resource: model.Resource, value: number) {
-        super();
+    constructor(resource: model.Resource, value: number, customLogMessage?: string) {
+        super(customLogMessage);
         this.resource = resource;
         this.value = value;
     }
@@ -114,6 +121,9 @@ export class ResourceMaxEffect extends Effect {
     }
 
     toEventLog() {
+        if (this.customLogMessage) {
+            return super.toEventLog();
+        }
         return `You gained ${this.value} maximum ${this.resource}.`;
     }
 }
@@ -122,8 +132,8 @@ export class ResourceEffect extends Effect {
     resource: model.Resource;
     value: number;
 
-    constructor(resource: model.Resource, value: number) {
-        super();
+    constructor(resource: model.Resource, value: number, customLogMessage?: string) {
+        super(customLogMessage);
         this.resource = resource;
         this.value = value;
     }
@@ -133,6 +143,9 @@ export class ResourceEffect extends Effect {
     }
 
     toEventLog() {
+        if (this.customLogMessage) {
+            return super.toEventLog();
+        }
         return `You ${this.value > 0 ? "gained" : "lost"} ${Math.abs(this.value)} ${this.resource}.`;
     }
 }
@@ -141,8 +154,8 @@ export class ResourceEffect extends Effect {
 export class LearnEffect extends Effect {
     id: model.LearnableId;
 
-    constructor(id: model.LearnableId) {
-        super();
+    constructor(id: model.LearnableId, customLogMessage?: string) {
+        super(customLogMessage);
         this.id = id;
     }
 
@@ -151,6 +164,10 @@ export class LearnEffect extends Effect {
     }
 
     toEventLog() {
+        if (this.customLogMessage) {
+            return super.toEventLog();
+        }
+
         const learnable = lookup.getLearnable(this.id);
 
         const phrase = {
