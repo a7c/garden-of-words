@@ -4,277 +4,277 @@
     "subtitle": "カタカナ",
     "items": [
         {
-            "id": "kata-a",
+            "id": "kata-ア",
             "type": "katakana",
             "front": "ア",
             "back": "a"
         },
         {
-            "id": "kata-i",
+            "id": "kata-イ",
             "type": "katakana",
             "front": "イ",
             "back": "i"
         },
         {
-            "id": "kata-u",
+            "id": "kata-ウ",
             "type": "katakana",
             "front": "ウ",
             "back": "u"
         },
         {
-            "id": "kata-e",
+            "id": "kata-エ",
             "type": "katakana",
             "front": "エ",
             "back": "e"
         },
         {
-            "id": "kata-o",
+            "id": "kata-オ",
             "type": "katakana",
             "front": "オ",
             "back": "o"
         },
         {
-            "id": "kata-ka",
+            "id": "kata-カ",
             "type": "katakana",
             "front": "カ",
             "back": "ka"
         },
         {
-            "id": "kata-ki",
+            "id": "kata-キ",
             "type": "katakana",
             "front": "キ",
             "back": "ki"
         },
         {
-            "id": "kata-ku",
+            "id": "kata-ク",
             "type": "katakana",
             "front": "ク",
             "back": "ku"
         },
         {
-            "id": "kata-ke",
+            "id": "kata-ケ",
             "type": "katakana",
             "front": "ケ",
             "back": "ke"
         },
         {
-            "id": "kata-ko",
+            "id": "kata-コ",
             "type": "katakana",
             "front": "コ",
             "back": "ko"
         },
         {
-            "id": "kata-sa",
+            "id": "kata-サ",
             "type": "katakana",
             "front": "サ",
             "back": "sa"
         },
         {
-            "id": "kata-shi",
+            "id": "kata-シ",
             "type": "katakana",
             "front": "シ",
             "back": "shi"
         },
         {
-            "id": "kata-su",
+            "id": "kata-ス",
             "type": "katakana",
             "front": "ス",
             "back": "su"
         },
         {
-            "id": "kata-se",
+            "id": "kata-セ",
             "type": "katakana",
             "front": "セ",
             "back": "se"
         },
         {
-            "id": "kata-so",
+            "id": "kata-ソ",
             "type": "katakana",
             "front": "ソ",
             "back": "so"
         },
         {
-            "id": "kata-ta",
+            "id": "kata-タ",
             "type": "katakana",
             "front": "タ",
             "back": "ta"
         },
         {
-            "id": "kata-chi",
+            "id": "kata-チ",
             "type": "katakana",
             "front": "チ",
             "back": "chi"
         },
         {
-            "id": "kata-tsu",
+            "id": "kata-ツ",
             "type": "katakana",
             "front": "ツ",
             "back": "tsu"
         },
         {
-            "id": "kata-te",
+            "id": "kata-テ",
             "type": "katakana",
             "front": "テ",
             "back": "te"
         },
         {
-            "id": "kata-to",
+            "id": "kata-ト",
             "type": "katakana",
             "front": "ト",
             "back": "to"
         },
         {
-            "id": "kata-na",
+            "id": "kata-ナ",
             "type": "katakana",
             "front": "ナ",
             "back": "na"
         },
         {
-            "id": "kata-ni",
+            "id": "kata-ニ",
             "type": "katakana",
             "front": "ニ",
             "back": "ni"
         },
         {
-            "id": "kata-nu",
+            "id": "kata-ヌ",
             "type": "katakana",
             "front": "ヌ",
             "back": "nu"
         },
         {
-            "id": "kata-ne",
+            "id": "kata-ネ",
             "type": "katakana",
             "front": "ネ",
             "back": "ne"
         },
         {
-            "id": "kata-no",
+            "id": "kata-ノ",
             "type": "katakana",
             "front": "ノ",
             "back": "no"
         },
         {
-            "id": "kata-ha",
+            "id": "kata-ハ",
             "type": "katakana",
             "front": "ハ",
             "back": "ha"
         },
         {
-            "id": "kata-hi",
+            "id": "kata-ヒ",
             "type": "katakana",
             "front": "ヒ",
             "back": "hi"
         },
         {
-            "id": "kata-hu",
+            "id": "kata-フ",
             "type": "katakana",
             "front": "フ",
-            "back": "hu"
+            "back": "fu"
         },
         {
-            "id": "kata-he",
+            "id": "kata-ヘ",
             "type": "katakana",
             "front": "ヘ",
             "back": "he"
         },
         {
-            "id": "kata-ho",
+            "id": "kata-ホ",
             "type": "katakana",
             "front": "ホ",
             "back": "ho"
         },
         {
-            "id": "kata-ma",
+            "id": "kata-マ",
             "type": "katakana",
             "front": "マ",
             "back": "ma"
         },
         {
-            "id": "kata-mi",
+            "id": "kata-ミ",
             "type": "katakana",
             "front": "ミ",
             "back": "mi"
         },
         {
-            "id": "kata-mu",
+            "id": "kata-ム",
             "type": "katakana",
             "front": "ム",
             "back": "mu"
         },
         {
-            "id": "kata-me",
+            "id": "kata-メ",
             "type": "katakana",
             "front": "メ",
             "back": "me"
         },
         {
-            "id": "kata-mo",
+            "id": "kata-モ",
             "type": "katakana",
             "front": "モ",
             "back": "mo"
         },
         {
-            "id": "kata-ya",
+            "id": "kata-ヤ",
             "type": "katakana",
             "front": "ヤ",
             "back": "ya"
         },
         {
-            "id": "kata-yu",
+            "id": "kata-ユ",
             "type": "katakana",
             "front": "ユ",
             "back": "yu"
         },
         {
-            "id": "kata-yo",
+            "id": "kata-ヨ",
             "type": "katakana",
             "front": "ヨ",
             "back": "yo"
         },
         {
-            "id": "kata-ra",
+            "id": "kata-ラ",
             "type": "katakana",
             "front": "ラ",
             "back": "ra"
         },
         {
-            "id": "kata-ri",
+            "id": "kata-リ",
             "type": "katakana",
             "front": "リ",
             "back": "ri"
         },
         {
-            "id": "kata-ru",
+            "id": "kata-ル",
             "type": "katakana",
             "front": "ル",
             "back": "ru"
         },
         {
-            "id": "kata-re",
+            "id": "kata-レ",
             "type": "katakana",
             "front": "レ",
             "back": "re"
         },
         {
-            "id": "kata-ro",
+            "id": "kata-ロ",
             "type": "katakana",
             "front": "ロ",
             "back": "ro"
         },
         {
-            "id": "kata-wa",
+            "id": "kata-ワ",
             "type": "katakana",
             "front": "ワ",
             "back": "wa"
         },
         {
-            "id": "kata-wo",
+            "id": "kata-ヲ",
             "type": "katakana",
             "front": "ヲ",
             "back": "wo"
         },
         {
-            "id": "kata-n",
+            "id": "kata-ン",
             "type": "katakana",
             "front": "ン",
             "back": "n"

@@ -4,259 +4,259 @@
   "subtitle": "ひらがな",
   "items": [
     {
-      "id": "hira-a",
+      "id": "hira-あ",
       "type": "hiragana",
       "front": "あ",
       "back": "a"
    },
    {
-      "id": "hira-i",
+      "id": "hira-い",
       "type": "hiragana",
       "front": "い",
       "back": "i"
    },
    {
-      "id": "hira-u",
+      "id": "hira-う",
       "type": "hiragana",
       "front": "う",
       "back": "u"
    },
    {
-      "id": "hira-e",
+      "id": "hira-え",
       "type": "hiragana",
       "front": "え",
       "back": "e"
    },
    {
-      "id": "hira-o",
+      "id": "hira-お",
       "type": "hiragana",
       "front": "お",
       "back": "o"
    },
    {
-      "id": "hira-ka",
+      "id": "hira-か",
       "type": "hiragana",
       "front": "か",
       "back": "ka"
    },
    {
-      "id": "hira-ki",
+      "id": "hira-き",
       "type": "hiragana",
       "front": "き",
       "back": "ki"
    },
    {
-      "id": "hira-ku",
+      "id": "hira-く",
       "type": "hiragana",
       "front": "く",
       "back": "ku"
    },
    {
-      "id": "hira-ke",
+      "id": "hira-け",
       "type": "hiragana",
       "front": "け",
       "back": "ke"
    },
    {
-      "id": "hira-ko",
+      "id": "hira-こ",
       "type": "hiragana",
       "front": "こ",
       "back": "ko"
    },
    {
-      "id": "hira-sa",
+      "id": "hira-さ",
       "type": "hiragana",
       "front": "さ",
       "back": "sa"
    },
    {
-      "id": "hira-shi",
+      "id": "hira-し",
       "type": "hiragana",
       "front": "し",
       "back": "shi"
    },
    {
-      "id": "hira-su",
+      "id": "hira-す",
       "type": "hiragana",
       "front": "す",
       "back": "su"
    },
    {
-      "id": "hira-se",
+      "id": "hira-せ",
       "type": "hiragana",
       "front": "せ",
       "back": "se"
    },
    {
-      "id": "hira-so",
+      "id": "hira-そ",
       "type": "hiragana",
       "front": "そ",
       "back": "so"
    },
    {
-      "id": "hira-ta",
+      "id": "hira-た",
       "type": "hiragana",
       "front": "た",
       "back": "ta"
    },
    {
-      "id": "hira-chi",
+      "id": "hira-ち",
       "type": "hiragana",
       "front": "ち",
       "back": "chi"
    },
    {
-      "id": "hira-tsu",
+      "id": "hira-つ",
       "type": "hiragana",
       "front": "つ",
       "back": "tsu"
    },
    {
-      "id": "hira-te",
+      "id": "hira-て",
       "type": "hiragana",
       "front": "て",
       "back": "te"
    },
    {
-      "id": "hira-to",
+      "id": "hira-と",
       "type": "hiragana",
       "front": "と",
       "back": "to"
    },
    {
-      "id": "hira-na",
+      "id": "hira-な",
       "type": "hiragana",
       "front": "な",
       "back": "na"
    },
    {
-      "id": "hira-ni",
+      "id": "hira-に",
       "type": "hiragana",
       "front": "に",
       "back": "ni"
    },
    {
-      "id": "hira-nu",
+      "id": "hira-ぬ",
       "type": "hiragana",
       "front": "ぬ",
       "back": "nu"
    },
    {
-      "id": "hira-ne",
+      "id": "hira-ね",
       "type": "hiragana",
       "front": "ね",
       "back": "ne"
    },
    {
-      "id": "hira-no",
+      "id": "hira-の",
       "type": "hiragana",
       "front": "の",
       "back": "no"
    },
    {
-      "id": "hira-ha",
+      "id": "hira-は",
       "type": "hiragana",
       "front": "は",
       "back": "ha"
    },
    {
-      "id": "hira-hi",
+      "id": "hira-ひ",
       "type": "hiragana",
       "front": "ひ",
       "back": "hi"
    },
    {
-      "id": "hira-fu",
+      "id": "hira-ふ",
       "type": "hiragana",
       "front": "ふ",
       "back": "fu"
    },
    {
-      "id": "hira-he",
+      "id": "hira-へ",
       "type": "hiragana",
       "front": "へ",
       "back": "he"
    },
    {
-      "id": "hira-ho",
+      "id": "hira-ほ",
       "type": "hiragana",
       "front": "ほ",
       "back": "ho"
    },
    {
-      "id": "hira-ma",
+      "id": "hira-ま",
       "type": "hiragana",
       "front": "ま",
       "back": "ma"
    },
    {
-      "id": "hira-mi",
+      "id": "hira-み",
       "type": "hiragana",
       "front": "み",
       "back": "mi"
    },
    {
-      "id": "hira-mu",
+      "id": "hira-む",
       "type": "hiragana",
       "front": "む",
       "back": "mu"
    },
    {
-      "id": "hira-me",
+      "id": "hira-め",
       "type": "hiragana",
       "front": "め",
       "back": "me"
    },
    {
-      "id": "hira-mo",
+      "id": "hira-も",
       "type": "hiragana",
       "front": "も",
       "back": "mo"
    },
    {
-      "id": "hira-ra",
+      "id": "hira-ら",
       "type": "hiragana",
       "front": "ら",
       "back": "ra"
    },
    {
-      "id": "hira-ri",
+      "id": "hira-り",
       "type": "hiragana",
       "front": "り",
       "back": "ri"
    },
    {
-      "id": "hira-ru",
+      "id": "hira-る",
       "type": "hiragana",
       "front": "る",
       "back": "ru"
    },
    {
-      "id": "hira-re",
+      "id": "hira-れ",
       "type": "hiragana",
       "front": "れ",
       "back": "re"
    },
    {
-      "id": "hira-ro",
+      "id": "hira-ろ",
       "type": "hiragana",
       "front": "ろ",
       "back": "ro"
    },
    {
-      "id": "hira-wa",
+      "id": "hira-わ",
       "type": "hiragana",
       "front": "わ",
       "back": "wa"
    },
    {
-      "id": "hira-wo",
+      "id": "hira-を",
       "type": "hiragana",
       "front": "を",
       "back": "wo"
    },
    {
-      "id": "hira-n",
+      "id": "hira-ん",
       "type": "hiragana",
       "front": "ん",
       "back": "n"

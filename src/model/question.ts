@@ -139,6 +139,7 @@ export class TypeInLearnVocabTemplate {
             if (this.onlySeenKana) {
                 const kanaReading = learnable.front;
                 let skipWord = false;
+                console.log(kanaReading);
                 for (const k of kanaReading) {
                     if (!learned.has(`hira-${k}`) && !learned.has(`kata-${k}`)) {
                         skipWord = true;
@@ -149,12 +150,19 @@ export class TypeInLearnVocabTemplate {
                     continue;
                 }
             }
+
+            const effects = [
+                new event.LearnEffect(wordId),
+                new event.LearnEffect(wordId + "-reverse")
+            ];
+
+            if (learnable.parentId) {
+                effects.push(new event.LearnEffect(learnable.parentId));
+            }
+
             return [
-                lookup.generateTypeIn(lookup.getLearnable(wordId)),
-                [
-                    new event.LearnEffect(wordId),
-                    new event.LearnEffect(wordId + "-reverse"),
-                ],
+                lookup.generateTypeIn(learnable),
+                effects,
                 [] as event.Effect[],
             ];
         }
