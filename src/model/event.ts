@@ -495,3 +495,37 @@ export class QuestionEvent extends Event {
                                  this.failureEffects.slice());
     }
 }
+
+export class QuestEvent extends Event {
+    journal: string;
+    quest: model.QuestId;
+    stage: model.QuestStage;
+
+    constructor(filters: Filter[], effects: Effect[],
+                journal: string, quest: model.QuestId, stage: model.QuestStage) {
+        super(filters, effects.concat([
+            new QuestEffect(quest, stage, journal)
+        ]));
+        this.journal = journal;
+        this.quest = quest;
+        this.stage = stage;
+    }
+
+    toEventLog(): string {
+        console.log(this.effects);
+        const effectText = Event.effectsToText(this.effects);
+        if (effectText !== null) {
+            return `${effectText}`;
+        }
+        // This should never happen
+        return "";
+    }
+
+    clone() {
+        return new QuestEvent(this.filters.slice(),
+                              this.effects.slice(0, -1),
+                              this.journal,
+                              this.quest,
+                              this.stage);
+    }
+}

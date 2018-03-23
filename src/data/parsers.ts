@@ -37,6 +37,7 @@ type QuestionTemplateProps =
 
 type EventProps =
     { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] }
+    | { type: "quest", journal: string, quest: string, stage: string, effects: EffectProps[], filters: FilterProps[] }
     | { type: "question", effects: EffectProps[], filters: FilterProps[],
         question: QuestionTemplateProps,
         text?: string | null, postText?: string | null,
@@ -112,6 +113,15 @@ export function parseEvent(json: EventProps): event.Event {
             json.filters.map(parseFilter),
             json.effects.map(parseEffect),
             json.text
+        );
+    }
+    else if (json.type === "quest") {
+        return new event.QuestEvent(
+            json.filters.map(parseFilter),
+            json.effects.map(parseEffect),
+            json.journal,
+            json.quest,
+            json.stage
         );
     }
     else if (json.type === "question") {

@@ -60,9 +60,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.setState({ eventLog: this.state.eventLog.concat([logText]) });
             }
 
-            if (happening instanceof event.FlavorEvent) {
-                // Dispatch effects now since we aren't showing the effect
+            if (happening instanceof event.FlavorEvent || happening instanceof event.QuestEvent) {
+                // Dispatch effects now
                 happening.effects.forEach(this.props.handleEventEffect);
+            }
+
+            if (happening instanceof event.FlavorEvent) {
                 showEvent = false;
             }
 

@@ -1,12 +1,16 @@
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import "../Common.css";
+
 import * as event from "../model/event";
+import * as lookup from "../model/lookup";
 import * as model from "../model/model";
 import * as question from "../model/question";
 
 import Fade from "./Fade";
 import QuestionComponent from "./Question";
+
+import "../Common.css";
+import "./Event.css";
 
 interface EventProps {
     store: model.Store;
@@ -33,6 +37,17 @@ class Flavor extends React.Component<FlavorProps> {
         return (
             <section className="Event">
                 {this.props.event.flavor}
+            </section>
+        );
+    }
+}
+
+class Quest extends React.Component<{ event: event.QuestEvent }> {
+    render() {
+        return (
+            <section className="Event">
+                <h2>{`New Quest: ${lookup.getQuest(this.props.event.quest).name}`}</h2>
+                <p>{this.props.event.toEventLog()}</p>
             </section>
         );
     }
@@ -103,7 +118,7 @@ export default class EventComponent extends React.Component<EventProps> {
 
     render() {
         const ev = this.props.event;
-        let contents = <span/>;
+        let contents: JSX.Element | JSX.Element[] = <span/>;
         const button = (
             <button
                 onClick={() => this.fade ? this.fade.exit() : null}
@@ -113,6 +128,19 @@ export default class EventComponent extends React.Component<EventProps> {
         );
         if (ev instanceof event.FlavorEvent) {
             contents = <Flavor key="flavor" event={ev} />;
+        }
+        else if (ev instanceof event.QuestEvent) {
+            contents = [
+                <Quest key="quest" event={ev} />,
+                (
+                    <button
+                        key="accept-quest"
+                        onClick={this.props.onFinished}
+                    >
+                        Accept Quest
+                    </button>
+                ),
+            ];
         }
         else if (ev instanceof event.QuestionEvent) {
             contents = (

@@ -32,8 +32,10 @@
         ]
     },
     {
-        "type": "flavor",
-        "text": "",
+        "type": "quest",
+        "quest": "meiji-choco",
+        "stage": "found-machine",
+        "journal": "You feel thirsty. Perhaps you should check it out.",
         "filters": [
             {
                 "type": "structure-nearby",
@@ -49,12 +51,6 @@
             {
                 "type": "discover",
                 "location": "airport-gate-vending-machine"
-            },
-            {
-                "type": "quest",
-                "quest": "meiji-choco",
-                "stage": "found-machine",
-                "journal": "You feel thirsty. Perhaps you should check it out."
             }
         ]
     },
