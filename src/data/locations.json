@@ -5,7 +5,12 @@
         "wanderlust": true,
         "connected": ["airport-gate"],
         "pois": [],
-        "structures": []
+        "structures": [
+            "food-court-ramen",
+            "blank",
+            "food-court-ramen",
+            "blank"
+        ]
     },
     "airport-gate": {
         "name": "the gate you just arrived at",
@@ -15,11 +20,19 @@
         "pois": [],
         "structures": [
             "blank",
-            "blank",
+            "arrival-departure-board",
             "blank",
             "vending-machine-indoors",
             "blank",
-            "escalator"
+            "escalator",
+            "blank",
+            "checkin-desk",
+            "baggage-claim",
+            "arrival-departure-board",
+            "baggage-claim",
+            "blank",
+            "vending-machine-indoors",
+            "food-court-ramen"
         ]
     },
     "airport-gate-vending-machine": {

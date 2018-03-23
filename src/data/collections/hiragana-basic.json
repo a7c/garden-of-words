@@ -16,6 +16,12 @@
       "back": "i"
    },
    {
+      "id": "hira-お",
+      "type": "hiragana",
+      "front": "お",
+      "back": "o"
+   },
+   {
       "id": "hira-う",
       "type": "hiragana",
       "front": "う",
@@ -26,12 +32,6 @@
       "type": "hiragana",
       "front": "え",
       "back": "e"
-   },
-   {
-      "id": "hira-お",
-      "type": "hiragana",
-      "front": "お",
-      "back": "o"
    },
    {
       "id": "hira-か",

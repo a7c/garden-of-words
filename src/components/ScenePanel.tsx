@@ -23,10 +23,30 @@ interface ScenePanelState {
 const filepath = "../assets/structures";
 
 const imagesOfStructure = {
+    "arrival-departure-board": [
+        require("../assets/structures/arrival-departure-board0.png"),
+        require("../assets/structures/arrival-departure-board1.png"),
+        require("../assets/structures/arrival-departure-board2.png")
+    ],
+    "baggage-claim": [
+        require("../assets/structures/baggage-claim0.png"),
+        require("../assets/structures/baggage-claim1.png"),
+        require("../assets/structures/baggage-claim2.png")
+    ],
     blank: [
         require("../assets/structures/blank0.png"),
         require("../assets/structures/blank1.png"),
         require("../assets/structures/blank2.png")
+    ],
+    "checkin-desk": [
+        require("../assets/structures/checkin-desk0.png"),
+        require("../assets/structures/checkin-desk1.png"),
+        require("../assets/structures/checkin-desk2.png")
+    ],
+    "food-court-ramen": [
+        require("../assets/structures/food-court-ramen0.png"),
+        require("../assets/structures/food-court-ramen1.png"),
+        require("../assets/structures/food-court-ramen2.png")
     ],
     "vending-machine-indoors": [
         require("../assets/structures/vending-machine-indoors0.png"),
