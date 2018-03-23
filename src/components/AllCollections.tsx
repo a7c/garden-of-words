@@ -63,7 +63,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
 
             const ids = Object.keys(lookup.getCollections());
 
-            contents = ids.map((id) => {
+            contents = ids.map(id => {
                 const collection = lookup.getCollection(id);
                 return (
                     <ActionButton
@@ -75,8 +75,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                     </ActionButton>
                 );
             });
-        }
-        else {
+        } else {
             const id = this.state.viewCollection;
             contents = ([(
                   <CollectionComponent
