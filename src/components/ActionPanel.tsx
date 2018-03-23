@@ -134,19 +134,21 @@ export default class ActionPanel extends React.Component<Props> {
         return (
             <LabeledPanel title="Actions" id="actions">
                 <div>
-                    <ActionButton
-                        label="Wander"
-                        cost={`-${resources.WANDER_STA_COST} STA`}
-                        onClick={this.wander}
-                        paused={paused}
-                        locked={!locationData.wanderlust || stamina < resources.WANDER_STA_COST}
-                        cooldown={1000}
-                        hint={locationData.wanderlust ?
+                    {locationData.wanderlust ?
+                     <ActionButton
+                         label="Wander"
+                         cost={`-${resources.WANDER_STA_COST} STA`}
+                         onClick={this.wander}
+                         paused={paused}
+                         locked={stamina < resources.WANDER_STA_COST}
+                         cooldown={1000}
+                         hint={locationData.wanderlust ?
                               "You need stamina to wander. Try meditating." :
                               "This doesn't look like a good area to wander around in."}
-                        onHint={this.onHint}
-                    />
-                    {learned.size ?
+                         onHint={this.onHint}
+                     />
+                     : false}
+                    {(learned.size && locationData.wanderlust) ?
                      <ActionButton
                          label="Meditate"
                          benefit={`+${-resources.MEDITATE_STA_COST} STA`}
