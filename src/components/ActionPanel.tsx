@@ -134,6 +134,7 @@ export default class ActionPanel extends React.Component<Props> {
         return (
             <LabeledPanel title="Actions" id="actions">
                 <div>
+                    {(adjacent.length === 1 && !locationData.wanderlust) ? adjacent : false}
                     {locationData.wanderlust ?
                      <ActionButton
                          label="Wander"
@@ -188,7 +189,7 @@ export default class ActionPanel extends React.Component<Props> {
                 what. Also, reusable component for this would be
                 nice. */}
                 <div>
-                    {adjacent}
+                    {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
                     <ActionButton
                         label="Subway"
                         locked={true}
