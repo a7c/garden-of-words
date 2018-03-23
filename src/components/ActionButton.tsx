@@ -15,6 +15,7 @@ interface Props {
     hint?: string;
     cooldown?: number;
     className?: string;
+    alert?: boolean;
 
     onClick?: () => void;
     onHint?: (hint: string) => void;
@@ -94,6 +95,10 @@ export default class ActionButton extends React.Component<Props, State> {
                 {this.props.locked ?
                  <span className="action-button-lock">
                      <i className="material-icons">lock</i>
+                 </span> : false}
+                {this.props.alert ?
+                 <span className="action-button-lock">
+                     <i className="material-icons">error</i>
                  </span> : false}
 
                 {cooldown}

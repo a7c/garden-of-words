@@ -39,6 +39,7 @@ enum MainPanelViews {
 interface TestState {
     happening: event.Event | model.Learnable | null;
     eventLog: string[];
+    questNotification: boolean;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
@@ -47,6 +48,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.state = {
             happening: null,
             eventLog: [],
+            questNotification: false,
         };
     }
 
@@ -75,6 +77,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
                         if (model.questStage(this.props.store, e.questId) !== e.stage) {
                             happening = new event.QuestUpdatedEvent(e.questId, e.stage);
+                            this.setState({ questNotification: true });
                         }
                         else {
                             showEvent = false;
@@ -85,6 +88,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 else {
                     showEvent = false;
                 }
+            }
+            else if (happening instanceof event.QuestEvent) {
+                this.setState({ questNotification: true });
             }
 
             if (showEvent) {
@@ -176,6 +182,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
                                 enabled: this.props.store.quests.size > 0,
                                 hint: "Maybe wandering around will give you some things to do.",
                                 onHint: this.onNavTabHint,
+                                alert: this.state.questNotification,
+                                clearAlert: () => this.setState({ questNotification: false }),
                             }
                         ]}
                     >

@@ -34,8 +34,6 @@ export default class QuestLog extends React.Component<Props> {
         incomplete.sort(([q1], [q2]) => q1.name.localeCompare(q2.name));
         complete.sort((q1, q2) => q1.name.localeCompare(q2.name));
 
-        console.log(incomplete);
-
         return (
             <div id="quest-log">
                 {incomplete.length === 0 ?
