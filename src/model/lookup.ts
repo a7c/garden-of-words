@@ -10,6 +10,7 @@ import * as parsers from "../data/parsers";
 export interface Collection {
     name: string;
     subtitle?: string;
+    description: string[];
     learnables: model.LearnableId[];
 }
 
@@ -20,6 +21,7 @@ function loadCollection(json: any) { //tslint:disable-line
     collectionList[json.collection] = {
         name: json.name,
         subtitle: json.subtitle,
+        description: json.description || [],
         learnables: json.items.map((obj: model.Learnable) => {
             obj.collection = json.collection;
             dictionary[obj.id] = obj;
@@ -40,6 +42,7 @@ function loadVocab(json: any) { //tslint:disable-line
     });
     collectionList[json.collection] = {
         name: json.name,
+        description: json.description || [],
         subtitle: json.subtitle,
         learnables,
     };

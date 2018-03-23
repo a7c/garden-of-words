@@ -169,6 +169,11 @@ export default class CollectionComponent extends React.Component<CollectionProps
                         <div id="collection-header">
                             {header}
                         </div>
+                        {(collection.description && this.state.showCollection) ?
+                         <div id="collection-description">
+                             {collection.description.map((line, idx) => <p key={idx}>{line}</p>)}
+                         </div>
+                         : false}
                         <div id="collection-body">
                             {contents}
                         </div>

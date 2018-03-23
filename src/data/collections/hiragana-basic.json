@@ -2,6 +2,10 @@
   "collection": "hira-basic",
   "name": "Hiragana",
   "subtitle": "ひらがな",
+  "description": [
+    "Hiragana (ひらがな) is one of the Japanese syllabaries and one of the components of the Japanese writing system. Generally, each character represents a particular sound.",
+    "The system is complicated by various modifiers and deprecated sounds. I'll let someone who actually knows Japanese write this out."
+  ],
   "items": [
     {
       "id": "hira-あ",
