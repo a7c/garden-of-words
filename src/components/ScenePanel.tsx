@@ -28,19 +28,19 @@ const imagesOfStructure = {
         require("../assets/structures/blank1.png"),
         require("../assets/structures/blank2.png")
     ],
-    vendin: [
-        require("../assets/structures/vendin0.png"),
-        require("../assets/structures/vendin1.png"),
-        require("../assets/structures/vendin2.png")
+    "vending-machine-indoors": [
+        require("../assets/structures/vending-machine-indoors0.png"),
+        require("../assets/structures/vending-machine-indoors1.png"),
+        require("../assets/structures/vending-machine-indoors2.png")
     ],
     // TODO: factor these "scenes" out somewhere different?
     vendclose: [
         require("../assets/scenes/vendclose.png")
     ],
-    esc: [
-        require("../assets/structures/esc0.png"),
-        require("../assets/structures/esc1.png"),
-        require("../assets/structures/esc2.png")
+    escalator: [
+        require("../assets/structures/escalator0.png"),
+        require("../assets/structures/escalator1.png"),
+        require("../assets/structures/escalator2.png")
     ]
 };
 
