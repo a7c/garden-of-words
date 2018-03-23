@@ -33,11 +33,15 @@
 }
 
 .action-button-flashing {
-    animation: 0.2s 5 flash-animation;
+    animation: 0.5s 1 flash-animation;
 }
 
 @keyframes flash-animation {
-    to {
+    from {
         background: #CCC;
+    }
+
+    to {
+        background: rgba(0,0,0,0);
     }
 }
