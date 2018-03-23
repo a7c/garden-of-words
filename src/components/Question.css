@@ -4,6 +4,7 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    flex-wrap: wrap;
 }
 
 .question p {
@@ -14,8 +15,21 @@
     margin: 0;
     padding: 0;
     flex: 1;
+    min-width: 50%;
+}
+
+input[type=text] {
+    width: 100%;
+    font-size: 1em;
+    border: 1px solid #9a9a9a;
+    padding: 0.25em;
+    box-sizing: border-box;
 }
 
 button.review {
     width: 100%;
+}
+
+.question-typein button {
+    width: 50%;
 }

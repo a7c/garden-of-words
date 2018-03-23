@@ -83,6 +83,13 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
         }
     }
 
+    _handleGiveUp = () => {
+        const q = this.props.question;
+        for (const learnable of q.teaches) {
+            this.props.onReview(learnable, false);
+        }
+    }
+
     prompt(learnable: model.Learnable) {
         if (learnable.type === "vocab-kana-romaji") {
             return `Type the reading (in romaji): ${learnable.front}`;
@@ -94,13 +101,12 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
         const q = this.props.question;
         // TODO: support for different types of type-in questions
         return (
-            <section className="question">
-                <p>{this.prompt(q.learnable)}</p>
+            <section className="question question-typein">
                 <form onSubmit={this._handleSubmit}>
-                    <label>
-                        <input type="text" value={this.state.input} onChange={this._handleChange} />
-                    </label>
-                    <input type="submit" value="Submit" />
+                    <p>{this.prompt(q.learnable)}</p>
+                    <input type="text" value={this.state.input} onChange={this._handleChange} />
+                    <button type="button" onClick={this._handleGiveUp}>Give Up</button>
+                    <button>Submit</button>
                 </form>
             </section>
         );
