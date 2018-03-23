@@ -110,3 +110,7 @@ export const Store = immutable.Record({
 export function locationDiscovered(store: Store, location: Location): boolean {
     return store.location.discovered.includes(location);
 }
+
+export function questStage(store: Store, quest: QuestId): QuestStage | null {
+    return store.quests.has(quest) ? store.quests.get(quest) : null;
+}

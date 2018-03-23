@@ -512,7 +512,6 @@ export class QuestEvent extends Event {
     }
 
     toEventLog(): string {
-        console.log(this.effects);
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
             return `${effectText}`;
@@ -527,5 +526,25 @@ export class QuestEvent extends Event {
                               this.journal,
                               this.quest,
                               this.stage);
+    }
+}
+
+// Dummy event, just used for display
+export class QuestUpdatedEvent extends Event {
+    quest: model.QuestId;
+    stage: model.QuestStage;
+
+    constructor(quest: model.QuestId, stage: model.QuestStage) {
+        super([], []);
+        this.quest = quest;
+        this.stage = stage;
+    }
+
+    toEventLog(): string {
+        return lookup.getQuest(this.quest).journal.get(this.stage) || "";
+    }
+
+    clone() {
+        return new QuestUpdatedEvent(this.quest, this.stage);
     }
 }

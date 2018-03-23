@@ -53,6 +53,20 @@ class Quest extends React.Component<{ event: event.QuestEvent }> {
     }
 }
 
+class QuestUpdated extends React.Component<{ event: event.QuestUpdatedEvent }> {
+    render() {
+        const ev = this.props.event;
+        const quest = lookup.getQuest(ev.quest);
+        const text = ev.stage === quest.complete ? "Completed" : "Updated";
+        return (
+            <section className="Event">
+                <h2>{`Quest ${text}: ${quest.name}`}</h2>
+                <p>{this.props.event.toEventLog()}</p>
+            </section>
+        );
+    }
+}
+
 class Question extends React.Component<QuestionProps> {
     question: question.Question;
 
@@ -119,13 +133,7 @@ export default class EventComponent extends React.Component<EventProps> {
     render() {
         const ev = this.props.event;
         let contents: JSX.Element | JSX.Element[] = <span/>;
-        const button = (
-            <button
-                onClick={() => this.fade ? this.fade.exit() : null}
-            >
-                Continue
-            </button>
-        );
+
         if (ev instanceof event.FlavorEvent) {
             contents = <Flavor key="flavor" event={ev} />;
         }
@@ -138,6 +146,19 @@ export default class EventComponent extends React.Component<EventProps> {
                         onClick={this.props.onFinished}
                     >
                         Accept Quest
+                    </button>
+                ),
+            ];
+        }
+        else if (ev instanceof event.QuestUpdatedEvent) {
+            contents = [
+                <QuestUpdated key="quest-updated" event={ev} />,
+                (
+                    <button
+                        key="accept-quest"
+                        onClick={this.props.onFinished}
+                    >
+                        Continue
                     </button>
                 ),
             ];

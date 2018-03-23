@@ -66,7 +66,25 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
 
             if (happening instanceof event.FlavorEvent) {
-                showEvent = false;
+                if (happening.effects.some(p => p instanceof event.QuestEffect)) {
+                    // TODO: enqueue events
+                    for (const e of happening.effects) {
+                        if (!(e instanceof event.QuestEffect)) {
+                            continue;
+                        }
+
+                        if (model.questStage(this.props.store, e.questId) !== e.stage) {
+                            happening = new event.QuestUpdatedEvent(e.questId, e.stage);
+                        }
+                        else {
+                            showEvent = false;
+                        }
+                        break;
+                    }
+                }
+                else {
+                    showEvent = false;
+                }
             }
 
             if (showEvent) {
