@@ -113,10 +113,6 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
                     <img
                         src={people[index]}
                     />
-                    {/* Player */}
-                    <img
-                        src={player}
-                    />
                 </div>
             );
         }
@@ -127,14 +123,11 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
                     <img
                         src={imagesOfStructure[structures[0]][0]}
                     />
-                    <img
-                        src={player}
-                    />
                 </div>
             );
         }
 
-        const timeout = newLocation ? { enter: 1500, exit: 1500 }
+        const timeout = newLocation ? { enter: 2400, exit: 2400 }
                       : { enter: 500, exit: 500 };
         const transitionClass = newLocation ? "slowfade" : "fade";
         return (
@@ -149,6 +142,10 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
                         {scene}
                     </CSSTransition>
                 </TransitionGroup>
+                <img
+                    className={newLocation ? "bobbing" : ""}
+                    src={player}
+                />
             </section>
         );
     }

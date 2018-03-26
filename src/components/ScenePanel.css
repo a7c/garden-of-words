@@ -2,10 +2,29 @@
     font-size: 0; /* Get rid of extra space under image */
 }
 
-#scene > div > div > img {
+#scene img {
     position: absolute;
     /* TODO: these need to be adjusted once we've fixed the image sizes */
     left: 0;
     bottom: -42px;
     width: 380px;
+}
+
+.bobbing {
+    animation: 0.6s 4 alternate bobbing-animation;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes bobbing-animation {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-50px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
