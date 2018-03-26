@@ -2,7 +2,8 @@
     position: relative;
 }
 
-.action-button span {
+.action-button .action-button-annotations {
+    display: inline-flex;
     position: absolute;
     right: 0.25em;
 }

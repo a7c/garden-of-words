@@ -59,6 +59,7 @@
 }
 
 #collections-table > button .collection-title {
+    position: absolute;
     font-size: 1.25em;
     top: 30%;
     width: 80%;
@@ -67,5 +68,6 @@
 }
 
 #collections-table > button .collection-subtitle {
+    position: absolute;
     bottom: 25%;
 }
