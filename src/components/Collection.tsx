@@ -54,7 +54,6 @@ export default class CollectionComponent extends React.Component<CollectionProps
         const word = this.props.learned.get(id);
         if (word && word.item) {
             const learnable = lookup.getLearnable(word.item);
-            /* alert(`${learnable.front} ${learnable.back}\nscore: ${word.score}`);*/
         }
     }
 
