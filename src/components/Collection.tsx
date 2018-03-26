@@ -161,7 +161,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
             <TransitionGroup>
                 <CSSTransition
                     key={key}
-                    timeout={{ enter: 1000, exit: 800 }}
+                    timeout={{ enter: 500, exit: 400 }}
                     classNames="fade"
                     onExited={this.onExited}
                 >
