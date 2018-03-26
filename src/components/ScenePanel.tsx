@@ -16,7 +16,7 @@ interface ScenePanelProps {
 }
 
 interface ScenePanelState {
-
+    prevLocation: model.Location;
 }
 
 // TODO: need a better way of managing scene assets
@@ -77,10 +77,13 @@ const player = require("../assets/player/player.png");
 export default class ScenePanel extends React.Component<ScenePanelProps, ScenePanelState> {
     constructor(props: ScenePanelProps) {
         super(props);
+        this.state = { prevLocation: props.location };
     }
 
     render() {
         const { location, steps } = this.props;
+
+        const newLocation = location !== this.state.prevLocation;
 
         const locationData = locations[location];
         const structures = locationData.structures;
@@ -131,13 +134,17 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
             );
         }
 
+        const timeout = newLocation ? { enter: 1500, exit: 1500 }
+                      : { enter: 500, exit: 500 };
+        const transitionClass = newLocation ? "slowfade" : "fade";
         return (
             <section id="scene">
                 <TransitionGroup>
                     <CSSTransition
                         key={index}
-                        timeout={{ enter: 1000, exit: 1000 }}
-                        classNames="fade"
+                        timeout={timeout}
+                        classNames={transitionClass}
+                        onEntered={() => this.setState({ prevLocation: location })}
                     >
                         {scene}
                     </CSSTransition>

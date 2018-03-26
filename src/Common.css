@@ -17,6 +17,24 @@
     transition: opacity 400ms ease-in;
 }
 
+.slowfade-enter {
+    opacity: 0.01 !important;
+}
+
+.slowfade-enter.slowfade-enter-active {
+    opacity: 1 !important;
+    transition: all 1500ms ease-in;
+}
+
+.slowfade-exit {
+    opacity: 1;
+}
+
+.slowfade-exit.slowfade-exit-active {
+    opacity: 0.01;
+    transition: opacity 1500ms ease-in;
+}
+
 /** UI Components **/
 
 button {
