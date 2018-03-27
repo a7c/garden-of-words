@@ -21,17 +21,16 @@ interface AllCollectionsProps {
 
 interface AllCollectionsState {
     viewCollection: model.CollectionId | null;
+    searchText: string | null;
 }
 
 export default class AllCollectionsComponent extends React.Component<AllCollectionsProps, AllCollectionsState> {
 
     inputField: HTMLInputElement | null;
 
-    fakeCollections: string[] = [];
-
     constructor(props: AllCollectionsProps) {
         super(props);
-        this.state = { viewCollection: null };
+        this.state = { viewCollection: null, searchText: null };
     }
 
     onCollectionDone = () => {
@@ -44,9 +43,14 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
     }
 
     handleKeyPress = (event: KeyboardEvent) => {
-        if (event.key === "Enter") {
-            this.forceUpdate();
-            this.fakeCollections.push(this.inputField!.value);
+        // tslint:disable-next-line
+        let text: string = (event.target as any).value;
+        if (text === "") {
+            if (this.state.searchText != null) {
+                this.setState({ searchText: null });
+            }
+        } else {
+            this.setState({ searchText: text });
         }
     }
 
@@ -59,7 +63,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
 
             const ids = Object.keys(lookup.getCollections());
 
-            contents = ids.map((id) => {
+            contents = ids.map(id => {
                 const collection = lookup.getCollection(id);
                 return (
                     <ActionButton
@@ -71,8 +75,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                     </ActionButton>
                 );
             });
-        }
-        else {
+        } else {
             const id = this.state.viewCollection;
             contents = ([(
                   <CollectionComponent
@@ -81,6 +84,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                       encountered={this.props.collections.get(id)}
                       learned={this.props.learned}
                       onFinished={() => this.setState({"viewCollection": null})}
+                      searchTerm={this.state.searchText}
                   />
                 )]);
         }
@@ -99,7 +103,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
                             ref={input => this.inputField = input}
                             type="text"
                             id="search-box"
-                            onKeyPress={onSearch}
+                            onKeyUp={onSearch}
                           />
                       </LabeledPanel>
                       <LabeledPanel id="sort-by" title="Sort By">

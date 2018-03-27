@@ -16,13 +16,13 @@ export interface CollectionProps {
     name: string;
     encountered: model.Collection;
     learned: immutable.Map<model.LearnableId, model.Learned>;
+    searchTerm: string | null;
     onFinished: () => void;
 }
 
 interface CollectionState {
     showCollection: boolean;
     showedCollection: boolean;
-
     expandedId: model.LearnableId | null;
 }
 
@@ -110,7 +110,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 </ActionButton>
             );
 
-            contents = keys.map((id) => {
+            const maybeContents = keys.map((id) => {
                 const record = groupedLearnables[id];
                 let score = 0;
                 for (const item of record.items) {
@@ -118,6 +118,14 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     score += learnedRecord ? (learnedRecord.score / record.items.length) : 0;
                 }
                 score = 100 * (1 - score);
+
+                const front = lookup.getLearnable(id).front;
+                const back = lookup.getLearnable(id).back;
+                if (this.props.searchTerm !== null &&
+                    front.indexOf(this.props.searchTerm) === -1 &&
+                    back.indexOf(this.props.searchTerm) === -1) {
+                        return null;
+                }
 
                 return (
                     <ActionButton
@@ -154,6 +162,8 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     </ActionButton>
                 );
             });
+
+            contents = maybeContents.filter(x => x !== null) as JSX.Element[];
         }
 
         return (
