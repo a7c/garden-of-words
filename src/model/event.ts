@@ -267,6 +267,10 @@ export class FlagFilter extends Filter {
             // Actually querying whether we've discovered a place
             return !!model.locationDiscovered(store, this.flag.slice(11)) === this.value;
         }
+        else if (this.flag.slice(0, 5) === "know:") {
+            // Actually querying whether we know a certain word
+            return store.learned.has(this.flag.slice(5)) === this.value;
+        }
         const actualValue = store.flags.get(this.flag);
         // Cast to boolean
         return !!actualValue === this.value;

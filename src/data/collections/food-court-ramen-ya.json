@@ -1,0 +1,67 @@
+[
+    {
+        "type": "flavor",
+        "text": "You order and, in your uniquely American way, immediately devour the entire bowl of ramen.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 600
+            },
+            {
+                "type": "flag",
+                "flag": "know:vocab-赤い-kana-romaji-0",
+                "value": true
+            }
+        ],
+        "effects": [
+            {
+                "type": "quest",
+                "quest": "ramen-ya",
+                "stage": "complete"
+            },
+            {
+                "type": "resource-max",
+                "resource": "stamina",
+                "value": 30
+            },
+            {
+                "type": "resource",
+                "resource": "stamina",
+                "value": 30
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "The menu shows a color-coded set of dishes. A bowl of beef with a red label looks incredible to you in your hunger-induced delirium, but you have no idea how to say the one you want.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 600
+            },
+            {
+                "type": "flag",
+                "flag": "know:vocab-赤い-kana-romaji-0",
+                "value": false
+            }
+        ],
+        "effects": [
+            {
+                "type": "quest",
+                "quest": "ramen-ya",
+                "stage": "learn-colors",
+                "journal": "Maybe you can learn the word for red somehow wandering around."
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "You don't quite have enough yen to order, based on the menu.",
+        "filters": [
+        ],
+        "effects": [
+        ]
+    }
+]

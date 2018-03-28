@@ -3,13 +3,30 @@
         "name": "the airport food court",
         "label": "Narita Airport Food Court",
         "wanderlust": true,
-        "connected": ["airport-gate"],
+        "connected": ["airport-gate", "airport-food-court-ramen"],
         "pois": [],
         "structures": [
             "food-court-ramen",
             "blank",
             "food-court-ramen",
             "blank"
+        ]
+    },
+    "airport-food-court-ramen": {
+        "name": "a counter selling ramen",
+        "label": "Ramen-ya",
+        "wanderlust": false,
+        "connected": ["airport-food-court"],
+        "pois": [
+            {
+                "label": "Order Ramen",
+                "eventSource": "airport-food-court-ramen-ya",
+                "cooldown": 1000,
+                "cost": [ "yen", 600 ]
+            }
+        ],
+        "structures": [
+            "vendclose"
         ]
     },
     "airport-gate": {

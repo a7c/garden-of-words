@@ -9,6 +9,7 @@ const events = sampleEventJson.map(parsers.parseEvent);
 export default {
     airportGate: events,
     airportFoodCourt: require("./collections/food-court.json").map(parsers.parseEvent),
+    airportFoodCourtRamenYa: require("./collections/food-court-ramen-ya.json").map(parsers.parseEvent),
     transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
     luggageJob: luggageEventJson.map(parsers.parseEvent)

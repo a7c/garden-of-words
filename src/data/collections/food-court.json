@@ -1,3 +1,25 @@
 [
-
+    {
+        "type": "quest",
+        "quest": "ramen-ya",
+        "stage": "found-shop",
+        "journal": "It's been a while since you last had a meal (Meiji chocolate notwithstanding). Why not grab a bite?",
+        "filters": [
+            {
+                "type": "structure-nearby",
+                "structure": "food-court-ramen"
+            },
+            {
+                "type": "flag",
+                "flag": "discovered:airport-food-court-ramen",
+                "value": false
+            }
+        ],
+        "effects": [
+            {
+                "type": "discover",
+                "location": "airport-food-court-ramen"
+            }
+        ]
+    }
 ]

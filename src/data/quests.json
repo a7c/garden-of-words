@@ -9,5 +9,16 @@
             "need-yen": "You need to get some yen to feed the machine. Wandering around might give you ideas.",
             "complete": "Meiji Chocolate is the most delicious thing in the world."
         }
+    },
+    {
+        "id": "ramen-ya",
+        "name": "Your First Meal",
+        "complete": "complete",
+        "events": {},
+        "journal": {
+            "found-shop": "Maybe Ramen-ya will satiate your hunger.",
+            "learn-colors": "The red menu item looks pretty attractive. Maybe you can wander around and figure out how to say red.",
+            "complete": "You can't decide if Meiji chocolate or ramen is better."
+        }
     }
 ]
