@@ -1,4 +1,9 @@
-#quest-log h2 {
+#quest-log > h2 {
     color: #9A9A9A;
     text-align: center;
+    margin: 1.5em;
+}
+
+#quest-log > section {
+    margin-top: 1.5em;
 }
