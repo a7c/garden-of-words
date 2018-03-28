@@ -38,6 +38,7 @@ enum MainPanelViews {
 
 interface TestState {
     happening: event.Event | model.Learnable | null;
+    eventQueue: event.Event[];
     eventLog: string[];
     questNotification: boolean;
 }
@@ -47,13 +48,36 @@ class TestComponent extends React.Component<TestProps, TestState> {
         super(props);
         this.state = {
             happening: null,
+            eventQueue: [],
             eventLog: [],
             questNotification: false,
         };
     }
 
+    enqueueQuestUpdates(effects: event.Effect[]) {
+        const newEvents = [];
+        for (const e of effects) {
+            if (!(e instanceof event.QuestEffect)) {
+                continue;
+            }
+
+            if (model.questStage(this.props.store, e.questId) !== e.stage) {
+                newEvents.push(new event.QuestUpdatedEvent(e.questId, e.stage));
+            }
+        }
+
+        if (newEvents.length > 0) {
+            this.setState({
+                questNotification: true,
+            });
+        }
+        return newEvents;
+    }
+
     onEvent = (happening: event.Event | model.LearnableId) => {
         let showEvent = true;
+        let queuedEvents: event.Event[] = [];
+
         if (happening instanceof event.Event) {
             happening = happening.clone();
 
@@ -68,26 +92,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
 
             if (happening instanceof event.FlavorEvent) {
-                if (happening.effects.some(p => p instanceof event.QuestEffect)) {
-                    // TODO: enqueue events
-                    for (const e of happening.effects) {
-                        if (!(e instanceof event.QuestEffect)) {
-                            continue;
-                        }
-
-                        if (model.questStage(this.props.store, e.questId) !== e.stage) {
-                            happening = new event.QuestUpdatedEvent(e.questId, e.stage);
-                            this.setState({ questNotification: true });
-                        }
-                        else {
-                            showEvent = false;
-                        }
-                        break;
-                    }
-                }
-                else {
-                    showEvent = false;
-                }
+                showEvent = false;
+                queuedEvents = this.enqueueQuestUpdates(happening.effects);
             }
             else if (happening instanceof event.QuestEvent) {
                 this.setState({ questNotification: true });
@@ -95,6 +101,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
             if (showEvent) {
                 this.setState({ happening });
+            }
+            else if (queuedEvents.length > 0) {
+                this.setState({
+                    happening: queuedEvents[0],
+                    eventQueue: queuedEvents.slice(1),
+                });
             }
         }
         else {
@@ -117,7 +129,15 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
 
-        this.setState({ happening: null });
+        if (this.state.eventQueue.length > 0) {
+            this.setState({
+                happening: this.state.eventQueue[0],
+                eventQueue: this.state.eventQueue.slice(1),
+            });
+        }
+        else {
+            this.setState({ happening: null });
+        }
     }
 
     onReviewFinished = (id: model.LearnableId, correct: boolean) => {
@@ -127,6 +147,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
             if (logText !== null) {
                 this.state.eventLog.push(logText);
             }
+
+            this.setState({
+                eventQueue: this.state.eventQueue.concat(this.enqueueQuestUpdates(
+                    correct ? happening.effects : happening.failureEffects)),
+            });
         }
 
         this.props.onReview(id, correct);
