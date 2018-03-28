@@ -352,7 +352,7 @@ export class StructureNearbyFilter extends Filter {
         }
 
         // structure not found
-        if (minDist == null) {
+        if (minDist === null) {
             throw `StructureNearbyFilter could not find the structure
                 ${this.structureRequired} in location ${location.current}`;
         }
