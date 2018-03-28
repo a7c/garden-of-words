@@ -1,7 +1,13 @@
 [
     {
-        "type": "flavor",
-        "text": "You order and, in your uniquely American way, immediately devour the entire bowl of ramen.",
+        "type": "question",
+        "text": "You walk up to the counter and try to stammer out an order.",
+        "correctPostText": "The cook hands you an enormous bowl of steaming hot ramen. Immediately, in your uniquely American way, you devour the entire bowl of ramen.",
+        "wrongPostText": "The cashier looks at you quizzically.",
+        "question": {
+            "type": "ti",
+            "id": "vocab-赤い-kana-romaji-0"
+        },
         "filters": [
             {
                 "type": "resource",
@@ -30,7 +36,8 @@
                 "resource": "stamina",
                 "value": 30
             }
-        ]
+        ],
+        "failureEffects": []
     },
     {
         "type": "flavor",
