@@ -1,4 +1,5 @@
 import * as event from "../model/event";
+import * as lookup from "../model/lookup";
 import * as model from "../model/model";
 import * as quest from "../model/quest";
 import * as question from "../model/question";
@@ -35,11 +36,13 @@ type QuestionTemplateProps =
     { type: "mc", collection: string, onlySeen?: boolean } |
     { type: "ti-learn-vocab", collection: string, onlySeenKana?: boolean };
 
+type ExactQuestionProps = { type: "ti", id: model.LearnableId };
+
 type EventProps =
     { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] }
     | { type: "quest", journal: string, quest: string, stage: string, effects: EffectProps[], filters: FilterProps[] }
     | { type: "question", effects: EffectProps[], filters: FilterProps[],
-        question: QuestionTemplateProps,
+        question: QuestionTemplateProps | ExactQuestionProps,
         text?: string | null, postText?: string | null,
         correctPostText?: string | null, wrongPostText?: string | null,
         failureEffects: EffectProps[] };
@@ -151,12 +154,16 @@ export function parseQuest(json: QuestProps): quest.Quest {
     return new quest.Quest(json.id, json.name, events, journal, json.complete);
 }
 
-export function parseQuestionTemplate(json: QuestionTemplateProps): question.QuestionTemplate {
+export function parseQuestionTemplate(json: QuestionTemplateProps | ExactQuestionProps):
+question.QuestionTemplate | question.Question {
     if (json.type === "mc") {
         return new question.MultipleChoiceQuestionTemplate(json.collection, json.onlySeen || false);
     }
     else if (json.type === "ti-learn-vocab") {
         return new question.TypeInLearnVocabTemplate(json.collection, json.onlySeenKana || false);
+    }
+    else if (json.type === "ti") {
+        return new question.TypeIn([ json.id ], lookup.getLearnable(json.id));
     }
 
     throw new ParseError("Unrecognized question template", json);
