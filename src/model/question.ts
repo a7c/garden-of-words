@@ -171,7 +171,10 @@ export class TypeInLearnVocabTemplate {
         }
 
         // If no suitable words are found, default to generating a review
-        const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(learned);
+        const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(
+            learned,
+            (learnable) => !!learnable.back.match(/^[a-zA-Z]+$/)
+        );
         if (leastRecentlyReviewed !== null) {
             return [
                 lookup.generateTypeIn(leastRecentlyReviewed),

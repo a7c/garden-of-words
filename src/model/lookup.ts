@@ -155,13 +155,20 @@ export function getQuest(id: model.QuestId): quest.Quest {
     return quests.get(id);
 }
 
-export function getLeastRecentlyReviewed(learned: immutable.Map<model.LearnableId, model.Learned>):
+export function getLeastRecentlyReviewed(
+    learned: immutable.Map<model.LearnableId, model.Learned>,
+    filter?: (learnable: model.Learnable) => boolean
+):
     model.Learnable | null {
     let leastRecentlyReviewed: model.LearnableId | null = null;
     let lastDate: Date | null = null;
 
     learned.forEach((v, k) => {
         if (!v || !k) {
+            return;
+        }
+
+        if (filter && !filter(getLearnable(k))) {
             return;
         }
 
