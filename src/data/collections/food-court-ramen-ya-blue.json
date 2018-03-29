@@ -6,7 +6,7 @@
         "wrongPostText": "The cashier looks at you quizzically.",
         "question": {
             "type": "ti",
-            "id": "vocab-青い-kana-romaji-0"
+            "id": "vocab-赤い-kana-romaji-0"
         },
         "filters": [
             {
@@ -16,7 +16,7 @@
             },
             {
                 "type": "flag",
-                "flag": "know:vocab-青い-kana-romaji-0",
+                "flag": "know:vocab-赤い-kana-romaji-0",
                 "value": true
             }
         ],
@@ -24,7 +24,7 @@
             {
                 "type": "resource",
                 "resource": "yen",
-                "value": -800
+                "value": -450
             },
             {
                 "type": "resource-max",
@@ -41,16 +41,16 @@
     },
     {
         "type": "flavor",
-        "text": "A bowl of vegetables with a blue label stands out, but you have no idea how to convey your attempt at being healthy.",
+        "text": "A bowl of vegetables with a red label stands out, but you have no idea how to convey your attempt at being healthy.",
         "filters": [
             {
                 "type": "resource",
                 "resource": "yen",
-                "minimum": 800
+                "minimum": 450
             },
             {
                 "type": "flag",
-                "flag": "know:vocab-青い-kana-romaji-0",
+                "flag": "know:vocab-赤い-kana-romaji-0",
                 "value": false
             }
         ],

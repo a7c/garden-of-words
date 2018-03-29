@@ -12,7 +12,7 @@
             {
                 "type": "resource",
                 "resource": "yen",
-                "minimum": 1000
+                "minimum": 600
             },
             {
                 "type": "flag",
@@ -24,7 +24,7 @@
             {
                 "type": "resource",
                 "resource": "yen",
-                "value": -1000
+                "value": -600
             },
             {
                 "type": "resource-max",
@@ -46,7 +46,7 @@
             {
                 "type": "resource",
                 "resource": "yen",
-                "minimum": 1000
+                "minimum": 600
             },
             {
                 "type": "flag",
