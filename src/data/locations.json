@@ -33,7 +33,18 @@
                     "quest": "ramen-ya",
                     "stage": "complete"
                 },
-                "cost": [ "yen", 600 ]
+                "cost": [ "yen", 800 ]
+            },
+            {
+                "label": "Order Green Ramen",
+                "eventSource": "airport-food-court-ramen-ya-green",
+                "cooldown": 1000,
+                "filter": {
+                    "type": "quest",
+                    "quest": "ramen-ya",
+                    "stage": "complete"
+                },
+                "cost": [ "yen", 1000 ]
             }
         ],
         "structures": [

@@ -1,0 +1,67 @@
+[
+    {
+        "type": "question",
+        "text": "You walk up to the counter and try to stammer out an order.",
+        "correctPostText": "The cook hands you an enormous bowl of steaming hot ramen. Immediately, in your uniquely American way, you devour the entire bowl of ramen.",
+        "wrongPostText": "The cashier looks at you quizzically.",
+        "question": {
+            "type": "ti",
+            "id": "vocab-緑-kana-romaji-0"
+        },
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 1000
+            },
+            {
+                "type": "flag",
+                "flag": "know:vocab-緑-kana-romaji-0",
+                "value": true
+            }
+        ],
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": -1000
+            },
+            {
+                "type": "resource-max",
+                "resource": "stamina",
+                "value": 30
+            },
+            {
+                "type": "resource",
+                "resource": "stamina",
+                "value": 100
+            }
+        ],
+        "failureEffects": []
+    },
+    {
+        "type": "flavor",
+        "text": "A bowl of fried shrimp with a green label stands out, but you have no idea how to convey your desires.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 1000
+            },
+            {
+                "type": "flag",
+                "flag": "know:vocab-緑-kana-romaji-0",
+                "value": false
+            }
+        ],
+        "effects": []
+    },
+    {
+        "type": "flavor",
+        "text": "You don't quite have enough yen to order, based on the menu.",
+        "filters": [
+        ],
+        "effects": [
+        ]
+    }
+]
