@@ -12,7 +12,7 @@
             {
                 "type": "resource",
                 "resource": "yen",
-                "minimum": 800
+                "minimum": 450
             },
             {
                 "type": "flag",
