@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import * as event from "../model/event";
 import * as model from "../model/model";
 import { Question } from "../model/question";
-import locations from "../data/locations";
+import * as locations from "../data/locations";
 
 import "../Common.css";
 import "./ScenePanel.css";
@@ -85,7 +85,7 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
 
         const newLocation = location !== this.state.prevLocation;
 
-        const locationData = locations[location];
+        const locationData = locations.getLocation(location);
         const structures = locationData.structures;
         const index = steps % structures.length;
 

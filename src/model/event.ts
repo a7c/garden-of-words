@@ -2,208 +2,6 @@ import * as model from "./model";
 import * as question from "./question";
 import * as actions from "../actions/actions";
 import * as lookup from "./lookup";
-import locations from "../data/locations";
-
-export class Effect {
-    /**
-     *  A custom log message to be displayed. If null, a default message (or no
-     *  message) will be displayed in the event log.
-     */
-    customLogMessage: string | null;
-
-    constructor(customLogMessage?: string) {
-        // Empty string is a valid custom log message
-        if (customLogMessage !== undefined) {
-            this.customLogMessage = customLogMessage;
-        }
-        else {
-            this.customLogMessage = null;
-        }
-    }
-
-    /**
-     *  Converts an effect to a redux action that can be dispatched.
-     */
-    toAction(): actions.Action {
-        return {type: "PLACEHOLDER"};
-    }
-
-    /**
-     * Return what this event should display in the event log (if anything).
-     */
-    toEventLog(): string | null {
-        return this.customLogMessage;
-    }
-}
-
-export class QuestEffect extends Effect {
-    questId: model.QuestId;
-    stage: model.QuestStage;
-    // We can display a message in the event log as well, if it's a
-    // long-running quest and we want to give the player reminders
-    // about what happened and what's next. If we really care, we can
-    // store an actual journal.
-    journal: string | null;
-
-    constructor(questId: model.QuestId, stage: model.QuestStage, journal?: string) {
-        super(journal);
-        this.questId = questId;
-        this.stage = stage;
-        this.journal = journal || null;
-    }
-
-    toAction() {
-        return actions.updateQuest(this.questId, this.stage);
-    }
-
-    toEventLog() {
-        return this.journal;
-    }
-}
-
-export class FlagEffect extends Effect {
-    flag: string;
-    value: boolean;
-
-    constructor(flag: string, value: boolean, customLogMessage?: string) {
-        super(customLogMessage);
-        this.flag = flag;
-        this.value = value;
-    }
-
-    toAction() {
-        return actions.updateFlag(this.flag, this.value);
-    }
-}
-
-export class TravelEffect extends Effect {
-    location: model.Location;
-
-    constructor(location: model.Location, customLogMessage?: string) {
-        super(customLogMessage);
-        this.location = location;
-    }
-
-    toAction() {
-        return actions.travel(this.location);
-    }
-
-    toEventLog() {
-        if (this.customLogMessage !== null) {
-            return super.toEventLog();
-        }
-        return `You walk to ${locations[this.location].name}.`;
-    }
-}
-
-export class DiscoverEffect extends Effect {
-    location: model.Location;
-
-    constructor(location: model.Location, customLogMessage?: string) {
-        super(customLogMessage);
-        this.location = location;
-    }
-
-    toAction() {
-        return actions.discover(this.location);
-    }
-
-    toEventLog() {
-        if (this.customLogMessage !== null) {
-            return super.toEventLog();
-        }
-        return `You discovered ${locations[this.location].name}.`;
-    }
-}
-
-export class ResourceMaxEffect extends Effect {
-    resource: model.Resource;
-    value: number;
-
-    constructor(resource: model.Resource, value: number, customLogMessage?: string) {
-        super(customLogMessage);
-        this.resource = resource;
-        this.value = value;
-    }
-
-    toAction() {
-        return actions.modifyResourceMax(this.resource, this.value);
-    }
-
-    toEventLog() {
-        if (this.customLogMessage !== null) {
-            return super.toEventLog();
-        }
-        return `You gained ${this.value} maximum ${this.resource}.`;
-    }
-}
-
-export class ResourceEffect extends Effect {
-    resource: model.Resource;
-    value: number;
-
-    constructor(resource: model.Resource, value: number, customLogMessage?: string) {
-        super(customLogMessage);
-        this.resource = resource;
-        this.value = value;
-    }
-
-    toAction() {
-        return actions.modifyResource(this.resource, this.value);
-    }
-
-    toEventLog() {
-        if (this.customLogMessage !== null) {
-            return super.toEventLog();
-        }
-        return `You ${this.value > 0 ? "gained" : "lost"} ${Math.abs(this.value)} ${this.resource}.`;
-    }
-}
-
-/** An effect that represents learning a new word. */
-export class LearnEffect extends Effect {
-    id: model.LearnableId;
-
-    constructor(id: model.LearnableId, customLogMessage?: string) {
-        super(customLogMessage);
-        this.id = id;
-    }
-
-    toAction() {
-        return actions.learn(this.id);
-    }
-
-    toEventLog() {
-        if (this.customLogMessage !== null) {
-            return super.toEventLog();
-        }
-
-        const learnable = lookup.getLearnable(this.id);
-
-        const phrase = {
-            "hiragana": "is pronounced",
-            "katakana": "is pronounced",
-            "vocab-kana-romaji": "is read",
-        }[learnable.type] || "means";
-
-        // TODO: factor out this check
-        return `You learned ${learnable.front} ${phrase} ${learnable.back}.`;
-    }
-}
-
-/** An effect that represents correctly reviewing an already learned word. */
-export class ReviewCorrectEffect extends Effect {
-    id: model.LearnableId;
-
-    constructor(id: model.LearnableId, customLogMessage?: string) {
-        super(customLogMessage);
-        this.id = id;
-    }
-
-    toAction() {
-        return actions.review(this.id, true);
-    }
-}
 
 export class Filter {
     check(store: model.Store): boolean {
@@ -313,6 +111,9 @@ export class VocabSizeFilter extends Filter {
     }
 }
 
+// Has to go here due to circular imports >.>
+import * as locations from "../data/locations";
+
 /** A filter that requires the player to be near the specified structure. */
 export class StructureNearbyFilter extends Filter {
     structureRequired: string;
@@ -334,7 +135,7 @@ export class StructureNearbyFilter extends Filter {
     // TODO: this whole thing could be optimized but is it worth it? (no)
     check(store: model.Store): boolean {
         const { steps, location } = store;
-        const structures = locations[location.current].structures;
+        const structures = locations.getLocation(location.current).structures;
 
         const playerIndex = steps % structures.length;
 
@@ -369,6 +170,207 @@ export class StructureNearbyFilter extends Filter {
             return minDist <= this.distanceRequired + 1;
         }
 
+    }
+}
+
+export class Effect {
+    /**
+     *  A custom log message to be displayed. If null, a default message (or no
+     *  message) will be displayed in the event log.
+     */
+    customLogMessage: string | null;
+
+    constructor(customLogMessage?: string) {
+        // Empty string is a valid custom log message
+        if (customLogMessage !== undefined) {
+            this.customLogMessage = customLogMessage;
+        }
+        else {
+            this.customLogMessage = null;
+        }
+    }
+
+    /**
+     *  Converts an effect to a redux action that can be dispatched.
+     */
+    toAction(): actions.Action {
+        return {type: "PLACEHOLDER"};
+    }
+
+    /**
+     * Return what this event should display in the event log (if anything).
+     */
+    toEventLog(): string | null {
+        return this.customLogMessage;
+    }
+}
+
+export class QuestEffect extends Effect {
+    questId: model.QuestId;
+    stage: model.QuestStage;
+    // We can display a message in the event log as well, if it's a
+    // long-running quest and we want to give the player reminders
+    // about what happened and what's next. If we really care, we can
+    // store an actual journal.
+    journal: string | null;
+
+    constructor(questId: model.QuestId, stage: model.QuestStage, journal?: string) {
+        super(journal);
+        this.questId = questId;
+        this.stage = stage;
+        this.journal = journal || null;
+    }
+
+    toAction() {
+        return actions.updateQuest(this.questId, this.stage);
+    }
+
+    toEventLog() {
+        return this.journal;
+    }
+}
+
+export class FlagEffect extends Effect {
+    flag: string;
+    value: boolean;
+
+    constructor(flag: string, value: boolean, customLogMessage?: string) {
+        super(customLogMessage);
+        this.flag = flag;
+        this.value = value;
+    }
+
+    toAction() {
+        return actions.updateFlag(this.flag, this.value);
+    }
+}
+
+export class TravelEffect extends Effect {
+    location: model.Location;
+
+    constructor(location: model.Location, customLogMessage?: string) {
+        super(customLogMessage);
+        this.location = location;
+    }
+
+    toAction() {
+        return actions.travel(this.location);
+    }
+
+    toEventLog() {
+        if (this.customLogMessage !== null) {
+            return super.toEventLog();
+        }
+        return `You walk to ${locations.getLocation(this.location).name}.`;
+    }
+}
+
+export class DiscoverEffect extends Effect {
+    location: model.Location;
+
+    constructor(location: model.Location, customLogMessage?: string) {
+        super(customLogMessage);
+        this.location = location;
+    }
+
+    toAction() {
+        return actions.discover(this.location);
+    }
+
+    toEventLog() {
+        if (this.customLogMessage !== null) {
+            return super.toEventLog();
+        }
+        return `You discovered ${locations.getLocation(this.location).name}.`;
+    }
+}
+
+export class ResourceMaxEffect extends Effect {
+    resource: model.Resource;
+    value: number;
+
+    constructor(resource: model.Resource, value: number, customLogMessage?: string) {
+        super(customLogMessage);
+        this.resource = resource;
+        this.value = value;
+    }
+
+    toAction() {
+        return actions.modifyResourceMax(this.resource, this.value);
+    }
+
+    toEventLog() {
+        if (this.customLogMessage !== null) {
+            return super.toEventLog();
+        }
+        return `You gained ${this.value} maximum ${this.resource}.`;
+    }
+}
+
+export class ResourceEffect extends Effect {
+    resource: model.Resource;
+    value: number;
+
+    constructor(resource: model.Resource, value: number, customLogMessage?: string) {
+        super(customLogMessage);
+        this.resource = resource;
+        this.value = value;
+    }
+
+    toAction() {
+        return actions.modifyResource(this.resource, this.value);
+    }
+
+    toEventLog() {
+        if (this.customLogMessage !== null) {
+            return super.toEventLog();
+        }
+        return `You ${this.value > 0 ? "gained" : "lost"} ${Math.abs(this.value)} ${this.resource}.`;
+    }
+}
+
+/** An effect that represents learning a new word. */
+export class LearnEffect extends Effect {
+    id: model.LearnableId;
+
+    constructor(id: model.LearnableId, customLogMessage?: string) {
+        super(customLogMessage);
+        this.id = id;
+    }
+
+    toAction() {
+        return actions.learn(this.id);
+    }
+
+    toEventLog() {
+        if (this.customLogMessage !== null) {
+            return super.toEventLog();
+        }
+
+        const learnable = lookup.getLearnable(this.id);
+
+        const phrase = {
+            "hiragana": "is pronounced",
+            "katakana": "is pronounced",
+            "vocab-kana-romaji": "is read",
+        }[learnable.type] || "means";
+
+        // TODO: factor out this check
+        return `You learned ${learnable.front} ${phrase} ${learnable.back}.`;
+    }
+}
+
+/** An effect that represents correctly reviewing an already learned word. */
+export class ReviewCorrectEffect extends Effect {
+    id: model.LearnableId;
+
+    constructor(id: model.LearnableId, customLogMessage?: string) {
+        super(customLogMessage);
+        this.id = id;
+    }
+
+    toAction() {
+        return actions.review(this.id, true);
     }
 }
 

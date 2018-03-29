@@ -19,9 +19,20 @@
         "connected": ["airport-food-court"],
         "pois": [
             {
-                "label": "Order Ramen",
+                "label": "Order Red Ramen",
                 "eventSource": "airport-food-court-ramen-ya",
                 "cooldown": 1000,
+                "cost": [ "yen", 600 ]
+            },
+            {
+                "label": "Order Blue Ramen",
+                "eventSource": "airport-food-court-ramen-ya-blue",
+                "cooldown": 1000,
+                "filter": {
+                    "type": "quest",
+                    "quest": "ramen-ya",
+                    "stage": "complete"
+                },
                 "cost": [ "yen", 600 ]
             }
         ],

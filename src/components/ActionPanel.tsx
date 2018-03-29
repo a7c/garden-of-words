@@ -5,7 +5,7 @@ import * as model from "../model/model";
 import * as event from "../model/event";
 import * as question from "../model/question";
 import * as resources from "../data/constants/resources";
-import locations from "../data/locations";
+import * as locations from "../data/locations";
 import wander from "../wander";
 import meditate from "../meditate";
 
@@ -88,7 +88,7 @@ export default class ActionPanel extends React.Component<Props> {
         const { store, paused } = this.props;
         const { learned, flags, location } = store;
 
-        const locationData = locations[location.current];
+        const locationData = locations.getLocation(location.current);
 
         const staminaProp = store.resources.get(resources.STAMINA);
         const stamina = staminaProp ? staminaProp.currentValue : 0;
@@ -96,7 +96,7 @@ export default class ActionPanel extends React.Component<Props> {
         const pois: JSX.Element[] = [];
         const adjacent: JSX.Element[] = [];
         locationData.pois.forEach((poi, idx) => {
-            if (!poi.flag || flags.get(poi.flag)) {
+            if (!poi.filter || poi.filter.check(store)) {
                 pois.push(
                     <ActionButton
                         key={idx}
@@ -112,7 +112,7 @@ export default class ActionPanel extends React.Component<Props> {
 
         locationData.connected.forEach((loc, idx) => {
             if (model.locationDiscovered(store, loc)) {
-                const targetLoc = locations[loc];
+                const targetLoc = locations.getLocation(loc);
                 const button = (
                     <ActionButton
                         key={idx}
