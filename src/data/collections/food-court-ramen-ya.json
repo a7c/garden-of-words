@@ -22,6 +22,11 @@
         ],
         "effects": [
             {
+                "type": "resource",
+                "resource": "yen",
+                "value": -600
+            },
+            {
                 "type": "quest",
                 "quest": "ramen-ya",
                 "stage": "complete"
