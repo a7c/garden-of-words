@@ -94,6 +94,9 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
         if (learnable.type === "vocab-kana-romaji") {
             return `Type the reading (in romaji): ${learnable.front}`;
         }
+        else if (learnable.type === "vocab") {
+            return `Type the meaning (in English): ${learnable.front}`;
+        }
         return `Type the equivalent: ${learnable.front}`;
     }
 
