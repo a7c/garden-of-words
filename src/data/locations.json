@@ -75,7 +75,7 @@
         ]
     },
     "airport-gate-vending-machine": {
-        "name": "a fabled Japanese vending machine",
+        "name": "a vending machine",
         "label": "Vending Machine",
         "wanderlust": false,
         "connected": ["airport-gate"],
