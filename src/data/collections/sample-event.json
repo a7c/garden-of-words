@@ -33,7 +33,7 @@
     },
     {
         "type": "quest",
-        "quest": "meiji-choco",
+        "quest": "rehydrate",
         "stage": "found-machine",
         "journal": "You feel thirsty. Perhaps you should check it out.",
         "filters": [
@@ -62,7 +62,7 @@
         "filters": [
             {
                 "type": "quest",
-                "quest": "meiji-choco",
+                "quest": "rehydrate",
                 "stage": "need-yen"
             },
             {
@@ -101,7 +101,7 @@
         "filters": [
             {
                 "type": "quest",
-                "quest": "meiji-choco",
+                "quest": "rehydrate",
                 "stage": "complete"
             },
             {

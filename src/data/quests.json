@@ -1,13 +1,13 @@
 [
     {
-        "id": "meiji-choco",
+        "id": "rehydrate",
         "name": "The Fabled Vending Machine",
         "complete": "complete",
         "events": {},
         "journal": {
             "found-machine": "You feel a bit dehydrated. Maybe you can get a drink from the vending machine.",
             "need-yen": "You need to get some yen to feed the machine. Wandering around might give you ideas.",
-            "complete": "Meiji Chocolate is the most delicious thing in the world."
+            "complete": "At first, you are tempted by some chocolate in the vending machine, but you remember what you came here for, and buy a water instead."
         }
     },
     {
@@ -17,8 +17,8 @@
         "events": {},
         "journal": {
             "found-shop": "Maybe Ramen-ya will satiate your hunger.",
-            "learn-colors": "The blue menu item looks pretty attractive. Maybe you can wander around and figure out how to say red.",
-            "complete": "You can't decide if Meiji chocolate or ramen is better."
+            "learn-colors": "The blue menu item looks pretty attractive. Maybe you can wander around and figure out how to say blue.",
+            "complete": "Halfway through slurpring down the ramen, you wonder if blue ramen is safe. You finish it anyways."
         }
     }
 ]

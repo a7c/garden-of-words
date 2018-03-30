@@ -175,7 +175,7 @@ export default class ActionPanel extends React.Component<Props> {
                         locked={stamina < resources.LUGGAGE_STA_COST}
                         paused={paused}
                         cooldown={2500}
-                        hint="Meiji chocolates really seem to get your stamina up."
+                        hint="Grabbing a drink from the vending machine might get your stamina up."
                         onHint={this.onHint}
                     />
                     : false}
