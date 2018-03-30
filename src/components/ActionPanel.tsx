@@ -167,7 +167,7 @@ export default class ActionPanel extends React.Component<Props> {
                         paused={paused}
                     />
                     : false}
-                    {store.flags.get("has-luggage-job") ?
+                    {store.flags.get("has-luggage-job") && locationData.name === "airport-gate" ?
                     <ActionButton
                         label="Haul Luggage"
                         benefit={`-${resources.LUGGAGE_STA_COST} STA`}
