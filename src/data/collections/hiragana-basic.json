@@ -3,8 +3,8 @@
   "name": "Hiragana",
   "subtitle": "ひらがな",
   "description": [
-    "Hiragana (ひらがな) is one of the Japanese syllabaries and one of the components of the Japanese writing system. Generally, each character represents a particular sound.",
-    "The system is complicated by various modifiers and deprecated sounds. I'll let someone who actually knows Japanese write this out."
+    "Hiragana (ひらがな) is one of the Japanese syllabaries and one of the components of the Japanese writing system. Each character represents a particular syllable, generally composed of a consonant and vowel sound (or just a vowel).",
+    "The system is complicated by various modifiers and deprecated sounds, which will be found in the Advanced Hiragana collection once we code it."
   ],
   "items": [
     {

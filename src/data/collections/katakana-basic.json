@@ -2,6 +2,10 @@
     "collection": "kata-basic",
     "name": "Katakana",
     "subtitle": "カタカナ",
+    "description": [
+        "Katakana (カタカナ) is one of two Japanese syllabaries and a basic component of the Japanese writing system. Each character represents a particular syllable, generally composed of a consonant and vowel sound (or just a vowel).",
+        "Katakana is most often used to write approximations of foreign words. It is also complicated by the same deprecated sounds and modifiers as hiragana."
+    ],
     "items": [
         {
             "id": "kata-ア",
