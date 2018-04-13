@@ -1,7 +1,7 @@
 [
     {
         "type": "flavor",
-        "text": "You buy a Meiji chocolate, for some reason.",
+        "text": "Unsure how to read the labels, you buy a drink at random.",
         "filters": [
             {
                 "type": "resource",
@@ -17,9 +17,9 @@
             },
             {
                 "type": "quest",
-                "quest": "meiji-choco",
+                "quest": "rehydrate",
                 "stage": "complete",
-                "journal": "Somehow, it takes away your thirst."
+                "journal": "Your thirst is quenched."
             },
             {
                 "type": "resource-max",
@@ -39,7 +39,7 @@
         "filters": [
             {
                 "type": "quest",
-                "quest": "meiji-choco",
+                "quest": "rehydrate",
                 "stage": "complete"
             }
         ],
@@ -52,7 +52,7 @@
         "effects": [
             {
                 "type": "quest",
-                "quest": "meiji-choco",
+                "quest": "rehydrate",
                 "stage": "need-yen",
                 "journal": "Let's keep wandering."
             }

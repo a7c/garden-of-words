@@ -3,7 +3,7 @@
         "type": "quest",
         "quest": "ramen-ya",
         "stage": "found-shop",
-        "journal": "It's been a while since you last had a meal (Meiji chocolate notwithstanding). Why not grab a bite?",
+        "journal": "It's been a while since you last had a meal. Why not grab a bite?",
         "filters": [
             {
                 "type": "structure-nearby",
