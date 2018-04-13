@@ -15,6 +15,7 @@ export interface PointOfInterest {
 export interface LocationData {
     name: string;
     label?: string;
+    wanderName?: string;
     wanderlust: boolean;
     connected: model.Location[];
     pois: PointOfInterest[];

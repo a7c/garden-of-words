@@ -53,6 +53,7 @@
     },
     "airport-gate": {
         "name": "the gate you just arrived at",
+        "wanderName": "the airport gate area",
         "label": "Back to Gate",
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],

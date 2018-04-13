@@ -137,7 +137,7 @@ export default class ActionPanel extends React.Component<Props> {
                     {(adjacent.length === 1 && !locationData.wanderlust) ? adjacent : false}
                     {locationData.wanderlust ?
                      <ActionButton
-                         label="Wander"
+                         label={`Observe ${locationData.wanderName || locationData.name}`}
                          cost={`-${resources.WANDER_STA_COST} STA`}
                          onClick={this.wander}
                          paused={paused}
