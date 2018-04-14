@@ -131,6 +131,7 @@ export class TypeInLearnVocabTemplate {
                     (!this.onlySeenKana || Array.from(learnable.front).some(k => learned.has(`hira-${k}`)));
             })
             .sort((a, b) => {
+                // Sort by # of known kana in word
                 const learnable1 = lookup.getLearnable(a);
                 const learnable2 = lookup.getLearnable(b);
 

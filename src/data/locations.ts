@@ -26,6 +26,7 @@ export interface LocationData {
      *  extensions removed.
      */
     structures: string[];
+    wanderFlavor?: { [learnableType: string]: string[] };
 }
 
 let locations: { [key: string]: LocationData } | null = null;

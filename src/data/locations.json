@@ -58,6 +58,12 @@
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
         "pois": [],
+        "wanderFlavor": {
+            "hiragana": [
+                "You spot a sign written in hiragana and romaji.",
+                "Looking around, you remember a flash card from high school Japanese class."
+            ]
+        },
         "structures": [
             "blank",
             "arrival-departure-board",
