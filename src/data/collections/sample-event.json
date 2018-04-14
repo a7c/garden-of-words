@@ -107,28 +107,6 @@
     },
     {
         "type": "flavor",
-        "text": "As you get your bearings, you notice a food court.",
-        "filters": [
-            {
-                "type": "quest",
-                "quest": "rehydrate",
-                "stage": "complete"
-            },
-            {
-                "type": "flag",
-                "flag": "discovered:airport-food-court",
-                "value": false
-            }
-        ],
-        "effects": [
-            {
-                "type": "discover",
-                "location": "airport-food-court"
-            }
-        ]
-    },
-    {
-        "type": "flavor",
         "text": "You realize it could be lucrative to charge old tourists to help haul their bags around...but you'll need to get your endurance up.",
         "filters": [
             {
@@ -148,6 +126,28 @@
                 "type": "flag",
                 "flag": "has-luggage-job",
                 "value": true
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "As you get your bearings, you notice a food court.",
+        "filters": [
+            {
+                "type": "quest",
+                "quest": "rehydrate",
+                "stage": "complete"
+            },
+            {
+                "type": "flag",
+                "flag": "discovered:airport-food-court",
+                "value": false
+            }
+        ],
+        "effects": [
+            {
+                "type": "discover",
+                "location": "airport-food-court"
             }
         ]
     }
