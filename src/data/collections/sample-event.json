@@ -61,9 +61,19 @@
         "wrongPostText": "They look disappointed and walk away.",
         "filters": [
             {
-                "type": "quest",
-                "quest": "rehydrate",
-                "stage": "need-yen"
+                "type": "or",
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "rehydrate",
+                        "stage": "need-yen"
+                    },
+                    {
+                        "type": "quest",
+                        "quest": "rehydrate",
+                        "stage": "found-machine"
+                    }
+                ]
             },
             {
                 "type": "vocabsize",
