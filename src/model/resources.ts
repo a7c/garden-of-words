@@ -13,6 +13,6 @@ export function getMeditateStaminaCost (store: model.Store): number {
 	}
 	// shouldn't happen -- there should be a cap on max stamina
 	else {
-
+		return 10;
 	}
 }
