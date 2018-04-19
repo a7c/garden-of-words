@@ -190,13 +190,15 @@ export default class ActionPanel extends React.Component<Props> {
                 nice. */}
                 <div>
                     {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
+                    {model.questStarted(store, "airport-train-station") ?
                     <ActionButton
-                        label="Subway"
+                        label="Train Station"
                         locked={true}
                         paused={paused}
-                        hint="The subway is far. Walk on and you'll find it eventually."
+                        hint="You've got no clue where to take the train."
                         onHint={this.onHint}
                     />
+                    : false}
                 </div>
             </LabeledPanel>
         );

@@ -111,6 +111,10 @@ export function locationDiscovered(store: Store, location: Location): boolean {
     return store.location.discovered.includes(location);
 }
 
+export function questStarted(store: Store, quest: QuestId): boolean {
+    return store.quests.has(quest);
+}
+
 export function questStage(store: Store, quest: QuestId): QuestStage | null {
     return store.quests.has(quest) ? store.quests.get(quest) : null;
 }
