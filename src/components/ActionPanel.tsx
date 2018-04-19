@@ -4,7 +4,7 @@ import * as React from "react";
 import * as model from "../model/model";
 import * as event from "../model/event";
 import * as question from "../model/question";
-import * as resources from "../data/constants/resources";
+import * as resources from "../model/resources";
 import * as locations from "../data/locations";
 import wander from "../wander";
 import meditate from "../meditate";
@@ -58,7 +58,7 @@ export default class ActionPanel extends React.Component<Props> {
             return;
         }
 
-        const happening = meditate(store.learned);
+        const happening = meditate(store);
         if (happening) {
             onEvent(happening);
         }
@@ -152,7 +152,7 @@ export default class ActionPanel extends React.Component<Props> {
                     {(learned.size && locationData.wanderlust) ?
                      <ActionButton
                          label="Meditate"
-                         benefit={`+${-resources.MEDITATE_STA_COST} STA`}
+                         benefit={`+${-resources.getMeditateStaminaCost(store)} STA`}
                          onClick={this.meditate}
                          paused={paused}
                          cooldown={1000}

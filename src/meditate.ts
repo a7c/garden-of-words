@@ -5,18 +5,19 @@ import * as question from "./model/question";
 import * as lookup from "./model/lookup";
 import * as event from "./model/event";
 
-import * as resources from "./data/constants/resources";
+import * as resources from "./model/resources";
 
 export default function meditate(
-    learned: immutable.Map<model.LearnableId, model.Learned>
+    store: model.Store
 ): event.QuestionEvent | null {
+    const learned = store.learned;
     const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(learned);
     if (leastRecentlyReviewed !== null) {
         const q = lookup.generateQuestion(leastRecentlyReviewed);
 
         const questionEvent = new event.QuestionEvent(
             [], // filters
-            [new event.ResourceEffect(resources.STAMINA, -resources.MEDITATE_STA_COST)], // effects
+            [new event.ResourceEffect(resources.STAMINA, -resources.getMeditateStaminaCost(store))], // effects
             q, // question template
             null, // flavor
             null, // postFlavor
