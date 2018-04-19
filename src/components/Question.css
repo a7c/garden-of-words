@@ -33,3 +33,7 @@ button.review {
 .question-typein button {
     width: 50%;
 }
+
+.question-typein .give-up {
+    color: #F00;
+}

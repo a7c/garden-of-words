@@ -108,8 +108,8 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
                 <form onSubmit={this._handleSubmit}>
                     <p>{this.prompt(q.learnable)}</p>
                     <input type="text" value={this.state.input} onChange={this._handleChange} />
-                    <button type="button" onClick={this._handleGiveUp}>Give Up</button>
-                    <button>Submit</button>
+                    <button type="submit">Submit</button>
+                    <button type="button" className="give-up" onClick={this._handleGiveUp}>Give Up</button>
                 </form>
             </section>
         );

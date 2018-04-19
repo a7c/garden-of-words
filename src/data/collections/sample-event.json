@@ -61,9 +61,19 @@
         "wrongPostText": "They look disappointed and walk away.",
         "filters": [
             {
-                "type": "quest",
-                "quest": "rehydrate",
-                "stage": "need-yen"
+                "type": "or",
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "rehydrate",
+                        "stage": "need-yen"
+                    },
+                    {
+                        "type": "quest",
+                        "quest": "rehydrate",
+                        "stage": "found-machine"
+                    }
+                ]
             },
             {
                 "type": "vocabsize",
@@ -97,6 +107,30 @@
     },
     {
         "type": "flavor",
+        "text": "You realize it could be lucrative to charge old tourists to help haul their bags around...but you'll need to get your endurance up.",
+        "filters": [
+            {
+                "type": "quest",
+                "quest": "rehydrate",
+                "stage": "complete"
+            },
+            {
+                "type": "flag",
+                "flag": "has-luggage-job",
+                "value": false
+            }
+
+        ],
+        "effects": [
+            {
+                "type": "flag",
+                "flag": "has-luggage-job",
+                "value": true
+            }
+        ]
+    },
+    {
+        "type": "flavor",
         "text": "As you get your bearings, you notice a food court.",
         "filters": [
             {
@@ -114,30 +148,6 @@
             {
                 "type": "discover",
                 "location": "airport-food-court"
-            }
-        ]
-    },
-    {
-        "type": "flavor",
-        "text": "You realize it could be lucrative to charge old tourists to help haul their bags around...but you'll need to get your endurance up.",
-        "filters": [
-            {
-                "type": "resource",
-                "resource": "stamina",
-                "minimum": 11
-            },
-            {
-                "type": "flag",
-                "flag": "has-luggage-job",
-                "value": false
-            }
-
-        ],
-        "effects": [
-            {
-                "type": "flag",
-                "flag": "has-luggage-job",
-                "value": true
             }
         ]
     }

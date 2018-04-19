@@ -9,6 +9,18 @@ export class Filter {
     }
 }
 
+export class OrFilter {
+    filters: Filter[];
+
+    constructor(filters: Filter[]) {
+        this.filters = filters;
+    }
+
+    check(store: model.Store): boolean {
+        return this.filters.map(f => f.check(store)).some(x => x);
+    }
+}
+
 export class LocationFilter extends Filter {
     location: model.Location;
 

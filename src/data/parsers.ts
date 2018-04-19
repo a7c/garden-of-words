@@ -30,6 +30,7 @@ type FilterProps =
     { type: "know-location", location: model.Location } |
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage } |
+    { type: "or", filters: FilterProps[] } |
     { type: "structure-nearby", structure: string, distance?: number, exact?: boolean };
 
 type QuestionTemplateProps =
@@ -105,6 +106,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     }
     else if (json.type === "structure-nearby") {
         return new event.StructureNearbyFilter(json.structure, json.distance, json.exact);
+    }
+    else if (json.type === "or") {
+        return new event.OrFilter(json.filters.map(parseFilter));
     }
 
     throw new ParseError("Unrecognized filter", json);
