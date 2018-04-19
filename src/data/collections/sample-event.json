@@ -33,6 +33,20 @@
     },
     {
         "type": "quest",
+        "quest": "airport-train-station",
+        "stage": "just-arrived",
+        "journal": "You wander some more. You need to figure out where the train station is so you can go to Tokyo.",
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "started-quest:airport-train-station",
+                "value": false
+            }
+        ],
+        "effects": []
+    },
+    {
+        "type": "quest",
         "quest": "rehydrate",
         "stage": "found-machine",
         "journal": "You feel thirsty. Perhaps you should check it out.",

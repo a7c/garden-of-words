@@ -9,6 +9,19 @@ export class Filter {
     }
 }
 
+/** A composite filter that requires all the inner filters to check as false. */
+export class NotFilter {
+    filters: Filter[];
+
+    constructor(filters: Filter[]) {
+        this.filters = filters;
+    }
+
+    check(store: model.Store): boolean {
+        return this.filters.map(f => f.check(store)).every(x => !x);
+    }
+}
+
 export class OrFilter {
     filters: Filter[];
 
@@ -80,6 +93,9 @@ export class FlagFilter extends Filter {
         else if (this.flag.slice(0, 5) === "know:") {
             // Actually querying whether we know a certain word
             return store.learned.has(this.flag.slice(5)) === this.value;
+        }
+        else if (this.flag.slice(0, 14) === "started-quest:") {
+            return store.quests.has(this.flag.slice(14)) === this.value;
         }
         const actualValue = store.flags.get(this.flag);
         // Cast to boolean

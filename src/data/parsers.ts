@@ -31,6 +31,7 @@ type FilterProps =
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage } |
     { type: "or", filters: FilterProps[] } |
+    { type: "not", filters: FilterProps[] } |
     { type: "structure-nearby", structure: string, distance?: number, exact?: boolean };
 
 type QuestionTemplateProps =
@@ -109,6 +110,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     }
     else if (json.type === "or") {
         return new event.OrFilter(json.filters.map(parseFilter));
+    }
+    else if (json.type === "not") {
+        return new event.NotFilter(json.filters.map(parseFilter));
     }
 
     throw new ParseError("Unrecognized filter", json);
