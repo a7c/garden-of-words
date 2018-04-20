@@ -31,11 +31,12 @@ type FilterProps =
     { type: "flag", flag: string, value: boolean } |
     { type: "quest", quest: model.QuestId, stage: model.QuestStage } |
     { type: "or", filters: FilterProps[] } |
+    { type: "not", filters: FilterProps[] } |
     { type: "structure-nearby", structure: string, distance?: number, exact?: boolean };
 
 type QuestionTemplateProps =
     { type: "mc", collection: string, onlyWithType?: string, onlySeen?: boolean, flavor?: string } |
-    { type: "ti-learn-vocab", collection: string, onlySeenKana?: boolean };
+    { type: "ti-learn-vocab", collections: string[], onlySeenKana?: boolean };
 
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
 
@@ -110,6 +111,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     else if (json.type === "or") {
         return new event.OrFilter(json.filters.map(parseFilter));
     }
+    else if (json.type === "not") {
+        return new event.NotFilter(json.filters.map(parseFilter));
+    }
 
     throw new ParseError("Unrecognized filter", json);
 }
@@ -169,7 +173,7 @@ question.QuestionTemplate | question.Question {
         );
     }
     else if (json.type === "ti-learn-vocab") {
-        return new question.TypeInLearnVocabTemplate(json.collection, json.onlySeenKana || false);
+        return new question.TypeInLearnVocabTemplate(json.collections, json.onlySeenKana || false);
     }
     else if (json.type === "ti") {
         return new question.TypeIn([ json.id ], lookup.getLearnable(json.id));

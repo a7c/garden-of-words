@@ -61,10 +61,11 @@
         "wanderFlavor": {
             "hiragana": [
                 "You spot a sign written in hiragana and romaji.",
-                "Looking around, you remember a flash card from high school Japanese class."
+                "As you walk, you remember a flash card from high school Japanese class."
             ]
         },
         "structures": [
+            "blank",
             "blank",
             "arrival-departure-board",
             "blank",

@@ -9,7 +9,7 @@ import * as event from "./model/event";
 import * as model from "./model/model";
 import { Question } from "./model/question";
 import { parseEffect } from "./data/parsers";
-import * as resources from "./data/constants/resources";
+import * as resources from "./model/resources";
 
 import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";

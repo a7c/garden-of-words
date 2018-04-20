@@ -50,7 +50,8 @@ function loadVocab(json: any) { //tslint:disable-line
 
 loadCollection(require("../data/collections/hiragana-basic.json"));
 loadCollection(require("../data/collections/katakana-basic.json"));
-loadVocab(require("../data/collections/vocab-basic.json"));
+loadVocab(require("../data/collections/vocab-basic-colors.json"));
+loadVocab(require("../data/collections/vocab-basic-numbers.json"));
 
 export function getNextLearnable(store: model.Store): model.LearnableId | null {
     const{ learned, flags } = store;

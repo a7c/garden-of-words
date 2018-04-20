@@ -13,7 +13,10 @@
         ],
         "question": {
             "type": "ti-learn-vocab",
-            "collection": "vocab-basic-colors",
+            "collections": [
+                "vocab-basic-colors",
+                "vocab-basic-numbers"
+            ],
             "onlySeenKana": true
         },
         "effects": [

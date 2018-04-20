@@ -1,5 +1,14 @@
 [
     {
+        "id": "airport-train-station",
+        "name": "Escape the Airport",
+        "complete": "complete",
+        "events": {},
+        "journal": {
+            "just-arrived": "You've got no clue where the train station is. Perhaps wandering around some more will give you a clue."
+        }
+    },
+    {
         "id": "rehydrate",
         "name": "Rehydration Station",
         "complete": "complete",
@@ -7,7 +16,7 @@
         "journal": {
             "found-machine": "You feel a bit dehydrated. Maybe you can get a drink from the vending machine.",
             "need-yen": "You need to get some yen to feed the machine. Wandering around might give you ideas.",
-            "complete": "At first, you are tempted by some chocolate in the vending machine, but you remember what you came here for, and buy a water instead."
+            "complete": "At first, you are tempted by some chocolate in the vending machine, but you remember what you came here for, and buy a drink instead."
         }
     },
     {

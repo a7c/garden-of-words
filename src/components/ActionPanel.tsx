@@ -4,7 +4,7 @@ import * as React from "react";
 import * as model from "../model/model";
 import * as event from "../model/event";
 import * as question from "../model/question";
-import * as resources from "../data/constants/resources";
+import * as resources from "../model/resources";
 import * as locations from "../data/locations";
 import wander from "../wander";
 import meditate from "../meditate";
@@ -58,7 +58,7 @@ export default class ActionPanel extends React.Component<Props> {
             return;
         }
 
-        const happening = meditate(store.learned);
+        const happening = meditate(store);
         if (happening) {
             onEvent(happening);
         }
@@ -137,7 +137,7 @@ export default class ActionPanel extends React.Component<Props> {
                     {(adjacent.length === 1 && !locationData.wanderlust) ? adjacent : false}
                     {locationData.wanderlust ?
                      <ActionButton
-                         label={`Observe ${locationData.wanderName || locationData.name}`}
+                         label={`Wander in ${locationData.wanderName || locationData.name}`}
                          cost={`-${resources.WANDER_STA_COST} STA`}
                          onClick={this.wander}
                          paused={paused}
@@ -152,7 +152,7 @@ export default class ActionPanel extends React.Component<Props> {
                     {(learned.size && locationData.wanderlust) ?
                      <ActionButton
                          label="Meditate"
-                         benefit={`+${-resources.MEDITATE_STA_COST} STA`}
+                         benefit={`+${-resources.getMeditateStaminaCost(store)} STA`}
                          onClick={this.meditate}
                          paused={paused}
                          cooldown={1000}
@@ -190,13 +190,15 @@ export default class ActionPanel extends React.Component<Props> {
                 nice. */}
                 <div>
                     {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
+                    {model.questStarted(store, "airport-train-station") ?
                     <ActionButton
-                        label="Subway"
+                        label="Train Station"
                         locked={true}
                         paused={paused}
-                        hint="The subway is far. Walk on and you'll find it eventually."
+                        hint="You've got no clue where to take the train."
                         onHint={this.onHint}
                     />
+                    : false}
                 </div>
             </LabeledPanel>
         );
