@@ -86,9 +86,7 @@ export class MultipleChoiceQuestionTemplate {
             .filter(id => {
                 const learnable = lookup.getLearnable(id);
                 if (store.learned.has(id)) {
-                    console.log("AAA");
                     if (this.restrictLearnableTypes.length === 0) {
-                        console.log("BBB");
                         return true;
                     }
                     else {
@@ -110,7 +108,6 @@ export class MultipleChoiceQuestionTemplate {
         console.log(this.restrictLearnableTypes);
         console.log(candidates);
         const correct = candidates[Math.floor(Math.random() * candidates.length)];
-        // const learnable = lookup.getLearnable(`vocab-${correct}-)
 
         return [lookup.generateMultipleChoice(correct), [], []];
     }
