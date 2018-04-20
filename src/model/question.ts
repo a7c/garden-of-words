@@ -14,13 +14,18 @@ export class MultipleChoice extends Question {
     choices: model.Learnable[];
     questionIdx: number;
     answerIdx: number;
+    flavor?: string;
 
     constructor(teaches: model.LearnableId[],
-                choices: model.Learnable[], questionIdx: number, answerIdx: number) {
+                choices: model.Learnable[],
+                questionIdx: number,
+                answerIdx: number,
+                flavor?: string) {
         super(teaches);
         this.choices = choices;
         this.questionIdx = questionIdx;
         this.answerIdx = answerIdx;
+        this.flavor = flavor;
     }
 
     get question() {
@@ -73,11 +78,16 @@ export class MultipleChoiceQuestionTemplate {
     collection: model.CollectionId;
     onlySeen: boolean;
     onlyWithType?: string;
+    flavor?: string;
 
-    constructor(collection: model.CollectionId, onlySeen: boolean, onlyWithType?: string) {
+    constructor(collection: model.CollectionId,
+                onlySeen: boolean,
+                onlyWithType?: string,
+                flavor?: string) {
         this.onlyWithType = onlyWithType;
         this.collection = collection;
         this.onlySeen = onlySeen;
+        this.flavor = flavor;
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
@@ -91,8 +101,6 @@ export class MultipleChoiceQuestionTemplate {
         if (this.onlyWithType) {
             choices = choices.filter((id, _1, _2) => lookup.getLearnable(id).type === this.onlyWithType);
         }
-
-        console.log(choices);
 
         if (choices.length < 4) {
             throw "@MultipleChoiceQuestionTemplate#makeQuestion: not enough choices";
@@ -109,7 +117,8 @@ export class MultipleChoiceQuestionTemplate {
             [ items[correct] ],
             items.map(id => lookup.getLearnable(id)),
             correct,
-            correct
+            correct,
+            this.flavor
         ), [], []];
     }
 }

@@ -43,9 +43,16 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
                     <button className="review" onClick={() => this.reviewWord(idx)}>{c.back}</button>
                 </li>
             ));
+        let text: string;
+        if (q.flavor) {
+            text = q.flavor.replace("%s", q.question.front);
+        }
+        else {
+            text = `Find the matching choice: ${q.question.front}`;
+        }
         return (
             <section className="question">
-                <p>Find the matching choice: {q.question.front}</p>
+                <p> {text} </p>
                 <ul>
                     {choices}
                 </ul>
