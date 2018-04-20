@@ -7,7 +7,7 @@ import "./App.css";
 import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
-import { Question } from "./model/question";
+import { Question, QuestionTemplate, MultipleChoiceQuestionTemplate } from "./model/question";
 import { parseEffect } from "./data/parsers";
 import * as resources from "./data/constants/resources";
 
@@ -99,10 +99,23 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.setState({ questNotification: true });
             }
 
+            if (happening instanceof event.QuestionEvent) {
+                showEvent = false;
+                if (happening.sequence !== null && happening.sequence > 0) {
+                    console.log(happening);
+                    for (let i: number = 0; i < happening.sequence; i++) {
+                        const newQ = happening.clone();
+                        newQ.sequence = null;
+                        queuedEvents.push(newQ);
+                    }
+                }
+            }
+
             if (showEvent) {
                 this.setState({ happening });
             }
             else if (queuedEvents.length > 0) {
+                console.log(queuedEvents);
                 this.setState({
                     happening: queuedEvents[0],
                     eventQueue: queuedEvents.slice(1),

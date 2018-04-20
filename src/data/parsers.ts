@@ -46,7 +46,7 @@ type EventProps =
         question: QuestionTemplateProps | ExactQuestionProps,
         text?: string | null, postText?: string | null,
         correctPostText?: string | null, wrongPostText?: string | null,
-        failureEffects: EffectProps[] };
+        failureEffects: EffectProps[], sequence?: number | null };
 
 export type QuestProps = {
     id: model.QuestId,
@@ -141,6 +141,7 @@ export function parseEvent(json: EventProps): event.Event {
             json.correctPostText || null,
             json.wrongPostText || null,
             json.failureEffects.map(parseEffect),
+            json.sequence || null
         );
     }
     throw new ParseError("Unrecognized event", json);

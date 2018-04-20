@@ -15,15 +15,18 @@ export class MultipleChoice extends Question {
     questionIdx: number;
     answerIdx: number;
     reverse: boolean;
+    sequence: boolean;
 
     constructor(teaches: model.LearnableId[],
                 choices: model.Learnable[], questionIdx: number, answerIdx: number,
-                reverse: boolean) {
+                reverse: boolean = false, sequence: boolean = false) {
         super(teaches);
         this.choices = choices;
         this.questionIdx = questionIdx;
         this.answerIdx = answerIdx;
         this.reverse = reverse;
+        this.sequence = sequence;
+
     }
 
     get question() {
@@ -77,7 +80,8 @@ export class MultipleChoiceQuestionTemplate {
     onlySeen: boolean;
     reverse: boolean;
 
-    constructor(collection: model.CollectionId, onlySeen: boolean, reverse: boolean) {
+    constructor(collection: model.CollectionId, onlySeen: boolean,
+                reverse: boolean = false) {
         this.collection = collection;
         this.onlySeen = onlySeen;
         this.reverse = reverse;
