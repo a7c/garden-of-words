@@ -43,6 +43,11 @@ const imagesOfStructure = {
         require("../assets/structures/checkin-desk1.png"),
         require("../assets/structures/checkin-desk2.png")
     ],
+    "food-court-bakery": [
+        require("../assets/structures/food-court-bakery0.png"),
+        require("../assets/structures/food-court-bakery1.png"),
+        require("../assets/structures/food-court-bakery2.png")
+    ],
     "food-court-ramen": [
         require("../assets/structures/food-court-ramen0.png"),
         require("../assets/structures/food-court-ramen1.png"),
@@ -56,6 +61,9 @@ const imagesOfStructure = {
     // TODO: factor these "scenes" out somewhere different?
     vendclose: [
         require("../assets/scenes/vendclose.png")
+    ],
+    "food-court-ramen-front": [
+        require("../assets/scenes/food-court-ramen-front.png")
     ],
     escalator: [
         require("../assets/structures/escalator0.png"),
