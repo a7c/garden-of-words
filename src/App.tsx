@@ -100,9 +100,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
 
             if (happening instanceof event.QuestionEvent) {
-                showEvent = false;
                 if (happening.sequence !== null && happening.sequence > 0) {
-                    console.log(happening);
+                    showEvent = false;
+
                     for (let i: number = 0; i < happening.sequence; i++) {
                         const newQ = happening.clone();
                         newQ.sequence = null;
