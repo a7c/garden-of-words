@@ -91,8 +91,13 @@ export class MultipleChoiceQuestionTemplate {
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
-        const candidates = store.collections.get(this.collection).toArray()
+        const candidates = lookup.getCollections()[this.collection]
+            .learnables
             .filter(id => {
+                if (this.onlySeen && !store.learned.has(id)) {
+                    return false;
+                }
+
                 const learnable = lookup.getLearnable(id);
                 if (store.learned.has(id)) {
                     if (this.restrictLearnableTypes.length === 0) {
@@ -114,8 +119,6 @@ export class MultipleChoiceQuestionTemplate {
                 }
                 return false;
             });
-        console.log(this.restrictLearnableTypes);
-        console.log(candidates);
 
         const correct = Math.floor(Math.random() * candidates.length);
         return [new MultipleChoice(
