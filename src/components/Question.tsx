@@ -67,10 +67,26 @@ interface TypeInState {
 }
 
 class TypeIn extends React.Component<TypeInProps, TypeInState> {
+    inputEl: HTMLElement | null;
+
     constructor(props: TypeInProps) {
         super(props);
 
         this.state = {input : ""};
+    }
+
+    componentDidMount() {
+        // Janky hack. Focusing it right away (while slide
+        // transition happens) causes Chrome to scroll
+        // the body (WHY CHROME), so wait until it's done.
+        setTimeout(
+            () => {
+                if (this.inputEl) {
+                    this.inputEl.focus();
+                }
+            },
+            500
+        );
     }
 
     _handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -111,7 +127,12 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
             <section className="question question-typein">
                 <form onSubmit={this._handleSubmit}>
                     <p>{this.prompt(q.learnable)}</p>
-                    <input type="text" value={this.state.input} onChange={this._handleChange} />
+                    <input
+                        type="text"
+                        ref={(input) => this.inputEl = input}
+                        value={this.state.input}
+                        onChange={this._handleChange}
+                    />
                     <button type="submit">Submit</button>
                     <button type="button" className="give-up" onClick={this._handleGiveUp}>Give Up</button>
                 </form>
