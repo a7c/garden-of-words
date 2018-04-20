@@ -36,7 +36,7 @@ type FilterProps =
 
 type QuestionTemplateProps =
     { type: "mc", collection: string, onlySeen?: boolean } |
-    { type: "ti-learn-vocab", collection: string, onlySeenKana?: boolean };
+    { type: "ti-learn-vocab", collections: string[], onlySeenKana?: boolean };
 
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
 
@@ -168,7 +168,7 @@ question.QuestionTemplate | question.Question {
         return new question.MultipleChoiceQuestionTemplate(json.collection, json.onlySeen || false);
     }
     else if (json.type === "ti-learn-vocab") {
-        return new question.TypeInLearnVocabTemplate(json.collection, json.onlySeenKana || false);
+        return new question.TypeInLearnVocabTemplate(json.collections, json.onlySeenKana || false);
     }
     else if (json.type === "ti") {
         return new question.TypeIn([ json.id ], lookup.getLearnable(json.id));

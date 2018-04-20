@@ -106,42 +106,46 @@ export class MultipleChoiceQuestionTemplate {
  *  vocab word afterward.
  */
 export class TypeInLearnVocabTemplate {
-    collection: model.CollectionId;
+    collections: model.CollectionId[];
     /** Whether to only display words for which the kana has already been learned */
     onlySeenKana: boolean;
 
-    constructor(collection: model.CollectionId, onlySeenKana: boolean) {
-        this.collection = collection;
+    constructor(collections: model.CollectionId[], onlySeenKana: boolean) {
+        this.collections = collections;
         this.onlySeenKana = onlySeenKana;
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
         const { learned, collections } = store;
 
-        const learnables = lookup.getCollections()[this.collection]
-            .learnables
-            .filter((id: string) => {
-                const learnable = lookup.getLearnable(id);
-                return id.includes("kana-romaji") &&
-                    // Don't choose a word that's already been learned
-                    !learned.has(id) &&
-                    // Don't choose a word they can't type
-                    learnable.back.match(/^[a-zA-Z]+$/) &&
-                    // If onlySeenKana is true, make sure they know at least one of the kana
-                    (!this.onlySeenKana || Array.from(learnable.front).some(k => learned.has(`hira-${k}`)));
-            })
-            .sort((a, b) => {
-                // Sort by # of known kana in word
+        const learnables =
+            this.collections.map((collectionId) => {
+                return lookup.getCollections()[collectionId]
+                    .learnables
+                    .filter((id: string) => {
+                        const learnable = lookup.getLearnable(id);
+                        return id.includes("kana-romaji") &&
+                            // Don't choose a word that's already been learned
+                            !learned.has(id) &&
+                            // Don't choose a word they can't type
+                            learnable.back.match(/^[a-zA-Z]+$/) &&
+                            // If onlySeenKana is true, make sure they know at least one of the kana
+                            (!this.onlySeenKana || Array.from(learnable.front).some(k => learned.has(`hira-${k}`)));
+                    });
+            }).reduce((acc, val) => acc.concat(val), [] // flatten
+            ).sort((a, b) => {
+                // Sort by # of unknown kana in word
                 const learnable1 = lookup.getLearnable(a);
                 const learnable2 = lookup.getLearnable(b);
 
-                const knownKana1 = Array.from(learnable1.front).filter(k => learned.has(`hira-${k}`)).length;
-                const knownKana2 = Array.from(learnable2.front).filter(k => learned.has(`hira-${k}`)).length;
+                const knownKana1 = Array.from(learnable1.front).filter(k => !learned.has(`hira-${k}`)).length;
+                const knownKana2 = Array.from(learnable2.front).filter(k => !learned.has(`hira-${k}`)).length;
 
-                return knownKana2 - knownKana1;
+                return knownKana1 - knownKana2;
             });
         for (const wordId of learnables) {
             const learnable = lookup.getLearnable(wordId);
+            console.log(Array.from(learnable.front).filter(k => learned.has(`hira-${k}`)).length);
 
             // If desired, don't choose a word that the player hasn't learned the kana for
             const kanaReading = learnable.front;
