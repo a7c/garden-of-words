@@ -2,6 +2,7 @@
     "airport-food-court": {
         "name": "the airport food court",
         "label": "Narita Airport Food Court",
+        "area": "Food Court",
         "wanderlust": true,
         "connected": ["airport-gate", "airport-food-court-ramen"],
         "pois": [],
@@ -15,6 +16,7 @@
     "airport-food-court-ramen": {
         "name": "a counter selling ramen",
         "label": "Ramen-ya",
+        "area": "Ramen-ya",
         "wanderlust": false,
         "connected": ["airport-food-court"],
         "pois": [
@@ -55,6 +57,7 @@
         "name": "the gate you just arrived at",
         "wanderName": "the airport gate area",
         "label": "Back to Gate",
+        "area": "Arrival Gate",
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
         "pois": [],
@@ -85,6 +88,7 @@
     "airport-gate-vending-machine": {
         "name": "a vending machine",
         "label": "Vending Machine",
+        "area": "Vending Machine",
         "wanderlust": false,
         "connected": ["airport-gate"],
         "pois": [
