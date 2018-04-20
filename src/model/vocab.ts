@@ -19,12 +19,20 @@ export interface VocabEntry {
 export function makeLearnables(entry: VocabEntry): model.Learnable[] {
     const result: model.Learnable[] = [
         {
+            type: "vocab-parent",
+            id: `${entry.id}`,
+            collection: "",
+            front: entry.readings[0],
+            back: entry.meanings[0],
+            parentId: null,
+        },
+        {
             type: "vocab-kana-meaning",
             id: `${entry.id}-kana-meaning`,
             collection: entry.collection,
             front: entry.readings[0],
             back: entry.meanings[0],
-            parentId: null,
+            parentId: entry.id,
         },
         {
             type: "vocab-kana-meaning-reverse",

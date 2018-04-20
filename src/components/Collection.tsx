@@ -119,12 +119,14 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 }
                 score = 100 * (1 - score);
 
-                const front = lookup.getLearnable(id).front;
-                const back = lookup.getLearnable(id).back;
-                if (this.props.searchTerm !== null &&
-                    front.indexOf(this.props.searchTerm) === -1 &&
-                    back.indexOf(this.props.searchTerm) === -1) {
+                if (this.props.searchTerm !== null) {
+                    if (!record.items.some((item) => {
+                        const learnable = lookup.getLearnable(item.id);
+                        return learnable.front.indexOf(this.props.searchTerm!) >= 0 ||
+                               learnable.back.indexOf(this.props.searchTerm!) >= 0;
+                    })) {
                         return null;
+                    }
                 }
 
                 return (
