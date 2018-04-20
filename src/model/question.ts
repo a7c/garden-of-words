@@ -79,7 +79,14 @@ export class MultipleChoiceQuestionTemplate {
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
-        const choices = store.collections.get(this.collection).toArray();
+        let choices: string[];
+        if (this.onlySeen) {
+            choices = store.collections.get(this.collection).toArray();
+        }
+        else {
+            choices = lookup.getCollection(this.collection).learnables;
+        }
+
         // TODO: support onlySeen = false
         if (choices.length < 4) {
             throw "@MultipleChoiceQuestionTemplate#makeQuestion: not enough choices";
