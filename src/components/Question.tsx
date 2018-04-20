@@ -37,15 +37,19 @@ class MultipleChoice extends React.Component<MultipleChoiceProps> {
 
     render() {
         const q = this.props.question;
+
+        const questionCode = q.reverse ? "front" : "back";
+        const answerCode = q.reverse ? "back" : "front";
+
         const choices = q.choices.map((c, idx) =>
             (
                 <li className="review-item" key={idx}>
-                    <button className="review" onClick={() => this.reviewWord(idx)}>{c.back}</button>
+                    <button className="review" onClick={() => this.reviewWord(idx)}>{c[questionCode]}</button>
                 </li>
             ));
         return (
             <section className="question">
-                <p>Find the matching choice: {q.question.front}</p>
+                <p>Find the matching choice: {q.question[answerCode]}</p>
                 <ul>
                     {choices}
                 </ul>

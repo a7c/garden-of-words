@@ -110,7 +110,7 @@ export function generateMultipleChoice(_word: model.Learnable | model.LearnableI
     const correctIdx = Math.floor(Math.random() * (options.length + 1));
     options.splice(correctIdx, 0, word);
 
-    return new question.MultipleChoice([word.id], options, correctIdx, correctIdx);
+    return new question.MultipleChoice([word.id], options, correctIdx, correctIdx, false);
 }
 
 export function generateTypeIn(word: model.Learnable) {

@@ -14,13 +14,16 @@ export class MultipleChoice extends Question {
     choices: model.Learnable[];
     questionIdx: number;
     answerIdx: number;
+    reverse: boolean;
 
     constructor(teaches: model.LearnableId[],
-                choices: model.Learnable[], questionIdx: number, answerIdx: number) {
+                choices: model.Learnable[], questionIdx: number, answerIdx: number,
+                reverse: boolean) {
         super(teaches);
         this.choices = choices;
         this.questionIdx = questionIdx;
         this.answerIdx = answerIdx;
+        this.reverse = reverse;
     }
 
     get question() {
@@ -72,10 +75,12 @@ export abstract class QuestionTemplate {
 export class MultipleChoiceQuestionTemplate {
     collection: model.CollectionId;
     onlySeen: boolean;
+    reverse: boolean;
 
-    constructor(collection: model.CollectionId, onlySeen: boolean) {
+    constructor(collection: model.CollectionId, onlySeen: boolean, reverse: boolean) {
         this.collection = collection;
         this.onlySeen = onlySeen;
+        this.reverse = reverse;
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
@@ -96,8 +101,8 @@ export class MultipleChoiceQuestionTemplate {
             [ items[correct] ],
             items.map(id => lookup.getLearnable(id)),
             correct,
-            correct
-        ), [], []];
+            correct,
+            this.reverse), [], []];
     }
 }
 
