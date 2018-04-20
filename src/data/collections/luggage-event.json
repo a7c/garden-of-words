@@ -1,20 +1,24 @@
 [
     {
-        "type": "flavor",
-        "text": "A tourist asks for help hauling some luggage to their taxi.",
-        "filters": [
-            {
-                "type": "flag",
-                "flag": "has-luggage-job",
-                "value": true
-            }
-        ],
+        "type": "question",
+        "text": "Someone asks for help picking up his bag from the baggage claim.",
+        "correctPostText": "You got the right bag. They hand you 75円.",
+        "wrongPostText": "You got someone else's bag instead! They start yelling at you in Japanese and you get flustered.",
+        "filters": [],
         "effects": [
             {
                 "type": "resource",
                 "resource": "yen",
-                "value": 80
+                "value": 75
             }
-        ]
+        ],
+        "question": {
+            "type": "mc",
+            "collection": "vocab-basic-colors",
+            "onlyWithType": "vocab",
+            "flavor": "They tell you %s. Which color bag do you pick?",
+            "onlySeen": false
+        },
+        "failureEffects": []
     }
 ]
