@@ -9,6 +9,7 @@ import "./Question.css";
 
 import Dialog from "./Dialog";
 import Fade from "./Fade";
+import OnlyOnce from "./OnlyOnce";
 
 interface QuestionProps {
     question: question.Question;
@@ -23,16 +24,18 @@ interface QuestionState {
     status: "right" | "wrong" | "answering";
 }
 
-class MultipleChoice extends React.Component<MultipleChoiceProps> {
+class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
     constructor(props: MultipleChoiceProps) {
         super(props);
     }
 
     reviewWord = (idx: number) => {
-        const q = this.props.question;
-        for (const learnable of q.teaches) {
-            this.props.onReview(learnable, q.correct(idx));
-        }
+        this.once(() => {
+            const q = this.props.question;
+            for (const learnable of q.teaches) {
+                this.props.onReview(learnable, q.correct(idx));
+            }
+        });
     }
 
     render() {
@@ -66,7 +69,7 @@ interface TypeInState {
     input: string;
 }
 
-class TypeIn extends React.Component<TypeInProps, TypeInState> {
+class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
     inputEl: HTMLElement | null;
 
     constructor(props: TypeInProps) {
@@ -95,12 +98,14 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
 
     _handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const q = this.props.question;
-        const input = this.state.input.trim();
+        this.once(() => {
+            const q = this.props.question;
+            const input = this.state.input.trim();
 
-        for (const learnable of q.teaches) {
-            this.props.onReview(learnable, q.correct(input));
-        }
+            for (const learnable of q.teaches) {
+                this.props.onReview(learnable, q.correct(input));
+            }
+        });
     }
 
     _handleGiveUp = () => {
