@@ -9,7 +9,7 @@ export const LUGGAGE_UNLOCK_STAMINA = 11;
 export function getMeditateStaminaCost (store: model.Store): number {
     const maxStamina = store.get("resources").get(STAMINA).maxValue;
     if (maxStamina !== null) {
-        return -maxStamina / 2 + 5;
+        return -maxStamina / 2 - 5;
     }
     // shouldn't happen -- there should be a cap on max stamina
     else {
