@@ -34,7 +34,7 @@ type FilterProps =
     { type: "structure-nearby", structure: string, distance?: number, exact?: boolean };
 
 type QuestionTemplateProps =
-    { type: "mc", collection: string, onlySeen?: boolean } |
+    { type: "mc", collection: string, onlyWithType?: string, onlySeen?: boolean } |
     { type: "ti-learn-vocab", collection: string, onlySeenKana?: boolean };
 
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
@@ -161,7 +161,7 @@ export function parseQuest(json: QuestProps): quest.Quest {
 export function parseQuestionTemplate(json: QuestionTemplateProps | ExactQuestionProps):
 question.QuestionTemplate | question.Question {
     if (json.type === "mc") {
-        return new question.MultipleChoiceQuestionTemplate(json.collection, json.onlySeen || false);
+        return new question.MultipleChoiceQuestionTemplate(json.collection, json.onlySeen || false, json.onlyWithType);
     }
     else if (json.type === "ti-learn-vocab") {
         return new question.TypeInLearnVocabTemplate(json.collection, json.onlySeenKana || false);

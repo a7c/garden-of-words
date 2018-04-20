@@ -72,8 +72,10 @@ export abstract class QuestionTemplate {
 export class MultipleChoiceQuestionTemplate {
     collection: model.CollectionId;
     onlySeen: boolean;
+    onlyWithType?: string;
 
-    constructor(collection: model.CollectionId, onlySeen: boolean) {
+    constructor(collection: model.CollectionId, onlySeen: boolean, onlyWithType?: string) {
+        this.onlyWithType = onlyWithType;
         this.collection = collection;
         this.onlySeen = onlySeen;
     }
@@ -86,8 +88,12 @@ export class MultipleChoiceQuestionTemplate {
         else {
             choices = lookup.getCollection(this.collection).learnables;
         }
+        if (this.onlyWithType) {
+            choices = choices.filter((id, _1, _2) => lookup.getLearnable(id).type === this.onlyWithType);
+        }
 
-        // TODO: support onlySeen = false
+        console.log(choices);
+
         if (choices.length < 4) {
             throw "@MultipleChoiceQuestionTemplate#makeQuestion: not enough choices";
         }
