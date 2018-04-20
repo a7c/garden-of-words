@@ -14,13 +14,19 @@ export class MultipleChoice extends Question {
     choices: model.Learnable[];
     questionIdx: number;
     answerIdx: number;
+    reverse: boolean;
+    sequence: boolean;
 
     constructor(teaches: model.LearnableId[],
-                choices: model.Learnable[], questionIdx: number, answerIdx: number) {
+                choices: model.Learnable[], questionIdx: number, answerIdx: number,
+                reverse: boolean = false, sequence: boolean = false) {
         super(teaches);
         this.choices = choices;
         this.questionIdx = questionIdx;
         this.answerIdx = answerIdx;
+        this.reverse = reverse;
+        this.sequence = sequence;
+
     }
 
     get question() {
@@ -74,11 +80,14 @@ export class MultipleChoiceQuestionTemplate {
     /** What types of learnables to choose from within the collection(s) */
     restrictLearnableTypes: string[];
     onlySeen: boolean;
+    reverse: boolean;
 
-    constructor(collection: model.CollectionId, restrictLearnableTypes: string[], onlySeen: boolean) {
+    constructor(collection: model.CollectionId, restrictLearnableTypes: string[],
+                onlySeen: boolean, reverse: boolean = false) {
         this.collection = collection;
         this.restrictLearnableTypes = restrictLearnableTypes;
         this.onlySeen = onlySeen;
+        this.reverse = reverse;
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
@@ -107,9 +116,14 @@ export class MultipleChoiceQuestionTemplate {
             });
         console.log(this.restrictLearnableTypes);
         console.log(candidates);
-        const correct = candidates[Math.floor(Math.random() * candidates.length)];
 
-        return [lookup.generateMultipleChoice(correct), [], []];
+        const correct = Math.floor(Math.random() * candidates.length);
+        return [new MultipleChoice(
+            [ candidates[correct] ],
+            candidates.map(id => lookup.getLearnable(id)),
+            correct,
+            correct,
+            this.reverse), [], []];
     }
 }
 

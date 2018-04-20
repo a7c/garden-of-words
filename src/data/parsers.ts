@@ -35,7 +35,7 @@ type FilterProps =
     { type: "structure-nearby", structure: string, distance?: number, exact?: boolean };
 
 type QuestionTemplateProps =
-    { type: "mc", collection: string, restrictLearnableTypes: string[], onlySeen?: boolean } |
+    { type: "mc", collection: string, restrictLearnableTypes: string[], onlySeen?: boolean, reverse?: boolean } |
     { type: "ti-learn-vocab", collections: string[], onlySeenKana?: boolean };
 
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
@@ -47,7 +47,7 @@ type EventProps =
         question: QuestionTemplateProps | ExactQuestionProps,
         text?: string | null, postText?: string | null,
         correctPostText?: string | null, wrongPostText?: string | null,
-        failureEffects: EffectProps[] };
+        failureEffects: EffectProps[], sequence?: number | null };
 
 export type QuestProps = {
     id: model.QuestId,
@@ -145,6 +145,7 @@ export function parseEvent(json: EventProps): event.Event {
             json.correctPostText || null,
             json.wrongPostText || null,
             json.failureEffects.map(parseEffect),
+            json.sequence || null
         );
     }
     throw new ParseError("Unrecognized event", json);
@@ -168,7 +169,9 @@ question.QuestionTemplate | question.Question {
         return new question.MultipleChoiceQuestionTemplate(
             json.collection,
             json.restrictLearnableTypes || [],
-            json.onlySeen || false);
+            json.onlySeen || false,
+            json.reverse || false
+        );
     }
     else if (json.type === "ti-learn-vocab") {
         return new question.TypeInLearnVocabTemplate(

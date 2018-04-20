@@ -1,0 +1,18 @@
+[
+    {
+        "type": "question",
+        "text": "You listen carefully to the news, and hear a familiar sound.",
+        "correctPostText": "You continue listening...",
+        "wrongPostText": "You lose the thread of their conversation...",
+        "filters": [],
+        "question": {
+            "type": "mc",
+            "collection": "hira-basic",
+            "onlySeen": true,
+            "reverse": true
+        },
+        "sequence": 3,
+        "effects": [],
+        "failureEffects": []
+    }
+]

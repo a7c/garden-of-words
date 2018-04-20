@@ -481,6 +481,7 @@ export class QuestionEvent extends Event {
     postFlavor: string | null;
     correctPostFlavor: string | null;
     wrongPostFlavor: string | null;
+    sequence: number | null;
 
     constructor(filters: Filter[],
                 effects: Effect[],
@@ -489,7 +490,8 @@ export class QuestionEvent extends Event {
                 postFlavor: string | null,
                 correctPostFlavor: string | null,
                 wrongPostFlavor: string | null,
-                failureEffects: Effect[]) {
+                failureEffects: Effect[],
+                sequence: number | null = null) {
         super(filters, effects);
         this.question = q;
         this.flavor = flavor;
@@ -497,6 +499,7 @@ export class QuestionEvent extends Event {
         this.correctPostFlavor = correctPostFlavor;
         this.wrongPostFlavor = wrongPostFlavor;
         this.failureEffects = failureEffects;
+        this.sequence = sequence;
     }
 
     toEventLog() {
@@ -526,7 +529,8 @@ export class QuestionEvent extends Event {
                                  this.postFlavor,
                                  this.correctPostFlavor,
                                  this.wrongPostFlavor,
-                                 this.failureEffects.slice());
+                                 this.failureEffects.slice(),
+                                 this.sequence);
     }
 }
 
