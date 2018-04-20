@@ -26,6 +26,14 @@ export function makeLearnables(entry: VocabEntry): model.Learnable[] {
             back: entry.meanings[0],
             parentId: null,
         },
+        {
+            type: "vocab-reverse",
+            id: `${entry.id}-reverse`,
+            collection: "",
+            front: entry.meanings[0],
+            back: entry.readings[0],
+            parentId: null,
+        }
     ];
 
     for (let i = 0; i < entry.readings.length; i++) {
