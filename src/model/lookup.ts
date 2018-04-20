@@ -80,10 +80,13 @@ export function getNextLearnable(store: model.Store): model.LearnableId | null {
 }
 
 export function generateMultipleChoice(_word: model.Learnable | model.LearnableId) {
+    console.log(_word);
     const word = typeof _word === "string" ? getLearnable(_word) : _word as model.Learnable;
 
     // build a list of 3 wrong answers and the right answer
     const options: model.Learnable[] = [];
+
+    console.log(word);
 
     const keyList: model.LearnableId[] =
         collectionList[word.collection].learnables
@@ -96,6 +99,8 @@ export function generateMultipleChoice(_word: model.Learnable | model.LearnableI
             return word.type === learnable.type &&
                 word.id.endsWith("-reverse") === learnable.id.endsWith("-reverse");
         });
+
+    console.log(keyList);
 
     keyList.splice(keyList.indexOf(word.id), 1);
 
@@ -115,6 +120,7 @@ export function generateMultipleChoice(_word: model.Learnable | model.LearnableI
 }
 
 export function generateTypeIn(word: model.Learnable) {
+    console.log(word);
     return new question.TypeIn([ word.id ], word);
 }
 

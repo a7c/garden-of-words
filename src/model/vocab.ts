@@ -19,12 +19,20 @@ export interface VocabEntry {
 export function makeLearnables(entry: VocabEntry): model.Learnable[] {
     const result: model.Learnable[] = [
         {
-            type: "vocab",
-            id: entry.id,
-            collection: "",
+            type: "vocab-kana-meaning",
+            id: `${entry.id}-kana-meaning`,
+            collection: entry.collection,
             front: entry.readings[0],
             back: entry.meanings[0],
             parentId: null,
+        },
+        {
+            type: "vocab-kana-meaning-reverse",
+            id: `${entry.id}-kana-meaning-reverse`,
+            collection: entry.collection,
+            front: entry.meanings[0],
+            back: entry.readings[0],
+            parentId: entry.id,
         },
     ];
 
@@ -48,25 +56,3 @@ export function makeLearnables(entry: VocabEntry): model.Learnable[] {
 
     return result;
 }
-
-// export class VocabEntry extends VocabEntryRecord {
-//     constructor(props: VocabEntryProps) {
-//         super(props);
-//     }
-
-//     toRomaji = (index: number = 0) => {
-//         return this.romaji[index];
-//         // return wanakana.toRomaji(this.readings[index]) as string;
-//     }
-
-//     toKanaRomajiLearnable = () => {
-//         return {
-//             type: "vocab-kana-romaji",
-//             id: this.id,
-//             subId: "kana-romaji",
-//             collection: this.collection,
-//             front: this.readings[0],
-//             back: this.toRomaji()
-//         } as model.Learnable;
-//     }
-// }

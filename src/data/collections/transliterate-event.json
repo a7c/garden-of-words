@@ -2,7 +2,7 @@
     {
         "type": "question",
         "text": "A tourist asks you for help reading a sign.",
-        "correctPostText": "They thank you and give you 50円.",
+        "correctPostText": "They thank you and give some money for your help.",
         "wrongPostText": "They look disappointed and walk away.",
         "filters": [
             {

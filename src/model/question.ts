@@ -71,33 +71,48 @@ export abstract class QuestionTemplate {
 
 export class MultipleChoiceQuestionTemplate {
     collection: model.CollectionId;
+    /** What types of learnables to choose from within the collection(s) */
+    restrictLearnableTypes: string[];
     onlySeen: boolean;
 
-    constructor(collection: model.CollectionId, onlySeen: boolean) {
+    constructor(collection: model.CollectionId, restrictLearnableTypes: string[], onlySeen: boolean) {
         this.collection = collection;
+        this.restrictLearnableTypes = restrictLearnableTypes;
         this.onlySeen = onlySeen;
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
-        const choices = store.collections.get(this.collection).toArray();
-        // TODO: support onlySeen = false
-        if (choices.length < 4) {
-            throw "@MultipleChoiceQuestionTemplate#makeQuestion: not enough choices";
-        }
+        const candidates = store.collections.get(this.collection).toArray()
+            .filter(id => {
+                const learnable = lookup.getLearnable(id);
+                if (store.learned.has(id)) {
+                    console.log("AAA");
+                    if (this.restrictLearnableTypes.length === 0) {
+                        console.log("BBB");
+                        return true;
+                    }
+                    else {
+                        for (const substr of this.restrictLearnableTypes) {
+                            if (learnable.type.includes(substr)) {
+                                return (
+                                    substr.includes("reverse") ||
+                                    // if "reverse" not specified, don't let learnable types with "reverse"
+                                    // in them count
+                                    !learnable.type.includes("reverse")
+                                );
+                            }
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            });
+        console.log(this.restrictLearnableTypes);
+        console.log(candidates);
+        const correct = candidates[Math.floor(Math.random() * candidates.length)];
+        // const learnable = lookup.getLearnable(`vocab-${correct}-)
 
-        const items = [];
-        for (let i = 0; i < 4; i++) {
-            const idx = Math.floor(Math.random() * choices.length);
-            items.push(choices.splice(idx, 1)[0]);
-        }
-
-        const correct = Math.floor(Math.random() * items.length);
-        return [new MultipleChoice(
-            [ items[correct] ],
-            items.map(id => lookup.getLearnable(id)),
-            correct,
-            correct
-        ), [], []];
+        return [lookup.generateMultipleChoice(correct), [], []];
     }
 }
 
@@ -156,7 +171,8 @@ export class TypeInLearnVocabTemplate {
             ];
 
             if (learnable.parentId) {
-                effects.push(new event.LearnEffect(learnable.parentId));
+                effects.push(new event.LearnEffect(learnable.parentId + "-kana-meaning"));
+                effects.push(new event.LearnEffect(learnable.parentId + "-kana-meaning-reverse", ""));
             }
 
             // TODO: what if this.onlySeenKana is false

@@ -15,7 +15,7 @@ import "./index.css";
 const store = createStore<model.Store>(
     reducers.reducer,
     /* Comment/uncomment the line below to toggle logging */
-    // applyMiddleware(logger)
+    applyMiddleware(logger)
 );
 
 // Dispatch any actions needed for initialization

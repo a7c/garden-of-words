@@ -1,7 +1,9 @@
 [
     {
-        "type": "flavor",
-        "text": "A tourist asks for help hauling some luggage to their taxi.",
+        "type": "question",
+        "text": "A Japanese person asks you for help taking their luggage down from the baggage claim carousel. They tell you the color of their bag in Japanese. Which color bag will you take from the carousel?",
+        "correctPostText": "You grab their luggage from the carousel. They thank you and give some money for your help.",
+        "wrongPostText": "You grab a piece of luggage from the carousel. Unfortunately, it seems like it wasn't theirs. Disappointed, they walk away.",
         "filters": [
             {
                 "type": "flag",
@@ -9,12 +11,21 @@
                 "value": true
             }
         ],
+        "question": {
+            "type": "mc",
+            "collection": "vocab-basic-colors",
+            "restrictLearnableTypes": [
+                "kana-meaning"
+            ],
+            "onlySeenKana": true
+        },
         "effects": [
             {
                 "type": "resource",
                 "resource": "yen",
-                "value": 80
+                "value": 120
             }
-        ]
+        ],
+        "failureEffects": []
     }
 ]

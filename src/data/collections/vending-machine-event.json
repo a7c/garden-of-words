@@ -35,7 +35,7 @@
     },
     {
         "type": "flavor",
-        "text": "You don't feel a need to buy anything else.",
+        "text": "You don't have enough money to buy anything else.",
         "filters": [
             {
                 "type": "quest",
