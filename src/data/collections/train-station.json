@@ -1,7 +1,9 @@
 [
     {
         "type": "quest",
-        "text": "You notice a ticket booth in the train station.",
+        "quest": "airport-train-station",
+        "stage": "found-ticket-booth",
+        "journal": "You notice a ticket booth in the train station.",
         "filters": [],
         "effects": [
             {
