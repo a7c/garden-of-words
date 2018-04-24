@@ -1,0 +1,13 @@
+[
+    {
+        "type": "quest",
+        "text": "You notice a ticket booth in the train station.",
+        "filters": [],
+        "effects": [
+            {
+                "type": "discover",
+                "location": "airport-train-station-ticket-booth"
+            }
+        ]
+    }
+]    

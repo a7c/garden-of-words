@@ -74,9 +74,9 @@ export default class ActionPanel extends React.Component<Props> {
         ));
     }
 
-    watchNews = () => {
-        this.wanderHelper(0, "watch-news");
-    }
+    watchNews = () => this.wanderHelper(0, "watch-news");
+
+    // buyTicket = () => console.log("Not yet implemented");
 
     formatCost(costInfo: [ model.Resource, number ] | undefined) {
         if (!costInfo) {
@@ -197,16 +197,13 @@ export default class ActionPanel extends React.Component<Props> {
                         onHint={this.onHint}
                     />
                     : false}
-                    {location.current === "airport-gate" ?
+                    {location.current === "airport-train-station" ?
                     <ActionButton
                         label="Watch the news"
                         benefit={`+KANA`}
                         onClick={this.watchNews}
-                        // locked={stamina < resources.LUGGAGE_STA_COST}
                         paused={paused}
                         cooldown={2000}
-                        // hint="Grabbing a drink from the vending machine might get your stamina up."
-                        // onHint={this.onHint}
                     />
                     : false}
                 </div>

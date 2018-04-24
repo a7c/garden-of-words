@@ -108,8 +108,20 @@
         "label": "Train Station",
         "area": "Train Station",
         "wanderlust": true,
-        "connected": ["airport-gate"],
+        "connected": ["airport-gate", "airport-train-station-ticket-booth"],
         "pois": [],
+        "structures": [
+            "vendclose"   
+        ]
+    },
+    "airport-train-station-ticket-booth": {
+        "name": "the train ticket booth",
+        "label": "Ticket Booth",
+        "area": "Ticket Booth",
+        "wanderlust": false,
+        "connected": ["airport-train-station"],
+        "pois": [            
+        ],
         "structures": [
             "vendclose"   
         ]
