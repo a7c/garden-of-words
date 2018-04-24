@@ -6,78 +6,67 @@
             "id": "vocab-赤い",
             "kanji": ["赤い"],
             "readings": ["あかい"],
-            "meanings": ["red"],
-            "romaji": ["akai"]
+            "meanings": ["red"]
         },
         {
             "id": "vocab-青い",
             "kanji": ["青い"],
             "readings": ["あおい"],
-            "meanings": ["blue"],
-            "romaji": ["aoi"]
+            "meanings": ["blue"]
         },
         {
             "id": "vocab-黄色い",
             "kanji": ["黄色い"],
             "readings": ["きいろい"],
-            "meanings": ["yellow"],
-            "romaji": ["kiiroi"]
+            "meanings": ["yellow"]
         },
         {
             "id": "vocab-緑",
             "kanji": ["緑"],
             "readings": ["みどり"],
-            "meanings": ["green"],
-            "romaji": ["midori"]
+            "meanings": ["green"]
         },
         {
             "id": "vocab-オレンジ",
             "kanji": ["オレンジ"],
             "readings": ["オレンジ"],
-            "meanings": ["orange"],
-            "romaji": ["orenji"]
+            "meanings": ["orange"]
         },
         {
             "id": "vocab-紫",
             "kanji": ["紫"],
             "readings": ["むらさき"],
-            "meanings": ["purple"],
-            "romaji": ["murasaki"]
+            "meanings": ["purple"]
         },
         {
             "id": "vocab-黒い",
             "kanji": ["黒い"],
             "readings": ["くろい"],
-            "meanings": ["black"],
-            "romaji": ["kuroi"]
+            "meanings": ["black"]
         },
         {
             "id": "vocab-白い",
             "kanji": ["白い"],
             "readings": ["しろい"],
-            "meanings": ["white"],
-            "romaji": ["shiroi"]
+            "meanings": ["white"]
         },
         {
             "id": "vocab-灰色",
             "kanji": ["灰色"],
             "readings": ["はいいろ"],
-            "meanings": ["gray"],
-            "romaji": ["haiiro"]
+            "meanings": ["gray"]
         },
         {
             "id": "vocab-ピンク",
             "kanji": ["ピンク"],
             "readings": ["ピンク"],
-            "meanings": ["pink"],
-            "romaji": ["pinku"]
+            "meanings": ["pink"]
         },
         {
             "id": "vocab-茶色",
             "kanji": ["茶色"],
             "readings": ["ちゃいろ"],
-            "meanings": ["brown"],
-            "romaji": ["chairo"]
+            "meanings": ["brown"]
         }
     ]
 }

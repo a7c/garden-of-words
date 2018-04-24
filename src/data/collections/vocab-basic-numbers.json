@@ -6,71 +6,61 @@
             "id": "vocab-一",
             "kanji": ["一"],
             "readings": ["いち"],
-            "meanings": ["one"],
-            "romaji": ["ichi"]
+            "meanings": ["one"]
         },
         {
             "id": "vocab-二",
             "kanji": ["二"],
             "readings": ["に"],
-            "meanings": ["two"],
-            "romaji": ["ni"]
+            "meanings": ["two"]
         },
         {
             "id": "vocab-三",
             "kanji": ["三"],
             "readings": ["さん"],
-            "meanings": ["three"],
-            "romaji": ["san"]
+            "meanings": ["three"]
         },
         {
             "id": "vocab-四",
             "kanji": ["四"],
             "readings": ["よん", "し"],
-            "meanings": ["four"],
-            "romaji": ["yon", "shi"]
+            "meanings": ["four"]
         },
         {
             "id": "vocab-五",
             "kanji": ["五"],
             "readings": ["ご"],
-            "meanings": ["five"],
-            "romaji": ["go"]
+            "meanings": ["five"]
         },
         {
             "id": "vocab-六",
             "kanji": ["六"],
             "readings": ["ろく"],
-            "meanings": ["six"],
-            "romaji": ["roku"]
+            "meanings": ["six"]
         },
         {
             "id": "vocab-七",
             "kanji": ["七"],
             "readings": ["しち", "なな"],
-            "meanings": ["seven"],
-            "romaji": ["shichi", "nana"]
+            "meanings": ["seven"]
         },
         {
             "id": "vocab-八",
             "kanji": ["八"],
             "readings": ["はち"],
-            "meanings": ["eight"],
-            "romaji": ["hachi"]
+            "meanings": ["eight"]
         },
         {
             "id": "vocab-九",
             "kanji": ["九"],
             "readings": ["きゅう"],
-            "meanings": ["nine"],
-            "romaji": ["kyuu"]
+            "meanings": ["nine"]
         },
         {
             "id": "vocab-十",
             "kanji": ["十"],
             "readings": ["じゅう"],
-            "meanings": ["ten"],
-            "romaji": ["juu"]
+            "meanings": ["ten"]
         }
     ]
 }
