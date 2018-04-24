@@ -10,6 +10,7 @@ import * as model from "./model/model";
 import { Question, QuestionTemplate, MultipleChoiceQuestionTemplate } from "./model/question";
 import { parseEffect } from "./data/parsers";
 import * as resources from "./model/resources";
+import * as locations from "./data/locations";
 
 import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
@@ -103,9 +104,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 if (happening.sequence !== null && happening.sequence > 0) {
                     showEvent = false;
 
-                    for (let i: number = 0; i < happening.sequence; i++) {
+                    for (let i = 0; i < happening.sequence; i++) {
                         const newQ = happening.clone();
-                        newQ.sequence = null;
+                        // Preserve sequence number so that we can use
+                        // it as a key to a React component; this lets
+                        // us force remounting so that separate questions
+                        // don't appear to share state
+                        newQ.sequence = i;
                         queuedEvents.push(newQ);
                     }
                 }
@@ -176,7 +181,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     render() {
         const { store, onReview, onLearn } = this.props;
-        const { learned, flags, collections, steps } = store;
+        const { learned, flags, collections, steps, location } = store;
+
+        const locationData = locations.getLocation(location.current);
 
         return (
             <main>
@@ -198,7 +205,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     <NavTab
                         labels={[
                             {
-                                label: "The Street",
+                                label: locationData.area || "The Street",
                                 enabled: true,
                                 hint: "",
                                 onHint: this.onNavTabHint,

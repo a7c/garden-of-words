@@ -9,6 +9,7 @@ import "./Question.css";
 
 import Dialog from "./Dialog";
 import Fade from "./Fade";
+import OnlyOnce from "./OnlyOnce";
 
 interface QuestionProps {
     question: question.Question;
@@ -23,16 +24,18 @@ interface QuestionState {
     status: "right" | "wrong" | "answering";
 }
 
-class MultipleChoice extends React.Component<MultipleChoiceProps> {
+class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
     constructor(props: MultipleChoiceProps) {
         super(props);
     }
 
     reviewWord = (idx: number) => {
-        const q = this.props.question;
-        for (const learnable of q.teaches) {
-            this.props.onReview(learnable, q.correct(idx));
-        }
+        this.once(() => {
+            const q = this.props.question;
+            for (const learnable of q.teaches) {
+                this.props.onReview(learnable, q.correct(idx));
+            }
+        });
     }
 
     render() {
@@ -66,11 +69,27 @@ interface TypeInState {
     input: string;
 }
 
-class TypeIn extends React.Component<TypeInProps, TypeInState> {
+class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
+    inputEl: HTMLElement | null;
+
     constructor(props: TypeInProps) {
         super(props);
 
         this.state = {input : ""};
+    }
+
+    componentDidMount() {
+        // Janky hack. Focusing it right away (while slide
+        // transition happens) causes Chrome to scroll
+        // the body (WHY CHROME), so wait until it's done.
+        setTimeout(
+            () => {
+                if (this.inputEl) {
+                    this.inputEl.focus();
+                }
+            },
+            500
+        );
     }
 
     _handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -79,12 +98,14 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
 
     _handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const q = this.props.question;
-        const input = this.state.input.trim();
+        this.once(() => {
+            const q = this.props.question;
+            const input = this.state.input.trim();
 
-        for (const learnable of q.teaches) {
-            this.props.onReview(learnable, q.correct(input));
-        }
+            for (const learnable of q.teaches) {
+                this.props.onReview(learnable, q.correct(input));
+            }
+        });
     }
 
     _handleGiveUp = () => {
@@ -111,7 +132,12 @@ class TypeIn extends React.Component<TypeInProps, TypeInState> {
             <section className="question question-typein">
                 <form onSubmit={this._handleSubmit}>
                     <p>{this.prompt(q.learnable)}</p>
-                    <input type="text" value={this.state.input} onChange={this._handleChange} />
+                    <input
+                        type="text"
+                        ref={(input) => this.inputEl = input}
+                        value={this.state.input}
+                        onChange={this._handleChange}
+                    />
                     <button type="submit">Submit</button>
                     <button type="button" className="give-up" onClick={this._handleGiveUp}>Give Up</button>
                 </form>
