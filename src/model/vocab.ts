@@ -1,6 +1,5 @@
 import * as immutable from "immutable";
-// TODO: make type declarations for this library
-// import * as wanakana from "wanakana";
+import * as wanakana from "wanakana";
 
 import * as model from "./model";
 
@@ -12,8 +11,6 @@ export interface VocabEntry {
     /** How to pronounce the word (in kana) */
     readings: string[];
     meanings: string[];
-    /** TODO: remove this once wanakana works */
-    romaji: string[];
 }
 
 export function makeLearnables(entry: VocabEntry): model.Learnable[] {
@@ -50,7 +47,7 @@ export function makeLearnables(entry: VocabEntry): model.Learnable[] {
             id: `${entry.id}-kana-romaji-${i}`,
             collection: entry.collection,  // TODO: which to put in collection?
             front: entry.readings[i],
-            back: entry.romaji[i],
+            back: wanakana.toRomaji(entry.readings[i]),
             parentId: entry.id,
         };
         result.push(learnable);
