@@ -586,3 +586,36 @@ export class QuestUpdatedEvent extends Event {
         return new QuestUpdatedEvent(this.quest, this.stage);
     }
 }
+
+/**
+ *  An composite event that chains together multiple events.
+ *  The effects for the multi-event will resolve immediately. If you want to have
+ *  effects that resolve after all the subevents are completed, put those effects
+ *  as part of the last subevent.
+ */
+export class MultiEvent extends Event {
+    events: Event[];
+    currentIndex: number;
+
+    constructor(filters: Filter[], effects: Effect[], events: Event[]) {
+        super(filters, effects);
+        this.events = events;
+        this.currentIndex = 0;
+    }
+
+    getEvents(): Event[] {
+        return this.events;
+    }
+
+    toEventLog(): string {
+        const effectText = Event.effectsToText(this.effects);
+        if (effectText !== null) {
+            return `${effectText}`;
+        }
+        return "";
+    }
+
+    clone() {
+        return new MultiEvent(this.filters, this.effects, this.events);
+    }
+}

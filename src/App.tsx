@@ -87,6 +87,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.setState({ eventLog: this.state.eventLog.concat([logText]) });
             }
 
+            if (happening instanceof event.MultiEvent) {
+                showEvent = false;
+                queuedEvents = queuedEvents.concat(happening.getEvents());
+            }
+
             if (happening instanceof event.FlavorEvent || happening instanceof event.QuestEvent) {
                 // Dispatch effects now
                 happening.effects.forEach(this.props.handleEventEffect);
@@ -120,7 +125,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.setState({ happening });
             }
             else if (queuedEvents.length > 0) {
-                console.log(queuedEvents);
                 this.setState({
                     happening: queuedEvents[0],
                     eventQueue: queuedEvents.slice(1),

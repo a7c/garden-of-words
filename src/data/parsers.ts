@@ -41,13 +41,14 @@ type QuestionTemplateProps =
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
 
 type EventProps =
-    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] }
-    | { type: "quest", journal: string, quest: string, stage: string, effects: EffectProps[], filters: FilterProps[] }
-    | { type: "question", effects: EffectProps[], filters: FilterProps[],
+    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] } |
+    { type: "quest", journal: string, quest: string, stage: string, effects: EffectProps[], filters: FilterProps[] } |
+    { type: "question", effects: EffectProps[], filters: FilterProps[],
         question: QuestionTemplateProps | ExactQuestionProps,
         text?: string | null, postText?: string | null,
         correctPostText?: string | null, wrongPostText?: string | null,
-        failureEffects: EffectProps[], sequence?: number | null };
+        failureEffects: EffectProps[], sequence?: number | null } |
+    { type: "multi", effects: EffectProps[], filters: FilterProps[], events: EventProps[] };
 
 export type QuestProps = {
     id: model.QuestId,
@@ -146,6 +147,13 @@ export function parseEvent(json: EventProps): event.Event {
             json.wrongPostText || null,
             json.failureEffects.map(parseEffect),
             json.sequence || null
+        );
+    }
+    else if (json.type === "multi") {
+        return new event.MultiEvent(
+            json.filters.map(parseFilter),
+            json.effects.map(parseEffect),
+            json.events.map(parseEvent)
         );
     }
     throw new ParseError("Unrecognized event", json);
