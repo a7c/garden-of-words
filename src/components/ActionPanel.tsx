@@ -135,6 +135,20 @@ export default class ActionPanel extends React.Component<Props> {
             }
         });
 
+        if (model.questStarted(store, "airport-train-station")) {
+            const button = (
+                <ActionButton
+                    label="Train Station"
+                    locked={model.questStage(store, "airport-train-station") !== "target-located"}
+                    paused={paused}
+                    hint="You've got no clue where to take the train."
+                    onClick={() => this.travel("airport-train-station")}
+                    onHint={this.onHint}
+                />
+            );
+            adjacent.push(button);
+        }
+
         return (
             <LabeledPanel title="Actions" id="actions">
                 <div>
@@ -206,15 +220,15 @@ export default class ActionPanel extends React.Component<Props> {
                 nice. */}
                 <div>
                     {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
-                    {model.questStarted(store, "airport-train-station") ?
+                    {/*{model.questStarted(store, "airport-train-station") ?
                     <ActionButton
                         label="Train Station"
-                        locked={true}
+                        locked={model.questStage(store, "airport-train-station") !== "target-located"}
                         paused={paused}
                         hint="You've got no clue where to take the train."
                         onHint={this.onHint}
                     />
-                    : false}
+                    : false}*/}
                 </div>
             </LabeledPanel>
         );

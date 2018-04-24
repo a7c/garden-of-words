@@ -102,5 +102,16 @@
         "structures": [
             "vendclose"
         ]
+    },
+    "airport-train-station": {
+        "name": "the airport's train station",
+        "label": "Train Station",
+        "area": "Train Station",
+        "wanderlust": true,
+        "connected": ["airport-gate"],
+        "pois": [],
+        "structures": [
+            "vendclose"   
+        ]
     }
 }
