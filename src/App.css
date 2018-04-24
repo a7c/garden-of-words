@@ -65,3 +65,15 @@ main {
 #RightPanel > .nav-tab {
     height: 100%;
 }
+
+body {
+    --color-theme-1: #646464;
+    --color-theme-2: #9a9a9a;
+    --color-theme-3: #cccccc;
+    --color-theme-4: #e6e6e6;
+    --color-theme-5: #ffffff;
+}
+
+body.theme-pink {
+    --color-theme-1: #ff0000;
+}

@@ -25,7 +25,7 @@
     width: 100%;
     bottom: 0;
 
-    background: #646464;
+    background: var(--color-theme-1);
     transition: width 0.5s linear;
 }
 
