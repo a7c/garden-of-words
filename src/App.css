@@ -16,7 +16,9 @@ img {
     margin: 0;
 
     font-size: 1.5em;
-    font-weight: 300;
+    font-weight: 400;
+
+    color: var(--color-theme-1);
 }
 
 #root {
@@ -28,7 +30,7 @@ img {
 }
 
 html,body,#root {
-  background-color: #BCBEC0;
+  background-color: var(--color-theme-page-bg);
 }
 
 main {
@@ -41,7 +43,7 @@ main {
     margin: 0 auto;
 
     background-color: white;
-    border: medium solid #7A7A7A;
+    border: medium solid var(--color-theme-border);
 }
 
 #LeftPanel {
@@ -72,8 +74,19 @@ body {
     --color-theme-3: #cccccc;
     --color-theme-4: #e6e6e6;
     --color-theme-5: #ffffff;
+
+    --color-theme-text: var(--color-theme-1);
+    --color-theme-page-bg: var(--color-theme-4);
+    --color-theme-border: var(--color-theme-1);
+    --color-theme-alert: var(--color-theme-text);
 }
 
 body.theme-pink {
-    --color-theme-1: #ff0000;
+    --color-theme-1: #590a44;
+    --color-theme-2: #991275;
+    --color-theme-3: #cca3c1;
+    --color-theme-4: #e5b7d9;
+
+    --color-theme-text: #646464;
+    --color-theme-alert: #db0d4b;
 }

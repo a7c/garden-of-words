@@ -98,7 +98,7 @@ export default class ActionButton extends React.Component<Props, State> {
                          <i className="material-icons">lock</i>
                      </span> : false}
                     {this.props.alert ?
-                     <span className="action-button-lock">
+                     <span className="action-button-lock action-button-error">
                          <i className="material-icons">error</i>
                      </span> : false}
                 </div>

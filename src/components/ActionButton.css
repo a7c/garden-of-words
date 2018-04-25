@@ -13,9 +13,13 @@
     margin-top: -0.125em;
 }
 
+.action-button-error {
+    color: var(--color-theme-alert);
+}
+
 .action-button-disabled {
     cursor: not-allowed;
-    background: #CCC;
+    background: var(--color-theme-3);
 }
 
 .action-button-progress {
@@ -39,7 +43,7 @@
 
 @keyframes flash-animation {
     from {
-        background: #CCC;
+        background: var(--color-theme-3);
     }
 
     to {

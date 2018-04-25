@@ -113,7 +113,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #e6e6e6;
+    background: var(--color-theme-4);
     transition: all 0.2s ease-in-out;
 }
 
@@ -149,7 +149,7 @@
 }
 
 #collection-body button.collection-item-expanded .collection-item-progress-inner {
-    color: #e6e6e6;
+    color: var(--color-theme-4);
 }
 
 #collection-body button.collection-item-expanded .collection-item-detail {
@@ -165,10 +165,10 @@
 
 #search-box {
     border: 0;
-    border-bottom: 1px solid #9a9a9a;
+    border-bottom: 1px solid var(--color-theme-2);
 }
 
 #dropdown .Dropdown-control {
     border: 0;
-    border-bottom: 1px solid #9a9a9a;
+    border-bottom: 1px solid var(--color-theme-2);
 }
