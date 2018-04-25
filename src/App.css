@@ -81,7 +81,7 @@ body {
     --color-theme-alert: var(--color-theme-text);
 }
 
-body.theme-pink {
+body.theme-purple {
     --color-theme-1: #590a44;
     --color-theme-2: #991275;
     --color-theme-3: #cca3c1;
