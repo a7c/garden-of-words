@@ -135,7 +135,8 @@ export default class ActionPanel extends React.Component<Props> {
             }
         });
 
-        if (model.questStarted(store, "airport-train-station")) {
+        if (model.questStarted(store, "airport-train-station") &&
+            locationData.connected.indexOf("airport-gate")) {
             const button = (
                 <ActionButton
                     label="Train Station"

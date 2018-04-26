@@ -1,0 +1,88 @@
+[
+    {
+        "type": "flavor",
+        "text": "Confident in your newfound fluency, you purchase the correct ticket for the correct price.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 2000
+            },
+            {
+                "type": "vocabsize",
+                "collection": "vocab-basic-colors",
+                "minimum": 4
+            },
+            {
+                "type": "vocabsize",
+                "collection": "vocab-basic-numbers",
+                "minimum": 4
+            }
+
+        ],
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": -2000
+            },
+            {
+                "type": "quest",
+                "quest": "rehydrate",
+                "stage": "complete",
+                "journal": "You finally bought your train ticket!"
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "You can't figure out how to order.",
+        "filters": [
+            {
+                "type": "not",
+                "filters": [
+                    {
+                        "type": "or",
+                        "filters": [
+                            {
+                                "type": "resource",
+                                "resource": "yen",
+                                "minimum": 2000
+                            },
+                            {
+                                "type": "vocabsize",
+                                "collection": "vocab-basic-colors",
+                                "minimum": 4
+                            },
+                            {
+                                "type": "vocabsize",
+                                "collection": "vocab-basic-numbers",
+                                "minimum": 4
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "type": "quest",
+                "quest": "airport-train-station",
+                "stage": "need-resources",
+                "journal": "Dejected, you walk away from the counter."
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "You already have your train ticket",
+        "filters": [
+            {
+                "type": "quest",
+                "quest": "airport-train-station",
+                "stage": "complete"
+            }
+        ],
+        "effects": []
+    }
+]

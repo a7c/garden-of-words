@@ -120,7 +120,12 @@
         "area": "Ticket Booth",
         "wanderlust": false,
         "connected": ["airport-train-station"],
-        "pois": [            
+        "pois": [
+            {
+                "label": "Buy a Ticket",
+                "eventSource": "ticket-booth",
+                "cooldown": 1000
+            }            
         ],
         "structures": [
             "vendclose"   
