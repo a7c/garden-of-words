@@ -6,6 +6,7 @@ import * as quest from "./quest";
 import * as question from "./question";
 import * as vocab from "./vocab";
 import * as parsers from "../data/parsers";
+import * as npc from "./npc";
 
 export interface Collection {
     name: string;
@@ -52,6 +53,27 @@ loadCollection(require("../data/collections/hiragana-basic.json"));
 loadCollection(require("../data/collections/katakana-basic.json"));
 loadVocab(require("../data/collections/vocab-basic-colors.json"));
 loadVocab(require("../data/collections/vocab-basic-numbers.json"));
+
+const maleNameList: npc.Name[] = [];
+const femaleNameList: npc.Name[] = [];
+
+function loadNames(json: any, gender: npc.Gender) { //tslint:disable-line
+    json.forEach((nameEntry: npc.Name) => {
+        switch (gender) {
+        case npc.Gender.Male:
+            maleNameList.push(nameEntry);
+            break;
+        case npc.Gender.Female:
+            femaleNameList.push(nameEntry);
+            break;
+        default:
+            throw "Unrecognized gender enum";
+        }
+    });
+}
+
+loadNames(require("../data/collections/names-male.json"), npc.Gender.Male);
+loadNames(require("../data/collections/names-female.json"), npc.Gender.Female);
 
 export function getNextLearnable(store: model.Store): model.LearnableId | null {
     const{ learned, flags } = store;
