@@ -41,7 +41,7 @@ type QuestionTemplateProps =
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
 
 type EventProps =
-    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[] } |
+    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[], showEvent?: boolean } |
     { type: "quest", journal: string, quest: string, stage: string, effects: EffectProps[], filters: FilterProps[] } |
     { type: "question", effects: EffectProps[], filters: FilterProps[],
         question: QuestionTemplateProps | ExactQuestionProps,
@@ -124,7 +124,8 @@ export function parseEvent(json: EventProps): event.Event {
         return new event.FlavorEvent(
             json.filters.map(parseFilter),
             json.effects.map(parseEffect),
-            json.text
+            json.text,
+            json.showEvent
         );
     }
     else if (json.type === "quest") {

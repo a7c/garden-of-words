@@ -406,6 +406,9 @@ export class Event {
     filters: Filter[];
     effects: Effect[];
 
+    /** Whether to display the event text in a prompt window. */
+    showEvent: boolean;
+
     static effectsToText(efs: Effect[]): string | null {
         const effects: string[] = [];
         efs.forEach((ef) => {
@@ -420,9 +423,10 @@ export class Event {
         return null;
     }
 
-    constructor(filters: Filter[], effects: Effect[]) {
+    constructor(filters: Filter[], effects: Effect[], showEvent?: boolean) {
         this.filters = filters;
         this.effects = effects;
+        this.showEvent = showEvent === undefined ? true : showEvent;
     }
 
     check(store: model.Store): boolean {
@@ -454,8 +458,8 @@ export class Event {
 export class FlavorEvent extends Event {
     flavor: string;
 
-    constructor(filters: Filter[], effects: Effect[], flavor: string) {
-        super(filters, effects);
+    constructor(filters: Filter[], effects: Effect[], flavor: string, showEvent?: boolean) {
+        super(filters, effects, showEvent === undefined ? false : showEvent);
         this.flavor = flavor;
     }
 
@@ -492,7 +496,7 @@ export class QuestionEvent extends Event {
                 wrongPostFlavor: string | null,
                 failureEffects: Effect[],
                 sequence: number | null = null) {
-        super(filters, effects);
+        super(filters, effects, true);
         this.question = q;
         this.flavor = flavor;
         this.postFlavor = postFlavor;
@@ -541,9 +545,12 @@ export class QuestEvent extends Event {
 
     constructor(filters: Filter[], effects: Effect[],
                 journal: string, quest: model.QuestId, stage: model.QuestStage) {
-        super(filters, effects.concat([
-            new QuestEffect(quest, stage, journal)
-        ]));
+        super(
+            filters,
+            effects.concat([
+                new QuestEffect(quest, stage, journal)
+            ]),
+            true);
         this.journal = journal;
         this.quest = quest;
         this.stage = stage;
@@ -573,7 +580,7 @@ export class QuestUpdatedEvent extends Event {
     stage: model.QuestStage;
 
     constructor(quest: model.QuestId, stage: model.QuestStage) {
-        super([], []);
+        super([], [], true);
         this.quest = quest;
         this.stage = stage;
     }
@@ -598,7 +605,7 @@ export class MultiEvent extends Event {
     currentIndex: number;
 
     constructor(filters: Filter[], effects: Effect[], events: Event[]) {
-        super(filters, effects);
+        super(filters, effects, false);
         this.events = events;
         this.currentIndex = 0;
     }

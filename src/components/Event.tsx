@@ -36,7 +36,7 @@ class Flavor extends React.Component<FlavorProps> {
     render() {
         return (
             <section className="Event">
-                {this.props.event.flavor}
+                <p>{this.props.event.flavor}</p>
             </section>
         );
     }
@@ -135,7 +135,17 @@ export default class EventComponent extends React.Component<EventProps> {
         let contents: JSX.Element | JSX.Element[] = <span/>;
 
         if (ev instanceof event.FlavorEvent) {
-            contents = <Flavor key="flavor" event={ev} />;
+            contents = [
+                <Flavor key="flavor" event={ev} />,
+                (
+                    <button
+                        key="confirm"
+                        onClick={this.props.onFinished}
+                    >
+                        Confirm
+                    </button>
+                ),
+            ];
         }
         else if (ev instanceof event.QuestEvent) {
             contents = [

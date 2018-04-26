@@ -32,6 +32,13 @@
                     }
                 ],
                 "failureEffects": []
+            },
+            {
+                "type": "flavor",
+                "text": "TEST.",
+                "showEvent": true,
+                "filters": [],
+                "effects": []
             }
         ]
     }

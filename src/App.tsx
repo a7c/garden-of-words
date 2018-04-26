@@ -80,6 +80,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         let queuedEvents: event.Event[] = [];
 
         if (happening instanceof event.Event) {
+            showEvent = happening.showEvent;
             happening = happening.clone();
 
             const logText = happening.toEventLog();
@@ -88,7 +89,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
 
             if (happening instanceof event.MultiEvent) {
-                showEvent = false;
                 queuedEvents = queuedEvents.concat(happening.getEvents());
             }
 
@@ -98,7 +98,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
 
             if (happening instanceof event.FlavorEvent) {
-                showEvent = false;
                 queuedEvents = this.enqueueQuestUpdates(happening.effects);
             }
             else if (happening instanceof event.QuestEvent) {
@@ -107,7 +106,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
             if (happening instanceof event.QuestionEvent) {
                 if (happening.sequence !== null && happening.sequence > 0) {
-                    showEvent = false;
 
                     for (let i = 0; i < happening.sequence; i++) {
                         const newQ = happening.clone();
@@ -132,7 +130,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
         else {
-            showEvent = false;
             this.props.onLearn(happening);
 
             const logMessage = new event.LearnEffect(happening).toEventLog();
