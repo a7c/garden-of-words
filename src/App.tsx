@@ -349,9 +349,10 @@ export default class App extends React.Component {
     render() {
         return (
             <div className="App">
-            <h1>I Died And Was Reborn in Japan, But I'm Stuck in Narita Airport And I Don't Speak Any Japanese</h1>
-            <Test/>
-        </div>
+                <h1>I Died And Was Reborn in Japan, But I'm Stuck in Narita Airport And I Don't Speak Any Japanese</h1>
+                <Test/>
+                <a href="credits.html">Credits</a>
+            </div>
         );
     }
 }
