@@ -41,15 +41,21 @@ function collections(
     switch (action.type) {
     case actions.LEARN: {
         const learnable = lookup.getLearnable(action.item);
-        const collectionName = learnable.collection;
+        if (learnable) {
+            const collectionName = learnable.collection;
 
-        // Check whether player already has this collection and update accordingly
-        if (state.has(collectionName)) {
-            const collection = state.get(collectionName);
-            return state.set(collectionName, collection.add(action.item));
+            // Check whether player already has this collection and update accordingly
+            if (state.has(collectionName)) {
+                const collection = state.get(collectionName);
+                return state.set(collectionName, collection.add(action.item));
+            }
+            else {
+                return state.set(collectionName, immutable.Set([action.item]));
+            }
         }
         else {
-            return state.set(collectionName, immutable.Set([action.item]));
+            console.warn(`Tried to learn learnable with id ${action.item} but it doesn't exist!`);
+            return state;
         }
     }
     default:
