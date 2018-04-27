@@ -90,3 +90,13 @@ body.theme-purple {
     --color-theme-text: #646464;
     --color-theme-alert: #db0d4b;
 }
+
+body.theme-blue {
+    --color-theme-1: #091059;
+    --color-theme-2: #121d99;
+    --color-theme-3: #a3a6cc;
+    --color-theme-4: #b7bbe5;
+
+    --color-theme-text: #646464;
+    --color-theme-alert: #db0d4b;
+}
