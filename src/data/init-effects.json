@@ -2,39 +2,15 @@
     {
         "type": "resource",
         "resource": "stamina",
-        "value": 100
+        "value": 10
     },
     {
         "type": "resource-max",
         "resource": "stamina",
-        "value": 100
+        "value": 10
     },
     {
         "type": "discover",
         "location": "airport-gate"
-    },
-    {
-        "type": "flag",
-        "flag": "has-transliteration-job",
-        "value": false
-    },
-    {
-        "type": "flag",
-        "flag": "has-luggage-job",
-        "value": true
-    },
-    {
-        "type": "flag",
-        "flag": "has-transliteration-job",
-        "value": true
-    },
-    {
-        "type": "discover",
-        "location": "airport-food-court"
-    },
-    {
-        "type": "resource",
-        "resource": "yen",
-        "value": 10000
     }
 ]
