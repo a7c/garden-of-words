@@ -40,7 +40,7 @@
                 "type": "quest",
                 "quest": "airport-train-station",
                 "stage": "target-located",
-                "journal": "In thanks for your excessive patronage, the owner of the ramen shop tells you how to get to the train station"
+                "journal": "In thanks for your excessive patronage, the owner of the ramen shop tells you how to get to the train station."
             }
         ],
         "failureEffects": []

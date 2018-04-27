@@ -28,7 +28,7 @@
             },
             {
                 "type": "quest",
-                "quest": "rehydrate",
+                "quest": "airport-train-station",
                 "stage": "complete",
                 "journal": "You finally bought your train ticket!"
             }
