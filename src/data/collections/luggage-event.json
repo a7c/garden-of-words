@@ -12,9 +12,9 @@
         "events": [
             {
                 "type": "question",
-                "text": "A Japanese person asks you for help taking their luggage down from the baggage claim carousel. They tell you the color of their bag in Japanese. Which color bag will you take from the carousel?",
-                "correctPostText": "You grab their luggage from the carousel. They thank you and give some money for your help.",
-                "wrongPostText": "You grab a piece of luggage from the carousel. Unfortunately, it seems like it wasn't theirs. Disappointed, they walk away.",
+                "text": "A Japanese person asks you for help taking their luggage down from the baggage claim carousel. They tell you the color of their bag in Japanese. Which color should you be looking for?",
+                "correctPostText": "You watch the carousel carefully for bags of that color. It seems that there are several bags that could be theirs.",
+                "wrongPostText": "You watch the carousel carefully for bags of that color, but there are none. It seems that you misunderstood what color their bag was. Disappointed, they walk away.",
                 "filters": [],
                 "question": {
                     "type": "mc",
@@ -22,23 +22,64 @@
                     "restrictLearnableTypes": [
                         "kana-meaning"
                     ],
-                    "onlySeenKana": true
+                    "onlySeenKana": false
                 },
                 "effects": [
                     {
-                        "type": "resource",
-                        "resource": "yen",
-                        "value": 120
+                        "type": "flag",
+                        "flag": "event:luggage-job-1",
+                        "value": true
                     }
                 ],
                 "failureEffects": []
             },
             {
                 "type": "flavor",
-                "text": "TEST.",
+                "text": "You watch the carousel carefully for bags of that color. It seems that there are several bags that could be theirs.",
                 "showEvent": true,
-                "filters": [],
+                "filters": [
+                    {
+                        "type": "flag",
+                        "flag": "event:luggage-job-1",
+                        "value": true
+                    }
+                ],
                 "effects": []
+            },
+            {
+                "type": "question",
+                "text": "You ask the person for their name so that you can identify their bag through its name tag. They tell you their name. You see bags with the following name tags. Which bag will you take?",
+                "correctPostText": "You grab their luggage from the carousel. They thank you and give some money for your help.",
+                "wrongPostText": "You grab a piece of luggage from the carousel. Unfortunately, it seems like it wasn't theirs. Disappointed, they walk away.",
+                "filters": [
+                    {
+                        "type": "flag",
+                        "flag": "event:luggage-job-1",
+                        "value": true
+                    }
+                ],
+                "question": {
+                    "type": "mc-names"
+                },
+                "effects": [
+                    {
+                        "type": "resource",
+                        "resource": "yen",
+                        "value": 120
+                    },
+                    {
+                        "type": "flag",
+                        "flag": "event:luggage-job-1",
+                        "value": false
+                    }
+                ],
+                "failureEffects": [
+                    {
+                        "type": "flag",
+                        "flag": "event:luggage-job-1",
+                        "value": false
+                    }
+                ]
             }
         ]
     }

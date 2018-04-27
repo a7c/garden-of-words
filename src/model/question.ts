@@ -1,6 +1,25 @@
+import * as wanakana from "wanakana";
+
 import * as model from "./model";
 import * as event from "./event";
 import * as lookup from "./lookup";
+import * as npc from "./npc";
+
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ * Source: https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
+ */
+function shuffle(a: any) { //tslint:disable-line
+    let j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
 
 export class Question {
     teaches: model.LearnableId[];
@@ -131,6 +150,100 @@ export class MultipleChoiceQuestionTemplate {
 }
 
 /**
+ *  A template for making questions with the following properties:
+ *    (1) Prompt: romaji version of a Japanese name
+ *    (2) Answers: 4 kana names with these properties:
+ *        (a) same length (in kana)
+ *        (b) contains at most 1 kana the player doesn't know
+ *        (c) names can be disambiguated using only the kana that the player already knows
+ *    (3) Effects: review kana, learn any previously unknown kana in the correct answer.
+ *
+ *  Precondition: The player should have already learned enough kana to generate a valid question
+ *    of this type.
+ */
+// TODO: property 2c is not yet enforced
+export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
+
+    reverse: boolean;
+
+    constructor(reverse: boolean = false) {
+        super();
+        this.reverse = reverse;
+    }
+
+    makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
+        const { learned } = store;
+
+        const names =
+            // Get all the available names
+            lookup.getNames(npc.Gender.Male)
+            .concat(lookup.getNames(npc.Gender.Female))
+            // Keep only the names that have 1 or fewer unknown kana
+            .filter((name: npc.Name) => {
+                return Array.from(name).filter(k => !learned.has(`hira-${k}`)).length <= 1;
+            });
+
+        console.log(names);
+
+        // TODO: make this not hard-coded
+        const nameLengths = [5, 4, /*2,*/ 3];
+        let candidates: npc.Name[] = [];
+        for (const nameLength of nameLengths) {
+            candidates = names.filter((name: npc.Name) => name.length === nameLength);
+            console.log(candidates);
+            if (candidates.length < 4) {
+                continue;
+            }
+            else {
+                // TODO: need to check whether candidates can be disambiguated based only on learned kana
+                break;
+            }
+        }
+        if (candidates.length < 4) {
+            throw "Tried to make question with MultipleChoiceNameQuestionTemplate " +
+                " but the player hasn't learned enough kana!";
+        }
+
+        shuffle(candidates);
+        candidates = candidates.slice(0, 4);
+
+        const correct = Math.floor(Math.random() * candidates.length);
+
+        const teaches = [];
+        const effects = [];
+        for (const k of candidates[correct]) {
+            if (learned.has(`hira-${k}`)) {
+                effects.push(new event.ReviewCorrectEffect(`hira-${k}`));
+            }
+            else {
+                teaches.push(`hira-${k}`);
+                effects.push(new event.LearnEffect(`hira-${k}`));
+            }
+        }
+
+        // TODO: make the learnable somewhere else? does it need to be a learnable?
+        const nameLearnables = candidates.map(name => {
+            const nameInRomaji: string = wanakana.toRomaji(name);
+            return {
+                type: "name-kana-romaji",
+                id: `name-${name}`,
+                parentId: null,
+                collection: "",
+                front: nameInRomaji.charAt(0).toUpperCase() + nameInRomaji.substr(1),
+                back: name,
+            };
+        });
+
+        return [new MultipleChoice(
+            teaches,
+            nameLearnables,
+            correct,
+            correct,
+            this.reverse), effects, []];
+    }
+}
+
+/**
  *  A template for that produces kana -> romaji type-in questions that teach you a new
  *  vocab word afterward.
  */
@@ -167,10 +280,10 @@ export class TypeInLearnVocabTemplate {
                 const learnable1 = lookup.getLearnable(a);
                 const learnable2 = lookup.getLearnable(b);
 
-                const knownKana1 = Array.from(learnable1.front).filter(k => !learned.has(`hira-${k}`)).length;
-                const knownKana2 = Array.from(learnable2.front).filter(k => !learned.has(`hira-${k}`)).length;
+                const unknownKana1 = Array.from(learnable1.front).filter(k => !learned.has(`hira-${k}`)).length;
+                const unknownKana2 = Array.from(learnable2.front).filter(k => !learned.has(`hira-${k}`)).length;
 
-                return knownKana1 - knownKana2;
+                return unknownKana1 - unknownKana2;
             });
         for (const wordId of learnables) {
             const learnable = lookup.getLearnable(wordId);

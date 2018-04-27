@@ -75,6 +75,17 @@ function loadNames(json: any, gender: npc.Gender) { //tslint:disable-line
 loadNames(require("../data/collections/names-male.json"), npc.Gender.Male);
 loadNames(require("../data/collections/names-female.json"), npc.Gender.Female);
 
+export function getNames(gender: npc.Gender) {
+    switch (gender) {
+    case npc.Gender.Male:
+        return maleNameList;
+    case npc.Gender.Female:
+        return femaleNameList;
+    default:
+        throw "Unrecognized gender enum";
+    }
+}
+
 export function getNextLearnable(store: model.Store): model.LearnableId | null {
     const{ learned, flags } = store;
 
@@ -101,7 +112,8 @@ export function getNextLearnable(store: model.Store): model.LearnableId | null {
     return word;
 }
 
-export function generateMultipleChoice(_word: model.Learnable | model.LearnableId) {
+export function generateMultipleChoice(
+        _word: model.Learnable | model.LearnableId) {
     console.log(_word);
     const word = typeof _word === "string" ? getLearnable(_word) : _word as model.Learnable;
 
