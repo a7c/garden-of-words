@@ -35,6 +35,10 @@
                 "type": "resource",
                 "resource": "stamina",
                 "value": 100
+            },
+            {
+                "type": "theme",
+                "theme": "theme-green"
             }
         ],
         "failureEffects": []
