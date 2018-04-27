@@ -102,5 +102,33 @@
         "structures": [
             "vendclose"
         ]
+    },
+    "airport-train-station": {
+        "name": "the airport's train station",
+        "label": "Train Station",
+        "area": "Train Station",
+        "wanderlust": true,
+        "connected": ["airport-gate", "airport-train-station-ticket-booth"],
+        "pois": [],
+        "structures": [
+            "vendclose"   
+        ]
+    },
+    "airport-train-station-ticket-booth": {
+        "name": "the train ticket booth",
+        "label": "Ticket Booth",
+        "area": "Ticket Booth",
+        "wanderlust": false,
+        "connected": ["airport-train-station"],
+        "pois": [
+            {
+                "label": "Buy a Ticket",
+                "eventSource": "ticket-booth",
+                "cooldown": 1000
+            }            
+        ],
+        "structures": [
+            "vendclose"   
+        ]
     }
 }

@@ -5,6 +5,8 @@ const vendingEventJson = require("./collections/vending-machine-event.json");
 const transliterateEventJson = require("./collections/transliterate-event.json");
 const luggageEventJson = require("./collections/luggage-event.json");
 const watchNewsJson = require("./collections/watch-news.json");
+const airportTrainStationJson = require("./collections/train-station.json");
+const ticketBoothJson = require("./collections/ticket-booth.json");
 const events = sampleEventJson.map(parsers.parseEvent);
 
 export default {
@@ -16,5 +18,7 @@ export default {
     transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
     luggageJob: luggageEventJson.map(parsers.parseEvent),
-    watchNews: watchNewsJson.map(parsers.parseEvent)
+    watchNews: watchNewsJson.map(parsers.parseEvent),
+    airportTrainStation: airportTrainStationJson.map(parsers.parseEvent),
+    ticketBooth: ticketBoothJson.map(parsers.parseEvent)
 };

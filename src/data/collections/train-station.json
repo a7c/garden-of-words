@@ -1,0 +1,15 @@
+[
+    {
+        "type": "quest",
+        "quest": "airport-train-station",
+        "stage": "found-ticket-booth",
+        "journal": "You notice a ticket booth in the train station.",
+        "filters": [],
+        "effects": [
+            {
+                "type": "discover",
+                "location": "airport-train-station-ticket-booth"
+            }
+        ]
+    }
+]
