@@ -6,7 +6,7 @@
     padding: 1rem;
     z-index: 10;
 
-    background: #FFF;
+    background: var(--color-theme-5);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     transition: all 0.5s ease-in-out;
 }

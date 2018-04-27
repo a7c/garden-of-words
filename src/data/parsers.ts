@@ -21,6 +21,7 @@ type EffectProps =
     { type: "resource", resource: model.Resource, value: number } |
     { type: "resource-max", resource: model.Resource, value: number } |
     { type: "learn", id: model.LearnableId } |
+    { type: "theme", theme: string } |
     { type: "review-correct", id: model.LearnableId };
 
 type FilterProps =
@@ -81,6 +82,9 @@ export function parseEffect(json: EffectProps): event.Effect {
     }
     else if (json.type === "learn") {
         return new event.LearnEffect(json.id);
+    }
+    else if (json.type === "theme") {
+        return new event.ThemeEffect(json.theme);
     }
     else if (json.type === "review-correct") {
         return new event.ReviewCorrectEffect(json.id);

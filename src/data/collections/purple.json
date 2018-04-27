@@ -1,0 +1,35 @@
+[
+    {
+        "type": "flavor",
+        "text": "You buy a purple-looking drink at random.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 200
+            }
+        ],
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": -200
+            },
+            {
+                "type": "resource",
+                "resource": "stamina",
+                "value": 20
+            },
+            {
+                "type": "theme",
+                "theme": "theme-purple"
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "You don't have enough money to buy this.",
+        "filters": [],
+        "effects": []
+    }
+]

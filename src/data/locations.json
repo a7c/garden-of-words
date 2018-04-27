@@ -97,6 +97,17 @@
                 "eventSource": "vending-machine",
                 "cooldown": 1000,
                 "cost": [ "yen", 160 ]
+            },
+            {
+                "label": "Buy Purple Drank",
+                "eventSource": "vending-machine-purple",
+                "cooldown": 1000,
+                "cost": [ "yen", 200 ],
+                "filter": {
+                    "type": "quest",
+                    "quest": "rehydrate",
+                    "stage": "complete"
+                }
             }
         ],
         "structures": [

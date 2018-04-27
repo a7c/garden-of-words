@@ -15,6 +15,7 @@ export default {
     airportFoodCourtRamenYaGreen: require("./collections/food-court-ramen-ya-green.json").map(parsers.parseEvent),
     transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
+    vendingMachinePurple: require("./collections/purple.json").map(parsers.parseEvent),
     luggageJob: luggageEventJson.map(parsers.parseEvent),
     watchNews: watchNewsJson.map(parsers.parseEvent)
 };

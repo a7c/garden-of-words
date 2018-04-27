@@ -1,5 +1,5 @@
 #quest-log > h2 {
-    color: #9A9A9A;
+    color: var(--color-theme-2);
     text-align: center;
     margin: 1.5em;
 }

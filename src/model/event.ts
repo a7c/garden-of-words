@@ -388,6 +388,26 @@ export class LearnEffect extends Effect {
     }
 }
 
+export class ThemeEffect extends Effect {
+    theme: string;
+
+    constructor(theme: string) {
+        super();
+        this.theme = theme;
+    }
+
+    toAction() {
+        (document.body.classList as any) //tslint:disable-line
+            .forEach((klass: any) => document.body.classList.remove(klass)); //tslint:disable-line
+        document.body.classList.add(this.theme);
+        return super.toAction();
+    }
+
+    toEventLog() {
+        return "Your world changes color.";
+    }
+}
+
 /** An effect that represents correctly reviewing an already learned word. */
 export class ReviewCorrectEffect extends Effect {
     id: model.LearnableId;
