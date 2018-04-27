@@ -27,5 +27,14 @@
         "type": "flag",
         "flag": "has-transliteration-job",
         "value": true
+    },
+    {
+        "type": "discover",
+        "location": "airport-food-court"
+    },
+    {
+        "type": "resource",
+        "resource": "yen",
+        "value": 10000
     }
 ]

@@ -74,9 +74,9 @@ export default class ActionPanel extends React.Component<Props> {
         ));
     }
 
-    watchNews = () => {
-        this.wanderHelper(0, "watch-news");
-    }
+    watchNews = () => this.wanderHelper(0, "watch-news");
+
+    // buyTicket = () => console.log("Not yet implemented");
 
     formatCost(costInfo: [ model.Resource, number ] | undefined) {
         if (!costInfo) {
@@ -135,6 +135,23 @@ export default class ActionPanel extends React.Component<Props> {
             }
         });
 
+        if (model.questStarted(store, "airport-train-station") &&
+            locationData.connected.indexOf("airport-gate")) {
+            const button = (
+                <ActionButton
+                    label="Train Station"
+                    locked={
+                        model.questStage(store, "airport-train-station") === "just-arrived"
+                    }
+                    paused={paused}
+                    hint="You've got no clue where to take the train."
+                    onClick={() => this.travel("airport-train-station")}
+                    onHint={this.onHint}
+                />
+            );
+            adjacent.push(button);
+        }
+
         return (
             <LabeledPanel title="Actions" id="actions">
                 <div>
@@ -183,16 +200,13 @@ export default class ActionPanel extends React.Component<Props> {
                         onHint={this.onHint}
                     />
                     : false}
-                    {location.current === "airport-gate" ?
+                    {location.current === "airport-train-station" ?
                     <ActionButton
                         label="Watch the news"
                         benefit={`+KANA`}
                         onClick={this.watchNews}
-                        // locked={stamina < resources.LUGGAGE_STA_COST}
                         paused={paused}
                         cooldown={2000}
-                        // hint="Grabbing a drink from the vending machine might get your stamina up."
-                        // onHint={this.onHint}
                     />
                     : false}
                 </div>
@@ -206,15 +220,15 @@ export default class ActionPanel extends React.Component<Props> {
                 nice. */}
                 <div>
                     {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
-                    {model.questStarted(store, "airport-train-station") ?
+                    {/*{model.questStarted(store, "airport-train-station") ?
                     <ActionButton
                         label="Train Station"
-                        locked={true}
+                        locked={model.questStage(store, "airport-train-station") !== "target-located"}
                         paused={paused}
                         hint="You've got no clue where to take the train."
                         onHint={this.onHint}
                     />
-                    : false}
+                    : false}*/}
                 </div>
             </LabeledPanel>
         );

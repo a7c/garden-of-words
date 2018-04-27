@@ -5,7 +5,11 @@
         "complete": "complete",
         "events": {},
         "journal": {
-            "just-arrived": "You've got no clue where the train station is. Perhaps wandering around some more will give you a clue."
+            "just-arrived": "You've got no clue where the train station is. Perhaps wandering around some more will give you a clue.",
+            "target-located": "A kind ramen shop owner told you that the airport train station is just below the gate you arrived from. Let's!! Going!",
+            "found-ticket-booth": "You've finally found the ticket booth! Let's buy a ticket.",
+            "need-resources": "In order to buy a ticket, it seems that you need to collect more money and learn more numbers and colors.",
+            "complete": "You've successfully purchased a ticket from the airport train station. Tokyo here we come!"
         }
     },
     {
