@@ -53,6 +53,24 @@ const imagesOfStructure = {
         require("../assets/structures/food-court-ramen1.png"),
         require("../assets/structures/food-court-ramen2.png")
     ],
+    "subway-gate": [
+        require("../assets/structures/subway-gate0.png"),
+        require("../assets/structures/subway-gate1.png"),
+        require("../assets/structures/subway-gate2.png")
+    ],
+    "subway-pillar": [
+        require("../assets/structures/subway-pillar0.png"),
+        require("../assets/structures/subway-pillar1.png"),
+        require("../assets/structures/subway-pillar2.png")
+    ],
+    "subway-ticketmachine": [
+        require("../assets/structures/subway-ticketmachine0.png"),
+        require("../assets/structures/subway-ticketmachine1.png"),
+        require("../assets/structures/subway-ticketmachine2.png")
+    ],
+    "subway-ticketmachine-front": [
+        require("../assets/scenes/subway-ticketmachine-front.png")
+    ],
     "vending-machine-indoors": [
         require("../assets/structures/vending-machine-indoors0.png"),
         require("../assets/structures/vending-machine-indoors1.png"),

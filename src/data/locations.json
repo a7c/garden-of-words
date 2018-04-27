@@ -9,8 +9,9 @@
         "structures": [
             "food-court-ramen",
             "blank",
-            "food-court-ramen",
-            "blank"
+            "food-court-bakery",
+            "blank",
+            "arrival-departure-board"
         ]
     },
     "airport-food-court-ramen": {
@@ -111,7 +112,11 @@
         "connected": ["airport-gate", "airport-train-station-ticket-booth"],
         "pois": [],
         "structures": [
-            "vendclose"   
+            "blank",
+            "subway-ticketmachine",
+            "blank",
+            "subway-pillar",
+            "subway-gate"
         ]
     },
     "airport-train-station-ticket-booth": {
@@ -125,10 +130,10 @@
                 "label": "Buy a Ticket",
                 "eventSource": "ticket-booth",
                 "cooldown": 1000
-            }            
+            }
         ],
         "structures": [
-            "vendclose"   
+            "subway-ticketmachine-front"
         ]
     }
 }

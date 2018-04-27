@@ -127,7 +127,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 // Make sure that the next queuedEvent is valid based on the filters
                 while (queuedEvents.length > 0) {
                     const nextHappening = queuedEvents[0];
-                    if (nextHappening.check(this.props.store)) {
+                    if (nextHappening.check(this.props.store) || nextHappening.filters.length === 0) {
                         this.setState({
                             happening: nextHappening,
                             eventQueue: queuedEvents.slice(1),
@@ -167,7 +167,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // Make sure that the next queuedEvent is valid based on the filters
             while (queuedEvents.length > 0) {
                 const nextHappening = queuedEvents[0];
-                if (nextHappening.check(this.props.store)) {
+                if (nextHappening.check(this.props.store) || nextHappening.filters.length === 0) {
                     this.setState({
                         happening: nextHappening,
                         eventQueue: queuedEvents.slice(1),
