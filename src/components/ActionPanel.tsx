@@ -140,7 +140,9 @@ export default class ActionPanel extends React.Component<Props> {
             const button = (
                 <ActionButton
                     label="Train Station"
-                    locked={model.questStage(store, "airport-train-station") !== "target-located"}
+                    locked={
+                        model.questStage(store, "airport-train-station") === "just-arrived"
+                    }
                     paused={paused}
                     hint="You've got no clue where to take the train."
                     onClick={() => this.travel("airport-train-station")}

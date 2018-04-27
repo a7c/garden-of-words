@@ -3,8 +3,14 @@
         "type": "quest",
         "quest": "airport-train-station",
         "stage": "found-ticket-booth",
-        "journal": "You notice a ticket booth in the train station.",
-        "filters": [],
+        "journal": "You notice a ticket machine in the train station.",
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "discovered:airport-train-station-ticket-booth",
+                "value": false
+            }
+        ],
         "effects": [
             {
                 "type": "discover",

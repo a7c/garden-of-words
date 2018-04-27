@@ -1,6 +1,18 @@
 [
     {
         "type": "flavor",
+        "text": "You already have your train ticket",
+        "filters": [
+            {
+                "type": "quest",
+                "quest": "airport-train-station",
+                "stage": "complete"
+            }
+        ],
+        "effects": []
+    },
+    {
+        "type": "flavor",
         "text": "Confident in your newfound fluency, you purchase the correct ticket for the correct price.",
         "filters": [
             {
@@ -16,7 +28,7 @@
             {
                 "type": "vocabsize",
                 "collection": "vocab-basic-numbers",
-                "minimum": 4
+                "minimum": 1
             }
 
         ],
@@ -37,33 +49,7 @@
     {
         "type": "flavor",
         "text": "You can't figure out how to order.",
-        "filters": [
-            {
-                "type": "not",
-                "filters": [
-                    {
-                        "type": "or",
-                        "filters": [
-                            {
-                                "type": "resource",
-                                "resource": "yen",
-                                "minimum": 2000
-                            },
-                            {
-                                "type": "vocabsize",
-                                "collection": "vocab-basic-colors",
-                                "minimum": 4
-                            },
-                            {
-                                "type": "vocabsize",
-                                "collection": "vocab-basic-numbers",
-                                "minimum": 4
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
+        "filters": [],
         "effects": [
             {
                 "type": "quest",
@@ -72,17 +58,5 @@
                 "journal": "Dejected, you walk away from the counter."
             }
         ]
-    },
-    {
-        "type": "flavor",
-        "text": "You already have your train ticket",
-        "filters": [
-            {
-                "type": "quest",
-                "quest": "airport-train-station",
-                "stage": "complete"
-            }
-        ],
-        "effects": []
     }
 ]
