@@ -183,14 +183,11 @@ export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
                 return Array.from(name).filter(k => !learned.has(`hira-${k}`)).length <= 1;
             });
 
-        console.log(names);
-
         // TODO: make this not hard-coded
         const nameLengths = [5, 4, /*2,*/ 3];
         let candidates: npc.Name[] = [];
         for (const nameLength of nameLengths) {
             candidates = names.filter((name: npc.Name) => name.length === nameLength);
-            console.log(candidates);
             if (candidates.length < 4) {
                 continue;
             }

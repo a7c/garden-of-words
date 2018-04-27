@@ -76,11 +76,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     onEvent = (happening: event.Event | model.LearnableId) => {
-        let showEvent = true;
         let queuedEvents: event.Event[] = [];
 
+        console.log(JSON.stringify(happening));
+
         if (happening instanceof event.Event) {
-            showEvent = happening.showEvent;
+            const showEvent = happening.showEvent;
             happening = happening.clone();
 
             const logText = happening.toEventLog();
@@ -123,10 +124,23 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.setState({ happening });
             }
             else if (queuedEvents.length > 0) {
-                this.setState({
-                    happening: queuedEvents[0],
-                    eventQueue: queuedEvents.slice(1),
-                });
+                // Make sure that the next queuedEvent is valid based on the filters
+                while (queuedEvents.length > 0) {
+                    const nextHappening = queuedEvents[0];
+                    if (nextHappening.check(this.props.store)) {
+                        this.setState({
+                            happening: nextHappening,
+                            eventQueue: queuedEvents.slice(1),
+                        });
+                        break;
+                    }
+                    else {
+                        queuedEvents = queuedEvents.slice(1);
+                    }
+                }
+                if (queuedEvents.length === 0) {
+                    this.setState({ happening: null });
+                }
             }
         }
         else {
@@ -149,10 +163,24 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
 
         if (this.state.eventQueue.length > 0) {
-            this.setState({
-                happening: this.state.eventQueue[0],
-                eventQueue: this.state.eventQueue.slice(1),
-            });
+            let queuedEvents = this.state.eventQueue;
+            // Make sure that the next queuedEvent is valid based on the filters
+            while (queuedEvents.length > 0) {
+                const nextHappening = queuedEvents[0];
+                if (nextHappening.check(this.props.store)) {
+                    this.setState({
+                        happening: nextHappening,
+                        eventQueue: queuedEvents.slice(1),
+                    });
+                    break;
+                }
+                else {
+                    queuedEvents = queuedEvents.slice(1);
+                }
+            }
+            if (queuedEvents.length === 0) {
+                this.setState({ happening: null });
+            }
         }
         else {
             this.setState({ happening: null });

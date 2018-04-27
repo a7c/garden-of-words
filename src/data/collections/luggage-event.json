@@ -31,7 +31,13 @@
                         "value": true
                     }
                 ],
-                "failureEffects": []
+                "failureEffects": [
+                    {
+                        "type": "flag",
+                        "flag": "event:luggage-job-1",
+                        "value": false
+                    }
+                ]
             },
             {
                 "type": "flavor",
