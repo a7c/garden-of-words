@@ -320,7 +320,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         />
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
-                        <QuestLog quests={store.quests} />
+                        <QuestLog store={store} />
                     </NavTab>
                 </div>
             </main>
