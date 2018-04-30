@@ -49,7 +49,10 @@ export default class ActionPanel extends React.Component<Props> {
     haulLuggage = () => this.wanderHelper(-resources.LUGGAGE_STA_COST, "luggage-job");
 
     onHint = (hint: string) => {
-        this.props.onEvent(new event.FlavorEvent([], [], hint));
+        const hintText = Math.random() > 0.9 ?
+                         "Prof. Andersen: there's a time and a place for everything, but now now!" :
+                         hint;
+        this.props.onEvent(new event.FlavorEvent([], [], hintText));
     }
 
     meditate = () => {
