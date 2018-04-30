@@ -62,6 +62,9 @@ export type QuestProps = {
     journal: {
         [ stage: string ]: string,
     },
+    checklists?: {
+        [ stage: string ]: quest.Checklist,
+    },
 };
 
 export function parseEffect(json: EffectProps): event.Effect {
@@ -168,13 +171,19 @@ export function parseEvent(json: EventProps): event.Event {
 export function parseQuest(json: QuestProps): quest.Quest {
     const events = new Map();
     const journal = new Map();
+    const checklists = new Map();
     for (const stage of Object.keys(json.events)) {
         events.set(stage, json.events[stage].map(parseEvent));
     }
     for (const stage of Object.keys(json.journal)) {
         journal.set(stage, json.journal[stage]);
     }
-    return new quest.Quest(json.id, json.name, events, journal, json.complete);
+    if (json.checklists) {
+        for (const stage of Object.keys(json.checklists)) {
+            checklists.set(stage, json.checklists[stage]);
+        }
+    }
+    return new quest.Quest(json.id, json.name, events, journal, checklists, json.complete);
 }
 
 export function parseQuestionTemplate(json: QuestionTemplateProps | ExactQuestionProps):
