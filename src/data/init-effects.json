@@ -2,15 +2,30 @@
     {
         "type": "resource",
         "resource": "stamina",
-        "value": 10
+        "value": 100
     },
     {
         "type": "resource-max",
         "resource": "stamina",
-        "value": 10
+        "value": 100
     },
     {
         "type": "discover",
         "location": "airport-gate"
+    },
+    {
+        "type": "flag",
+        "flag": "has-transliteration-job",
+        "value": false
+    },
+    {
+        "type": "flag",
+        "flag": "has-luggage-job",
+        "value": true
+    },
+    {
+        "type": "flag",
+        "flag": "has-transliteration-job",
+        "value": true
     }
 ]
