@@ -53,15 +53,32 @@ class Quest extends React.Component<{ event: event.QuestEvent }> {
     }
 }
 
-class QuestUpdated extends React.Component<{ event: event.QuestUpdatedEvent }> {
+class QuestUpdated extends React.Component<{ event: event.QuestUpdatedEvent, store: model.Store }> {
     render() {
-        const ev = this.props.event;
+        const { store, event: ev } = this.props;
         const quest = lookup.getQuest(ev.quest);
         const text = ev.stage === quest.complete ? "Completed" : "Updated";
+        const checklist = quest.checklists.get(ev.stage);
         return (
             <section className="Event">
                 <h2>{`Quest ${text}: ${quest.name}`}</h2>
                 <p>{this.props.event.toEventLog()}</p>
+                {checklist ?
+                 (
+                     <ul className="checklist">
+                         {checklist.map(({ description, filter }) => (
+                             <li>
+                                 <input
+                                     type="checkbox"
+                                     disabled={true}
+                                     checked={filter.check(store)}
+                                 />
+                                 {description}
+                             </li>
+                         ))}
+                     </ul>
+                 )
+                 : false}
             </section>
         );
     }
@@ -162,7 +179,7 @@ export default class EventComponent extends React.Component<EventProps> {
         }
         else if (ev instanceof event.QuestUpdatedEvent) {
             contents = [
-                <QuestUpdated key="quest-updated" event={ev} />,
+                <QuestUpdated key="quest-updated" event={ev} store={this.props.store} />,
                 (
                     <button
                         key="accept-quest"
