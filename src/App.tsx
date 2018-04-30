@@ -7,6 +7,7 @@ import "./App.css";
 import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
+import * as lookup from "./model/lookup";
 import { Question, QuestionTemplate, MultipleChoiceQuestionTemplate } from "./model/question";
 import { parseEffect } from "./data/parsers";
 import * as resources from "./model/resources";
@@ -208,6 +209,53 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.onEvent(new event.FlavorEvent([], [], hint));
     }
 
+    onKey = (e: KeyboardEvent) => {
+        switch (e.code) {
+            case "F1": {
+                this.props.modifyResource("yen", 1000);
+                this.props.modifyResource("stamina", 100);
+                e.preventDefault();
+                this.setState({ eventLog: this.state.eventLog.concat([
+                    "It's not every day that money appears in your pocket and your tiredness goes away."
+                ]) });
+                break;
+            }
+            case "F2": {
+                this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", 25));
+                this.setState({ eventLog: this.state.eventLog.concat([
+                    "You magically feel more durable."
+                ]) });
+                e.preventDefault();
+                break;
+            }
+            case "F3": {
+                const collections = lookup.getCollections();
+                for (const collectionName of Object.keys(collections)) {
+                    const collection = collections[collectionName];
+                    for (const learnableId of collection.learnables) {
+                        this.props.onLearn(learnableId);
+                    }
+                }
+                this.setState({ eventLog: this.state.eventLog.concat([
+                    "You learned everything we have to teach about Japanese."
+                ]) });
+                e.preventDefault();
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
+    componentWillMount() {
+        document.addEventListener("keydown", this.onKey);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.onKey);
+    }
+
     render() {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps, location } = store;
@@ -301,9 +349,10 @@ export default class App extends React.Component {
     render() {
         return (
             <div className="App">
-            <h1>Michael Mauer Simulator 2017</h1>
-            <Test/>
-        </div>
+                <h1>I Died And Was Reborn in Japan, But I'm Stuck in Narita Airport And I Don't Speak Any Japanese</h1>
+                <Test/>
+                <a href="credits.html">Credits</a>
+            </div>
         );
     }
 }

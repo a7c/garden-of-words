@@ -90,3 +90,33 @@ body.theme-purple {
     --color-theme-text: #646464;
     --color-theme-alert: #db0d4b;
 }
+
+body.theme-blue {
+    --color-theme-1: #091059;
+    --color-theme-2: #121d99;
+    --color-theme-3: #a3a6cc;
+    --color-theme-4: #b7bbe5;
+
+    --color-theme-text: #646464;
+    --color-theme-alert: #db0d4b;
+}
+
+body.theme-red {
+    --color-theme-1: #590808;
+    --color-theme-2: #991212;
+    --color-theme-3: #cca3a3;
+    --color-theme-4: #e5b7b7;
+
+    --color-theme-text: #646464;
+    --color-theme-alert: #db0d4b;
+}
+
+body.theme-green {
+    --color-theme-1: #0b5908;
+    --color-theme-2: #169912;
+    --color-theme-3: #a4cca3;
+    --color-theme-4: #b9e5b7;
+
+    --color-theme-text: #646464;
+    --color-theme-alert: #db0d4b;
+}
