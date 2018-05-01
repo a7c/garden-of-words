@@ -177,6 +177,8 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                 {this.props.learnableIds.map((learnableId, idx) => {
                      const learnable = lookup.getLearnable(learnableId);
                      const collection = lookup.getCollection(learnableId);
+                     const record = store.learned.get(learnableId);
+                     const score = (record ? record.score : 0) * 100;
                      return (
                          <div className="reviewed-learnable" key={idx}>
                              <header>
@@ -188,9 +190,9 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                                      Mastery:&nbsp;
 
                                      <AnimatedNumber
-                                         value={store.learned.get(learnableId).score * 100}
+                                         value={score}
                                          duration={1000}
-                                         stepPrecision={1}
+                                         stepPrecision={2}
                                      /> / 100
                                  </p>
                                  <button>View {collection.name}</button>
