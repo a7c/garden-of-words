@@ -21,21 +21,30 @@ export class RouterClass {
         this.listeners.get(index)!.push(callback);
     }
 
+    get(index: number): string | null {
+        return this.getPath()[index] || null;
+    }
+
+    getPath(): string[] {
+        if (window.history.state.path) {
+            return window.history.state.path as string[];
+        }
+        return [];
+    }
+
     navigate(path: string[], dispatch: boolean = true) {
         let commonPrefixLength = 0;
 
-        if (window.history.state.path) {
-            // Don't dispatch change events to parts of path that
-            // didn't change
-            const oldPath = window.history.state.path as string[];
-            if (path.length <= oldPath.length) {
-                for (let i = 0; i < path.length; i++) {
-                    if (path[i] === oldPath[i]) {
-                        commonPrefixLength = i + 1;
-                    }
-                    else {
-                        break;
-                    }
+        const oldPath = this.getPath();
+        // Don't dispatch change events to parts of path that
+        // didn't change
+        if (path.length <= oldPath.length) {
+            for (let i = 0; i < path.length; i++) {
+                if (path[i] === oldPath[i]) {
+                    commonPrefixLength = i + 1;
+                }
+                else {
+                    break;
                 }
             }
         }

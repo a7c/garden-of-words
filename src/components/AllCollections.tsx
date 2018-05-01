@@ -10,6 +10,7 @@ import "./AllCollections.css";
 
 import "react-dropdown/style.css";
 import Dropdown from "react-dropdown";
+import Router from "../router";
 import ActionButton from "./ActionButton";
 
 import CollectionComponent from "./Collection";
@@ -31,6 +32,24 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
     constructor(props: AllCollectionsProps) {
         super(props);
         this.state = { viewCollection: null, searchText: null };
+    }
+
+    componentDidMount() {
+        Router.listen(1, this.reroute);
+        if (Router.get(0) === "Collections" && Router.get(1)) {
+            this.reroute(Router.get(1)!);
+        }
+    }
+
+    reroute = (path: string) => {
+        console.log(path);
+        const ids = Object.keys(lookup.getCollections());
+        for (const id of ids) {
+            if (path === id) {
+                this.setState({ viewCollection: id });
+                break;
+            }
+        }
     }
 
     onCollectionDone = () => {
