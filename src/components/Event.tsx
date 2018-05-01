@@ -109,6 +109,7 @@ class Question extends React.Component<QuestionProps> {
                 {this.props.event.flavor ? <p>{this.props.event.flavor}</p> : false}
                 <QuestionComponent
                     question={this.question}
+                    store={this.props.store}
                     onReview={this.props.onReview}
                     onNotHappening={this.props.onNotHappening}
                 />

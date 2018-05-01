@@ -1,5 +1,6 @@
 import * as React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import AnimatedNumber from "react-animated-number";
 
 import * as model from "../model/model";
 import * as question from "../model/question";
@@ -13,6 +14,7 @@ import Fade from "./Fade";
 import OnlyOnce from "./OnlyOnce";
 
 interface QuestionProps {
+    store: model.Store;
     question: question.Question;
     onReview: (id: model.LearnableId, correct: boolean) => void;
     onNotHappening: () => void;
@@ -38,6 +40,7 @@ interface TypeInState {
 }
 
 interface PostQuestionProps {
+    store: model.Store;
     correct: boolean;
     learnableIds: model.LearnableId[];
     applyEffects: () => void;
@@ -164,6 +167,7 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
     }
 
     render() {
+        const { store } = this.props;
         return (
             <div>
                 <p>
@@ -180,7 +184,15 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                                  <span>{learnable.back}</span>
                              </header>
                              <div>
-                                 <p>Score: </p>
+                                 <p>
+                                     Mastery:&nbsp;
+
+                                     <AnimatedNumber
+                                         value={store.learned.get(learnableId).score * 100}
+                                         duration={1000}
+                                         stepPrecision={1}
+                                     /> / 100
+                                 </p>
                                  <button>View {collection.name}</button>
                              </div>
                          </div>
@@ -217,6 +229,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
             return (
                 <PostQuestion
                     key="postquestion"
+                    store={this.props.store}
                     correct={this.state.status === "right"}
                     learnableIds={this.state.learnableIds}
                     applyEffects={this.applyEffects}

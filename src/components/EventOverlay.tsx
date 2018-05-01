@@ -69,9 +69,10 @@ export default class EventOverlay extends React.Component<Props, State> {
         else if (happening instanceof Question) {
             body = (
                 <QuestionComponent
-                       question={happening}
-                       onReview={this.onReview}
-                       onNotHappening={this.onNotHappening}
+                    store={this.props.store}
+                    question={happening}
+                    onReview={this.onReview}
+                    onNotHappening={this.onNotHappening}
                 />
             );
         }
