@@ -4,11 +4,13 @@ import * as React from "react";
 import "../Common.css";
 import "./NavTab.css";
 
+import Router from "../router";
 import ActionButton from "./ActionButton";
 
 interface NavTabProps {
     labels: {
         label: string;
+        url: string;
         enabled: boolean;
         hint: string;
         onHint: (hint: string) => void;
@@ -27,7 +29,21 @@ export default class NavTab extends React.Component<NavTabProps, NavTabState> {
         this.state = { tabIndex: 0 };
     }
 
+    componentDidMount() {
+        Router.listen(0, (path) => {
+            let i = 0;
+            for (const { url } of this.props.labels) {
+                if (path === url) {
+                    this.changeTab(i);
+                    break;
+                }
+                i++;
+            }
+        });
+    }
+
     changeTab = (index: number) => {
+        Router.navigate([ this.props.labels[index]!.url ], false);
         this.setState({ tabIndex: index });
         if (this.props.labels[index] && this.props.labels[index].clearAlert) {
             this.props.labels[index].clearAlert!();

@@ -283,24 +283,28 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         labels={[
                             {
                                 label: locationData.area || "The Street",
+                                url: "Area",
                                 enabled: true,
                                 hint: "",
                                 onHint: this.onNavTabHint,
                             },
                             {
                                 label: "Map",
+                                url: "Map",
                                 enabled: this.props.store.location.discovered.size > 1,
                                 hint: "Gotta get your bearings before looking for a map.",
                                 onHint: this.onNavTabHint,
                             },
                             {
                                 label: "Collections",
+                                url: "Collections",
                                 enabled: this.props.store.learned.size > 0,
                                 hint: "Maybe wandering around will give you some vocabulary to collect.",
                                 onHint: this.onNavTabHint,
                             },
                             {
                                 label: "Quests",
+                                url: "Quests",
                                 enabled: this.props.store.quests.size > 0,
                                 hint: "Maybe wandering around will give you some things to do.",
                                 onHint: this.onNavTabHint,

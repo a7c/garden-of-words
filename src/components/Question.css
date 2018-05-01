@@ -72,3 +72,8 @@ button.review {
 .reviewed-learnable header span:last-child {
     font-size: 1.5rem;
 }
+
+.continue {
+    width: 100%;
+    font-weight: bold;
+}
