@@ -227,6 +227,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
             case "F2": {
                 this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", 25));
+                this.props.modifyResource("stamina", 25);
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "You magically feel more durable."
                 ]) });
