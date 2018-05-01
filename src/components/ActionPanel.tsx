@@ -106,7 +106,7 @@ export default class ActionPanel extends React.Component<Props> {
             if (!poi.filter || poi.filter.check(store)) {
                 pois.push(
                     <ActionButton
-                        key={idx}
+                        key={`poi-${idx}`}
                         label={poi.label}
                         cost={this.formatCost(poi.cost)}
                         onClick={() => this.wanderHelper(0, poi.eventSource)}
@@ -122,7 +122,7 @@ export default class ActionPanel extends React.Component<Props> {
                 const targetLoc = locations.getLocation(loc);
                 const button = (
                     <ActionButton
-                        key={idx}
+                        key={`loc-${loc}`}
                         label={targetLoc.label || targetLoc.name}
                         paused={paused}
                         onClick={() => this.travel(loc)}
@@ -142,6 +142,7 @@ export default class ActionPanel extends React.Component<Props> {
             locationData.connected.indexOf("airport-gate")) {
             const button = (
                 <ActionButton
+                    key="trainstation"
                     label="Train Station"
                     locked={
                         model.questStage(store, "airport-train-station") === "just-arrived"
