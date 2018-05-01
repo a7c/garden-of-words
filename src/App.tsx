@@ -22,6 +22,8 @@ import Streets from "./components/Streets";
 import CollectionList from "./components/AllCollections";
 import QuestLog from "./components/QuestLog";
 
+let CHEAT_CODES_ENABLED = true;
+
 interface TestProps {
     store: model.Store;
 
@@ -210,6 +212,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     onKey = (e: KeyboardEvent) => {
+        if (!CHEAT_CODES_ENABLED) {
+            return;
+        }
         switch (e.code) {
             case "F1": {
                 this.props.modifyResource("yen", 1000);
@@ -239,6 +244,41 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "You learned everything we have to teach about Japanese."
                 ]) });
+                e.preventDefault();
+                break;
+            }
+            case "F4": {
+                const effects = [
+                    // need to learn some kana and vocab so that unlocked things don't crash
+                    new event.LearnEffect("hira-い"),
+                    new event.LearnEffect("hira-と"),
+                    new event.LearnEffect("hira-み"),
+                    new event.LearnEffect("hira-な"),
+                    new event.LearnEffect("vocab-緑"),
+                    new event.LearnEffect("vocab-緑-kana-meaning"),
+                    new event.LearnEffect("vocab-緑-kana-meaning-reverse"),
+                    new event.LearnEffect("vocab-緑-kana-romaji-0"),
+                    new event.FlagEffect("has-transliteration-job", true),
+                    new event.FlagEffect("has-luggage-job", true),
+                    new event.DiscoverEffect("airport-food-court"),
+                    new event.DiscoverEffect("airport-food-court-ramen"),
+                    new event.DiscoverEffect("airport-gate-vending-machine"),
+                    new event.DiscoverEffect("airport-train-station"),
+                    new event.DiscoverEffect("airport-train-station-ticket-booth"),
+                    new event.QuestEffect("rehydrate", "complete"),
+                    new event.QuestEffect("ramen-ya", "complete"),
+                    new event.QuestEffect("airport-train-station", "target-located"),
+                ];
+                effects.map((eff) => this.props.handleEventEffect(eff));
+                this.setState({ eventLog: this.state.eventLog.concat([
+                    "You become one with everything."
+                ]) });
+                e.preventDefault();
+                break;
+            }
+            // disable cheat codes
+            case "F12": {
+                CHEAT_CODES_ENABLED = false;
                 e.preventDefault();
                 break;
             }

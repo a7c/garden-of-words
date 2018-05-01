@@ -12,5 +12,10 @@
     {
         "type": "discover",
         "location": "airport-gate"
+    },
+    {
+        "type": "flag",
+        "flag": "has-transliteration-job",
+        "value": false
     }
 ]
