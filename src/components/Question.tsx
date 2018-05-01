@@ -16,12 +16,27 @@ interface QuestionProps {
     onReview: (id: model.LearnableId, correct: boolean) => void;
 }
 
-interface MultipleChoiceProps extends QuestionProps {
+interface MultipleChoiceProps {
     question: question.MultipleChoice;
+    onReview: (ids: model.LearnableId[], correct: boolean) => void;
 }
 
 interface QuestionState {
     status: "right" | "wrong" | "answering";
+}
+
+interface TypeInProps {
+    question: question.TypeIn;
+    onReview: (ids: model.LearnableId[], correct: boolean) => void;
+}
+
+interface TypeInState {
+    input: string;
+}
+
+interface PostQuestionProps {
+    correct: boolean;
+    learnableIds: model.LearnableId[];
 }
 
 class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
@@ -32,9 +47,7 @@ class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
     reviewWord = (idx: number) => {
         this.once(() => {
             const q = this.props.question;
-            for (const learnable of q.teaches) {
-                this.props.onReview(learnable, q.correct(idx));
-            }
+            this.props.onReview(q.teaches, q.correct(idx));
         });
     }
 
@@ -59,14 +72,6 @@ class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
             </section>
         );
     }
-}
-
-interface TypeInProps extends QuestionProps {
-    question: question.TypeIn;
-}
-
-interface TypeInState {
-    input: string;
 }
 
 class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
@@ -102,17 +107,13 @@ class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
             const q = this.props.question;
             const input = this.state.input.trim();
 
-            for (const learnable of q.teaches) {
-                this.props.onReview(learnable, q.correct(input));
-            }
+            this.props.onReview(q.teaches, q.correct(input));
         });
     }
 
     _handleGiveUp = () => {
         const q = this.props.question;
-        for (const learnable of q.teaches) {
-            this.props.onReview(learnable, false);
-        }
+        this.props.onReview(q.teaches, false);
     }
 
     prompt(learnable: model.Learnable) {
@@ -146,17 +147,21 @@ class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
     }
 }
 
+class PostQuestion extends React.Component<PostQuestionProps> {
+
+}
+
 export default class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
     constructor(props: QuestionProps) {
         super(props);
         this.state = { status: "answering" };
     }
 
-    onReview = (id: model.LearnableId, correct: boolean) => {
+    onReview = (ids: model.LearnableId[], correct: boolean) => {
         this.setState({
             status: correct ? "right" : "wrong",
         });
-        this.props.onReview(id, correct);
+        ids.forEach(id => this.props.onReview(id, correct));
     }
 
     render() {
