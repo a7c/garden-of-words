@@ -16,13 +16,14 @@ interface QuestionProps {
     onReview: (id: model.LearnableId, correct: boolean) => void;
 }
 
+interface QuestionState {
+    status: "right" | "wrong" | "answering";
+    learnableIds: model.LearnableId[];
+}
+
 interface MultipleChoiceProps {
     question: question.MultipleChoice;
     onReview: (ids: model.LearnableId[], correct: boolean) => void;
-}
-
-interface QuestionState {
-    status: "right" | "wrong" | "answering";
 }
 
 interface TypeInProps {
@@ -37,6 +38,7 @@ interface TypeInState {
 interface PostQuestionProps {
     correct: boolean;
     learnableIds: model.LearnableId[];
+    callback: () => void;
 }
 
 class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
@@ -147,47 +149,58 @@ class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
     }
 }
 
-class PostQuestion extends React.Component<PostQuestionProps> {
+class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
+    dismiss = () => {
+        this.once(() => {
+            this.props.callback();
+        });
+    }
 
+    render() {
+        return (
+            <div>
+                <p>{this.props.correct ? "Correct!" : "Wrong, try again!"}</p>
+                {this.props.learnableIds.map(learnableId => (
+                     <div>{learnableId}</div>
+                 ))}
+
+                <button onClick={this.dismiss}>Continue</button>
+            </div>
+        );
+    }
 }
 
 export default class QuestionComponent extends React.Component<QuestionProps, QuestionState> {
     constructor(props: QuestionProps) {
         super(props);
-        this.state = { status: "answering" };
+        this.state = { status: "answering", learnableIds: [] };
     }
 
-    onReview = (ids: model.LearnableId[], correct: boolean) => {
+    onReview = (learnableIds: model.LearnableId[], correct: boolean) => {
         this.setState({
             status: correct ? "right" : "wrong",
+            learnableIds,
         });
-        ids.forEach(id => this.props.onReview(id, correct));
+    }
+
+    onDismiss = () => {
+        this.state.learnableIds.forEach(id => this.props.onReview(id, this.state.status === "right"));
     }
 
     render() {
         const q = this.props.question;
-        if (q instanceof question.MultipleChoice) {
-            let contents = <MultipleChoice key="mc" question={q} onReview={this.onReview} />;
-            if (this.state.status === "right") {
-                contents = (
-                    <Dialog
-                        key="dialog"
-                        text="Correct!"
-                        style=""
-                    />
-                );
-            }
-            else if (this.state.status === "wrong") {
-                contents = (
-                    <Dialog
-                        key="dialog"
-                        text="Incorrect, try again!"
-                        style=""
-                    />
-                );
-            }
-
-            return contents;
+        if (this.state.status !== "answering") {
+            return (
+                <PostQuestion
+                    key="postquestion"
+                    correct={this.state.status === "right"}
+                    learnableIds={this.state.learnableIds}
+                    callback={this.onDismiss}
+                />
+            );
+        }
+        else if (q instanceof question.MultipleChoice) {
+            return <MultipleChoice key="mc" question={q} onReview={this.onReview} />;
         }
         else if (q instanceof question.TypeIn) {
             return <TypeIn key="ti" question={q} onReview={this.onReview} />;
