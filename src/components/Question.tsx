@@ -15,6 +15,7 @@ import OnlyOnce from "./OnlyOnce";
 interface QuestionProps {
     question: question.Question;
     onReview: (id: model.LearnableId, correct: boolean) => void;
+    onNotHappening: () => void;
 }
 
 interface QuestionState {
@@ -39,7 +40,8 @@ interface TypeInState {
 interface PostQuestionProps {
     correct: boolean;
     learnableIds: model.LearnableId[];
-    callback: () => void;
+    applyEffects: () => void;
+    onNotHappening: () => void;
 }
 
 class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
@@ -151,9 +153,13 @@ class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
 }
 
 class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
+    componentDidMount() {
+        this.props.applyEffects();
+    }
+
     dismiss = () => {
         this.once(() => {
-            this.props.callback();
+            this.props.onNotHappening();
         });
     }
 
@@ -161,7 +167,7 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
         return (
             <div>
                 <p>
-                    {this.props.correct ? "Correct!" : "Wrong, try again!"}
+                    <strong>{this.props.correct ? "Correct!" : "Wrong, try again!"}</strong>
                 </p>
                 <p>Reviewed:</p>
                 {this.props.learnableIds.map((learnableId, idx) => {
@@ -201,7 +207,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
         });
     }
 
-    onDismiss = () => {
+    applyEffects = () => {
         this.state.learnableIds.forEach(id => this.props.onReview(id, this.state.status === "right"));
     }
 
@@ -213,7 +219,8 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
                     key="postquestion"
                     correct={this.state.status === "right"}
                     learnableIds={this.state.learnableIds}
-                    callback={this.onDismiss}
+                    applyEffects={this.applyEffects}
+                    onNotHappening={this.props.onNotHappening}
                 />
             );
         }

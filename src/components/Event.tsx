@@ -30,6 +30,7 @@ interface QuestionProps {
 
     event: event.QuestionEvent;
     onReview: (id: model.LearnableId, correct: boolean) => void;
+    onNotHappening: () => void;
 }
 
 class Flavor extends React.Component<FlavorProps> {
@@ -106,7 +107,11 @@ class Question extends React.Component<QuestionProps> {
         return (
             <section className="Event" key={this.props.event.sequence || 0}>
                 {this.props.event.flavor ? <p>{this.props.event.flavor}</p> : false}
-                <QuestionComponent question={this.question} onReview={this.props.onReview} />
+                <QuestionComponent
+                    question={this.question}
+                    onReview={this.props.onReview}
+                    onNotHappening={this.props.onNotHappening}
+                />
             </section>
         );
     }
@@ -197,6 +202,7 @@ export default class EventComponent extends React.Component<EventProps> {
                     event={ev}
                     store={this.props.store}
                     onReview={this.onQuestionFinished}
+                    onNotHappening={this.onFinished}
                 />
             );
         }

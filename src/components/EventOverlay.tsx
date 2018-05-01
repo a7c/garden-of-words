@@ -38,7 +38,6 @@ export default class EventOverlay extends React.Component<Props, State> {
 
     onReview = (id: model.LearnableId, correct: boolean) => {
         this.props.onReviewFinished(id, correct);
-        this.onNotHappening();
     }
 
     onNotHappening() {
@@ -68,7 +67,13 @@ export default class EventOverlay extends React.Component<Props, State> {
             );
         }
         else if (happening instanceof Question) {
-            body = <QuestionComponent question={happening} onReview={this.onReview} />;
+            body = (
+                <QuestionComponent
+                       question={happening}
+                       onReview={this.onReview}
+                       onNotHappening={this.onNotHappening}
+                />
+            );
         }
         else if (happening) {
             body = <LearnedSomething learnable={happening} onFinished={this.props.onNotHappening} />;
