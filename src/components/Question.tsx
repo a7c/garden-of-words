@@ -3,6 +3,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import * as model from "../model/model";
 import * as question from "../model/question";
+import * as lookup from "../model/lookup";
 
 import "../Common.css";
 import "./Question.css";
@@ -159,11 +160,28 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
     render() {
         return (
             <div>
-                <p>{this.props.correct ? "Correct!" : "Wrong, try again!"}</p>
-                {this.props.learnableIds.map(learnableId => (
-                     <div>{learnableId}</div>
-                 ))}
+                <p>
+                    {this.props.correct ? "Correct!" : "Wrong, try again!"}
+                </p>
+                <p>Reviewed:</p>
+                {this.props.learnableIds.map((learnableId, idx) => {
+                     const learnable = lookup.getLearnable(learnableId);
+                     const collection = lookup.getCollection(learnableId);
+                     return (
+                         <div className="reviewed-learnable" key={idx}>
+                             <header>
+                                 <span>{learnable.front}</span>
+                                 <span>{learnable.back}</span>
+                             </header>
+                             <div>
+                                 <p>Score: </p>
+                                 <button>View {collection.name}</button>
+                             </div>
+                         </div>
+                     );
+                 })}
 
+                <br />
                 <button onClick={this.dismiss}>Continue</button>
             </div>
         );
