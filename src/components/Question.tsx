@@ -9,6 +9,7 @@ import * as lookup from "../model/lookup";
 import "../Common.css";
 import "./Question.css";
 
+import Router from "../router";
 import Dialog from "./Dialog";
 import Fade from "./Fade";
 import OnlyOnce from "./OnlyOnce";
@@ -166,6 +167,10 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
         });
     }
 
+    showCollection(id: model.CollectionId) {
+        Router.navigate([ "Collections", id ]);
+    }
+
     render() {
         const { store } = this.props;
         return (
@@ -195,14 +200,18 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                                          stepPrecision={2}
                                      /> / 100
                                  </p>
-                                 <button>View {collection.name}</button>
+                                 <button
+                                     onClick={() => this.showCollection(learnable.collection)}
+                                 >
+                                     View {collection.name}
+                                 </button>
                              </div>
                          </div>
                      );
                  })}
 
                 <br />
-                <button onClick={this.dismiss}>Continue</button>
+                <button className="continue" onClick={this.dismiss}>Continue</button>
             </div>
         );
     }
