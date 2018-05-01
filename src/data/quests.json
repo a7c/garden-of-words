@@ -10,6 +10,34 @@
             "found-ticket-booth": "You've finally found the ticket booth! Let's buy a ticket.",
             "need-resources": "In order to buy a ticket, it seems that you need to collect more money and learn more numbers and colors.",
             "complete": "You've successfully purchased a ticket from the airport train station. Tokyo here we come!"
+        },
+        "checklists": {
+            "need-resources": [
+                {
+                    "description": "1000 yen",
+                    "filter": {
+                        "type": "resource",
+                        "resource": "yen",
+                        "minimum": 1000
+                    }
+                },
+                {
+                    "description": "Know four words for colors",
+                    "filter": {
+                        "type": "vocabsize",
+                        "collection": "vocab-basic-colors",
+                        "minimum": 4
+                    }
+                },
+                {
+                    "description": "Know a word for a number",
+                    "filter": {
+                        "type": "vocabsize",
+                        "collection": "vocab-basic-numbers",
+                        "minimum": 1
+                    }
+                }
+            ]
         }
     },
     {

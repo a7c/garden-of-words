@@ -7,3 +7,8 @@
 #quest-log > section {
     margin-top: 1.5em;
 }
+
+.checklist {
+    list-style-type: none;
+    padding: 0;
+}

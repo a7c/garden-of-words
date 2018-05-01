@@ -10,8 +10,41 @@ import LabeledPanel from "./LabeledPanel";
 import "../Common.css";
 import "./QuestLog.css";
 
+class QuestLogEntry extends React.Component<{
+    q: quest.Quest,
+    stage: model.QuestStage,
+    store: model.Store,
+}> {
+    render() {
+        const { q, stage, store } = this.props;
+        const title = q.complete === stage ? `${q.name} (completed)` : q.name;
+        const checklist = q.checklists.get(stage);
+        return (
+            <LabeledPanel title={title}>
+                <p>{q.journal.get(stage)}</p>
+                {checklist ?
+                 (
+                     <ul className="checklist">
+                         {checklist.map(({ description, filter }) => (
+                             <li>
+                                 <input
+                                     type="checkbox"
+                                     disabled={true}
+                                     checked={filter.check(store)}
+                                 />
+                                 {description}
+                             </li>
+                         ))}
+                     </ul>
+                 )
+                 : false}
+            </LabeledPanel>
+        );
+    }
+}
+
 interface Props {
-    quests: immutable.Map<model.QuestId, model.QuestStage>;
+    store: model.Store;
 }
 
 export default class QuestLog extends React.Component<Props> {
@@ -19,7 +52,9 @@ export default class QuestLog extends React.Component<Props> {
         const incomplete: [quest.Quest, model.QuestStage][] = [];
         const complete: quest.Quest[] = [];
 
-        const entries = this.props.quests.entries() as
+        const { quests } = this.props.store;
+
+        const entries = quests.entries() as
             IterableIterator<[ model.QuestId, model.QuestStage ]>;
         for (const [ id, stage ] of entries) {
             const q = lookup.getQuest(id);
@@ -40,18 +75,14 @@ export default class QuestLog extends React.Component<Props> {
                  <h2>No current quests.</h2>
                  :
                  incomplete.map(([ q, stage ], idx) => (
-                    <LabeledPanel key={idx} title={q.name}>
-                        <p>{q.journal.get(stage)}</p>
-                    </LabeledPanel>
+                     <QuestLogEntry key={idx} store={this.props.store} q={q} stage={stage} />
                 ))}
                 <hr/>
                 {complete.length === 0 ?
                  <h2>No completed quests.</h2>
                  :
                  complete.map((q, idx) => (
-                    <LabeledPanel key={idx} title={`${q.name} (completed)`}>
-                        <p>{q.journal.get(q.complete)}</p>
-                    </LabeledPanel>
+                     <QuestLogEntry key={idx} store={this.props.store} q={q} stage={q.complete} />
                 ))}
             </div>
         );

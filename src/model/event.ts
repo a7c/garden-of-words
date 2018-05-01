@@ -97,6 +97,21 @@ export class FlagFilter extends Filter {
         else if (this.flag.slice(0, 14) === "started-quest:") {
             return store.quests.has(this.flag.slice(14)) === this.value;
         }
+        else if (this.flag.startsWith("completed-checklist:")) {
+            const [ _, questId, stage ] = this.flag.split(":");
+            const quest = lookup.getQuest(questId);
+            const checklist = quest.checklists.get(stage);
+            if (checklist) {
+                for (const { filter } of checklist) {
+                    if (!filter.check(store)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            console.warn(`Checked checklist for ${questId} at ${stage}, but one isn't defined.`);
+            return true;
+        }
         const actualValue = store.flags.get(this.flag);
         // Cast to boolean
         return !!actualValue === this.value;

@@ -188,11 +188,16 @@ export function getCollections(): { [key: string]: Collection } {
 }
 
 const quests = new Map();
-(require("../data/quests.json") as parsers.QuestProps[])
-    .map(parsers.parseQuest)
-    .forEach(q => quests.set(q.id, q));
+let __parsedQuests = false;//tslint:disable-line
 
 export function getQuest(id: model.QuestId): quest.Quest {
+    // Lazy-load to avoid circular imports (ugh)
+    if (!__parsedQuests) {
+        (require("../data/quests.json") as parsers.QuestProps[])
+            .map(parsers.parseQuest)
+            .forEach(q => quests.set(q.id, q));
+        __parsedQuests = true;
+    }
     return quests.get(id);
 }
 
