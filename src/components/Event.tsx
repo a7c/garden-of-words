@@ -6,6 +6,7 @@ import * as lookup from "../model/lookup";
 import * as model from "../model/model";
 import * as question from "../model/question";
 
+import Router from "../router";
 import Fade from "./Fade";
 import QuestionComponent from "./Question";
 
@@ -153,6 +154,11 @@ export default class EventComponent extends React.Component<EventProps> {
         this.props.onReview(id, correct);
     }
 
+    showQuests = () => {
+        Router.navigate([ "Quests" ]);
+        this.onFinished();
+    }
+
     render() {
         const ev = this.props.event;
         let contents: JSX.Element | JSX.Element[] = <span/>;
@@ -174,12 +180,20 @@ export default class EventComponent extends React.Component<EventProps> {
             contents = [
                 <Quest key="quest" event={ev} />,
                 (
-                    <button
-                        key="accept-quest"
-                        onClick={this.props.onFinished}
-                    >
-                        Accept Quest
-                    </button>
+                    <div className="event-buttons">
+                        <button
+                            key="view-quest-log"
+                            onClick={this.showQuests}
+                        >
+                            View Quest Log
+                        </button>
+                        <button
+                            key="accept-quest"
+                            onClick={this.props.onFinished}
+                        >
+                            <strong>Accept Quest</strong>
+                        </button>
+                    </div>
                 ),
             ];
         }
@@ -187,12 +201,20 @@ export default class EventComponent extends React.Component<EventProps> {
             contents = [
                 <QuestUpdated key="quest-updated" event={ev} store={this.props.store} />,
                 (
-                    <button
-                        key="accept-quest"
-                        onClick={this.props.onFinished}
-                    >
-                        Continue
-                    </button>
+                    <div className="event-buttons">
+                        <button
+                            key="view-quest-log"
+                            onClick={this.showQuests}
+                        >
+                            View Quest Log
+                        </button>
+                        <button
+                            key="accept-quest"
+                            onClick={this.props.onFinished}
+                        >
+                            <strong>Continue</strong>
+                        </button>
+                    </div>
                 ),
             ];
         }
