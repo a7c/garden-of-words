@@ -22,6 +22,8 @@ import Streets from "./components/Streets";
 import CollectionList from "./components/AllCollections";
 import QuestLog from "./components/QuestLog";
 
+let CHEAT_CODES_ENABLED = true;
+
 interface TestProps {
     store: model.Store;
 
@@ -209,19 +211,66 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.onEvent(new event.FlavorEvent([], [], hint));
     }
 
+    _cheatReplenish = (yen: number, stamina: number) => {
+        this.props.modifyResource("yen", yen);
+        this.props.modifyResource("stamina", stamina);
+    }
+
+    _cheatSwole = (maxStamina: number) => {
+        this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", maxStamina));
+        this.props.modifyResource("stamina", maxStamina);
+    }
+
+    _cheat2000IQ = () => {
+        const collections = lookup.getCollections();
+        for (const collectionName of Object.keys(collections)) {
+            const collection = collections[collectionName];
+            for (const learnableId of collection.learnables) {
+                this.props.onLearn(learnableId);
+            }
+        }
+    }
+
+    _cheatSudo = () => {
+        const effects = [
+            // need to learn some kana and vocab so that unlocked things don't crash
+            new event.LearnEffect("hira-い"),
+            new event.LearnEffect("hira-と"),
+            new event.LearnEffect("hira-み"),
+            new event.LearnEffect("hira-な"),
+            new event.LearnEffect("vocab-緑"),
+            new event.LearnEffect("vocab-緑-kana-meaning"),
+            new event.LearnEffect("vocab-緑-kana-meaning-reverse"),
+            new event.LearnEffect("vocab-緑-kana-romaji-0"),
+            new event.FlagEffect("has-transliteration-job", true),
+            new event.FlagEffect("has-luggage-job", true),
+            new event.DiscoverEffect("airport-food-court"),
+            new event.DiscoverEffect("airport-food-court-ramen"),
+            new event.DiscoverEffect("airport-gate-vending-machine"),
+            new event.DiscoverEffect("airport-train-station"),
+            new event.DiscoverEffect("airport-train-station-ticket-booth"),
+            new event.QuestEffect("rehydrate", "complete"),
+            new event.QuestEffect("ramen-ya", "complete"),
+            new event.QuestEffect("airport-train-station", "target-located"),
+        ];
+        effects.map((eff) => this.props.handleEventEffect(eff));
+    }
+
     onKey = (e: KeyboardEvent) => {
+        if (!CHEAT_CODES_ENABLED) {
+            return;
+        }
         switch (e.code) {
             case "F1": {
-                this.props.modifyResource("yen", 1000);
-                this.props.modifyResource("stamina", 100);
-                e.preventDefault();
+                this._cheatReplenish(1000, 100);
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "It's not every day that money appears in your pocket and your tiredness goes away."
                 ]) });
+                e.preventDefault();
                 break;
             }
             case "F2": {
-                this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", 25));
+                this._cheatSwole(20);
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "You magically feel more durable."
                 ]) });
@@ -229,16 +278,35 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 break;
             }
             case "F3": {
-                const collections = lookup.getCollections();
-                for (const collectionName of Object.keys(collections)) {
-                    const collection = collections[collectionName];
-                    for (const learnableId of collection.learnables) {
-                        this.props.onLearn(learnableId);
-                    }
-                }
+                this._cheat2000IQ();
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "You learned everything we have to teach about Japanese."
                 ]) });
+                e.preventDefault();
+                break;
+            }
+            case "F4": {
+                this._cheatSudo();
+                this.setState({ eventLog: this.state.eventLog.concat([
+                    "You become one with everything."
+                ]) });
+                e.preventDefault();
+                break;
+            }
+            case "F10": {
+                this._cheatReplenish(10000, 100);
+                this._cheatSwole(100);
+                this._cheat2000IQ();
+                this._cheatSudo();
+                this.setState({ eventLog: this.state.eventLog.concat([
+                    "You ascend to your ultimate form. You become Ultra-Gaijin."
+                ]) });
+                e.preventDefault();
+                break;
+            }
+            // disable cheat codes
+            case "F12": {
+                CHEAT_CODES_ENABLED = false;
                 e.preventDefault();
                 break;
             }
