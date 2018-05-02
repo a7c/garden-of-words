@@ -25,6 +25,7 @@ export default function meditate(
             "You tried to meditate but got distracted.", // wrongPostFlavor
             [] // failureEffects
         );
+        questionEvent.allowNavigation = true;
 
         return questionEvent;
     }

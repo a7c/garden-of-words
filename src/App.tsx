@@ -261,6 +261,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
         const { learned, flags, collections, steps, location } = store;
 
         const locationData = locations.getLocation(location.current);
+        const allowNavigation = !this.state.happening ||
+                                (this.state.happening instanceof event.Event ?
+                                 this.state.happening.allowNavigation : true);
 
         return (
             <main>
@@ -298,8 +301,11 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             {
                                 label: "Collections",
                                 url: "Collections",
-                                enabled: this.props.store.learned.size > 0,
-                                hint: "Maybe wandering around will give you some vocabulary to collect.",
+                                enabled: allowNavigation &&
+                                         this.props.store.learned.size > 0,
+                                hint: allowNavigation ?
+                                      "Maybe wandering around will give you some vocabulary to collect."
+                                      : "Can't view collections while answering a question.",
                                 onHint: this.onNavTabHint,
                             },
                             {

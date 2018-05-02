@@ -443,6 +443,8 @@ export class Event {
 
     /** Whether to display the event text in a prompt window. */
     showEvent: boolean;
+    /** Whether this event allows viewing the collections tab and other tabs. */
+    allowNavigation: boolean;
 
     static effectsToText(efs: Effect[]): string | null {
         const effects: string[] = [];
@@ -462,6 +464,7 @@ export class Event {
         this.filters = filters;
         this.effects = effects;
         this.showEvent = showEvent === undefined ? true : showEvent;
+        this.allowNavigation = false;
     }
 
     check(store: model.Store): boolean {
