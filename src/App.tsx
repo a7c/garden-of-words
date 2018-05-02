@@ -356,7 +356,7 @@ export default class App extends React.Component {
                 <h1>I Sudoku'd And Was Reborn in Japan, But I'm a
                 Ninja Stuck in Narita Airport And I Don't Speak Any
                 Japanese</h1>
-                <h1>自殺したら、成田空港から脱出できない忍者として転生されたが、日本語が全く喋れない</h1>
+                <h1>自殺したら、成田空港から脱出できない忍者として転生したが、日本語が全く喋れない‼︎</h1>
                 <Test/>
                 <a href="credits.html">Credits</a>
             </div>
