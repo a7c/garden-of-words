@@ -70,6 +70,18 @@ export type QuestProps = {
     },
 };
 
+export type PossibleEventProps = {
+    event: EventProps,
+    prob: number
+};
+
+export type PossibleEventSetProps = {
+    filters: FilterProps[],
+    events: PossibleEventProps[]
+};
+
+export type EventPipelineProps = PossibleEventSetProps[];
+
 export function parseEffect(json: EffectProps): event.Effect {
     if (json.type === "flag") {
         return new event.FlagEffect(json.flag, json.value);
@@ -218,4 +230,24 @@ question.QuestionTemplate | question.Question {
     }
 
     throw new ParseError("Unrecognized question template", json);
+}
+
+// TODO: reduce boilerplate of these functions (and the props above)?
+
+export function parsePossibleEvent(json: PossibleEventProps): event.PossibleEvent {
+    return {
+        prob: json.prob,
+        event: parseEvent(json.event)
+    };
+}
+
+export function parsePossibleEventSet(json: PossibleEventSetProps): event.PossibleEventSet {
+    return {
+        filters: json.filters.map(parseFilter),
+        events: json.events.map(parsePossibleEvent)
+    };
+}
+
+export function parseEventPipeline(json: EventPipelineProps): event.EventPipeline {
+    return new event.EventPipeline(json.map(parsePossibleEventSet));
 }

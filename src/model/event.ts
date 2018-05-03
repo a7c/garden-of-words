@@ -664,3 +664,62 @@ export class MultiEvent extends Event {
         return new MultiEvent(this.filters, this.effects, this.events);
     }
 }
+
+export interface PossibleEvent {
+    event: Event;
+    /** Represents the probability of being chosen, between 0 (0.0%) and 1000 (100.0%). */
+    prob: number;
+}
+
+export interface PossibleEventSet {
+    filters: Filter[];
+    events: PossibleEvent[];
+}
+
+export class EventPipeline {
+    eventSets: PossibleEventSet[];
+
+    constructor(eventSets: PossibleEventSet[]) {
+        this.eventSets = eventSets;
+
+        /** Check that probabilities sum to exactly 1000 */
+        for (const eventSet of eventSets) {
+            const totalProbability  =
+                eventSet.events.reduce(
+                    (acc, possibleEvent) => {
+                        return acc + possibleEvent.prob;
+                    },
+                    0);
+            if (totalProbability < 1000) {
+                console.warn("Total probability of this PossibleEventSet sums to under 1000!");
+            }
+            else if (totalProbability > 1000) {
+                console.warn("Total probability of this PossibleEventSet sums to over 1000!");
+            }
+        }
+    }
+
+    getRandomEvent(store: model.Store): Event {
+        let rand = Math.floor(Math.random() * 1000) + 1;
+        let currentEventSet: PossibleEventSet | null = null;
+        // Select first event set that passes all filters
+        for (const eventSet of this.eventSets) {
+            if (eventSet.filters.every((filter) => filter.check(store))) {
+                currentEventSet = eventSet;
+                break;
+            }
+        }
+        // If no event set is valid, return some filler event
+        if (currentEventSet === null) {
+            return new FlavorEvent([], [], "Nothing happens.");
+        }
+        for (const possibleEvent of currentEventSet.events) {
+            rand -= possibleEvent.prob;
+            if (rand <= 0) {
+                return possibleEvent.event;
+            }
+        }
+        // If we couldn't select an event somehow, return filler event
+        return new FlavorEvent([], [], "Nothing happens.");
+    }
+}

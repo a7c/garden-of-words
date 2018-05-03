@@ -62,6 +62,22 @@
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
         "pois": [],
+        "wanderEvents": [
+            {
+                "filters": [],
+                "events": [
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "TEST",
+                            "filters": [],
+                            "effects": []
+                        },
+                        "probability": 1000
+                    }
+                ]
+            }
+        ],
         "wanderFlavor": {
             "hiragana": [
                 "You spot a sign written in hiragana and romaji.",
