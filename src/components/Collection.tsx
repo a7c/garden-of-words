@@ -115,7 +115,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 let score = 0;
                 for (const item of record.items) {
                     const learnedRecord = this.props.learned.get(item.id);
-                    score += learnedRecord ? (learnedRecord.score / record.items.length) : 0;
+                    score += learnedRecord ? ((learnedRecord.score / 100) / record.items.length) : 0;
                 }
                 score = 100 * (1 - score);
 

@@ -183,7 +183,7 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                      const learnable = lookup.getLearnable(learnableId);
                      const collection = lookup.getCollection(learnableId);
                      const record = store.learned.get(learnableId);
-                     const score = (record ? record.score : 0) * 100;
+                     const score = record ? record.score : 0;
                      return (
                          <div className="reviewed-learnable" key={idx}>
                              <header>
@@ -196,8 +196,8 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
 
                                      <AnimatedNumber
                                          value={score}
-                                         duration={1000}
-                                         stepPrecision={2}
+                                         duration={750}
+                                         stepPrecision={0}
                                      /> / 100
                                  </p>
                                  <button
