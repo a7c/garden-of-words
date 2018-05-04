@@ -31,7 +31,7 @@
             },
             {
                 "label": "Order Red Ramen",
-                "eventSource": "airport-food-court-ramen-ya-blue",
+                "eventSource": "airport-food-court-ramen-ya-red",
                 "cooldown": 1000,
                 "filter": {
                     "type": "quest",

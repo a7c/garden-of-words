@@ -13,7 +13,7 @@ export default {
     airportGate: events,
     airportFoodCourt: require("./collections/food-court.json").map(parsers.parseEvent),
     airportFoodCourtRamenYa: require("./collections/food-court-ramen-ya.json").map(parsers.parseEvent),
-    airportFoodCourtRamenYaBlue: require("./collections/food-court-ramen-ya-blue.json").map(parsers.parseEvent),
+    airportFoodCourtRamenYaRed: require("./collections/food-court-ramen-ya-red.json").map(parsers.parseEvent),
     airportFoodCourtRamenYaPurple: require("./collections/food-court-ramen-ya-purple.json").map(parsers.parseEvent),
     transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
