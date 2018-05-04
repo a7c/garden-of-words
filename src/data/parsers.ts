@@ -73,7 +73,7 @@ export type QuestProps = {
 
 export type PossibleEventProps = {
     event: EventProps,
-    probability: number
+    weight: number
 };
 
 export type PossibleEventSetProps = {
@@ -240,7 +240,7 @@ question.QuestionTemplate | question.Question {
 
 export function parsePossibleEvent(json: PossibleEventProps): event.PossibleEvent {
     return {
-        prob: json.probability,
+        weight: json.weight,
         event: parseEvent(json.event)
     };
 }

@@ -80,7 +80,7 @@
                     {
                         "event": {
                             "type": "flavor",
-                            "text": "1You find some money on the ground. This might help you buy a drink from the vending machine.",
+                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
                             "filters": [],
                             "effects": [
                                 {
@@ -90,7 +90,7 @@
                                 }
                             ]
                         },
-                        "probability": 200
+                        "weight": 2
                     },
                     {
                         "event": {
@@ -116,7 +116,7 @@
                             ],
                             "failureEffects": []
                         },
-                        "probability": 200
+                        "weight": 2
                     },
                     {
                         "event": {
@@ -130,7 +130,7 @@
                                 }
                             ]
                         },
-                        "probability": 300
+                        "weight": 3
                     },
                     {
                         "event": {
@@ -144,7 +144,7 @@
                                 }
                             ]
                         },
-                        "probability": 300
+                        "weight": 3
                     }
                 ]
             },
@@ -170,7 +170,7 @@
                                 }
                             ]
                         },
-                        "probability": 200
+                        "weight": 1
                     },
                     {
                         "event": {
@@ -184,7 +184,7 @@
                                 }
                             ]
                         },
-                        "probability": 400
+                        "weight": 2
                     },
                     {
                         "event": {
@@ -198,7 +198,7 @@
                                 }
                             ]
                         },
-                        "probability": 400
+                        "weight": 2
                     }
                 ]
             },
@@ -235,7 +235,7 @@
                             ],
                             "failureEffects": []
                         },
-                        "probability": 200
+                        "weight": 1
                     },
                     {
                         "event": {
@@ -249,7 +249,7 @@
                                 }
                             ]
                         },
-                        "probability": 400
+                        "weight": 2
                     },
                     {
                         "event": {
@@ -263,7 +263,7 @@
                                 }
                             ]
                         },
-                        "probability": 400
+                        "weight": 2
                     }
                 ]
             },
@@ -273,7 +273,7 @@
                     {
                         "event": {
                             "type": "flavor",
-                            "text": "1You spot a sign written in hiragana and romaji.",
+                            "text": "You spot a sign written in hiragana and romaji.",
                             "filters": [],
                             "effects": [
                                 {
@@ -282,12 +282,12 @@
                                 }
                             ]
                         },
-                        "probability": 500
+                        "weight": 1
                     },
                     {
                         "event": {
                             "type": "flavor",
-                            "text": "1As you walk, you remember a flash card from high school Japanese class.",
+                            "text": "As you walk, you remember a flash card from high school Japanese class.",
                             "filters": [],
                             "effects": [
                                 {
@@ -296,7 +296,7 @@
                                 }
                             ]
                         },
-                        "probability": 500
+                        "weight": 1
                     }
 
                 ]

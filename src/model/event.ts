@@ -725,8 +725,8 @@ export class MultiEvent extends Event {
 
 export interface PossibleEvent {
     event: Event;
-    /** Represents the probability of being chosen, between 0 (0.0%) and 1000 (100.0%). */
-    prob: number;
+    /** Represents the relative probability of being chosen, compared to other events in the set. */
+    weight: number;
 }
 
 export interface PossibleEventSet {
@@ -739,26 +739,9 @@ export class EventPipeline {
 
     constructor(eventSets: PossibleEventSet[]) {
         this.eventSets = eventSets;
-
-        /** Check that probabilities sum to exactly 1000 */
-        for (const eventSet of eventSets) {
-            const totalProbability  =
-                eventSet.events.reduce(
-                    (acc, possibleEvent) => {
-                        return acc + possibleEvent.prob;
-                    },
-                    0);
-            if (totalProbability < 1000) {
-                console.warn("Total probability of this PossibleEventSet sums to under 1000!");
-            }
-            else if (totalProbability > 1000) {
-                console.warn("Total probability of this PossibleEventSet sums to over 1000!");
-            }
-        }
     }
 
     getRandomEvent(store: model.Store): Event {
-        let rand = Math.floor(Math.random() * 1000) + 1;
         let currentEventSet: PossibleEventSet | null = null;
         // Select first event set that passes all filters
         for (const eventSet of this.eventSets) {
@@ -771,8 +754,15 @@ export class EventPipeline {
         if (currentEventSet === null) {
             return new FlavorEvent([], [], "Nothing happens.");
         }
+
+        const totalWeight = currentEventSet.events.reduce(
+            (acc, possibleEvent) => acc + possibleEvent.weight,
+            0
+        );
+
+        let rand = Math.floor(Math.random() * totalWeight) + 1;
         for (const possibleEvent of currentEventSet.events) {
-            rand -= possibleEvent.prob;
+            rand -= possibleEvent.weight;
             if (rand <= 0) {
                 return possibleEvent.event;
             }
