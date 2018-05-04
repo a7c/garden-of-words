@@ -1,0 +1,48 @@
+[
+    {
+        "type": "flavor",
+        "text": "The vending machine also dispenses hats. You pick out a fedora.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 500
+            },
+            {
+                "type": "flag",
+                "flag": "hat:fedora",
+                "value": false
+            }
+        ],
+        "effects": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "value": -500
+            },
+            {
+                "type": "flag",
+                "flag": "hat:fedora",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "type": "flavor",
+        "text": "You've bought all the hats on offer.",
+        "filters": [
+            {
+                "type": "resource",
+                "resource": "yen",
+                "minimum": 500
+            }
+        ],
+        "effects": []
+    },
+    {
+        "type": "flavor",
+        "text": "The vending machine sells hats, but you can't afford them.",
+        "filters": [],
+        "effects": []
+    }
+]

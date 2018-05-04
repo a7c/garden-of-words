@@ -142,6 +142,10 @@ function wardrobe(
         return state
             .set("currentTheme", action.theme)
             .set("themes", state.themes.add(action.theme));
+    case actions.HATIFY:
+        return state
+            .set("currentHat", action.hat)
+            .set("hats", action.hat !== null ? state.hats.add(action.hat) : state.hats);
     default:
         return state;
     }

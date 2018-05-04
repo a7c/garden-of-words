@@ -153,6 +153,17 @@
                     "quest": "rehydrate",
                     "stage": "complete"
                 }
+            },
+            {
+                "label": "Buy Hat",
+                "eventSource": "vending-machine-hat",
+                "cooldown": 500,
+                "cost": [ "yen", 500 ],
+                "filter": {
+                    "type": "quest",
+                    "quest": "rehydrate",
+                    "stage": "complete"
+                }
             }
         ],
         "structures": [

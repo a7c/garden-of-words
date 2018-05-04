@@ -112,6 +112,10 @@ export class FlagFilter extends Filter {
             console.warn(`Checked checklist for ${questId} at ${stage}, but one isn't defined.`);
             return true;
         }
+        else if (this.flag.startsWith("hat:")) {
+            const [ _, hat ] = this.flag.split(":");
+            return store.wardrobe.hats.contains(hat) === this.value;
+        }
         const actualValue = store.flags.get(this.flag);
         // Cast to boolean
         return !!actualValue === this.value;
@@ -284,7 +288,19 @@ export class FlagEffect extends Effect {
     }
 
     toAction() {
+        if (this.flag.startsWith("hat:")) {
+            const [ _, hat ] = this.flag.split(":");
+            return actions.hatify(hat);
+        }
         return actions.updateFlag(this.flag, this.value);
+    }
+
+    toEventLog() {
+        if (this.flag.startsWith("hat:")) {
+            const [ _, hat ] = this.flag.split(":");
+            return `You put on the ${hat}.`;
+        }
+        return null;
     }
 }
 
