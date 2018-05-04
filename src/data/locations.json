@@ -66,215 +66,64 @@
         "pois": [],
         "wanderEvents": [
             {
-                "filters": [
-                    {
-                        "type": "quest",
-                        "quest": "rehydrate",
-                        "stage": "need-yen"
-                    },
-                    {
-                        "type": "flag",
-                        "flag": "has-transliteration-job",
-                        "value": false
-                    }
-                ],
-                "events": [
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "resource",
-                                    "resource": "yen",
-                                    "value": 10
-                                }
-                            ]
-                        },
-                        "weight": 2
-                    },
-                    {
-                        "event": {
-                            "type": "question",
-                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
-                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
-                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
-                            "filters": [],
-                            "question": {
-                                "type": "ti-learn-vocab",
-                                "collections": [
-                                    "vocab-basic-colors",
-                                    "vocab-basic-numbers"
-                                ],
-                                "onlySeenKana": true
-                            },
-                            "effects": [
-                                {
-                                    "type": "resource",
-                                    "resource": "yen",
-                                    "value": 50
-                                }
-                            ],
-                            "failureEffects": []
-                        },
-                        "weight": 2
-                    },
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "You spot a sign written in hiragana and romaji.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "learn-next",
-                                    "collection": "hiragana-basic"
-                                }
-                            ]
-                        },
-                        "weight": 3
-                    },
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "As you walk, you remember a flash card from high school Japanese class.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "learn-next",
-                                    "collection": "hiragana-basic"
-                                }
-                            ]
-                        },
-                        "weight": 3
-                    }
-                ]
-            },
-            {
-                "filters": [
-                    {
-                        "type": "quest",
-                        "quest": "rehydrate",
-                        "stage": "need-yen"
-                    }
-                ],
-                "events": [
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "resource",
-                                    "resource": "yen",
-                                    "value": 10
-                                }
-                            ]
-                        },
-                        "weight": 1
-                    },
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "You spot a sign written in hiragana and romaji.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "learn-next",
-                                    "collection": "hiragana-basic"
-                                }
-                            ]
-                        },
-                        "weight": 2
-                    },
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "As you walk, you remember a flash card from high school Japanese class.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "learn-next",
-                                    "collection": "hiragana-basic"
-                                }
-                            ]
-                        },
-                        "weight": 2
-                    }
-                ]
-            },
-            {
-                "filters": [
-                    {
-                        "type": "flag",
-                        "flag": "has-transliteration-job",
-                        "value": false
-                    }
-                ],
-                "events": [
-                    {
-                        "event": {
-                            "type": "question",
-                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
-                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
-                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
-                            "filters": [],
-                            "question": {
-                                "type": "ti-learn-vocab",
-                                "collections": [
-                                    "vocab-basic-colors",
-                                    "vocab-basic-numbers"
-                                ],
-                                "onlySeenKana": true
-                            },
-                            "effects": [
-                                {
-                                    "type": "resource",
-                                    "resource": "yen",
-                                    "value": 50
-                                }
-                            ],
-                            "failureEffects": []
-                        },
-                        "weight": 1
-                    },
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "You spot a sign written in hiragana and romaji.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "learn-next",
-                                    "collection": "hiragana-basic"
-                                }
-                            ]
-                        },
-                        "weight": 2
-                    },
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "As you walk, you remember a flash card from high school Japanese class.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "learn-next",
-                                    "collection": "hiragana-basic"
-                                }
-                            ]
-                        },
-                        "weight": 2
-                    }
-                ]
-            },
-            {
                 "filters": [],
                 "events": [
                     {
                         "event": {
                             "type": "flavor",
+                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
+                            "filters": [
+                                {
+                                    "type": "quest",
+                                    "quest": "rehydrate",
+                                    "stage": "need-yen"
+                                }
+                            ],
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 10
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-transliteration-job",
+                                    "value": true
+                                }
+                            ],
+                            "question": {
+                                "type": "ti-learn-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ],
+                                "onlySeenKana": true
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
+                        },
+                        "weight": 2
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
                             "text": "You spot a sign written in hiragana and romaji.",
                             "filters": [],
                             "effects": [
@@ -284,7 +133,7 @@
                                 }
                             ]
                         },
-                        "weight": 1
+                        "weight": 3
                     },
                     {
                         "event": {
@@ -298,9 +147,8 @@
                                 }
                             ]
                         },
-                        "weight": 1
+                        "weight": 3
                     }
-
                 ]
             }
         ],

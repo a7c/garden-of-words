@@ -755,13 +755,19 @@ export class EventPipeline {
             return new FlavorEvent([], [], "Nothing happens.");
         }
 
-        const totalWeight = currentEventSet.events.reduce(
-            (acc, possibleEvent) => acc + possibleEvent.weight,
+        const validEvents = currentEventSet.events.filter(
+            possibleEvent => possibleEvent.event.filters.map(f => f.check(store)).every(x => x)
+        );
+
+        const totalWeight = validEvents.reduce(
+            (acc, possibleEvent) => {
+                return acc + possibleEvent.weight;
+            },
             0
         );
 
         let rand = Math.floor(Math.random() * totalWeight) + 1;
-        for (const possibleEvent of currentEventSet.events) {
+        for (const possibleEvent of validEvents) {
             rand -= possibleEvent.weight;
             if (rand <= 0) {
                 return possibleEvent.event;
