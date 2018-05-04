@@ -22,7 +22,8 @@ type EffectProps =
     { type: "resource-max", resource: model.Resource, value: number } |
     { type: "learn", id: model.LearnableId } |
     { type: "theme", theme: string } |
-    { type: "review-correct", id: model.LearnableId };
+    { type: "review-correct", id: model.LearnableId } |
+    { type: "learn-next", collection: model.CollectionId };
 
 type FilterProps =
     { type: "resource", resource: model.Resource, minimum: number } |
@@ -70,6 +71,18 @@ export type QuestProps = {
     },
 };
 
+export type PossibleEventProps = {
+    event: EventProps,
+    probability: number
+};
+
+export type PossibleEventSetProps = {
+    filters: FilterProps[],
+    events: PossibleEventProps[]
+};
+
+export type EventPipelineProps = PossibleEventSetProps[];
+
 export function parseEffect(json: EffectProps): event.Effect {
     if (json.type === "flag") {
         return new event.FlagEffect(json.flag, json.value);
@@ -94,6 +107,9 @@ export function parseEffect(json: EffectProps): event.Effect {
     }
     else if (json.type === "review-correct") {
         return new event.ReviewCorrectEffect(json.id);
+    }
+    else if (json.type === "learn-next") {
+        return new event.LearnNextEffect(json.collection);
     }
     throw new ParseError("Unrecognized effect", json);
 }
@@ -218,4 +234,24 @@ question.QuestionTemplate | question.Question {
     }
 
     throw new ParseError("Unrecognized question template", json);
+}
+
+// TODO: reduce boilerplate of these functions (and the props above)?
+
+export function parsePossibleEvent(json: PossibleEventProps): event.PossibleEvent {
+    return {
+        prob: json.probability,
+        event: parseEvent(json.event)
+    };
+}
+
+export function parsePossibleEventSet(json: PossibleEventSetProps): event.PossibleEventSet {
+    return {
+        filters: json.filters.map(parseFilter),
+        events: json.events.map(parsePossibleEvent)
+    };
+}
+
+export function parseEventPipeline(json: EventPipelineProps): event.EventPipeline {
+    return new event.EventPipeline(json.map(parsePossibleEventSet));
 }

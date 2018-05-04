@@ -403,6 +403,48 @@ export class LearnEffect extends Effect {
     }
 }
 
+/**
+ *  An effect that selects the an unlearned learnable from the given collection.
+ *  LearnNextEffect needs to be initialized with a store before it can be used.
+ */
+export class LearnNextEffect extends LearnEffect {
+    // TODO: this is not used atm
+    collection: model.CollectionId;
+
+    constructor(collection: model.CollectionId, customLogMessage?: string) {
+        super("", customLogMessage);
+        this.collection = collection;
+    }
+
+    init(store: model.Store) {
+        const learnable = lookup.getNextLearnable(store);
+        if (learnable !== null) {
+            this.id = learnable;
+        }
+        else {
+            console.warn("LearnNextEffect#init: Tried to initialize but no next learnable could be found!");
+        }
+    }
+
+    toAction() {
+        // If uninitialized or can't get another learnable, then do nothing
+        if (this.id === "") {
+            console.warn("LearnNextEffect#toAction: Not initalized or no next learnable could be found!");
+            return {type: "PLACEHOLDER"};
+        }
+        return super.toAction();
+    }
+
+    toEventLog() {
+        // If uninitialized or can't get another learnable, then do nothing
+        if (this.id === "") {
+            console.warn("LearnNextEffect#toEventLog: Not initalized or no next learnable could be found!");
+            return "";
+        }
+        return super.toEventLog();
+    }
+}
+
 export class ThemeEffect extends Effect {
     theme: string;
 
@@ -662,5 +704,64 @@ export class MultiEvent extends Event {
 
     clone() {
         return new MultiEvent(this.filters, this.effects, this.events);
+    }
+}
+
+export interface PossibleEvent {
+    event: Event;
+    /** Represents the probability of being chosen, between 0 (0.0%) and 1000 (100.0%). */
+    prob: number;
+}
+
+export interface PossibleEventSet {
+    filters: Filter[];
+    events: PossibleEvent[];
+}
+
+export class EventPipeline {
+    eventSets: PossibleEventSet[];
+
+    constructor(eventSets: PossibleEventSet[]) {
+        this.eventSets = eventSets;
+
+        /** Check that probabilities sum to exactly 1000 */
+        for (const eventSet of eventSets) {
+            const totalProbability  =
+                eventSet.events.reduce(
+                    (acc, possibleEvent) => {
+                        return acc + possibleEvent.prob;
+                    },
+                    0);
+            if (totalProbability < 1000) {
+                console.warn("Total probability of this PossibleEventSet sums to under 1000!");
+            }
+            else if (totalProbability > 1000) {
+                console.warn("Total probability of this PossibleEventSet sums to over 1000!");
+            }
+        }
+    }
+
+    getRandomEvent(store: model.Store): Event {
+        let rand = Math.floor(Math.random() * 1000) + 1;
+        let currentEventSet: PossibleEventSet | null = null;
+        // Select first event set that passes all filters
+        for (const eventSet of this.eventSets) {
+            if (eventSet.filters.map(f => f.check(store)).every(x => x)) {
+                currentEventSet = eventSet;
+                break;
+            }
+        }
+        // If no event set is valid, return some filler event
+        if (currentEventSet === null) {
+            return new FlavorEvent([], [], "Nothing happens.");
+        }
+        for (const possibleEvent of currentEventSet.events) {
+            rand -= possibleEvent.prob;
+            if (rand <= 0) {
+                return possibleEvent.event;
+            }
+        }
+        // If we couldn't select an event somehow, return filler event
+        return new FlavorEvent([], [], "Nothing happens.");
     }
 }

@@ -29,7 +29,7 @@ interface TestProps {
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     onWander: () => actions.Action;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
-    handleEventEffect: (effect: event.Effect) => actions.Action;
+    handleEventEffect: (effect: event.Effect, store: model.Store) => actions.Action;
 }
 
 enum MainPanelViews {
@@ -85,18 +85,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
             const showEvent = happening.showEvent;
             happening = happening.clone();
 
-            const logText = happening.toEventLog();
-            if (logText !== null) {
-                this.setState({ eventLog: this.state.eventLog.concat([logText]) });
-            }
-
             if (happening instanceof event.MultiEvent) {
                 queuedEvents = queuedEvents.concat(happening.getEvents());
             }
 
             if (happening instanceof event.FlavorEvent || happening instanceof event.QuestEvent) {
                 // Dispatch effects now
-                happening.effects.forEach(this.props.handleEventEffect);
+                happening.effects.forEach((effect) => this.props.handleEventEffect(effect, this.props.store));
             }
 
             if (happening instanceof event.FlavorEvent) {
@@ -119,6 +114,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         queuedEvents.push(newQ);
                     }
                 }
+            }
+
+            // Process log text after processing event
+            const logText = happening.toEventLog();
+            if (logText !== null) {
+                this.setState({ eventLog: this.state.eventLog.concat([logText]) });
             }
 
             if (showEvent) {
@@ -221,7 +222,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 break;
             }
             case "F2": {
-                this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", 25));
+                this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", 25), this.props.store);
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "You magically feel more durable."
                 ]) });
@@ -350,7 +351,12 @@ const Test = connect(
         modifyResource: (resource: model.Resource, amount: number) => {
             dispatch(actions.modifyResource(resource, amount));
         },
-        handleEventEffect: (effect: event.Effect) => dispatch(effect.toAction())
+        handleEventEffect: (effect: event.Effect, store: model.Store) => {
+            if (effect instanceof event.LearnNextEffect) {
+                effect.init(store);
+            }
+            dispatch(effect.toAction());
+        }
     })
 )(TestComponent as React.ComponentType<TestProps>);
 

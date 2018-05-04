@@ -62,6 +62,41 @@
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
         "pois": [],
+        "wanderEvents": [
+            {
+                "filters": [],
+                "events": [
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You spot a sign written in hiragana and romaji.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 500
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "As you walk, you remember a flash card from high school Japanese class.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 500
+                    }
+                ]
+            }
+        ],
         "wanderFlavor": {
             "hiragana": [
                 "You spot a sign written in hiragana and romaji.",

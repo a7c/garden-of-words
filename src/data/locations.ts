@@ -27,6 +27,7 @@ export interface LocationData {
      *  extensions removed.
      */
     structures: string[];
+    wanderEvents?: event.EventPipeline;
     wanderFlavor?: { [learnableType: string]: string[] };
 }
 
@@ -42,6 +43,9 @@ export function getLocation(locationName: string) {
                 }
                 return poi;
             });
+            if (locationData[key].wanderEvents) {
+                locationData[key].wanderEvents = parsers.parseEventPipeline(locationData[key].wanderEvents);
+            }
             locations![key] = locationData[key];
         });
     }
