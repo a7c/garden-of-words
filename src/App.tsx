@@ -340,13 +340,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 hint: "",
                 onHint: this.onNavTabHint,
             },
-            {
-                label: "Map",
-                url: "Map",
-                enabled: this.props.store.location.discovered.size > 1,
-                hint: "Gotta get your bearings before looking for a map.",
-                onHint: this.onNavTabHint,
-            },
+            /* {
+             *     label: "Map",
+             *     url: "Map",
+             *     enabled: this.props.store.location.discovered.size > 1,
+             *     hint: "Gotta get your bearings before looking for a map.",
+             *     onHint: this.onNavTabHint,
+             * },*/
             {
                 label: "Collections",
                 url: "Collections",
@@ -407,7 +407,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             eventLog={this.state.eventLog}
                             isQuizMode={this.state.happening instanceof event.QuestionEvent}
                         />
-                        <Map />
                         <CollectionList collections={collections} learned={learned} />
                         <QuestLog store={store} />
                         <Wardrobe store={store} dispatch={this.props.handleEventEffect} />
