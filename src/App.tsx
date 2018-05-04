@@ -21,6 +21,7 @@ import ScenePanel from "./components/ScenePanel";
 import Streets from "./components/Streets";
 import CollectionList from "./components/AllCollections";
 import QuestLog from "./components/QuestLog";
+import Wardrobe from "./components/Wardrobe";
 
 interface TestProps {
     store: model.Store;
@@ -30,12 +31,6 @@ interface TestProps {
     onWander: () => actions.Action;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     handleEventEffect: (effect: event.Effect, store: model.Store) => actions.Action;
-}
-
-enum MainPanelViews {
-  Streets,
-  Map,
-  Collections
 }
 
 interface TestState {
@@ -266,6 +261,52 @@ class TestComponent extends React.Component<TestProps, TestState> {
                                 (this.state.happening instanceof event.Event ?
                                  this.state.happening.allowNavigation : true);
 
+        const labels = [
+            {
+                label: locationData.area || "The Street",
+                url: "Area",
+                enabled: true,
+                hint: "",
+                onHint: this.onNavTabHint,
+            },
+            {
+                label: "Map",
+                url: "Map",
+                enabled: this.props.store.location.discovered.size > 1,
+                hint: "Gotta get your bearings before looking for a map.",
+                onHint: this.onNavTabHint,
+            },
+            {
+                label: "Collections",
+                url: "Collections",
+                enabled: allowNavigation &&
+                         this.props.store.learned.size > 0,
+                hint: allowNavigation ?
+                      "Maybe wandering around will give you some vocabulary to collect."
+                    : "Can't view collections while answering a question.",
+                onHint: this.onNavTabHint,
+            },
+            {
+                label: "Quests",
+                url: "Quests",
+                enabled: this.props.store.quests.size > 0,
+                hint: "Maybe wandering around will give you some things to do.",
+                onHint: this.onNavTabHint,
+                alert: this.state.questNotification,
+                clearAlert: () => this.setState({ questNotification: false }),
+            }
+        ];
+
+        if (store.wardrobe.themes.size > 1 || store.wardrobe.hats.size > 0) {
+            labels.push({
+                label: "Wardrobe",
+                url: "Wardrobe",
+                enabled: true,
+                hint: "",
+                onHint: this.onNavTabHint,
+            });
+        }
+
         return (
             <main>
                 <div id="LeftPanel">
@@ -284,41 +325,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 </div>
                 <div id="RightPanel">
                     <NavTab
-                        labels={[
-                            {
-                                label: locationData.area || "The Street",
-                                url: "Area",
-                                enabled: true,
-                                hint: "",
-                                onHint: this.onNavTabHint,
-                            },
-                            {
-                                label: "Map",
-                                url: "Map",
-                                enabled: this.props.store.location.discovered.size > 1,
-                                hint: "Gotta get your bearings before looking for a map.",
-                                onHint: this.onNavTabHint,
-                            },
-                            {
-                                label: "Collections",
-                                url: "Collections",
-                                enabled: allowNavigation &&
-                                         this.props.store.learned.size > 0,
-                                hint: allowNavigation ?
-                                      "Maybe wandering around will give you some vocabulary to collect."
-                                      : "Can't view collections while answering a question.",
-                                onHint: this.onNavTabHint,
-                            },
-                            {
-                                label: "Quests",
-                                url: "Quests",
-                                enabled: this.props.store.quests.size > 0,
-                                hint: "Maybe wandering around will give you some things to do.",
-                                onHint: this.onNavTabHint,
-                                alert: this.state.questNotification,
-                                clearAlert: () => this.setState({ questNotification: false }),
-                            }
-                        ]}
+                        labels={labels}
                     >
                         <Streets
                             store={store}
@@ -332,6 +339,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
                         <QuestLog store={store} />
+                        <Wardrobe store={store} dispatch={this.props.handleEventEffect} />
                     </NavTab>
                 </div>
             </main>
@@ -356,7 +364,7 @@ const Test = connect(
                 effect.init(store);
             }
             dispatch(effect.toAction());
-        }
+        },
     })
 )(TestComponent as React.ComponentType<TestProps>);
 
