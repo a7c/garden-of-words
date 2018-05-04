@@ -450,7 +450,7 @@ export default class App extends React.Component {
                 Japanese</h1>
                 <h1>自殺したら、成田空港から脱出できない忍者として転生したが、日本語が全く喋れない‼︎</h1>
                 <Test/>
-                <a href="credits.html">Credits</a>
+                <a target="_blank" href="credits.html">Credits</a>
             </div>
         );
     }
