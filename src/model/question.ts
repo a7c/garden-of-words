@@ -254,7 +254,9 @@ export class TypeInVocabTemplate {
 
         const learnable = lookup.getLeastRecentlyReviewed(
             learned,
-            l => this.collections.indexOf(l.collection) > -1 && !!l.back.match(/^[a-zA-Z]+$/)
+            l => this.collections.indexOf(l.collection) > -1
+                && l.id.includes("kana-romaji")
+                && !!l.back.match(/^[a-zA-Z]+$/)
         );
 
         if (learnable === null) {

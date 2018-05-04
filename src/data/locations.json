@@ -14,91 +14,32 @@
             "food-court-chairs",
             "food-court-ramen",
             "arrival-departure-board"
-        ]
-    },
-    "airport-food-court-ramen": {
-        "name": "a counter selling ramen",
-        "label": "Ramen-ya",
-        "area": "Ramen-ya",
-        "wanderlust": false,
-        "connected": ["airport-food-court"],
-        "pois": [
-            {
-                "label": "Order Blue Ramen",
-                "eventSource": "airport-food-court-ramen-ya",
-                "cooldown": 1000,
-                "cost": [ "yen", 300 ]
-            },
-            {
-                "label": "Order Red Ramen",
-                "eventSource": "airport-food-court-ramen-ya-red",
-                "cooldown": 1000,
-                "filters": [
-                    {
-                        "type": "quest",
-                        "quest": "ramen-ya",
-                        "stage": "complete"
-                    }
-                ],
-                "cost": [ "yen", 450 ]
-            },
-            {
-                "label": "Order Purple Ramen",
-                "eventSource": "airport-food-court-ramen-ya-purple",
-                "cooldown": 1000,
-                "filters": [
-                    {
-                        "type": "quest",
-                        "quest": "ramen-ya",
-                        "stage": "complete"
-                    }
-                ],
-                "cost": [ "yen", 600 ]
-            },
-            {
-                "label": "Talk to Chef",
-                "eventSource": "airport-food-court-ramen-ya-chef",
-                "cooldown": 1000,
-                "filters": [
-                    {
-                        "type": "flag",
-                        "flag": "ordered-blue-ramen",
-                        "value": true
-                    },
-                    {
-                        "type": "flag",
-                        "flag": "ordered-red-ramen",
-                        "value": true
-                    },
-                    {
-                        "type": "flag",
-                        "flag": "ordered-purple-ramen",
-                        "value": true
-                    },
-                    {
-                        "type": "flag",
-                        "flag": "talked-to-rainbow-ramen-chef",
-                        "value": false
-                    }
-                ]
-            }
         ],
-        "structures": [
-            "food-court-ramen-front"
-        ]
-    },
-    "airport-gate": {
-        "name": "the gate you just arrived at",
-        "wanderName": "the airport gate area",
-        "label": "Back to Gate",
-        "area": "Arrival Gate",
-        "wanderlust": true,
-        "connected": ["airport-food-court", "airport-gate-vending-machine"],
-        "pois": [],
         "wanderEvents": [
             {
                 "filters": [],
                 "events": [
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You see a beautifully wrapped present abandoned by a trash can. You couldn't care less about the present--what you're really interested in is the ribbon wrapped around it.",
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "hat:ribbon",
+                                    "value": false
+                                }
+                            ],
+                            "effects": [
+                                {
+                                    "type": "flag",
+                                    "flag": "hat:ribbon",
+                                    "value": true
+                                }
+                            ]
+                        },
+                        "weight": 1
+                    },
                     {
                         "event": {
                             "type": "flavor",
@@ -185,7 +126,7 @@
                             ],
                             "failureEffects": []
                         },
-                        "weight": 1000
+                        "weight": 1
                     },
                     {
                         "event": {
@@ -217,39 +158,7 @@
                             ],
                             "failureEffects": []
                         },
-                        "weight": 2
-                    },
-                    {
-                        "event": {
-                            "type": "question",
-                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
-                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
-                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
-                            "filters": [
-                                {
-                                    "type": "flag",
-                                    "flag": "has-transliteration-job",
-                                    "value": true
-                                }
-                            ],
-                            "question": {
-                                "type": "ti-learn-vocab",
-                                "collections": [
-                                    "vocab-basic-colors",
-                                    "vocab-basic-numbers"
-                                ],
-                                "onlySeenKana": true
-                            },
-                            "effects": [
-                                {
-                                    "type": "resource",
-                                    "resource": "yen",
-                                    "value": 50
-                                }
-                            ],
-                            "failureEffects": []
-                        },
-                        "weight": 2
+                        "weight": 1
                     },
                     {
                         "event": {
@@ -281,7 +190,87 @@
                     }
                 ]
             }
+        ]
+    },
+    "airport-food-court-ramen": {
+        "name": "a counter selling ramen",
+        "label": "Ramen-ya",
+        "area": "Ramen-ya",
+        "wanderlust": false,
+        "connected": ["airport-food-court"],
+        "pois": [
+            {
+                "label": "Order Blue Ramen",
+                "eventSource": "airport-food-court-ramen-ya",
+                "cooldown": 1000,
+                "cost": [ "yen", 300 ]
+            },
+            {
+                "label": "Order Red Ramen",
+                "eventSource": "airport-food-court-ramen-ya-red",
+                "cooldown": 1000,
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "ramen-ya",
+                        "stage": "complete"
+                    }
+                ],
+                "cost": [ "yen", 450 ]
+            },
+            {
+                "label": "Order Purple Ramen",
+                "eventSource": "airport-food-court-ramen-ya-purple",
+                "cooldown": 1000,
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "ramen-ya",
+                        "stage": "complete"
+                    }
+                ],
+                "cost": [ "yen", 600 ]
+            },
+            {
+                "label": "Talk to Chef",
+                "eventSource": "airport-food-court-ramen-ya-chef",
+                "cooldown": 1000,
+                "filters": [
+                    {
+                        "type": "flag",
+                        "flag": "ordered-blue-ramen",
+                        "value": true
+                    },
+                    {
+                        "type": "flag",
+                        "flag": "ordered-red-ramen",
+                        "value": true
+                    },
+                    {
+                        "type": "flag",
+                        "flag": "ordered-purple-ramen",
+                        "value": true
+                    },
+                    {
+                        "type": "flag",
+                        "flag": "talked-to-rainbow-ramen-chef",
+                        "value": false
+                    }
+                ]
+            }
         ],
+        "structures": [
+            "food-court-ramen-front"
+        ]
+    },
+    "airport-gate": {
+        "name": "the gate you just arrived at",
+        "wanderName": "the airport gate area",
+        "label": "Back to Gate",
+        "area": "Arrival Gate",
+        "wanderlust": true,
+        "connected": ["airport-food-court", "airport-gate-vending-machine"],
+        "pois": [],
         "structures": [
             "blank",
             "arrival-departure-board",
@@ -299,6 +288,182 @@
             "blank",
             "vending-machine-indoors",
             "food-court-ramen"
+        ],
+        "wanderEvents": [
+            {
+                "filters": [],
+                "events": [
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You find a cap on the ground. It would be a shame to waste such a good cap.",
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "hat:cap",
+                                    "value": false
+                                }
+                            ],
+                            "effects": [
+                                {
+                                    "type": "flag",
+                                    "flag": "hat:cap",
+                                    "value": true
+                                }
+                            ]
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
+                            "filters": [
+                                {
+                                    "type": "or",
+                                    "filters": [
+                                        {
+                                            "type": "quest",
+                                            "quest": "rehydrate",
+                                            "stage": "found-machine"
+                                        },
+                                        {
+                                            "type": "quest",
+                                            "quest": "rehydrate",
+                                            "stage": "need-yen"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 10
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You stumble across a 10-yen coin on the ground.",
+                            "filters": [
+                                {
+                                    "type": "or",
+                                    "filters": [
+                                        {
+                                            "type": "quest",
+                                            "quest": "rehydrate",
+                                            "stage": "complete"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 10
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-transliteration-job",
+                                    "value": true
+                                }
+                            ],
+                            "question": {
+                                "type": "ti-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ]
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-transliteration-job",
+                                    "value": true
+                                }
+                            ],
+                            "question": {
+                                "type": "ti-learn-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ],
+                                "onlySeenKana": true
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You spot a sign written in hiragana and romaji.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "As you walk, you remember a flash card from high school Japanese class.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    }
+                ]
+            }
         ]
     },
     "airport-gate-vending-machine": {
@@ -378,6 +543,182 @@
             "subway-pillar",
             "blank",
             "subway-stairs"
+        ],
+        "wanderEvents": [
+            {
+                "filters": [],
+                "events": [
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "A stranger teaches you about the art of witchcraft. You didn't understand a word she said, but at least you got a dope hat from her.",
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "hat:witch-hat",
+                                    "value": false
+                                }
+                            ],
+                            "effects": [
+                                {
+                                    "type": "flag",
+                                    "flag": "hat:witch-hat",
+                                    "value": true
+                                }
+                            ]
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
+                            "filters": [
+                                {
+                                    "type": "or",
+                                    "filters": [
+                                        {
+                                            "type": "quest",
+                                            "quest": "rehydrate",
+                                            "stage": "found-machine"
+                                        },
+                                        {
+                                            "type": "quest",
+                                            "quest": "rehydrate",
+                                            "stage": "need-yen"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 10
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You stumble across a 10-yen coin on the ground.",
+                            "filters": [
+                                {
+                                    "type": "or",
+                                    "filters": [
+                                        {
+                                            "type": "quest",
+                                            "quest": "rehydrate",
+                                            "stage": "complete"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 10
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-transliteration-job",
+                                    "value": true
+                                }
+                            ],
+                            "question": {
+                                "type": "ti-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ]
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-transliteration-job",
+                                    "value": true
+                                }
+                            ],
+                            "question": {
+                                "type": "ti-learn-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ],
+                                "onlySeenKana": true
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You spot a sign written in hiragana and romaji.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "As you walk, you remember a flash card from high school Japanese class.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "weight": 3
+                    }
+                ]
+            }
         ]
     },
     "airport-train-station-ticket-booth": {
