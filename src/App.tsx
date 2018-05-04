@@ -232,8 +232,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
             // need to learn some kana and vocab so that unlocked things don't crash
             new event.LearnEffect("hira-い"),
             new event.LearnEffect("hira-と"),
-            new event.LearnEffect("hira-み"),
             new event.LearnEffect("hira-な"),
+            new event.LearnEffect("hira-み"),
             new event.LearnEffect("vocab-緑"),
             new event.LearnEffect("vocab-緑-kana-meaning"),
             new event.LearnEffect("vocab-緑-kana-meaning-reverse"),
@@ -419,8 +419,9 @@ const Test = connect(
     (store: model.Store) => ({ store }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.LearnableId) => dispatch(actions.learn(item)),
-        onReview: (id: model.LearnableId, correct: boolean) =>
-            dispatch(actions.review(id, correct)),
+        onReview: (id: model.LearnableId, correct: boolean) => {
+            dispatch(actions.review(id, correct));
+        },
         onWander: () => {
             dispatch(actions.wander());
         },

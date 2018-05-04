@@ -248,6 +248,24 @@
       "back": "ro"
    },
    {
+      "id": "hira-や",
+      "type": "hiragana",
+      "front": "や",
+      "back": "ya"
+   },
+   {
+      "id": "hira-ゆ",
+      "type": "hiragana",
+      "front": "ゆ",
+      "back": "yo"
+   },
+   {
+      "id": "hira-よ",
+      "type": "hiragana",
+      "front": "よ",
+      "back": "yo"
+   },
+   {
       "id": "hira-わ",
       "type": "hiragana",
       "front": "わ",

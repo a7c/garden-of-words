@@ -231,7 +231,9 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
     }
 
     applyEffects = () => {
-        this.state.learnableIds.forEach(id => this.props.onReview(id, this.state.status === "right"));
+        this.state.learnableIds.forEach(id => {
+            this.props.onReview(id, this.state.status === "right");
+        });
     }
 
     render() {
