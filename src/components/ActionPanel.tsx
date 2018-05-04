@@ -118,23 +118,25 @@ export default class ActionPanel extends React.Component<Props> {
         });
 
         locationData.connected.forEach((loc, idx) => {
-            if (model.locationDiscovered(store, loc)) {
-                const targetLoc = locations.getLocation(loc);
-                const button = (
-                    <ActionButton
-                        key={`loc-${loc}`}
-                        label={targetLoc.label || targetLoc.name}
-                        paused={paused}
-                        onClick={() => this.travel(loc)}
-                    />
-                );
+            const targetLoc = locations.getLocation(loc);
+            const locked = !model.locationDiscovered(store, loc);
+            const button = (
+                <ActionButton
+                    key={`loc-${loc}`}
+                    label={targetLoc.label || targetLoc.name}
+                    locked={locked}
+                    paused={paused}
+                    onClick={() => this.travel(loc)}
+                    onHint={locked ? this.onHint : undefined}
+                    hint={targetLoc.lockedMessage || "You don't know where that is yet."}
+                />
+            );
 
-                if (targetLoc.wanderlust) {
-                    adjacent.push(button);
-                }
-                else {
-                    pois.push(button);
-                }
+            if (targetLoc.wanderlust) {
+                adjacent.push(button);
+            }
+            else {
+                pois.push(button);
             }
         });
 

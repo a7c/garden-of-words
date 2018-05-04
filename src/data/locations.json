@@ -726,7 +726,7 @@
         "label": "Ticket Booth",
         "area": "Ticket Booth",
         "wanderlust": false,
-        "connected": ["airport-train-station"],
+        "connected": [],
         "pois": [
             {
                 "label": "Buy a Ticket",

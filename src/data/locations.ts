@@ -18,6 +18,7 @@ export interface LocationData {
     area?: string;
     wanderName?: string;
     wanderlust: boolean;
+    lockedMessage?: string;
     connected: model.Location[];
     pois: PointOfInterest[];
     /**
