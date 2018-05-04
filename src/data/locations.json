@@ -41,8 +41,8 @@
                 "cost": [ "yen", 450 ]
             },
             {
-                "label": "Order Green Ramen",
-                "eventSource": "airport-food-court-ramen-ya-green",
+                "label": "Order Purple Ramen",
+                "eventSource": "airport-food-court-ramen-ya-purple",
                 "cooldown": 1000,
                 "filter": {
                     "type": "quest",
@@ -284,8 +284,8 @@
                 "cost": [ "yen", 160 ]
             },
             {
-                "label": "Buy Purple Drank",
-                "eventSource": "vending-machine-purple",
+                "label": "Buy Green Fizzy Drink",
+                "eventSource": "vending-machine-green",
                 "cooldown": 1000,
                 "cost": [ "yen", 200 ],
                 "filter": {
