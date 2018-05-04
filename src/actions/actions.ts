@@ -158,7 +158,7 @@ export function theme(name: string): Action {
     };
 }
 
-export function hatify(hat: string): Action {
+export function hatify(hat: string | null): Action {
     return {
         type: HATIFY,
         hat,

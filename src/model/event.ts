@@ -290,7 +290,10 @@ export class FlagEffect extends Effect {
     toAction() {
         if (this.flag.startsWith("hat:")) {
             const [ _, hat ] = this.flag.split(":");
-            return actions.hatify(hat);
+            if (this.value) {
+                return actions.hatify(hat);
+            }
+            return actions.hatify(null);
         }
         return actions.updateFlag(this.flag, this.value);
     }

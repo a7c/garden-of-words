@@ -23,11 +23,23 @@ export default class Wardrobe extends React.Component<Props> {
         this.props.dispatch(new event.ThemeEffect(option.value), this.props.store);
     }
 
+    hatify = (option: dropdown.Option) => {
+        const value = option.value === "(no hat)" ? "" : option.value;
+        this.props.dispatch(new event.FlagEffect(`hat:${value}`, !!value), this.props.store);
+    }
+
     render() {
         const { store } = this.props;
 
         const themes = store.wardrobe.themes.toArray().sort();
-        const hats = store.wardrobe.hats.toArray().sort();
+        const hats = [
+            {
+                label: "(no hat)",
+                value: "",
+            }
+        ].concat(store.wardrobe.hats.toArray().sort().map(h => ({
+            label: h, value: h,
+        })));
 
         return (
             <div id="wardrobe">
@@ -47,10 +59,11 @@ export default class Wardrobe extends React.Component<Props> {
                     <div id="dropdown">
                         <Dropdown
                             options={hats}
+                            onChange={this.hatify}
                             value={store.wardrobe.currentHat ? {
                                     label: store.wardrobe.currentHat,
                                     value: store.wardrobe.currentHat,
-                                } : undefined}
+                                } : hats[0]}
                         />
                     </div>
                 </LabeledPanel>
