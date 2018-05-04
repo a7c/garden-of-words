@@ -64,39 +64,6 @@
         "pois": [],
         "wanderEvents": [
             {
-                "filters": [],
-                "events": [
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "You spot a sign written in hiragana and romaji.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "learn-next",
-                                    "collection": "hiragana-basic"
-                                }
-                            ]
-                        },
-                        "probability": 500
-                    },
-                    {
-                        "event": {
-                            "type": "flavor",
-                            "text": "As you walk, you remember a flash card from high school Japanese class.",
-                            "filters": [],
-                            "effects": [
-                                {
-                                    "type": "learn-next",
-                                    "collection": "hiragana-basic"
-                                }
-                            ]
-                        },
-                        "probability": 500
-                    }
-                ]
-            },
-            {
                 "filters": [
                     {
                         "type": "quest",
@@ -113,7 +80,7 @@
                     {
                         "event": {
                             "type": "flavor",
-                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
+                            "text": "1You find some money on the ground. This might help you buy a drink from the vending machine.",
                             "filters": [],
                             "effects": [
                                 {
@@ -149,7 +116,61 @@
                             ],
                             "failureEffects": []
                         },
-                        "probability": 100
+                        "probability": 200
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You spot a sign written in hiragana and romaji.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 300
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "As you walk, you remember a flash card from high school Japanese class.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 300
+                    }
+                ]
+            },
+            {
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "rehydrate",
+                        "stage": "need-yen"
+                    }
+                ],
+                "events": [
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 10
+                                }
+                            ]
+                        },
+                        "probability": 200
                     },
                     {
                         "event": {
@@ -178,6 +199,104 @@
                             ]
                         },
                         "probability": 400
+                    }
+                ]
+            },
+            {
+                "filters": [
+                    {
+                        "type": "flag",
+                        "flag": "has-transliteration-job",
+                        "value": false
+                    }
+                ],
+                "events": [
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [],
+                            "question": {
+                                "type": "ti-learn-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ],
+                                "onlySeenKana": true
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
+                        },
+                        "probability": 200
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "You spot a sign written in hiragana and romaji.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 400
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "As you walk, you remember a flash card from high school Japanese class.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 400
+                    }
+                ]
+            },
+            {
+                "filters": [],
+                "events": [
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "1You spot a sign written in hiragana and romaji.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 500
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "1As you walk, you remember a flash card from high school Japanese class.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 500
                     }
                 ]
             }
