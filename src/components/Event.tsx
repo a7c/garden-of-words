@@ -159,6 +159,40 @@ export default class EventComponent extends React.Component<EventProps> {
         this.onFinished();
     }
 
+    componentWillMount() {
+        document.addEventListener("keydown", this.onKey, true);
+    }
+
+    componentDidMount() {
+        // Unfocus the button so that space/enter will work below
+        if (document.activeElement && document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.onKey);
+    }
+
+    onKey = (e: KeyboardEvent) => {
+        switch (e.code) {
+            case "Space":
+            case "Enter": {
+                // Auto-accept the default
+                if (this.props.event instanceof event.FlavorEvent ||
+                    this.props.event instanceof event.QuestEvent ||
+                    this.props.event instanceof event.QuestUpdatedEvent) {
+                    this.props.onFinished();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
     render() {
         const ev = this.props.event;
         let contents: JSX.Element | JSX.Element[] = <span/>;
