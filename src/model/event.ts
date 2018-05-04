@@ -429,7 +429,7 @@ export class LearnNextEffect extends LearnEffect {
     toAction() {
         // If uninitialized or can't get another learnable, then do nothing
         if (this.id === "") {
-            console.warn("LearnNextEffect#toAction: Not initalized or no next learnable could be found!");
+            console.warn("LearnNextEffect#toAction: Not initialized or no next learnable could be found!");
             return {type: "PLACEHOLDER"};
         }
         return super.toAction();
@@ -438,7 +438,7 @@ export class LearnNextEffect extends LearnEffect {
     toEventLog() {
         // If uninitialized or can't get another learnable, then do nothing
         if (this.id === "") {
-            console.warn("LearnNextEffect#toEventLog: Not initalized or no next learnable could be found!");
+            console.warn("LearnNextEffect#toEventLog: Not initialized or no next learnable could be found!");
             return "";
         }
         return super.toEventLog();

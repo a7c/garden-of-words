@@ -29,22 +29,13 @@ export default function wander(store: model.Store): model.LearnableId | event.Ev
 
     const learnable = lookup.getNextLearnable(store);
     if (learnable !== null) {
-        let flavor = "";
         if (locationData.wanderEvents) {
             return locationData.wanderEvents.getRandomEvent(store);
         }
-        if (locationData.wanderFlavor) {
-            const flavorChoices = locationData.wanderFlavor[lookup.getLearnable(learnable).type];
-            if (flavorChoices && flavorChoices.length > 0) {
-                flavor = flavorChoices[Math.floor(Math.random() * flavorChoices.length)];
-            }
-        }
         return new event.FlavorEvent(
             [],
-            [
-                new event.LearnEffect(learnable),
-            ],
-            flavor
+            [],
+            "You wander aimlessly."
         );
     }
     return null;

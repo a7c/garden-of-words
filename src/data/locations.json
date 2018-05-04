@@ -97,12 +97,6 @@
                 ]
             }
         ],
-        "wanderFlavor": {
-            "hiragana": [
-                "You spot a sign written in hiragana and romaji.",
-                "As you walk, you remember a flash card from high school Japanese class."
-            ]
-        },
         "structures": [
             "blank",
             "blank",

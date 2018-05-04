@@ -28,7 +28,6 @@ export interface LocationData {
      */
     structures: string[];
     wanderEvents?: event.EventPipeline;
-    wanderFlavor?: { [learnableType: string]: string[] };
 }
 
 let locations: { [key: string]: LocationData } | null = null;
