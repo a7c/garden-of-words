@@ -19,6 +19,7 @@ export default {
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
     vendingMachineGreen: require("./collections/green.json").map(parsers.parseEvent),
     vendingMachineHat: require("./collections/hat.json").map(parsers.parseEvent),
+    vendingMachineMysteryHat: require("./collections/vending-mystery-hat.json").map(parsers.parseEvent),
     luggageJob: luggageEventJson.map(parsers.parseEvent),
     watchNews: watchNewsJson.map(parsers.parseEvent),
     airportTrainStation: airportTrainStationJson.map(parsers.parseEvent),

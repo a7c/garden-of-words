@@ -1,47 +1,42 @@
 [
     {
         "type": "flavor",
-        "text": "The vending machine also dispenses hats. You pick out a fedora.",
+        "text": "You buy the mystery item. You feel like a magical girl.",
         "filters": [
             {
                 "type": "resource",
                 "resource": "yen",
-                "minimum": 500
-            },
-            {
-                "type": "flag",
-                "flag": "hat:fedora",
-                "value": false
+                "minimum": 10000
             }
         ],
         "effects": [
             {
                 "type": "resource",
                 "resource": "yen",
-                "value": -500
+                "value": -10000
             },
             {
                 "type": "flag",
-                "flag": "hat:fedora",
+                "flag": "hat:odango-atama",
                 "value": "true"
             }
         ]
     },
     {
         "type": "flavor",
-        "text": "You've already bought this hat.",
+        "text": "You've bought all the hats on offer.",
         "filters": [
             {
                 "type": "resource",
                 "resource": "yen",
-                "minimum": 500
+                "minimum": 10000
             }
         ],
         "effects": []
     },
     {
         "type": "flavor",
-        "text": "The vending machine sells hats, but you can't afford them.",
+        "text": "The mystery item is enticing, but you don't have enough yen to buy it.",
         "filters": [],
         "effects": []
     }

@@ -304,6 +304,17 @@
                     "quest": "rehydrate",
                     "stage": "complete"
                 }
+            },
+            {
+                "label": "Buy ???",
+                "eventSource": "vending-machine-mystery-hat",
+                "cooldown": 500,
+                "cost": [ "yen", 10000 ],
+                "filter": {
+                    "type": "flag",
+                    "flag": "hat:fedora",
+                    "value": true
+                }
             }
         ],
         "structures": [
