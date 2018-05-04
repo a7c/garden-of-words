@@ -74,7 +74,7 @@ class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
             ));
         return (
             <section className="question">
-                <p>Find the matching choice: {q.question[answerCode]}</p>
+                <p>{q.prompt()}: {q.question[answerCode]}</p>
                 <ul>
                     {choices}
                 </ul>

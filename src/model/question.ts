@@ -45,7 +45,14 @@ export class MultipleChoice extends Question {
         this.answerIdx = answerIdx;
         this.reverse = reverse;
         this.sequence = sequence;
+    }
 
+    prompt() {
+        return {
+            "hiragana": "Choose the pronunciation for",
+            "katakana": "Choose the pronunciation for",
+            "vocab-kana-romaji": "Choose the reading for",
+        }[this.choices[this.answerIdx].type] || "Find the matching choice";
     }
 
     get question() {
