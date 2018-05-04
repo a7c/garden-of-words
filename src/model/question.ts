@@ -207,14 +207,12 @@ export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
         const correct = Math.floor(Math.random() * candidates.length);
 
         const teaches = [];
-        const effects = [];
+        // Keep track of kana we've already processed
+        const seen = {};
         for (const k of candidates[correct]) {
-            if (learned.has(`hira-${k}`)) {
-                effects.push(new event.ReviewCorrectEffect(`hira-${k}`));
-            }
-            else {
+            if (seen[k] === undefined) {
+                seen[k] = "";
                 teaches.push(`hira-${k}`);
-                effects.push(new event.LearnEffect(`hira-${k}`));
             }
         }
 
@@ -236,7 +234,7 @@ export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
             nameLearnables,
             correct,
             correct,
-            this.reverse), effects, []];
+            this.reverse), [], []];
     }
 }
 

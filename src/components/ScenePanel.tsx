@@ -11,7 +11,7 @@ import "../Common.css";
 import "./ScenePanel.css";
 
 interface ScenePanelProps {
-    location: model.Location;
+    store: model.Store;
     steps: number;
 }
 
@@ -100,14 +100,19 @@ const people = [
 
 const player = require("../assets/player/player.png");
 
+const hats = {
+    "fedora": require("../assets/hats/fedora.png")
+};
+
 export default class ScenePanel extends React.Component<ScenePanelProps, ScenePanelState> {
     constructor(props: ScenePanelProps) {
         super(props);
-        this.state = { prevLocation: props.location };
+        this.state = { prevLocation: props.store.location.current };
     }
 
     render() {
-        const { location, steps } = this.props;
+        const { steps, store } = this.props;
+        const location = store.location.current;
 
         const newLocation = location !== this.state.prevLocation;
 
@@ -153,6 +158,8 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
             );
         }
 
+        const currentHat = store.wardrobe.currentHat;
+
         const timeout = newLocation ? { enter: 2400, exit: 2400 }
                       : { enter: 500, exit: 500 };
         const transitionClass = newLocation ? "slowfade" : "fade";
@@ -170,7 +177,7 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
                 </TransitionGroup>
                 <img
                     className={newLocation ? "bobbing" : ""}
-                    src={player}
+                    src={currentHat !== null ? hats[currentHat] : player}
                 />
             </section>
         );

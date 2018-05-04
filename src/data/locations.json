@@ -298,6 +298,7 @@
                         },
                         "probability": 500
                     }
+
                 ]
             }
         ],
@@ -337,6 +338,17 @@
                 "eventSource": "vending-machine-purple",
                 "cooldown": 1000,
                 "cost": [ "yen", 200 ],
+                "filter": {
+                    "type": "quest",
+                    "quest": "rehydrate",
+                    "stage": "complete"
+                }
+            },
+            {
+                "label": "Buy Hat",
+                "eventSource": "vending-machine-hat",
+                "cooldown": 500,
+                "cost": [ "yen", 500 ],
                 "filter": {
                     "type": "quest",
                     "quest": "rehydrate",

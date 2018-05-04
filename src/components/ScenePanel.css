@@ -19,14 +19,17 @@
 
 @keyframes bobbing-animation {
     0% {
-        transform: translateY(0);
+        transform: translateY(0px);
+        clip: rect(0, 400px, 500px, 0);
     }
 
     50% {
-        transform: translateY(-50px);
+        transform: translateY(50px);
+        clip: rect(0, 400px, 450px, 0);
     }
 
     100% {
-        transform: translateY(0);
+        transform: translateY(0px);
+        clip: rect(0, 400px, 500px, 0);
     }
 }

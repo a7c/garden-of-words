@@ -18,6 +18,7 @@ export default {
     transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
     vendingMachinePurple: require("./collections/purple.json").map(parsers.parseEvent),
+    vendingMachineHat: require("./collections/hat.json").map(parsers.parseEvent),
     luggageJob: luggageEventJson.map(parsers.parseEvent),
     watchNews: watchNewsJson.map(parsers.parseEvent),
     airportTrainStation: airportTrainStationJson.map(parsers.parseEvent),

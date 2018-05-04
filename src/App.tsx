@@ -21,6 +21,9 @@ import ScenePanel from "./components/ScenePanel";
 import Streets from "./components/Streets";
 import CollectionList from "./components/AllCollections";
 import QuestLog from "./components/QuestLog";
+import Wardrobe from "./components/Wardrobe";
+
+let CHEAT_CODES_ENABLED = true;
 
 interface TestProps {
     store: model.Store;
@@ -30,12 +33,6 @@ interface TestProps {
     onWander: () => actions.Action;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     handleEventEffect: (effect: event.Effect, store: model.Store) => actions.Action;
-}
-
-enum MainPanelViews {
-  Streets,
-  Map,
-  Collections
 }
 
 interface TestState {
@@ -210,19 +207,66 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.onEvent(new event.FlavorEvent([], [], hint));
     }
 
+    _cheatReplenish = (yen: number, stamina: number) => {
+        this.props.modifyResource("yen", yen);
+        this.props.modifyResource("stamina", stamina);
+    }
+
+    _cheatSwole = (maxStamina: number) => {
+        this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", maxStamina), this.props.store);
+        this.props.modifyResource("stamina", maxStamina);
+    }
+
+    _cheat2000IQ = () => {
+        const collections = lookup.getCollections();
+        for (const collectionName of Object.keys(collections)) {
+            const collection = collections[collectionName];
+            for (const learnableId of collection.learnables) {
+                this.props.onLearn(learnableId);
+            }
+        }
+    }
+
+    _cheatSudo = () => {
+        const effects = [
+            // need to learn some kana and vocab so that unlocked things don't crash
+            new event.LearnEffect("hira-い"),
+            new event.LearnEffect("hira-と"),
+            new event.LearnEffect("hira-な"),
+            new event.LearnEffect("hira-み"),
+            new event.LearnEffect("vocab-紫"),
+            new event.LearnEffect("vocab-紫-kana-meaning"),
+            new event.LearnEffect("vocab-紫-kana-meaning-reverse"),
+            new event.LearnEffect("vocab-紫-kana-romaji-0"),
+            new event.FlagEffect("has-transliteration-job", true),
+            new event.FlagEffect("has-luggage-job", true),
+            new event.DiscoverEffect("airport-food-court"),
+            new event.DiscoverEffect("airport-food-court-ramen"),
+            new event.DiscoverEffect("airport-gate-vending-machine"),
+            new event.DiscoverEffect("airport-train-station"),
+            new event.DiscoverEffect("airport-train-station-ticket-booth"),
+            new event.QuestEffect("rehydrate", "complete"),
+            new event.QuestEffect("ramen-ya", "complete"),
+            new event.QuestEffect("airport-train-station", "target-located"),
+        ];
+        effects.map((eff) => this.props.handleEventEffect(eff, this.props.store));
+    }
+
     onKey = (e: KeyboardEvent) => {
+        if (!CHEAT_CODES_ENABLED) {
+            return;
+        }
         switch (e.code) {
             case "F1": {
-                this.props.modifyResource("yen", 1000);
-                this.props.modifyResource("stamina", 100);
-                e.preventDefault();
+                this._cheatReplenish(1000, 100);
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "It's not every day that money appears in your pocket and your tiredness goes away."
                 ]) });
+                e.preventDefault();
                 break;
             }
             case "F2": {
-                this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", 25), this.props.store);
+                this._cheatSwole(20);
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "You magically feel more durable."
                 ]) });
@@ -230,16 +274,35 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 break;
             }
             case "F3": {
-                const collections = lookup.getCollections();
-                for (const collectionName of Object.keys(collections)) {
-                    const collection = collections[collectionName];
-                    for (const learnableId of collection.learnables) {
-                        this.props.onLearn(learnableId);
-                    }
-                }
+                this._cheat2000IQ();
                 this.setState({ eventLog: this.state.eventLog.concat([
                     "You learned everything we have to teach about Japanese."
                 ]) });
+                e.preventDefault();
+                break;
+            }
+            case "F4": {
+                this._cheatSudo();
+                this.setState({ eventLog: this.state.eventLog.concat([
+                    "You become one with everything."
+                ]) });
+                e.preventDefault();
+                break;
+            }
+            case "F10": {
+                this._cheatReplenish(10000, 100);
+                this._cheatSwole(100);
+                this._cheat2000IQ();
+                this._cheatSudo();
+                this.setState({ eventLog: this.state.eventLog.concat([
+                    "You ascend to your ultimate form. You become Ultra-Gaijin."
+                ]) });
+                e.preventDefault();
+                break;
+            }
+            // disable cheat codes
+            case "F12": {
+                CHEAT_CODES_ENABLED = false;
                 e.preventDefault();
                 break;
             }
@@ -266,6 +329,52 @@ class TestComponent extends React.Component<TestProps, TestState> {
                                 (this.state.happening instanceof event.Event ?
                                  this.state.happening.allowNavigation : true);
 
+        const labels = [
+            {
+                label: locationData.area || "The Street",
+                url: "Area",
+                enabled: true,
+                hint: "",
+                onHint: this.onNavTabHint,
+            },
+            {
+                label: "Map",
+                url: "Map",
+                enabled: this.props.store.location.discovered.size > 1,
+                hint: "Gotta get your bearings before looking for a map.",
+                onHint: this.onNavTabHint,
+            },
+            {
+                label: "Collections",
+                url: "Collections",
+                enabled: allowNavigation &&
+                         this.props.store.learned.size > 0,
+                hint: allowNavigation ?
+                      "Maybe wandering around will give you some vocabulary to collect."
+                    : "Can't view collections while answering a question.",
+                onHint: this.onNavTabHint,
+            },
+            {
+                label: "Quests",
+                url: "Quests",
+                enabled: this.props.store.quests.size > 0,
+                hint: "Maybe wandering around will give you some things to do.",
+                onHint: this.onNavTabHint,
+                alert: this.state.questNotification,
+                clearAlert: () => this.setState({ questNotification: false }),
+            }
+        ];
+
+        if (store.wardrobe.themes.size > 1 || store.wardrobe.hats.size > 0) {
+            labels.push({
+                label: "Wardrobe",
+                url: "Wardrobe",
+                enabled: true,
+                hint: "",
+                onHint: this.onNavTabHint,
+            });
+        }
+
         return (
             <main>
                 <div id="LeftPanel">
@@ -278,47 +387,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         onNotHappening={this.onNotHappening}
                     />
                     <ScenePanel
-                        location={store.location.current}
+                        store={this.props.store}
                         steps={steps}
                     />
                 </div>
                 <div id="RightPanel">
                     <NavTab
-                        labels={[
-                            {
-                                label: locationData.area || "The Street",
-                                url: "Area",
-                                enabled: true,
-                                hint: "",
-                                onHint: this.onNavTabHint,
-                            },
-                            {
-                                label: "Map",
-                                url: "Map",
-                                enabled: this.props.store.location.discovered.size > 1,
-                                hint: "Gotta get your bearings before looking for a map.",
-                                onHint: this.onNavTabHint,
-                            },
-                            {
-                                label: "Collections",
-                                url: "Collections",
-                                enabled: allowNavigation &&
-                                         this.props.store.learned.size > 0,
-                                hint: allowNavigation ?
-                                      "Maybe wandering around will give you some vocabulary to collect."
-                                      : "Can't view collections while answering a question.",
-                                onHint: this.onNavTabHint,
-                            },
-                            {
-                                label: "Quests",
-                                url: "Quests",
-                                enabled: this.props.store.quests.size > 0,
-                                hint: "Maybe wandering around will give you some things to do.",
-                                onHint: this.onNavTabHint,
-                                alert: this.state.questNotification,
-                                clearAlert: () => this.setState({ questNotification: false }),
-                            }
-                        ]}
+                        labels={labels}
                     >
                         <Streets
                             store={store}
@@ -332,6 +407,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         <Map />
                         <CollectionList collections={collections} learned={learned} />
                         <QuestLog store={store} />
+                        <Wardrobe store={store} dispatch={this.props.handleEventEffect} />
                     </NavTab>
                 </div>
             </main>
@@ -343,8 +419,9 @@ const Test = connect(
     (store: model.Store) => ({ store }),
     (dispatch: Dispatch<actions.Action>) => ({
         onLearn: (item: model.LearnableId) => dispatch(actions.learn(item)),
-        onReview: (id: model.LearnableId, correct: boolean) =>
-            dispatch(actions.review(id, correct)),
+        onReview: (id: model.LearnableId, correct: boolean) => {
+            dispatch(actions.review(id, correct));
+        },
         onWander: () => {
             dispatch(actions.wander());
         },
@@ -356,7 +433,7 @@ const Test = connect(
                 effect.init(store);
             }
             dispatch(effect.toAction());
-        }
+        },
     })
 )(TestComponent as React.ComponentType<TestProps>);
 

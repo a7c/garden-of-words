@@ -112,6 +112,10 @@ export class FlagFilter extends Filter {
             console.warn(`Checked checklist for ${questId} at ${stage}, but one isn't defined.`);
             return true;
         }
+        else if (this.flag.startsWith("hat:")) {
+            const [ _, hat ] = this.flag.split(":");
+            return store.wardrobe.hats.contains(hat) === this.value;
+        }
         const actualValue = store.flags.get(this.flag);
         // Cast to boolean
         return !!actualValue === this.value;
@@ -284,7 +288,19 @@ export class FlagEffect extends Effect {
     }
 
     toAction() {
+        if (this.flag.startsWith("hat:")) {
+            const [ _, hat ] = this.flag.split(":");
+            return actions.hatify(hat);
+        }
         return actions.updateFlag(this.flag, this.value);
+    }
+
+    toEventLog() {
+        if (this.flag.startsWith("hat:")) {
+            const [ _, hat ] = this.flag.split(":");
+            return `You put on the ${hat}.`;
+        }
+        return null;
     }
 }
 
@@ -457,7 +473,7 @@ export class ThemeEffect extends Effect {
         (document.body.classList as any) //tslint:disable-line
             .forEach((klass: any) => document.body.classList.remove(klass)); //tslint:disable-line
         document.body.classList.add(this.theme);
-        return super.toAction();
+        return actions.theme(this.theme);
     }
 
     toEventLog() {

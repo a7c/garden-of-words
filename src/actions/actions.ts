@@ -11,6 +11,8 @@ export const DISCOVER = "discover";
 export const TRAVEL = "travel";
 export const MODIFY_RESOURCE = "modify_resource";
 export const MODIFY_RESOURCE_MAX = "modify_resource_max";
+export const THEME = "theme";
+export const HATIFY = "hat";
 
 export interface ReviewAction extends redux.AnyAction {
     type: typeof REVIEW;
@@ -61,9 +63,20 @@ export interface UpdateQuestAction extends redux.AnyAction {
     stage: model.QuestStage;
 }
 
+export interface ThemeAction extends redux.AnyAction {
+    type: typeof THEME;
+    theme: string;
+}
+
+export interface HatifyAction extends redux.AnyAction {
+    type: typeof HATIFY;
+    hat: string | null;
+}
+
 export type Action =
     | redux.AnyAction | ReviewAction | LearnAction | MeditateAction
-    | UpdateFlagAction | WanderAction | ModifyResourceAction;
+    | UpdateFlagAction | WanderAction | ModifyResourceAction | ThemeAction
+    | HatifyAction;
 
 export function meditate(): Action {
   return { type: MEDITATE };
@@ -135,5 +148,19 @@ export function updateQuest(quest: model.QuestId, stage: model.QuestStage): Acti
         type: UPDATE_QUEST,
         quest,
         stage,
+    };
+}
+
+export function theme(name: string): Action {
+    return {
+        type: THEME,
+        theme: name,
+    };
+}
+
+export function hatify(hat: string): Action {
+    return {
+        type: HATIFY,
+        hat,
     };
 }
