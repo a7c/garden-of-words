@@ -171,7 +171,7 @@ export default class EventComponent extends React.Component<EventProps> {
     }
 
     componentWillUnmount() {
-        document.removeEventListener("keydown", this.onKey);
+        document.removeEventListener("keydown", this.onKey, true);
     }
 
     onKey = (e: KeyboardEvent) => {

@@ -154,7 +154,6 @@ export function generateMultipleChoice(
 }
 
 export function generateTypeIn(word: model.Learnable) {
-    console.log(word);
     return new question.TypeIn([ word.id ], word);
 }
 
