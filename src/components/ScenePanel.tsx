@@ -162,7 +162,7 @@ export default class ScenePanel extends React.Component<ScenePanelProps, ScenePa
                     />
                     {/* People */}
                     <img
-                        src={people[index]}
+                        src={people[steps % people.length]}
                     />
                 </div>
             );
