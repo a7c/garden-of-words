@@ -10,7 +10,9 @@
             "food-court-ramen",
             "blank",
             "food-court-bakery",
-            "blank",
+            "food-court-chairs",
+            "food-court-chairs",
+            "food-court-ramen",
             "arrival-departure-board"
         ]
     },
@@ -304,17 +306,18 @@
         ],
         "structures": [
             "blank",
-            "blank",
             "arrival-departure-board",
             "blank",
             "vending-machine-indoors",
             "blank",
             "escalator",
-            "blank",
-            "checkin-desk",
+            "escalator",
+            "baggage-claim",
+            "baggage-carousel",
             "baggage-claim",
             "arrival-departure-board",
             "baggage-claim",
+            "baggage-carousel",
             "blank",
             "vending-machine-indoors",
             "food-court-ramen"
@@ -369,10 +372,17 @@
         "pois": [],
         "structures": [
             "blank",
+            "subway-pillar",
+            "subway-ticketmachine",
+            "subway-ticketmachine",
             "subway-ticketmachine",
             "blank",
             "subway-pillar",
-            "subway-gate"
+            "subway-gate",
+            "subway-gate",
+            "subway-pillar",
+            "blank",
+            "subway-stairs"
         ]
     },
     "airport-train-station-ticket-booth": {

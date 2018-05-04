@@ -28,6 +28,11 @@ const imagesOfStructure = {
         require("../assets/structures/arrival-departure-board1.png"),
         require("../assets/structures/arrival-departure-board2.png")
     ],
+    "baggage-carousel": [
+        require("../assets/structures/baggage-carousel0.png"),
+        require("../assets/structures/baggage-carousel1.png"),
+        require("../assets/structures/baggage-carousel2.png")
+    ],
     "baggage-claim": [
         require("../assets/structures/baggage-claim0.png"),
         require("../assets/structures/baggage-claim1.png"),
@@ -48,6 +53,11 @@ const imagesOfStructure = {
         require("../assets/structures/food-court-bakery1.png"),
         require("../assets/structures/food-court-bakery2.png")
     ],
+    "food-court-chairs": [
+        require("../assets/structures/food-court-chairs0.png"),
+        require("../assets/structures/food-court-chairs1.png"),
+        require("../assets/structures/food-court-chairs2.png")
+    ],
     "food-court-ramen": [
         require("../assets/structures/food-court-ramen0.png"),
         require("../assets/structures/food-court-ramen1.png"),
@@ -62,6 +72,11 @@ const imagesOfStructure = {
         require("../assets/structures/subway-pillar0.png"),
         require("../assets/structures/subway-pillar1.png"),
         require("../assets/structures/subway-pillar2.png")
+    ],
+    "subway-stairs": [
+        require("../assets/structures/subway-stairs0.png"),
+        require("../assets/structures/subway-stairs1.png"),
+        require("../assets/structures/subway-stairs2.png")
     ],
     "subway-ticketmachine": [
         require("../assets/structures/subway-ticketmachine0.png"),
