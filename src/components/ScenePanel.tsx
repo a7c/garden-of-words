@@ -120,8 +120,8 @@ const hats = {
     "fedora": require("../assets/hats/fedora.png"),
     "odango-atama": require("../assets/hats/odango-atama.png"),
     "ribbon": require("../assets/hats/ribbon.png"),
-    "spy-from-disguised-leaf-city": require("../assets/hats/spy-from-disguised-leaf-city.png"),
-    "witch": require("../assets/hats/witch.png")
+    "hitai-ate": require("../assets/hats/spy-from-disguised-leaf-city.png"),
+    "witch-hat": require("../assets/hats/witch.png")
 };
 
 export default class ScenePanel extends React.Component<ScenePanelProps, ScenePanelState> {

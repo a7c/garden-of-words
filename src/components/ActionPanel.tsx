@@ -103,7 +103,7 @@ export default class ActionPanel extends React.Component<Props> {
         const pois: JSX.Element[] = [];
         const adjacent: JSX.Element[] = [];
         locationData.pois.forEach((poi, idx) => {
-            if (!poi.filter || poi.filter.check(store)) {
+            if (!poi.filters || poi.filters.map(f => f.check(store)).every(x => x)) {
                 pois.push(
                     <ActionButton
                         key={`poi-${idx}`}

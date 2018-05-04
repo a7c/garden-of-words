@@ -40,6 +40,11 @@
             {
                 "type": "theme",
                 "theme": "theme-purple"
+            },
+            {
+                "type": "flag",
+                "flag": "ordered-purple-ramen",
+                "value": true
             }
         ],
         "failureEffects": []

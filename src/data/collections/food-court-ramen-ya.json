@@ -51,6 +51,11 @@
             {
                 "type": "theme",
                 "theme": "theme-blue"
+            },
+            {
+                "type": "flag",
+                "flag": "ordered-blue-ramen",
+                "value": true
             }
         ],
         "failureEffects": []

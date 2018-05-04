@@ -33,23 +33,54 @@
                 "label": "Order Red Ramen",
                 "eventSource": "airport-food-court-ramen-ya-red",
                 "cooldown": 1000,
-                "filter": {
-                    "type": "quest",
-                    "quest": "ramen-ya",
-                    "stage": "complete"
-                },
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "ramen-ya",
+                        "stage": "complete"
+                    }
+                ],
                 "cost": [ "yen", 450 ]
             },
             {
                 "label": "Order Purple Ramen",
                 "eventSource": "airport-food-court-ramen-ya-purple",
                 "cooldown": 1000,
-                "filter": {
-                    "type": "quest",
-                    "quest": "ramen-ya",
-                    "stage": "complete"
-                },
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "ramen-ya",
+                        "stage": "complete"
+                    }
+                ],
                 "cost": [ "yen", 600 ]
+            },
+            {
+                "label": "Talk to Chef",
+                "eventSource": "airport-food-court-ramen-ya-chef",
+                "cooldown": 1000,
+                "filters": [
+                    {
+                        "type": "flag",
+                        "flag": "ordered-blue-ramen",
+                        "value": true
+                    },
+                    {
+                        "type": "flag",
+                        "flag": "ordered-red-ramen",
+                        "value": true
+                    },
+                    {
+                        "type": "flag",
+                        "flag": "ordered-purple-ramen",
+                        "value": true
+                    },
+                    {
+                        "type": "flag",
+                        "flag": "talked-to-rainbow-ramen-chef",
+                        "value": false
+                    }
+                ]
             }
         ],
         "structures": [
@@ -288,33 +319,39 @@
                 "eventSource": "vending-machine-green",
                 "cooldown": 1000,
                 "cost": [ "yen", 200 ],
-                "filter": {
-                    "type": "quest",
-                    "quest": "rehydrate",
-                    "stage": "complete"
-                }
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "rehydrate",
+                        "stage": "complete"
+                    }
+                ]
             },
             {
                 "label": "Buy Hat",
                 "eventSource": "vending-machine-hat",
                 "cooldown": 500,
                 "cost": [ "yen", 500 ],
-                "filter": {
-                    "type": "quest",
-                    "quest": "rehydrate",
-                    "stage": "complete"
-                }
+                "filters": [
+                    {
+                        "type": "quest",
+                        "quest": "rehydrate",
+                        "stage": "complete"
+                    }
+                ]
             },
             {
                 "label": "Buy ???",
                 "eventSource": "vending-machine-mystery-hat",
                 "cooldown": 500,
                 "cost": [ "yen", 10000 ],
-                "filter": {
-                    "type": "flag",
-                    "flag": "hat:fedora",
-                    "value": true
-                }
+                "filters": [
+                    {
+                        "type": "flag",
+                        "flag": "hat:fedora",
+                        "value": true
+                    }
+                ]
             }
         ],
         "structures": [

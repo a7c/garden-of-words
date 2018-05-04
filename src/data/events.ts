@@ -15,6 +15,7 @@ export default {
     airportFoodCourtRamenYa: require("./collections/food-court-ramen-ya.json").map(parsers.parseEvent),
     airportFoodCourtRamenYaRed: require("./collections/food-court-ramen-ya-red.json").map(parsers.parseEvent),
     airportFoodCourtRamenYaPurple: require("./collections/food-court-ramen-ya-purple.json").map(parsers.parseEvent),
+    airportFoodCourtRamenYaChef: require("./collections/food-court-ramen-ya-chef.json").map(parsers.parseEvent),
     transliterateJob: transliterateEventJson.map(parsers.parseEvent),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
     vendingMachineGreen: require("./collections/green.json").map(parsers.parseEvent),

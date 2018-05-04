@@ -7,7 +7,7 @@ const locationData = require("./locations.json");
 export interface PointOfInterest {
     label: string;
     eventSource: model.Location;
-    filter?: event.Filter;
+    filters?: event.Filter[];
     cooldown: number;
     cost?: [ model.Resource, number ];
 }
@@ -37,8 +37,8 @@ export function getLocation(locationName: string) {
         locations = {};
         Object.keys(locationData).forEach((key) => {
             locationData[key].pois = locationData[key].pois.map((poi: any) => { //tslint:disable-line
-                if (poi.filter) {
-                    poi.filter = parsers.parseFilter(poi.filter);
+                if (poi.filters) {
+                    poi.filters = poi.filters.map(parsers.parseFilter);
                 }
                 return poi;
             });

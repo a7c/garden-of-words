@@ -1,0 +1,19 @@
+[
+    {
+        "type": "flavor",
+        "text": "The chef thanks you for your excessive patronage. Every chef has a mysterious backstory, so you ask him about his life prior to opening this shop. He tells you a long tale about the days of his youth back in his home village. Afterward, he hands you something. \"Take this,\" he says, \"Regular patrons are just like family. It's customary for those in our village to wear this, so wear it with pride.\"",
+        "filters": [],
+        "effects": [
+            {
+                "type": "flag",
+                "flag": "hat:hitai-ate",
+                "value": "true"
+            },
+            {
+                "type": "flag",
+                "flag": "talked-to-rainbow-ramen-chef",
+                "value": true
+            }
+        ]
+    }
+]
