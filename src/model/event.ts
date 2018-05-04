@@ -403,6 +403,48 @@ export class LearnEffect extends Effect {
     }
 }
 
+/**
+ *  An effect that selects the an unlearned learnable from the given collection.
+ *  LearnNextEffect needs to be initialized with a store before it can be used.
+ */
+export class LearnNextEffect extends LearnEffect {
+    // TODO: this is not used atm
+    collection: model.CollectionId;
+
+    constructor(collection: model.CollectionId, customLogMessage?: string) {
+        super("", customLogMessage);
+        this.collection = collection;
+    }
+
+    init(store: model.Store) {
+        const learnable = lookup.getNextLearnable(store);
+        if (learnable !== null) {
+            this.id = learnable;
+        }
+        else {
+            console.warn("LearnNextEffect#init: Tried to initialize but no next learnable could be found!");
+        }
+    }
+
+    toAction() {
+        // If uninitialized or can't get another learnable, then do nothing
+        if (this.id === "") {
+            console.warn("LearnNextEffect#toAction: Not initalized or no next learnable could be found!");
+            return {type: "PLACEHOLDER"};
+        }
+        return super.toAction();
+    }
+
+    toEventLog() {
+        // If uninitialized or can't get another learnable, then do nothing
+        if (this.id === "") {
+            console.warn("LearnNextEffect#toEventLog: Not initalized or no next learnable could be found!");
+            return "";
+        }
+        return super.toEventLog();
+    }
+}
+
 export class ThemeEffect extends Effect {
     theme: string;
 
@@ -704,7 +746,7 @@ export class EventPipeline {
         let currentEventSet: PossibleEventSet | null = null;
         // Select first event set that passes all filters
         for (const eventSet of this.eventSets) {
-            if (eventSet.filters.every((filter) => filter.check(store))) {
+            if (eventSet.filters.map(f => f.check(store)).every(x => x)) {
                 currentEventSet = eventSet;
                 break;
             }

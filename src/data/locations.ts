@@ -27,7 +27,7 @@ export interface LocationData {
      *  extensions removed.
      */
     structures: string[];
-    wanderEvents?: event.EventPipeline[];
+    wanderEvents?: event.EventPipeline;
     wanderFlavor?: { [learnableType: string]: string[] };
 }
 

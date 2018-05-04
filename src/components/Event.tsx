@@ -19,7 +19,7 @@ interface EventProps {
     event: event.Event;
     onFinished: () => void;
     onReview: (id: model.LearnableId, correct: boolean) => void;
-    handleEventEffect: (effect: event.Effect) => void;
+    handleEventEffect: (effect: event.Effect, store: model.Store) => void;
 }
 
 interface FlavorProps {
@@ -130,7 +130,7 @@ export default class EventComponent extends React.Component<EventProps> {
     onFinished = () => {
         const ev = this.props.event;
         if (ev instanceof event.FlavorEvent) {
-            ev.effects.forEach(this.props.handleEventEffect);
+            ev.effects.forEach((effect) => this.props.handleEventEffect(effect, this.props.store));
         }
 
         this.props.onFinished();
@@ -141,10 +141,10 @@ export default class EventComponent extends React.Component<EventProps> {
 
         if (ev instanceof event.QuestionEvent) {
             if (correct) {
-                ev.effects.forEach(this.props.handleEventEffect);
+                ev.effects.forEach((effect) => this.props.handleEventEffect(effect, this.props.store));
             }
             else {
-                ev.failureEffects.forEach(this.props.handleEventEffect);
+                ev.failureEffects.forEach((effect) => this.props.handleEventEffect(effect, this.props.store));
             }
         }
         else {

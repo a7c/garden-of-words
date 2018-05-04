@@ -19,7 +19,7 @@ interface Props {
     happening: Question | event.Event | model.Learnable | null;
     onNotHappening: () => void;
     onReviewFinished: (id: model.LearnableId, correct: boolean) => void;
-    handleEventEffect: (effect: event.Effect) => void;
+    handleEventEffect: (effect: event.Effect, store: model.Store) => void;
 }
 
 interface State {
