@@ -213,7 +213,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     _cheatSwole = (maxStamina: number) => {
-        this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", maxStamina));
+        this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", maxStamina), this.props.store);
         this.props.modifyResource("stamina", maxStamina);
     }
 
@@ -249,7 +249,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             new event.QuestEffect("ramen-ya", "complete"),
             new event.QuestEffect("airport-train-station", "target-located"),
         ];
-        effects.map((eff) => this.props.handleEventEffect(eff));
+        effects.map((eff) => this.props.handleEventEffect(eff, this.props.store));
     }
 
     onKey = (e: KeyboardEvent) => {
