@@ -111,16 +111,18 @@
                 ],
                 "events": [
                     {
-                        "type": "flavor",
-                        "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
-                        "filters": [],
-                        "effects": [
-                            {
-                                "type": "resource",
-                                "resource": "yen",
-                                "value": 10
-                            }
-                        ],
+                        "event": {
+                            "type": "flavor",
+                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 10
+                                }
+                            ]
+                        },
                         "probability": 200
                     },
                     {
