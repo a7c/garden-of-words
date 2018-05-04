@@ -239,6 +239,44 @@ export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
 }
 
 /**
+ *  A template for that produces kana -> romaji type-in questions that use only the vocab
+ *  words the player already knows.
+ */
+export class TypeInVocabTemplate {
+    collections: model.CollectionId[];
+
+    constructor(collections: model.CollectionId[]) {
+        this.collections = collections;
+    }
+
+    makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
+        const { learned, collections } = store;
+
+        const learnable = lookup.getLeastRecentlyReviewed(
+            learned,
+            l => this.collections.indexOf(l.collection) > -1 && !!l.back.match(/^[a-zA-Z]+$/)
+        );
+
+        if (learnable === null) {
+            throw "Tried to make question with TypeInVocabTemplate but the player hasn't even learned anything yet!";
+        }
+
+        const effects = [];
+
+        const kanaReading = learnable.front;
+        for (const k of kanaReading) {
+            effects.push(new event.ReviewCorrectEffect(`hira-${k}`));
+        }
+
+        return [
+            lookup.generateTypeIn(learnable),
+            effects,
+            [] as event.Effect[],
+        ];
+    }
+}
+
+/**
  *  A template for that produces kana -> romaji type-in questions that teach you a new
  *  vocab word afterward.
  */

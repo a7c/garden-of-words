@@ -66,7 +66,7 @@
     {
         "type": "question",
         "text": "A passerby asks you how to pronounce something written on a scrap of paper.",
-        "correctPostText": "They thank you and give you 100円.",
+        "correctPostText": "They thank you and give you some money for your help.",
         "wrongPostText": "They look disappointed and walk away.",
         "filters": [
             {
@@ -96,9 +96,11 @@
             }
         ],
         "question": {
-            "type": "mc",
-            "collection": "hira-basic",
-            "onlySeen": true
+            "type": "ti-learn-vocab",
+            "collections": [
+                "vocab-basic-colors"
+            ],
+            "onlySeenKana": true
         },
         "effects": [
             {

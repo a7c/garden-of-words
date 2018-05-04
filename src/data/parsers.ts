@@ -39,6 +39,7 @@ type FilterProps =
 type QuestionTemplateProps =
     { type: "mc", collection: string, restrictLearnableTypes: string[], onlySeen?: boolean, reverse?: boolean } |
     { type: "mc-names", reverse?: boolean } |
+    { type: "ti-vocab", collections: string[] } |
     { type: "ti-learn-vocab", collections: string[], onlySeenKana?: boolean };
 
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
@@ -223,6 +224,9 @@ question.QuestionTemplate | question.Question {
         return new question.MultipleChoiceNameQuestionTemplate(
             json.reverse || false
         );
+    }
+    else if (json.type === "ti-vocab") {
+        return new question.TypeInVocabTemplate(json.collections);
     }
     else if (json.type === "ti-learn-vocab") {
         return new question.TypeInLearnVocabTemplate(
