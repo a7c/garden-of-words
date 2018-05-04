@@ -219,7 +219,13 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                              </header>
                              <div>
                                  <div className="progress">
-                                     Mastery:
+                                     <span>Mastery:</span>
+                                     <div className="progress-outer">
+                                         <div
+                                             className="progress-inner"
+                                             style={{ right: `${100 - score}%` }}
+                                         />
+                                     </div>
                                  </div>
                                  <button
                                      onClick={() => this.showCollection(learnable.collection)}
