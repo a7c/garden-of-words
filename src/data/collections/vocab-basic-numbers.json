@@ -23,14 +23,8 @@
         {
             "id": "vocab-四",
             "kanji": ["四"],
-            "readings": ["よん", "し"],
+            "readings": ["よん"],
             "meanings": ["four"]
-        },
-        {
-            "id": "vocab-五",
-            "kanji": ["五"],
-            "readings": ["ご"],
-            "meanings": ["five"]
         },
         {
             "id": "vocab-六",
@@ -41,7 +35,7 @@
         {
             "id": "vocab-七",
             "kanji": ["七"],
-            "readings": ["しち", "なな"],
+            "readings": ["しち"],
             "meanings": ["seven"]
         },
         {
@@ -49,18 +43,6 @@
             "kanji": ["八"],
             "readings": ["はち"],
             "meanings": ["eight"]
-        },
-        {
-            "id": "vocab-九",
-            "kanji": ["九"],
-            "readings": ["きゅう"],
-            "meanings": ["nine"]
-        },
-        {
-            "id": "vocab-十",
-            "kanji": ["十"],
-            "readings": ["じゅう"],
-            "meanings": ["ten"]
         }
     ]
 }

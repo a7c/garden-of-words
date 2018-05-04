@@ -21,18 +21,6 @@
             "meanings": ["yellow"]
         },
         {
-            "id": "vocab-緑",
-            "kanji": ["緑"],
-            "readings": ["みどり"],
-            "meanings": ["green"]
-        },
-        {
-            "id": "vocab-オレンジ",
-            "kanji": ["オレンジ"],
-            "readings": ["オレンジ"],
-            "meanings": ["orange"]
-        },
-        {
             "id": "vocab-紫",
             "kanji": ["紫"],
             "readings": ["むらさき"],
@@ -55,18 +43,6 @@
             "kanji": ["灰色"],
             "readings": ["はいいろ"],
             "meanings": ["gray"]
-        },
-        {
-            "id": "vocab-ピンク",
-            "kanji": ["ピンク"],
-            "readings": ["ピンク"],
-            "meanings": ["pink"]
-        },
-        {
-            "id": "vocab-茶色",
-            "kanji": ["茶色"],
-            "readings": ["ちゃいろ"],
-            "meanings": ["brown"]
         }
     ]
 }
