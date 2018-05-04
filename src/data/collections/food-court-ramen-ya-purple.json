@@ -34,7 +34,8 @@
             {
                 "type": "resource",
                 "resource": "stamina",
-                "value": 100
+                "value": 100,
+                "log": ""
             },
             {
                 "type": "theme",

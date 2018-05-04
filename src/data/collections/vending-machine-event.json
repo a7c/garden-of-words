@@ -29,7 +29,8 @@
             {
                 "type": "resource",
                 "resource": "stamina",
-                "value": 10
+                "value": 10,
+                "log": ""
             }
         ]
     },

@@ -29,18 +29,13 @@
             {
                 "type": "resource-max",
                 "resource": "stamina",
-                "value": 100
+                "value": 30
             },
             {
                 "type": "resource",
                 "resource": "stamina",
-                "value": 10
-            },
-            {
-                "type": "quest",
-                "quest": "airport-train-station",
-                "stage": "target-located",
-                "journal": "In thanks for your excessive patronage, the owner of the ramen shop tells you how to get to the train station."
+                "value": 100,
+                "log": ""
             },
             {
                 "type": "theme",
