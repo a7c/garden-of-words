@@ -78,7 +78,7 @@
                                 }
                             ]
                         },
-                        "probability": 500
+                        "probability": 450
                     },
                     {
                         "event": {
@@ -92,8 +92,23 @@
                                 }
                             ]
                         },
-                        "probability": 500
+                        "probability": 450
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "An old man wanders up to you, muttering: \"Ahh yes, we've been expecting you. You'll have to be recorded before you're officially released. There are a few ways we can do this, and the choice is yours.\" He then ambles away.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "learn-next",
+                                    "collection": "hiragana-basic"
+                                }
+                            ]
+                        },
+                        "probability": 100
                     }
+
                 ]
             }
         ],
