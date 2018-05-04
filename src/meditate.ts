@@ -13,7 +13,13 @@ export default function meditate(
     const learned = store.learned;
     const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(learned);
     if (leastRecentlyReviewed !== null) {
-        const q = lookup.generateQuestion(leastRecentlyReviewed);
+        let q = lookup.generateQuestion(leastRecentlyReviewed);
+
+        // Only generate multiple-choice questions for low score
+        // learnables
+        if (store.learned.get(leastRecentlyReviewed.id)!.score < 20) {
+            q = lookup.generateMultipleChoice(leastRecentlyReviewed);
+        }
 
         const questionEvent = new event.QuestionEvent(
             [], // filters
