@@ -171,6 +171,27 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
         Router.navigate([ "Collections", id ]);
     }
 
+    componentWillMount() {
+        document.addEventListener("keydown", this.onKey, true);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.onKey, true);
+    }
+
+    onKey = (e: KeyboardEvent) => {
+        switch (e.code) {
+            case "Space":
+            case "Enter": {
+                // Auto-accept the default
+                this.dismiss();
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
     render() {
         const { store } = this.props;
         return (
