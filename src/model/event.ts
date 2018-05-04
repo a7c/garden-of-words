@@ -457,7 +457,7 @@ export class ThemeEffect extends Effect {
         (document.body.classList as any) //tslint:disable-line
             .forEach((klass: any) => document.body.classList.remove(klass)); //tslint:disable-line
         document.body.classList.add(this.theme);
-        return super.toAction();
+        return actions.theme(this.theme);
     }
 
     toEventLog() {

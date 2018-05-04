@@ -138,6 +138,10 @@ function wardrobe(
     action: actions.Action
 ): model.WardrobeRecord {
     switch (action.type) {
+    case actions.THEME:
+        return state
+            .set("currentTheme", action.theme)
+            .set("themes", state.themes.add(action.theme));
     default:
         return state;
     }
