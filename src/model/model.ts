@@ -84,6 +84,23 @@ export const LocationRecord = immutable.Record({
     discovered: immutable.Set(["airport-gate"]),
 }) as any as LocationRecord; // tslint:disable-line
 
+export interface WardrobeProps {
+    readonly themes: immutable.Set<string>;
+    readonly currentTheme: string;
+    readonly hats: immutable.Set<string>;
+    readonly currentHat: string | null;
+}
+
+export interface WardrobeRecord extends WardrobeProps, ImmutableRecord<WardrobeProps> {
+}
+
+export const WardrobeRecord = immutable.Record({
+    currentTheme: "theme-gray",
+    themes: immutable.Set(["theme-gray"]),
+    currentHat: null,
+    hats: immutable.Set([]),
+}) as any as WardrobeRecord; // tslint:disable-line
+
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
     readonly collections: immutable.Map<CollectionId, Collection>;
@@ -91,6 +108,7 @@ export interface StoreProps {
     readonly location: LocationRecord;
     readonly flags: immutable.Map<Flag, FlagValue>;
     readonly quests: immutable.Map<QuestId, QuestStage>;
+    readonly wardrobe: WardrobeRecord;
     readonly steps: number;
 }
 
@@ -104,6 +122,7 @@ export const Store = immutable.Record({
     location: new LocationRecord(),
     flags: immutable.Map(),
     quests: immutable.Map(),
+    wardrobe: new WardrobeRecord(),
     steps: 0,
 }) as any as Store; // tslint:disable-line
 

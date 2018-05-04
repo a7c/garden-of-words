@@ -133,6 +133,16 @@ function quests(state: immutable.Map<model.QuestId, model.QuestStage> = immutabl
     }
 }
 
+function wardrobe(
+    state: model.WardrobeRecord = new model.WardrobeRecord(),
+    action: actions.Action
+): model.WardrobeRecord {
+    switch (action.type) {
+    default:
+        return state;
+    }
+}
+
 /**
  *  Keeps track of the number of wander actions that have occurred so far in the current location.
  *  Used to update the scene panel.
@@ -155,7 +165,8 @@ const emptyStore = immutable.Record({
     location: undefined,
     flags: undefined,
     quests: undefined,
-    steps: undefined
+    wardrobe: undefined,
+    steps: undefined,
 });
 
 export const reducer = combineReducers<model.Store, string>(
@@ -166,6 +177,7 @@ export const reducer = combineReducers<model.Store, string>(
         location,
         flags,
         quests,
+        wardrobe,
         steps
     },
     emptyStore
