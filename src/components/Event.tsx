@@ -8,6 +8,7 @@ import * as question from "../model/question";
 
 import Router from "../router";
 import Fade from "./Fade";
+import Checklist from "./Checklist";
 import QuestionComponent from "./Question";
 
 import "../Common.css";
@@ -66,20 +67,7 @@ class QuestUpdated extends React.Component<{ event: event.QuestUpdatedEvent, sto
                 <h2>{`Quest ${text}: ${quest.name}`}</h2>
                 <p>{this.props.event.toEventLog()}</p>
                 {checklist ?
-                 (
-                     <ul className="checklist">
-                         {checklist.map(({ description, filter }) => (
-                             <li>
-                                 <input
-                                     type="checkbox"
-                                     disabled={true}
-                                     checked={filter.check(store)}
-                                 />
-                                 {description}
-                             </li>
-                         ))}
-                     </ul>
-                 )
+                 <Checklist store={store} checklist={checklist} />
                  : false}
             </section>
         );
