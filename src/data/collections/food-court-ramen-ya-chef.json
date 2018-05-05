@@ -13,6 +13,12 @@
                 "type": "flag",
                 "flag": "talked-to-rainbow-ramen-chef",
                 "value": true
+            },
+            {
+                "type": "quest",
+                "quest": "hats",
+                "stage": "collecting-hats",
+                "journal": "As you put it on, you come up with a way to run faster."
             }
         ]
     }
