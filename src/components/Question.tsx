@@ -158,7 +158,12 @@ class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
 
 class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
     componentDidMount() {
-        this.props.applyEffects();
+        setTimeout(
+            () => {
+                this.props.applyEffects();
+            },
+            250
+        );
     }
 
     dismiss = () => {

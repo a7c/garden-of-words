@@ -69,9 +69,12 @@ button.review {
     line-height: 2.5em;
     flex: 1 0;
     display: flex;
+    align-items: center;
 }
 
 .progress-outer {
+    height: 50%;
+    margin: 0 0.5em;
     flex: 1 0 1em;
     background: var(--color-theme-4);
     position: relative;
@@ -84,6 +87,7 @@ button.review {
     left: 0;
     right: 0;
     height: 100%;
+    transition: right 1s ease-in;
 }
 
 .continue {
