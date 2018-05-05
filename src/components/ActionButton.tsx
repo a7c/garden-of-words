@@ -18,6 +18,7 @@ interface Props {
     alert?: boolean;
 
     onClick?: () => void;
+    onPaused?: () => void;
     onHint?: (hint: string) => void;
 }
 
@@ -48,9 +49,13 @@ export default class ActionButton extends React.Component<Props, State> {
 
     clickHandler = () => {
         if (this.props.paused || this.props.locked) {
-            if (this.props.locked && this.props.onHint && this.props.hint) {
+            if (this.props.onPaused) {
+                this.props.onPaused();
+            }
+            else if (this.props.locked && this.props.onHint && this.props.hint) {
                 this.props.onHint(this.props.hint);
             }
+
             return;
         }
         if (!this.state.onCooldown && this.props.onClick) {

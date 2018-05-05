@@ -25,6 +25,7 @@ interface Props {
     onWander: () => void;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     onEvent: (happening: event.Event | model.LearnableId) => void;
+    onPaused: () => void;
 }
 
 export default class Streets extends React.Component<Props> {
@@ -42,6 +43,7 @@ export default class Streets extends React.Component<Props> {
                     modifyResource={this.props.modifyResource}
                     onEvent={this.props.onEvent}
                     paused={this.props.paused}
+                    onPaused={this.props.onPaused}
                 />
             </div>
         );

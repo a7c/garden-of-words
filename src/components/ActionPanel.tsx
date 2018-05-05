@@ -22,6 +22,7 @@ interface Props {
     onEvent: (happening: event.Event | model.LearnableId) => void;
     onWander: () => void;
     modifyResource: (resource: model.Resource, amount: number) => void;
+    onPaused: () => void;
 }
 
 export default class ActionPanel extends React.Component<Props> {
@@ -111,6 +112,7 @@ export default class ActionPanel extends React.Component<Props> {
                         cost={this.formatCost(poi.cost)}
                         onClick={() => this.wanderHelper(0, poi.eventSource)}
                         paused={paused}
+                        onPaused={this.props.onPaused}
                         cooldown={poi.cooldown}
                     />
                 );
@@ -126,6 +128,7 @@ export default class ActionPanel extends React.Component<Props> {
                     label={targetLoc.label || targetLoc.name}
                     locked={locked}
                     paused={paused}
+                    onPaused={this.props.onPaused}
                     onClick={() => this.travel(loc)}
                     onHint={locked ? this.onHint : undefined}
                     hint={targetLoc.lockedMessage || "You don't know where that is yet."}
@@ -150,6 +153,7 @@ export default class ActionPanel extends React.Component<Props> {
                         model.questStage(store, "airport-train-station") === "just-arrived"
                     }
                     paused={paused}
+                    onPaused={this.props.onPaused}
                     hint="You've got no clue where to take the train."
                     onClick={() => this.travel("airport-train-station")}
                     onHint={this.onHint}
@@ -168,6 +172,7 @@ export default class ActionPanel extends React.Component<Props> {
                          cost={`-${resources.WANDER_STA_COST} STA`}
                          onClick={this.wander}
                          paused={paused}
+                         onPaused={this.props.onPaused}
                          locked={stamina < resources.WANDER_STA_COST}
                          cooldown={1000}
                          hint={locationData.wanderlust ?
@@ -182,6 +187,7 @@ export default class ActionPanel extends React.Component<Props> {
                          benefit={`+${-resources.getMeditateStaminaCost(store)} STA`}
                          onClick={this.meditate}
                          paused={paused}
+                         onPaused={this.props.onPaused}
                          cooldown={1000}
                      />
                      : false}
@@ -192,6 +198,7 @@ export default class ActionPanel extends React.Component<Props> {
                         onClick={this.transliterate}
                         cooldown={5000}
                         paused={paused}
+                        onPaused={this.props.onPaused}
                     />
                     : false}
                     {store.flags.get("has-luggage-job") && location.current === "airport-gate" ?
@@ -201,6 +208,7 @@ export default class ActionPanel extends React.Component<Props> {
                         onClick={this.haulLuggage}
                         locked={stamina < resources.LUGGAGE_STA_COST}
                         paused={paused}
+                        onPaused={this.props.onPaused}
                         cooldown={2500}
                         hint="Grabbing a drink from the vending machine might get your stamina up."
                         onHint={this.onHint}
@@ -212,6 +220,7 @@ export default class ActionPanel extends React.Component<Props> {
                         benefit={`+KANA`}
                         onClick={this.watchNews}
                         paused={paused}
+                        onPaused={this.props.onPaused}
                         cooldown={2000}
                     />
                     : false}

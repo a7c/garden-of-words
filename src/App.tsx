@@ -43,6 +43,8 @@ interface TestState {
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
+    overlayEl: EventOverlay | null = null;
+
     constructor(props: TestProps) {
         super(props);
         this.state = {
@@ -55,17 +57,20 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     enqueueQuestUpdates(effects: event.Effect[]) {
         const newEvents = [];
+        let questUpdated = false;
         for (const e of effects) {
-            if (!(e instanceof event.QuestEffect)) {
-                continue;
+            if (e instanceof event.QuestEffect) {
+                if (model.questStage(this.props.store, e.questId) !== e.stage) {
+                    newEvents.push(new event.QuestUpdatedEvent(e.questId, e.stage));
+                    questUpdated = true;
+                }
             }
-
-            if (model.questStage(this.props.store, e.questId) !== e.stage) {
-                newEvents.push(new event.QuestUpdatedEvent(e.questId, e.stage));
+            else if (e instanceof event.LearnEffect) {
+                // TODO: we can implement #101
             }
         }
 
-        if (newEvents.length > 0) {
+        if (questUpdated) {
             this.setState({
                 questNotification: true,
             });
@@ -323,6 +328,16 @@ class TestComponent extends React.Component<TestProps, TestState> {
         document.removeEventListener("keydown", this.onKey);
     }
 
+    highlightOverlay = () => {
+        if (this.overlayEl) {
+            this.overlayEl.highlight();
+        }
+    }
+
+    saveOverlay = (el: EventOverlay | null) => {
+        this.overlayEl = el;
+    }
+
     render() {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps, location } = store;
@@ -383,6 +398,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 <div id="LeftPanel">
                     <Inventory resources={store.resources} />
                     <EventOverlay
+                        ref={this.saveOverlay}
                         store={this.props.store}
                         happening={this.state.happening}
                         onReviewFinished={this.onReviewFinished}
@@ -404,6 +420,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             modifyResource={this.props.modifyResource}
                             onEvent={this.onEvent}
                             paused={this.state.happening !== null}
+                            onPaused={this.highlightOverlay}
                             eventLog={this.state.eventLog}
                             isQuizMode={this.state.happening instanceof event.QuestionEvent}
                         />
