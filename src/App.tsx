@@ -330,6 +330,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     highlightOverlay = () => {
         if (this.overlayEl) {
+            // Unfocus the button so that space/enter will work to clear the event dialog
+            if (document.activeElement && document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
             this.overlayEl.highlight();
         }
     }
