@@ -49,7 +49,7 @@ export default class ActionButton extends React.Component<Props, State> {
 
     clickHandler = () => {
         if (this.props.paused || this.props.locked) {
-            if (this.props.onPaused) {
+            if (this.props.paused && this.props.onPaused) {
                 this.props.onPaused();
             }
             else if (this.props.locked && this.props.onHint && this.props.hint) {
