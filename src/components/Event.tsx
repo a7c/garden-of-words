@@ -60,7 +60,7 @@ class QuestUpdated extends React.Component<{ event: event.QuestUpdatedEvent, sto
     render() {
         const { store, event: ev } = this.props;
         const quest = lookup.getQuest(ev.quest);
-        const text = ev.stage === quest.complete ? "Completed" : "Updated";
+        const text = ev.newQuest ? "Started" : (ev.stage === quest.complete ? "Completed" : "Updated");
         const checklist = quest.checklists.get(ev.stage);
         return (
             <section className="Event">

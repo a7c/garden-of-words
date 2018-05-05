@@ -37,56 +37,49 @@ interface TestProps {
 
 interface TestState {
     happening: event.Event | model.Learnable | null;
-    eventQueue: event.Event[];
     eventLog: string[];
     questNotification: boolean;
 }
 
 class TestComponent extends React.Component<TestProps, TestState> {
     overlayEl: EventOverlay | null = null;
+    eventQueue: event.Event[];
 
     constructor(props: TestProps) {
         super(props);
         this.state = {
             happening: null,
-            eventQueue: [],
             eventLog: [],
             questNotification: false,
         };
+        this.eventQueue = [];
     }
 
-    enqueueQuestUpdates(effects: event.Effect[]) {
-        const newEvents = [];
-        let questUpdated = false;
-        for (const e of effects) {
-            if (e instanceof event.QuestEffect) {
-                const stage = model.questStage(this.props.store, e.questId);
-                const qst = lookup.getQuest(e.questId);
-                if (stage !== e.stage || qst.checklists.get(stage)) {
-                    newEvents.push(new event.QuestUpdatedEvent(e.questId, e.stage));
-                    questUpdated = true;
-                }
+    handleEventEffect = (effect: event.Effect, store: model.Store) => {
+        if (effect instanceof event.QuestEffect) {
+            const stage = model.questStage(store, effect.questId);
+            const qst = lookup.getQuest(effect.questId);
+            if (stage !== effect.stage || qst.checklists.get(stage)) {
+                this.eventQueue.push(new event.QuestUpdatedEvent(
+                    effect.questId,
+                    effect.stage,
+                    !stage
+                ));
+                this.setState({ questNotification: true });
             }
-            else if (e instanceof event.LearnEffect) {
-                // TODO: we can implement #101
-            }
+        }
+        else if (effect instanceof event.LearnEffect) {
+            // TODO: we can implement #101
         }
 
-        if (questUpdated) {
-            this.setState({
-                questNotification: true,
-            });
-        }
-        return newEvents;
+        this.props.handleEventEffect(effect, store);
     }
 
     onEvent = (happening: event.Event | model.LearnableId) => {
         let queuedEvents: event.Event[] = [];
 
-        console.log(JSON.stringify(happening));
-
         if (happening instanceof event.Event) {
-            const showEvent = happening.showEvent;
+            let showEvent = happening.showEvent;
             happening = happening.clone();
 
             if (happening instanceof event.MultiEvent) {
@@ -95,14 +88,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
             if (happening instanceof event.FlavorEvent || happening instanceof event.QuestEvent) {
                 // Dispatch effects now
-                happening.effects.forEach((effect) => this.props.handleEventEffect(effect, this.props.store));
+                happening.effects.forEach((effect) => this.handleEventEffect(effect, this.props.store));
             }
 
-            if (happening instanceof event.FlavorEvent) {
-                queuedEvents = this.enqueueQuestUpdates(happening.effects);
-            }
-            else if (happening instanceof event.QuestEvent) {
+            if (happening instanceof event.QuestEvent) {
                 this.setState({ questNotification: true });
+                showEvent = false; // Gets taken care of automatically
             }
 
             if (happening instanceof event.QuestionEvent) {
@@ -134,9 +125,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 while (queuedEvents.length > 0) {
                     const nextHappening = queuedEvents[0];
                     if (nextHappening.check(this.props.store) || nextHappening.filters.length === 0) {
+                        this.eventQueue = this.eventQueue.concat(queuedEvents.slice(1));
                         this.setState({
                             happening: nextHappening,
-                            eventQueue: queuedEvents.slice(1),
                         });
                         break;
                     }
@@ -168,15 +159,15 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
 
-        if (this.state.eventQueue.length > 0) {
-            let queuedEvents = this.state.eventQueue;
+        if (this.eventQueue.length > 0) {
+            let queuedEvents = this.eventQueue;
             // Make sure that the next queuedEvent is valid based on the filters
             while (queuedEvents.length > 0) {
                 const nextHappening = queuedEvents[0];
                 if (nextHappening.check(this.props.store) || nextHappening.filters.length === 0) {
+                    this.eventQueue = queuedEvents.slice(1);
                     this.setState({
                         happening: nextHappening,
-                        eventQueue: queuedEvents.slice(1),
                     });
                     break;
                 }
@@ -200,11 +191,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
             if (logText !== null) {
                 this.state.eventLog.push(logText);
             }
-
-            this.setState({
-                eventQueue: this.state.eventQueue.concat(this.enqueueQuestUpdates(
-                    correct ? happening.effects : happening.failureEffects)),
-            });
         }
 
         this.props.onReview(id, correct);
@@ -220,7 +206,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     _cheatSwole = (maxStamina: number) => {
-        this.props.handleEventEffect(new event.ResourceMaxEffect("stamina", maxStamina), this.props.store);
+        this.handleEventEffect(new event.ResourceMaxEffect("stamina", maxStamina), this.props.store);
         this.props.modifyResource("stamina", maxStamina);
     }
 
@@ -259,7 +245,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             new event.QuestEffect("ramen-ya", "complete"),
             new event.QuestEffect("airport-train-station", "target-located"),
         ];
-        effects.map((eff) => this.props.handleEventEffect(eff, this.props.store));
+        effects.map((eff) => this.handleEventEffect(eff, this.props.store));
     }
 
     onKey = (e: KeyboardEvent) => {
@@ -328,6 +314,12 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.onKey);
+    }
+
+    componentDidUpdate() {
+        if (this.eventQueue.length > 0 && !this.state.happening) {
+            this.setState({ happening: this.eventQueue.shift()! });
+        }
     }
 
     highlightOverlay = () => {
@@ -408,7 +400,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         store={this.props.store}
                         happening={this.state.happening}
                         onReviewFinished={this.onReviewFinished}
-                        handleEventEffect={this.props.handleEventEffect}
+                        handleEventEffect={this.handleEventEffect}
                         onNotHappening={this.onNotHappening}
                     />
                     <ScenePanel
@@ -432,7 +424,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         />
                         <CollectionList collections={collections} learned={learned} />
                         <QuestLog store={store} />
-                        <Wardrobe store={store} dispatch={this.props.handleEventEffect} />
+                        <Wardrobe store={store} dispatch={this.handleEventEffect} />
                     </NavTab>
                 </div>
             </main>

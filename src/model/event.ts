@@ -677,11 +677,13 @@ export class QuestEvent extends Event {
 export class QuestUpdatedEvent extends Event {
     quest: model.QuestId;
     stage: model.QuestStage;
+    newQuest: boolean;
 
-    constructor(quest: model.QuestId, stage: model.QuestStage) {
+    constructor(quest: model.QuestId, stage: model.QuestStage, newQuest: boolean = false) {
         super([], [], true);
         this.quest = quest;
         this.stage = stage;
+        this.newQuest = newQuest;
     }
 
     toEventLog(): string {
@@ -689,7 +691,7 @@ export class QuestUpdatedEvent extends Event {
     }
 
     clone() {
-        return new QuestUpdatedEvent(this.quest, this.stage);
+        return new QuestUpdatedEvent(this.quest, this.stage, this.newQuest);
     }
 }
 
