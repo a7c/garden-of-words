@@ -13,6 +13,19 @@ h2 {
     flex: 1;
 }
 
+.Learned {
+    max-height: 20em;
+    overflow-y: auto;
+}
+
+.Learned > div {
+    margin: 1em 0;
+}
+
+.Learned > div:first-child {
+    margin-top: 0;
+}
+
 .Learned .front, .Learned .back {
     font-size: 1.25em;
 }

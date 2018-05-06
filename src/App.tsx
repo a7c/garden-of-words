@@ -74,8 +74,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
         }
         else if (effect instanceof event.LearnEffect) {
             if (!model.hasLearned(store, effect.id)) {
-                console.log(effect, effect.id);
-                this.eventQueue.push(new event.LearnedEvent(effect.id));
+                const lastItem = this.eventQueue[this.eventQueue.length - 1];
+                if (lastItem && lastItem instanceof event.LearnedEvent) {
+                    lastItem.learnableIds.push(effect.id);
+                }
+                else {
+                    this.eventQueue.push(new event.LearnedEvent([ effect.id ]));
+                }
             }
         }
 

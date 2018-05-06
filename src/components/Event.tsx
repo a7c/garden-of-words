@@ -62,32 +62,43 @@ class Learned extends React.Component<{ event: event.LearnedEvent }> {
     }
 
     render() {
-        const learnable = lookup.getLearnable(this.props.event.learnableId);
-        const collection = lookup.getCollection(learnable.collection);
-        const type = {
-            "hiragana": "Hiragana",
-            "katakana": "Katakana",
-            "vocab-kana-romaji": "Word Reading",
-            "vocab-kana-romaji-reverse": "Word Reading",
-            "vocab-kana-meaning": "Vocab Word",
-            "vocab-kana-meaning-reverse": "Vocab Word",
-        }[learnable.type] || "Item";
+        const items = [];
+
+        for (const id of this.props.event.learnableIds) {
+            const learnable = lookup.getLearnable(id);
+            const collection = lookup.getCollection(learnable.collection);
+            const type = {
+                "hiragana": "Hiragana",
+                "katakana": "Katakana",
+                "vocab-kana-romaji": "Word Reading",
+                "vocab-kana-romaji-reverse": "Word Reading",
+                "vocab-kana-meaning": "Vocab Word",
+                "vocab-kana-meaning-reverse": "Vocab Word",
+            }[learnable.type] || "Item";
+
+            items.push(
+                <div key={id}>
+                    <h2>Learned New {type}</h2>
+                    <p>
+                        <span className="front">{learnable.front}</span>&nbsp;
+                        {lookup.getLearnablePrompt(learnable.type)}&nbsp;
+                        <span className="back">{learnable.back}</span>
+                    </p>
+                    <p>
+                        <em>This knowledge can come up when you meditate in the future.</em>
+                    </p>
+                    <button
+                        onClick={() => this.showCollection(learnable.collection)}
+                    >
+                        View {collection.name}
+                    </button>
+                </div>
+            );
+        }
+
         return (
             <section className="Event Learned">
-                <h2>Learned New {type}</h2>
-                <p>
-                    <span className="front">{learnable.front}</span>&nbsp;
-                    {lookup.getLearnablePrompt(learnable.type)}&nbsp;
-                    <span className="back">{learnable.back}</span>
-                </p>
-                <p>
-                    <em>This knowledge can come up when you meditate in the future.</em>
-                </p>
-                <button
-                    onClick={() => this.showCollection(learnable.collection)}
-                >
-                    View {collection.name}
-                </button>
+                {items}
             </section>
         );
     }

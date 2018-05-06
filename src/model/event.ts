@@ -697,11 +697,11 @@ export class QuestUpdatedEvent extends Event {
 
 // Dummy event, just used for display
 export class LearnedEvent extends Event {
-    learnableId: model.LearnableId;
+    learnableIds: model.LearnableId[];
 
-    constructor(learnableId: model.LearnableId) {
+    constructor(learnableIds: model.LearnableId[]) {
         super([], [], true);
-        this.learnableId = learnableId;
+        this.learnableIds = learnableIds;
     }
 
     toEventLog() {
@@ -709,7 +709,7 @@ export class LearnedEvent extends Event {
     }
 
     clone() {
-        return new LearnedEvent(this.learnableId);
+        return new LearnedEvent(this.learnableIds.slice());
     }
 }
 
