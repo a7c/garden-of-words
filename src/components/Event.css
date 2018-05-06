@@ -12,3 +12,11 @@ h2 {
 .event-buttons > button {
     flex: 1;
 }
+
+.Learned .front, .Learned .back {
+    font-size: 1.25em;
+}
+
+.Learned button {
+    width: 100%;
+}

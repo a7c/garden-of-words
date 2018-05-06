@@ -56,6 +56,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     handleEventEffect = (effect: event.Effect, store: model.Store) => {
+        if (effect instanceof event.LearnNextEffect) {
+            effect.init(store);
+        }
+
         if (effect instanceof event.QuestEffect) {
             const stage = model.questStage(store, effect.questId);
             const qst = lookup.getQuest(effect.questId);
@@ -69,7 +73,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
         else if (effect instanceof event.LearnEffect) {
-            // TODO: we can implement #101
+            if (!model.hasLearned(store, effect.id)) {
+                console.log(effect, effect.id);
+                this.eventQueue.push(new event.LearnedEvent(effect.id));
+            }
         }
 
         this.props.handleEventEffect(effect, store);
@@ -446,9 +453,6 @@ const Test = connect(
             dispatch(actions.modifyResource(resource, amount));
         },
         handleEventEffect: (effect: event.Effect, store: model.Store) => {
-            if (effect instanceof event.LearnNextEffect) {
-                effect.init(store);
-            }
             dispatch(effect.toAction());
         },
     })

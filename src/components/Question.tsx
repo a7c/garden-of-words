@@ -210,11 +210,7 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                      const collection = lookup.getCollection(learnableId);
                      const record = store.learned.get(learnableId);
                      const score = record ? record.score : 0;
-                     const prompt = {
-                         "hiragana": "is pronounced",
-                         "katakana": "is pronounced",
-                         "vocab-kana-romaji": "is read",
-                     }[learnable.type] || " = ";
+                     const prompt = lookup.getLearnablePrompt(learnable.type);
                      return (
                          <div className="reviewed-learnable" key={idx}>
                              <header>

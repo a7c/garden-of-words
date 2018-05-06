@@ -695,6 +695,24 @@ export class QuestUpdatedEvent extends Event {
     }
 }
 
+// Dummy event, just used for display
+export class LearnedEvent extends Event {
+    learnableId: model.LearnableId;
+
+    constructor(learnableId: model.LearnableId) {
+        super([], [], true);
+        this.learnableId = learnableId;
+    }
+
+    toEventLog() {
+        return null;
+    }
+
+    clone() {
+        return new LearnedEvent(this.learnableId);
+    }
+}
+
 /**
  *  An composite event that chains together multiple events.
  *  The effects for the multi-event will resolve immediately. If you want to have

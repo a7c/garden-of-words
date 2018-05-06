@@ -163,6 +163,14 @@ export function getLearnable(id: model.LearnableId): model.Learnable {
     return dictionary[id];
 }
 
+export function getLearnablePrompt(type: string): string {
+    return {
+        "hiragana": "is pronounced",
+        "katakana": "is pronounced",
+        "vocab-kana-romaji": "is read",
+    }[type] || " = ";
+}
+
 export function getCollection(item: model.LearnableId | model.Learnable | model.CollectionId) {
     if (typeof item === "string") {
         if (item in collectionList) {
