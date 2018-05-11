@@ -195,7 +195,13 @@
                         "event": {
                             "type": "flavor",
                             "text": "You see a restaurant's name written in hiragana and romaji.",
-                            "filters": [],
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-next-learnable",
+                                    "value": true
+                                }
+                            ],
                             "effects": [
                                 {
                                     "type": "learn-next",
@@ -209,7 +215,13 @@
                         "event": {
                             "type": "flavor",
                             "text": "As you walk, you remember a flash card from high school Japanese class.",
-                            "filters": [],
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-next-learnable",
+                                    "value": true
+                                }
+                            ],
                             "effects": [
                                 {
                                     "type": "learn-next",
@@ -517,7 +529,13 @@
                         "event": {
                             "type": "flavor",
                             "text": "You spot a sign written in hiragana and romaji.",
-                            "filters": [],
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-next-learnable",
+                                    "value": true
+                                }
+                            ],
                             "effects": [
                                 {
                                     "type": "learn-next",
@@ -531,7 +549,13 @@
                         "event": {
                             "type": "flavor",
                             "text": "As you walk, you remember a flash card from high school Japanese class.",
-                            "filters": [],
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-next-learnable",
+                                    "value": true
+                                }
+                            ],
                             "effects": [
                                 {
                                     "type": "learn-next",
@@ -820,7 +844,13 @@
                         "event": {
                             "type": "flavor",
                             "text": "A map of the subway is written in hiragana and romaji.",
-                            "filters": [],
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-next-learnable",
+                                    "value": true
+                                }
+                            ],
                             "effects": [
                                 {
                                     "type": "learn-next",
@@ -834,7 +864,13 @@
                         "event": {
                             "type": "flavor",
                             "text": "As you walk, you remember a flash card from high school Japanese class.",
-                            "filters": [],
+                            "filters": [
+                                {
+                                    "type": "flag",
+                                    "flag": "has-next-learnable",
+                                    "value": true
+                                }
+                            ],
                             "effects": [
                                 {
                                     "type": "learn-next",

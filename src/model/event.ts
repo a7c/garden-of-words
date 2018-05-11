@@ -116,6 +116,9 @@ export class FlagFilter extends Filter {
             const [ _, hat ] = this.flag.split(":");
             return store.wardrobe.hats.contains(hat) === this.value;
         }
+        else if (this.flag === "has-next-learnable") {
+            return !!lookup.getNextLearnable(store) === this.value;
+        }
         const actualValue = store.flags.get(this.flag);
         // Cast to boolean
         return !!actualValue === this.value;
