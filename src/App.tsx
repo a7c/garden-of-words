@@ -73,7 +73,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
         else if (effect instanceof event.LearnEffect) {
-            if (!model.hasLearned(store, effect.id) && !effect.id.endsWith("reverse")) {
+            // Guard against "" IDs
+            if (effect.id && !model.hasLearned(store, effect.id) &&
+                !effect.id.endsWith("reverse")) {
                 const lastItem = this.eventQueue[this.eventQueue.length - 1];
                 if (lastItem && lastItem instanceof event.LearnedEvent) {
                     lastItem.learnableIds.push(effect.id);
