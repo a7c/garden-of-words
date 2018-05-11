@@ -129,12 +129,19 @@ export default class CollectionComponent extends React.Component<CollectionProps
                     }
                 }
 
+                const classes = [ "collection-item" ];
+                if (id === this.state.expandedId) {
+                    classes.push("collection-item-expanded");
+                }
+                if (!record.learned) {
+                    classes.push("collection-item-locked");
+                }
+
                 return (
-                    <ActionButton
-                        className={id === this.state.expandedId ? "collection-item-expanded" : ""}
+                    <div
+                        className={classes.join(" ")}
                         key={id}
-                        locked={!record.learned}
-                        onClick={() => this.itemOnClick(id)}
+                        onClick={!record.learned ? undefined : () => this.itemOnClick(id)}
                     >
                         <span className="collection-item-title">{lookup.getLearnable(id).front}</span>
                         <span className="collection-item-subtitle">{lookup.getLearnable(id).back}</span>
@@ -161,7 +168,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                                  );
                              })}
                         </div>
-                    </ActionButton>
+                    </div>
                 );
             });
 
