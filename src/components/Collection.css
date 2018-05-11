@@ -2,7 +2,7 @@
     padding: 0.5rem;
 }
 
-.collection-display button {
+.collection-display button, .collection-display .collection-item {
     width: 50px;
     height: 60px;
     padding: 0.25em;
@@ -71,18 +71,37 @@
     justify-content: space-evenly;
 }
 
-#collection-body button {
+#collection-body .collection-item {
+    padding: 0.5rem 1.5rem;
+
+    border: 1px solid var(--color-theme-1);
+    background: var(--color-theme-5);
+    color: var(--color-theme-text);
+    cursor: pointer;
+
+    font-size: 0.9rem;
+    text-align: center;
+
+    transition: all 0.3s ease-in;
+
     flex: 1 0 auto;
     min-width: 9em;
     max-width: 9em;
-    transition: all 0.2s ease-in-out;
+    position: relative;
+
+    box-sizing: border-box;
 }
 
-#collection-body button > span {
+#collection-body .collection-item.collection-item-locked {
+    cursor: not-allowed;
+    background: var(--color-theme-3);
+}
+
+#collection-body .collection-item > span {
     position: absolute;
 }
 
-#collection-body button .collection-item-title, #collection-body button .collection-item-subtitle {
+#collection-body .collection-item .collection-item-title, #collection-body .collection-item .collection-item-subtitle {
     display: block;
     left: 0;
     right: auto !important;
@@ -90,23 +109,23 @@
     text-align: center;
 }
 
-#collection-body button.collection-item-expanded {
+#collection-body .collection-item.collection-item-expanded {
     width: 100%;
     max-width: 100%;
     height: 130px;
 }
 
-#collection-body button .collection-item-title {
+#collection-body .collection-item .collection-item-title {
     top: 0.25em;
     font-size: 1.5em;
     font-weight: bold;
 }
 
-#collection-body button .collection-item-subtitle {
+#collection-body .collection-item .collection-item-subtitle {
     bottom: 0.5em;
 }
 
-#collection-body button .collection-item-progress {
+#collection-body .collection-item .collection-item-progress {
     position: absolute;
     display: block;
     height: 0.5em;
@@ -117,7 +136,7 @@
     transition: all 0.2s ease-in-out;
 }
 
-#collection-body button .collection-item-progress-inner {
+#collection-body .collection-item .collection-item-progress-inner {
     display: block;
     position: absolute;
     top: 0;
@@ -130,33 +149,34 @@
     text-align: center;
 }
 
-#collection-body button .collection-item-detail {
+#collection-body .collection-item .collection-item-detail {
     display: none;
 }
 
-#collection-body button.collection-item-expanded .collection-item-title {
+#collection-body .collection-item.collection-item-expanded .collection-item-title {
     width: 20%;
     font-size: 2em;
 }
 
-#collection-body button.collection-item-expanded .collection-item-subtitle {
+#collection-body .collection-item.collection-item-expanded .collection-item-subtitle {
     width: 20%;
     font-size: 2em;
+    bottom: 1em;
 }
 
-#collection-body button.collection-item-expanded .collection-item-progress {
+#collection-body .collection-item.collection-item-expanded .collection-item-progress {
     height: 1.25em;
 }
 
-#collection-body button.collection-item-expanded .collection-item-progress-inner {
+#collection-body .collection-item.collection-item-expanded .collection-item-progress-inner {
     color: var(--color-theme-4);
 }
 
-#collection-body button.collection-item-expanded .collection-item-detail {
+#collection-body .collection-item.collection-item-expanded .collection-item-detail {
     display: block;
 }
 
-#collection-body button .action-button-annotations {
+#collection-body .collection-item .action-button-annotations {
     top: 0;
     right: 0;
     transform: translateX(30%) translateY(-30%);
@@ -171,4 +191,8 @@
 #dropdown .Dropdown-control {
     border: 0;
     border-bottom: 1px solid var(--color-theme-2);
+}
+
+#collection-body .collection-item p {
+    margin: 0;
 }
