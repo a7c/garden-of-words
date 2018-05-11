@@ -23,6 +23,7 @@ interface Props {
     onWander: () => void;
     modifyResource: (resource: model.Resource, amount: number) => void;
     onPaused: () => void;
+    clearAlert: (name: string) => void;
 }
 
 export default class ActionPanel extends React.Component<Props> {
@@ -92,6 +93,14 @@ export default class ActionPanel extends React.Component<Props> {
         return `${cost < 0 ? "" : "-"}${resourceLabel}${cost}`;
     }
 
+    isNewButton(name: string) {
+        return !this.props.store.flags.get(`button-${name}`);
+    }
+
+    clearAlert(name: string) {
+        return this.props.clearAlert(`button-${name}`);
+    }
+
     render() {
         const { store, paused } = this.props;
         const { learned, flags, location } = store;
@@ -114,6 +123,8 @@ export default class ActionPanel extends React.Component<Props> {
                         paused={paused}
                         onPaused={this.props.onPaused}
                         cooldown={poi.cooldown}
+                        alert={this.isNewButton(`poi-${poi.label}`)}
+                        clearAlert={() => this.clearAlert(`poi-${poi.label}`)}
                     />
                 );
             }
@@ -132,6 +143,8 @@ export default class ActionPanel extends React.Component<Props> {
                     onClick={() => this.travel(loc)}
                     onHint={locked ? this.onHint : undefined}
                     hint={targetLoc.lockedMessage || "You don't know where that is yet."}
+                    alert={this.isNewButton(`location-${loc}`) && !locked}
+                    clearAlert={() => this.clearAlert(`location-${loc}`)}
                 />
             );
 
@@ -189,6 +202,8 @@ export default class ActionPanel extends React.Component<Props> {
                          paused={paused}
                          onPaused={this.props.onPaused}
                          cooldown={1000}
+                         alert={this.isNewButton("meditate")}
+                         clearAlert={() => this.clearAlert("meditate")}
                      />
                      : false}
                     {store.flags.get("has-transliteration-job") ?
@@ -199,6 +214,8 @@ export default class ActionPanel extends React.Component<Props> {
                         cooldown={5000}
                         paused={paused}
                         onPaused={this.props.onPaused}
+                        alert={this.isNewButton("transliterate")}
+                        clearAlert={() => this.clearAlert("transliterate")}
                     />
                     : false}
                     {store.flags.get("has-luggage-job") && location.current === "airport-gate" ?
@@ -212,9 +229,11 @@ export default class ActionPanel extends React.Component<Props> {
                         cooldown={2500}
                         hint="Grabbing a drink from the vending machine might get your stamina up."
                         onHint={this.onHint}
+                        alert={this.isNewButton("luggage")}
+                        clearAlert={() => this.clearAlert("luggage")}
                     />
                     : false}
-                    {location.current === "airport-gate" ? // train-station" ?
+                    {location.current === "airport-gate" ?
                     <ActionButton
                         label="Watch the news"
                         benefit={`+KANA`}
@@ -222,6 +241,8 @@ export default class ActionPanel extends React.Component<Props> {
                         paused={paused}
                         onPaused={this.props.onPaused}
                         cooldown={2000}
+                        alert={this.isNewButton("watch-news")}
+                        clearAlert={() => this.clearAlert("watch-news")}
                     />
                     : false}
                 </div>
@@ -230,20 +251,8 @@ export default class ActionPanel extends React.Component<Props> {
                     {pois}
                 </div>
 
-                {/* TODO: want some model of what is adjacent to
-                what. Also, reusable component for this would be
-                nice. */}
                 <div>
                     {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
-                    {/*{model.questStarted(store, "airport-train-station") ?
-                    <ActionButton
-                        label="Train Station"
-                        locked={model.questStage(store, "airport-train-station") !== "target-located"}
-                        paused={paused}
-                        hint="You've got no clue where to take the train."
-                        onHint={this.onHint}
-                    />
-                    : false}*/}
                 </div>
             </LabeledPanel>
         );

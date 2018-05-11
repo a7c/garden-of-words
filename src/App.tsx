@@ -31,6 +31,7 @@ interface TestProps {
     onLearn: (item: model.LearnableId) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     onWander: () => actions.Action;
+    clearAlert: (name: string) => void;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     handleEventEffect: (effect: event.Effect, store: model.Store) => actions.Action;
 }
@@ -431,6 +432,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             paused={this.state.happening !== null}
                             onPaused={this.highlightOverlay}
                             eventLog={this.state.eventLog}
+                            clearAlert={this.props.clearAlert}
                             isQuizMode={this.state.happening instanceof event.QuestionEvent}
                         />
                         <CollectionList collections={collections} learned={learned} />
@@ -452,6 +454,9 @@ const Test = connect(
         },
         onWander: () => {
             dispatch(actions.wander());
+        },
+        clearAlert: (name: string) => {
+            dispatch(actions.updateFlag(name, true));
         },
         modifyResource: (resource: model.Resource, amount: number) => {
             dispatch(actions.modifyResource(resource, amount));

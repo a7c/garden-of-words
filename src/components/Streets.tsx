@@ -26,6 +26,7 @@ interface Props {
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     onEvent: (happening: event.Event | model.LearnableId) => void;
     onPaused: () => void;
+    clearAlert: (name: string) => void;
 }
 
 export default class Streets extends React.Component<Props> {
@@ -44,6 +45,7 @@ export default class Streets extends React.Component<Props> {
                     onEvent={this.props.onEvent}
                     paused={this.props.paused}
                     onPaused={this.props.onPaused}
+                    clearAlert={this.props.clearAlert}
                 />
             </div>
         );
