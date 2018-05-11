@@ -32,8 +32,7 @@ interface QuestionProps {
     store: model.Store;
 
     event: event.QuestionEvent;
-    onReview: (id: model.LearnableId, correct: boolean) => void;
-    onNotHappening: () => void;
+    onReview: (ids: model.LearnableId[], correct: boolean) => void;
 }
 
 class Flavor extends React.Component<FlavorProps> {
@@ -153,19 +152,19 @@ class Question extends React.Component<QuestionProps> {
                     question={this.question}
                     store={this.props.store}
                     onReview={this.props.onReview}
-                    onNotHappening={this.props.onNotHappening}
                 />
             </section>
         );
     }
 }
 
-export default class EventComponent extends React.Component<EventProps> {
+export default class EventComponent extends React.Component<EventProps, { confirm: boolean }> {
     fade: Fade | null;
 
     constructor(props: EventProps) {
         super(props);
         this.fade = null;
+        this.state = { confirm: false };
     }
 
     onFinished = () => {
@@ -177,7 +176,7 @@ export default class EventComponent extends React.Component<EventProps> {
         this.props.onFinished();
     }
 
-    onQuestionFinished = (id: model.LearnableId, correct: boolean) => {
+    onQuestionFinished = (ids: model.LearnableId[], correct: boolean) => {
         const ev = this.props.event;
 
         if (ev instanceof event.QuestionEvent) {
@@ -192,7 +191,9 @@ export default class EventComponent extends React.Component<EventProps> {
             throw "Finished question event but event is not a question event?";
         }
 
-        this.props.onReview(id, correct);
+        this.setState({ confirm: true });
+
+        ids.forEach(id => this.props.onReview(id, correct));
     }
 
     showQuests = () => {
@@ -224,6 +225,12 @@ export default class EventComponent extends React.Component<EventProps> {
                     this.props.event instanceof event.QuestEvent ||
                     this.props.event instanceof event.LearnedEvent ||
                     this.props.event instanceof event.QuestUpdatedEvent) {
+                    this.props.onFinished();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                else if (this.props.event instanceof event.QuestionEvent &&
+                         this.state.confirm) {
                     this.props.onFinished();
                     e.preventDefault();
                     e.stopPropagation();
@@ -310,15 +317,28 @@ export default class EventComponent extends React.Component<EventProps> {
             ];
         }
         else if (ev instanceof event.QuestionEvent) {
-            contents = (
-                <Question
-                    key="question"
-                    event={ev}
-                    store={this.props.store}
-                    onReview={this.onQuestionFinished}
-                    onNotHappening={this.onFinished}
-                />
-            );
+            contents = [
+                (
+                    <Question
+                        key="question"
+                        event={ev}
+                        store={this.props.store}
+                        onReview={this.onQuestionFinished}
+                    />
+                )
+            ];
+            if (this.state.confirm) {
+                contents.push(
+                    <div key="class-buttons" className="event-buttons">
+                        <button
+                            key="continue-after-question"
+                            onClick={this.props.onFinished}
+                        >
+                            <strong>Continue</strong>
+                        </button>
+                    </div>
+                );
+            }
         }
         else {
             contents = <p key="error">Unsupported event!</p>;

@@ -228,7 +228,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
             new event.LearnEffect("hira-と"),
             new event.LearnEffect("hira-な"),
             new event.LearnEffect("hira-み"),
-            new event.LearnEffect("vocab-紫"),
             new event.LearnEffect("vocab-紫-kana-meaning"),
             new event.LearnEffect("vocab-紫-kana-meaning-reverse"),
             new event.LearnEffect("vocab-紫-kana-romaji-0"),
