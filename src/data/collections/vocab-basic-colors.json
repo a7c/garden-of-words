@@ -1,6 +1,7 @@
 {
     "collection": "vocab-basic-colors",
     "name": "Basic Colors",
+    "hasAudio": true,
     "items": [
         {
             "id": "vocab-赤い",

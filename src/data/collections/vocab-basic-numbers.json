@@ -1,6 +1,7 @@
 {
     "collection": "vocab-basic-numbers",
     "name": "Basic Numbers",
+    "hasAudio": true,
     "items": [
         {
             "id": "vocab-一",
