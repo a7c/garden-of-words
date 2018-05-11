@@ -160,6 +160,16 @@
                                     "type": "flag",
                                     "flag": "has-transliteration-job",
                                     "value": true
+                                },
+                                {
+                                    "type": "not",
+                                    "filters": [
+                                        {
+                                            "type": "quest",
+                                            "quest": "airport-train-station",
+                                            "stage": "need-resources"
+                                        }
+                                    ]
                                 }
                             ],
                             "question": {
@@ -206,6 +216,38 @@
                                     "collection": "hiragana-basic"
                                 }
                             ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [
+                                {
+                                    "type": "quest",
+                                    "quest": "airport-train-station",
+                                    "stage": "need-resources"
+                                }
+                            ],
+                            "question": {
+                                "type": "ti-learn-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ],
+                                "onlySeenKana": true
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
                         },
                         "weight": 3
                     }
@@ -440,6 +482,16 @@
                                     "type": "flag",
                                     "flag": "has-transliteration-job",
                                     "value": true
+                                },
+                                {
+                                    "type": "not",
+                                    "filters": [
+                                        {
+                                            "type": "quest",
+                                            "quest": "airport-train-station",
+                                            "stage": "need-resources"
+                                        }
+                                    ]
                                 }
                             ],
                             "question": {
@@ -486,6 +538,38 @@
                                     "collection": "hiragana-basic"
                                 }
                             ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [
+                                {
+                                    "type": "quest",
+                                    "quest": "airport-train-station",
+                                    "stage": "need-resources"
+                                }
+                            ],
+                            "question": {
+                                "type": "ti-learn-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ],
+                                "onlySeenKana": true
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
                         },
                         "weight": 3
                     }
@@ -701,6 +785,16 @@
                                     "type": "flag",
                                     "flag": "has-transliteration-job",
                                     "value": true
+                                },
+                                {
+                                    "type": "not",
+                                    "filters": [
+                                        {
+                                            "type": "quest",
+                                            "quest": "airport-train-station",
+                                            "stage": "need-resources"
+                                        }
+                                    ]
                                 }
                             ],
                             "question": {
@@ -747,6 +841,38 @@
                                     "collection": "hiragana-basic"
                                 }
                             ]
+                        },
+                        "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "question",
+                            "text": "While wandering around aimlessly, a complete stranger asks you for help transliterating something. Your reputation for transliterating random stuff must be growing.",
+                            "correctPostText": "They thank you and give some money for your help. At this rate, you're going to need to file this income on your taxes.",
+                            "wrongPostText": "They look disappointed and walk away. So much for that reputation of yours.",
+                            "filters": [
+                                {
+                                    "type": "quest",
+                                    "quest": "airport-train-station",
+                                    "stage": "need-resources"
+                                }
+                            ],
+                            "question": {
+                                "type": "ti-learn-vocab",
+                                "collections": [
+                                    "vocab-basic-colors",
+                                    "vocab-basic-numbers"
+                                ],
+                                "onlySeenKana": true
+                            },
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "yen",
+                                    "value": 50
+                                }
+                            ],
+                            "failureEffects": []
                         },
                         "weight": 3
                     }
