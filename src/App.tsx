@@ -110,9 +110,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
             if (happening instanceof event.QuestionEvent) {
                 if (happening.sequence !== null && happening.sequence > 0) {
-
                     for (let i = 0; i < happening.sequence; i++) {
-                        console.log("hi");
                         const newQ = happening.clone();
                         // only apply effects after the sequence
                         // TODO: could be make more robust but this is how it's used currently
@@ -166,6 +164,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.state.eventLog.push(logMessage);
             }
         }
+
+        this.eventQueue = this.eventQueue.concat(queuedEvents);
     }
 
     onNotHappening = () => {

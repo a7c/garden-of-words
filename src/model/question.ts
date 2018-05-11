@@ -152,6 +152,7 @@ export class MultipleChoiceQuestionTemplate {
         if (candidates.length > 4) {
             candidates = candidates.slice(0, 4);
         }
+        console.log(candidates);
 
         const correct = Math.floor(Math.random() * candidates.length);
         return [new MultipleChoice(
