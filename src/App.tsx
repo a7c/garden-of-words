@@ -112,7 +112,13 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 if (happening.sequence !== null && happening.sequence > 0) {
 
                     for (let i = 0; i < happening.sequence; i++) {
+                        console.log("hi");
                         const newQ = happening.clone();
+                        // only apply effects after the sequence
+                        // TODO: could be make more robust but this is how it's used currently
+                        if (i < happening.sequence - 1) {
+                            newQ.effects = [];
+                        }
                         // Preserve sequence number so that we can use
                         // it as a key to a React component; this lets
                         // us force remounting so that separate questions
