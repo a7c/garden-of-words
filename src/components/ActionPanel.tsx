@@ -51,7 +51,7 @@ export default class ActionPanel extends React.Component<Props> {
 
     onHint = (hint: string) => {
         const hintText = Math.random() > 0.8 ?
-                         "Prof. Andersen: there's a time and a place for everything, but not now!" :
+                         "Your Professor's words echoed - there's a time and a place for everything, but not now!" :
                          hint;
         this.props.onEvent(new event.FlavorEvent([], [], hintText));
     }
