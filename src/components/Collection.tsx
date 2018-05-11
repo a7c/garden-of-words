@@ -156,8 +156,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                         </span>
                         <div className="collection-item-detail">
                             <AudioButton
-                                collectionId={lookup.getLearnable(id).collection}
-                                id={lookup.getLearnable(id).id}
+                                id={id}
                             />
                             {groupedLearnables[id].items.map((learnable, idx) => {
                                  if (!isLocked(learnable.id)) {

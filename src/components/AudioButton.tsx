@@ -9,7 +9,6 @@ import "../Common.css";
 import "./AudioButton.css";
 
 interface Props {
-    collectionId: model.CollectionId;
     id: model.LearnableId;
 }
 
@@ -33,28 +32,28 @@ export default class AudioButton extends React.Component<Props, State> {
     }
 
     render() {
-        const { collectionId, id } = this.props;
+        const learnable = lookup.getLearnable(this.props.id);
 
-        // if ()
+        if (learnable.audio) {
+            return (
+                <button
+                    className="audio-button"
+                    onClick={this.clickHandler}
+                >
+                    <img
+                        src={require("../assets/icons/speaker.png")}
+                        height="32"
+                        width="32"
+                    />
+                    <Sound
+                        url={learnable.audio}
+                        playStatus={this.state.playing ? Sound.status.PLAYING : Sound.status.STOPPED}
+                        onFinishedPlaying={this.onFinishedPlaying}
+                    />
+                </button>
+            );
+        }
 
-        return (
-            <button
-                className="audio-button"
-                onClick={this.clickHandler}
-            >
-                <img
-                    src={require("../assets/icons/speaker.png")}
-                    height="32"
-                    width="32"
-                />
-                <Sound
-                    url={`audio/${collectionId}/${id}.mp3`}
-                    playStatus={this.state.playing ? Sound.status.PLAYING : Sound.status.STOPPED}
-                    onFinishedPlaying={this.onFinishedPlaying}
-                />
-            </button>
-
-        );
-
+        return null;
     }
 }

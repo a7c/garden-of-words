@@ -27,8 +27,7 @@ function loadCollection(json: any) { //tslint:disable-line
             obj.collection = json.collection;
             dictionary[obj.id] = obj;
             if (json.hasAudio) {
-                console.log("BOOP");
-                obj.audio = `audio/${json.name}/${obj.id}`;
+                obj.audio = `audio/${json.collection}/${obj.id}.mp3`;
             }
             return obj.id;
         }),

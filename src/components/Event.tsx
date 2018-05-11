@@ -85,7 +85,6 @@ class Learned extends React.Component<{ event: event.LearnedEvent }> {
                         {lookup.getLearnablePrompt(learnable.type)}&nbsp;
                         <span className="back">{learnable.back}</span>
                         <AudioButton
-                            collectionId={learnable.collection}
                             id={learnable.id}
                         />
                     </p>

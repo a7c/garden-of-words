@@ -219,7 +219,6 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                                 &nbsp;{prompt}&nbsp;
                                 <span>“{learnable.back}”</span>
                                 <AudioButton
-                                    collectionId={learnable.collection}
                                     id={learnable.id}
                                 />
                              </header>
