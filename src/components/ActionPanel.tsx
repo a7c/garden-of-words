@@ -214,7 +214,7 @@ export default class ActionPanel extends React.Component<Props> {
                         onHint={this.onHint}
                     />
                     : false}
-                    {location.current === "airport-train-station" ?
+                    {location.current === "airport-gate" ? // train-station" ?
                     <ActionButton
                         label="Watch the news"
                         benefit={`+KANA`}
