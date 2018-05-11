@@ -117,7 +117,7 @@ export class MultipleChoiceQuestionTemplate {
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
-        const candidates = lookup.getCollections()[this.collection]
+        let candidates = lookup.getCollections()[this.collection]
             .learnables
             .filter(id => {
                 if (this.onlySeen && !store.learned.has(id)) {
@@ -145,6 +145,13 @@ export class MultipleChoiceQuestionTemplate {
                 }
                 return false;
             });
+
+        // cap question length at 4.
+        // TODO: Could be more robust but currently this is all we use.
+        candidates = shuffle(candidates);
+        if (candidates.length > 4) {
+            candidates = candidates.slice(0, 4);
+        }
 
         const correct = Math.floor(Math.random() * candidates.length);
         return [new MultipleChoice(
