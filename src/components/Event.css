@@ -18,6 +18,11 @@ h2 {
     overflow-y: auto;
 }
 
+.Event:not(.Learned) {
+    max-height: 20em;
+    overflow-y: auto;
+}
+
 .Learned > div {
     margin: 1em 0;
 }
