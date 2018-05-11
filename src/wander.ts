@@ -26,16 +26,12 @@ export default function wander(store: model.Store): model.LearnableId | event.Ev
         return ev;
     }
 
-    const learnable = lookup.getNextLearnable(store);
-    if (learnable !== null) {
-        if (locationData.wanderEvents) {
-            return locationData.wanderEvents.getRandomEvent(store);
-        }
-        return new event.FlavorEvent(
-            [],
-            [],
-            "You wander aimlessly."
-        );
+    if (locationData.wanderEvents) {
+        return locationData.wanderEvents.getRandomEvent(store);
     }
-    return null;
+    return new event.FlavorEvent(
+        [],
+        [],
+        "You wander aimlessly."
+    );
 }
