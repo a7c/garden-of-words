@@ -11,6 +11,7 @@ import "./Collection.css";
 import * as lookup from "../model/lookup";
 
 import ActionButton from "./ActionButton";
+import AudioButton from "./AudioButton";
 
 export interface CollectionProps {
     name: string;
@@ -154,6 +155,10 @@ export default class CollectionComponent extends React.Component<CollectionProps
                             </span>
                         </span>
                         <div className="collection-item-detail">
+                            <AudioButton
+                                collectionId={lookup.getLearnable(id).collection}
+                                id={lookup.getLearnable(id).id}
+                            />
                             {groupedLearnables[id].items.map((learnable, idx) => {
                                  if (!isLocked(learnable.id)) {
                                      return (

@@ -3,6 +3,7 @@ import * as React from "react";
 import Sound from "react-sound";
 
 import * as model from "../model/model";
+import * as lookup from "../model/lookup";
 
 import "../Common.css";
 import "./AudioButton.css";
@@ -22,7 +23,8 @@ export default class AudioButton extends React.Component<Props, State> {
         this.state = { playing: false };
     }
 
-    clickHandler = () => {
+    clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
         this.setState({ playing: true });
     }
 
@@ -32,6 +34,8 @@ export default class AudioButton extends React.Component<Props, State> {
 
     render() {
         const { collectionId, id } = this.props;
+
+        // if ()
 
         return (
             <button
