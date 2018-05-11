@@ -176,30 +176,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.state.eventLog.push(logText);
             }
         }
-
-        if (this.eventQueue.length > 0) {
-            let queuedEvents = this.eventQueue;
-            // Make sure that the next queuedEvent is valid based on the filters
-            while (queuedEvents.length > 0) {
-                const nextHappening = queuedEvents[0];
-                if (nextHappening.check(this.props.store) || nextHappening.filters.length === 0) {
-                    this.eventQueue = queuedEvents.slice(1);
-                    this.setState({
-                        happening: nextHappening,
-                    });
-                    break;
-                }
-                else {
-                    queuedEvents = queuedEvents.slice(1);
-                }
-            }
-            if (queuedEvents.length === 0) {
-                this.setState({ happening: null });
-            }
-        }
-        else {
-            this.setState({ happening: null });
-        }
+        this.setState({ happening: null });
     }
 
     onReviewFinished = (id: model.LearnableId, correct: boolean) => {
@@ -335,8 +312,19 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     componentDidUpdate() {
-        if (this.eventQueue.length > 0 && !this.state.happening) {
-            this.setState({ happening: this.eventQueue.shift()! });
+        if (!this.state.happening) {
+            while (this.eventQueue.length > 0) {
+                const ev = this.eventQueue.shift();
+                if (!ev) {
+                    return;
+                }
+
+                // Make sure event applies
+                if (ev.check(this.props.store) || ev.filters.length === 0) {
+                    this.setState({ happening: ev });
+                    return;
+                }
+            }
         }
     }
 

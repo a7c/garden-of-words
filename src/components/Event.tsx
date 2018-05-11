@@ -149,6 +149,7 @@ class Question extends React.Component<QuestionProps> {
             <section className="Event" key={this.props.event.sequence || 0}>
                 {this.props.event.flavor ? <p>{this.props.event.flavor}</p> : false}
                 <QuestionComponent
+                    key={this.props.event.sequence || 0}
                     question={this.question}
                     store={this.props.store}
                     onReview={this.props.onReview}
