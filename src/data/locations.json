@@ -49,7 +49,7 @@
                     {
                         "event": {
                             "type": "flavor",
-                            "text": "You find some money on the ground. This might help you buy a drink from the vending machine.",
+                            "text": "You find some coins on the ground. This might help you buy a drink from the vending machine.",
                             "filters": [
                                 {
                                     "type": "or",
@@ -71,7 +71,7 @@
                                 {
                                     "type": "resource",
                                     "resource": "yen",
-                                    "value": 10
+                                    "value": 20
                                 }
                             ]
                         },
@@ -80,7 +80,7 @@
                     {
                         "event": {
                             "type": "flavor",
-                            "text": "You stumble across a 10-yen coin on the ground.",
+                            "text": "You stumble across some coins on the ground.",
                             "filters": [
                                 {
                                     "type": "or",
@@ -97,11 +97,26 @@
                                 {
                                     "type": "resource",
                                     "resource": "yen",
-                                    "value": 10
+                                    "value": 20
                                 }
                             ]
                         },
                         "weight": 3
+                    },
+                    {
+                        "event": {
+                            "type": "flavor",
+                            "text": "A restaurant is handing out samples. You happily take one.",
+                            "filters": [],
+                            "effects": [
+                                {
+                                    "type": "resource",
+                                    "resource": "stamina",
+                                    "value": 10
+                                }
+                            ]
+                        },
+                        "weight": 2
                     },
                     {
                         "event": {
@@ -169,7 +184,7 @@
                     {
                         "event": {
                             "type": "flavor",
-                            "text": "You spot a sign written in hiragana and romaji.",
+                            "text": "You see a restaurant's name written in hiragana and romaji.",
                             "filters": [],
                             "effects": [
                                 {
@@ -673,7 +688,7 @@
                             ],
                             "failureEffects": []
                         },
-                        "weight": 1
+                        "weight": 2
                     },
                     {
                         "event": {
@@ -705,12 +720,12 @@
                             ],
                             "failureEffects": []
                         },
-                        "weight": 1
+                        "weight": 2
                     },
                     {
                         "event": {
                             "type": "flavor",
-                            "text": "You spot a sign written in hiragana and romaji.",
+                            "text": "A map of the subway is written in hiragana and romaji.",
                             "filters": [],
                             "effects": [
                                 {
