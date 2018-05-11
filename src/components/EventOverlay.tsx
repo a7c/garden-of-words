@@ -27,6 +27,8 @@ interface State {
 }
 
 export default class EventOverlay extends React.Component<Props, State> {
+    overlayEl: HTMLElement | null = null;
+
     constructor(props: Props) {
         super(props);
         this.state = { showing: true };
@@ -49,6 +51,23 @@ export default class EventOverlay extends React.Component<Props, State> {
             },
             1000
         );
+    }
+
+    highlight = () => {
+        if (this.overlayEl) {
+            this.overlayEl.style.animation = "";
+            this.overlayEl.style.animation = "0.8s 2 highlight-event ease-in-out";
+        }
+    }
+
+    saveEl = (el: HTMLElement | null) => {
+        this.overlayEl = el;
+    }
+
+    onAnimationEnd = () => {
+        if (this.overlayEl) {
+            this.overlayEl.style.animation = "";
+        }
     }
 
     render() {
@@ -86,7 +105,12 @@ export default class EventOverlay extends React.Component<Props, State> {
                 in={body !== null && this.state.showing}
                 classNames="effect-slide-up"
             >
-                <section id="event-overlay" className={body === null ? "hidden" : ""}>
+                <section
+                    id="event-overlay"
+                    ref={this.saveEl}
+                    className={body === null ? "hidden" : ""}
+                    onAnimationEnd={this.onAnimationEnd}
+                >
                     {body}
                 </section>
             </CSSTransition>

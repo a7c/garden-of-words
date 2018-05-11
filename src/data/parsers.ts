@@ -67,6 +67,7 @@ export type QuestProps = {
     checklists?: {
         [ stage: string ]: {
             description: string,
+            hiddenDescription?: string,
             filter: FilterProps,
         }[],
     },
@@ -202,6 +203,7 @@ export function parseQuest(json: QuestProps): quest.Quest {
         for (const stage of Object.keys(json.checklists)) {
             const checklist = json.checklists[stage].map(ck => ({
                 description: ck.description,
+                hiddenDescription: ck.hiddenDescription,
                 filter: parseFilter(ck.filter),
             }));
             checklists.set(stage, checklist);

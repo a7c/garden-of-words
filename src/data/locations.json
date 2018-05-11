@@ -35,6 +35,12 @@
                                     "type": "flag",
                                     "flag": "hat:ribbon",
                                     "value": true
+                                },
+                                {
+                                    "type": "quest",
+                                    "quest": "hats",
+                                    "stage": "collecting-hats",
+                                    "journal": "Despite being a ribbon, it seems to protect you from all evil."
                                 }
                             ]
                         },
@@ -309,6 +315,12 @@
                                     "type": "flag",
                                     "flag": "hat:cap",
                                     "value": true
+                                },
+                                {
+                                    "type": "quest",
+                                    "quest": "hats",
+                                    "stage": "collecting-hats",
+                                    "journal": "You suddenly feel the urge to become the very best."
                                 }
                             ]
                         },
@@ -564,6 +576,12 @@
                                     "type": "flag",
                                     "flag": "hat:witch-hat",
                                     "value": true
+                                },
+                                {
+                                    "type": "quest",
+                                    "quest": "hats",
+                                    "stage": "collecting-hats",
+                                    "journal": "You gain one use of ＥＸＰＬＯＳＩＯＮ."
                                 }
                             ]
                         },
@@ -726,7 +744,7 @@
         "label": "Ticket Booth",
         "area": "Ticket Booth",
         "wanderlust": false,
-        "connected": ["airport-train-station"],
+        "connected": [],
         "pois": [
             {
                 "label": "Buy a Ticket",

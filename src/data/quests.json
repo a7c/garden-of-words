@@ -61,5 +61,73 @@
             "learn-colors": "The blue menu item looks pretty attractive. Maybe you can wander around and figure out how to say blue.",
             "complete": "Halfway through slurpring down the ramen, you wonder if blue ramen is safe. You finish it anyways."
         }
+    },
+    {
+        "id": "hats",
+        "name": "Hat Connoisseur",
+        "complete": "complete",
+        "events": {},
+        "journal": {
+            "collecting-hats": "You've found a hat. How many more could there be?",
+            "complete": "You've found all the hats, and now your head is very warm indeed."
+        },
+        "checklists": {
+            "collecting-hats": [
+                {
+                    "description": "Cap",
+                    "hiddenDescription": "???",
+                    "filter": {
+                        "type": "flag",
+                        "flag": "hat:cap",
+                        "value": true
+                    }
+                },
+                {
+                    "description": "Fedora",
+                    "hiddenDescription": "???",
+                    "filter": {
+                        "type": "flag",
+                        "flag": "hat:fedora",
+                        "value": true
+                    }
+                },
+                {
+                    "description": "Ribbon",
+                    "hiddenDescription": "???",
+                    "filter": {
+                        "type": "flag",
+                        "flag": "hat:ribbon",
+                        "value": true
+                    }
+                },
+                {
+                    "description": "Witch Hat",
+                    "hiddenDescription": "???",
+                    "filter": {
+                        "type": "flag",
+                        "flag": "hat:witch-hat",
+                        "value": true
+                    }
+                },
+                {
+                    "description": "Odango-atama",
+                    "hiddenDescription": "???",
+                    "filter": {
+                        "type": "flag",
+                        "flag": "hat:odango-atama",
+                        "value": true
+                    }
+                },
+                {
+                    "description": "Hitai-ate",
+                    "hiddenDescription": "???",
+                    "filter": {
+                        "type": "flag",
+                        "flag": "hat:hitai-ate",
+                        "value": true
+                    }
+                }
+            ]
+        }
     }
 ]

@@ -24,6 +24,12 @@
                 "type": "flag",
                 "flag": "hat:fedora",
                 "value": "true"
+            },
+            {
+                "type": "quest",
+                "quest": "hats",
+                "stage": "collecting-hats",
+                "journal": "You are now truly a gentleman."
             }
         ]
     },

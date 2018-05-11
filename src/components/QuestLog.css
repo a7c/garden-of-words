@@ -1,3 +1,8 @@
+#quest-log {
+    overflow-y: scroll;
+    position: relative; /* Needed to make section header scroll */
+}
+
 #quest-log > h2 {
     color: var(--color-theme-2);
     text-align: center;

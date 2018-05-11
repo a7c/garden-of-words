@@ -7,6 +7,7 @@ import * as lookup from "../model/lookup";
 import * as quest from "../model/quest";
 
 import LabeledPanel from "./LabeledPanel";
+import Checklist from "./Checklist";
 import "../Common.css";
 import "./QuestLog.css";
 
@@ -23,20 +24,7 @@ class QuestLogEntry extends React.Component<{
             <LabeledPanel title={title}>
                 <p>{q.journal.get(stage)}</p>
                 {checklist ?
-                 (
-                     <ul className="checklist">
-                         {checklist.map(({ description, filter }) => (
-                             <li>
-                                 <input
-                                     type="checkbox"
-                                     disabled={true}
-                                     checked={filter.check(store)}
-                                 />
-                                 {description}
-                             </li>
-                         ))}
-                     </ul>
-                 )
+                 <Checklist store={store} checklist={checklist} />
                  : false}
             </LabeledPanel>
         );

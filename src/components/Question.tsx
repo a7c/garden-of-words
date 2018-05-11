@@ -74,7 +74,7 @@ class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
             ));
         return (
             <section className="question">
-                <p>Find the matching choice: {q.question[answerCode]}</p>
+                <p>{q.prompt()}: {q.question[answerCode]}</p>
                 <ul>
                     {choices}
                 </ul>
@@ -158,7 +158,12 @@ class TypeIn extends OnlyOnce<TypeInProps, TypeInState> {
 
 class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
     componentDidMount() {
-        this.props.applyEffects();
+        setTimeout(
+            () => {
+                this.props.applyEffects();
+            },
+            250
+        );
     }
 
     dismiss = () => {
@@ -205,22 +210,24 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                      const collection = lookup.getCollection(learnableId);
                      const record = store.learned.get(learnableId);
                      const score = record ? record.score : 0;
+                     const prompt = lookup.getLearnablePrompt(learnable.type);
                      return (
                          <div className="reviewed-learnable" key={idx}>
                              <header>
                                  <span>{learnable.front}</span>
-                                 <span>{learnable.back}</span>
+                                 &nbsp;{prompt}&nbsp;
+                                 <span>“{learnable.back}”</span>
                              </header>
                              <div>
-                                 <p>
-                                     Mastery:&nbsp;
-
-                                     <AnimatedNumber
-                                         value={score}
-                                         duration={750}
-                                         stepPrecision={0}
-                                     /> / 100
-                                 </p>
+                                 <div className="progress">
+                                     <span>Mastery:</span>
+                                     <div className="progress-outer">
+                                         <div
+                                             className="progress-inner"
+                                             style={{ right: `${100 - score}%` }}
+                                         />
+                                     </div>
+                                 </div>
                                  <button
                                      onClick={() => this.showCollection(learnable.collection)}
                                  >

@@ -19,6 +19,12 @@
                 "type": "flag",
                 "flag": "hat:odango-atama",
                 "value": "true"
+            },
+            {
+                "type": "quest",
+                "quest": "hats",
+                "stage": "collecting-hats",
+                "journal": "Make a contract with me!"
             }
         ]
     },

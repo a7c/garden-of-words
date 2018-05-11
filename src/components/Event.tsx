@@ -8,6 +8,7 @@ import * as question from "../model/question";
 
 import Router from "../router";
 import Fade from "./Fade";
+import Checklist from "./Checklist";
 import QuestionComponent from "./Question";
 
 import "../Common.css";
@@ -55,31 +56,66 @@ class Quest extends React.Component<{ event: event.QuestEvent }> {
     }
 }
 
+class Learned extends React.Component<{ event: event.LearnedEvent }> {
+    showCollection(id: model.CollectionId) {
+        Router.navigate([ "Collections", id ]);
+    }
+
+    render() {
+        const items = [];
+
+        for (const id of this.props.event.learnableIds) {
+            const learnable = lookup.getLearnable(id);
+            const collection = lookup.getCollection(learnable.collection);
+            const type = {
+                "hiragana": "Hiragana",
+                "katakana": "Katakana",
+                "vocab-kana-romaji": "Word Reading",
+                "vocab-kana-romaji-reverse": "Word Reading",
+                "vocab-kana-meaning": "Vocab Word",
+                "vocab-kana-meaning-reverse": "Vocab Word",
+            }[learnable.type] || "Item";
+
+            items.push(
+                <div key={id}>
+                    <h2>Learned New {type}</h2>
+                    <p>
+                        <span className="front">{learnable.front}</span>&nbsp;
+                        {lookup.getLearnablePrompt(learnable.type)}&nbsp;
+                        <span className="back">{learnable.back}</span>
+                    </p>
+                    <p>
+                        <em>This knowledge can come up when you meditate in the future.</em>
+                    </p>
+                    <button
+                        onClick={() => this.showCollection(learnable.collection)}
+                    >
+                        View {collection.name}
+                    </button>
+                </div>
+            );
+        }
+
+        return (
+            <section className="Event Learned">
+                {items}
+            </section>
+        );
+    }
+}
+
 class QuestUpdated extends React.Component<{ event: event.QuestUpdatedEvent, store: model.Store }> {
     render() {
         const { store, event: ev } = this.props;
         const quest = lookup.getQuest(ev.quest);
-        const text = ev.stage === quest.complete ? "Completed" : "Updated";
+        const text = ev.newQuest ? "Started" : (ev.stage === quest.complete ? "Completed" : "Updated");
         const checklist = quest.checklists.get(ev.stage);
         return (
             <section className="Event">
                 <h2>{`Quest ${text}: ${quest.name}`}</h2>
                 <p>{this.props.event.toEventLog()}</p>
                 {checklist ?
-                 (
-                     <ul className="checklist">
-                         {checklist.map(({ description, filter }) => (
-                             <li>
-                                 <input
-                                     type="checkbox"
-                                     disabled={true}
-                                     checked={filter.check(store)}
-                                 />
-                                 {description}
-                             </li>
-                         ))}
-                     </ul>
-                 )
+                 <Checklist store={store} checklist={checklist} />
                  : false}
             </section>
         );
@@ -181,6 +217,7 @@ export default class EventComponent extends React.Component<EventProps> {
                 // Auto-accept the default
                 if (this.props.event instanceof event.FlavorEvent ||
                     this.props.event instanceof event.QuestEvent ||
+                    this.props.event instanceof event.LearnedEvent ||
                     this.props.event instanceof event.QuestUpdatedEvent) {
                     this.props.onFinished();
                     e.preventDefault();
@@ -214,7 +251,7 @@ export default class EventComponent extends React.Component<EventProps> {
             contents = [
                 <Quest key="quest" event={ev} />,
                 (
-                    <div className="event-buttons">
+                    <div key="class-buttons" className="event-buttons">
                         <button
                             key="view-quest-log"
                             onClick={this.showQuests}
@@ -235,13 +272,28 @@ export default class EventComponent extends React.Component<EventProps> {
             contents = [
                 <QuestUpdated key="quest-updated" event={ev} store={this.props.store} />,
                 (
-                    <div className="event-buttons">
+                    <div key="class-buttons" className="event-buttons">
                         <button
                             key="view-quest-log"
                             onClick={this.showQuests}
                         >
                             View Quest Log
                         </button>
+                        <button
+                            key="accept-quest"
+                            onClick={this.props.onFinished}
+                        >
+                            <strong>Continue</strong>
+                        </button>
+                    </div>
+                ),
+            ];
+        }
+        else if (ev instanceof event.LearnedEvent) {
+            contents = [
+                <Learned key="learned" event={ev} />,
+                (
+                    <div key="class-buttons" className="event-buttons">
                         <button
                             key="accept-quest"
                             onClick={this.props.onFinished}

@@ -15,7 +15,6 @@ export default function wander(store: model.Store): model.LearnableId | event.Ev
     // Turn location-name into locationName
     const locationKey = location.current.replace(/-[a-z]/g, (a) => a.slice(1).toUpperCase());
     const locationData = locations.getLocation(location.current);
-    console.log(location.current);
 
     const eventList = events[locationKey];
 

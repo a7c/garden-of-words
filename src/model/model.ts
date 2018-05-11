@@ -126,6 +126,10 @@ export const Store = immutable.Record({
     steps: 0,
 }) as any as Store; // tslint:disable-line
 
+export function hasLearned(store: Store, id: LearnableId): boolean {
+    return store.learned.has(id);
+}
+
 export function locationDiscovered(store: Store, location: Location): boolean {
     return store.location.discovered.includes(location);
 }

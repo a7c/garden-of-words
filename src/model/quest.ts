@@ -1,7 +1,7 @@
 import * as model from "./model";
 import * as event from "./event";
 
-export type ChecklistEntry = { description: string, filter: event.Filter };
+export type ChecklistEntry = { description: string, hiddenDescription?: string, filter: event.Filter };
 export type Checklist = ChecklistEntry[];
 
 export class Quest {

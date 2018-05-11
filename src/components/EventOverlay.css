@@ -32,3 +32,20 @@
     transition: all 0.3s ease-in-out;
     transform: translateY(100vh);
 }
+
+@keyframes highlight-event {
+    0% {
+        transform: translateY(0px);
+        background: #FFF;
+    }
+
+    50% {
+        transform: translateY(-50px);
+        background: var(--color-theme-3);
+    }
+
+    100% {
+        transform: translateY(0px);
+        background: #FFF;
+    }
+}
