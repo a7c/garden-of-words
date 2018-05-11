@@ -30,6 +30,6 @@ h2 {
     font-size: 1.25em;
 }
 
-.Learned button {
+.Learned button:not(.audio-button) {
     width: 100%;
 }

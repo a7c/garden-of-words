@@ -26,6 +26,10 @@ function loadCollection(json: any) { //tslint:disable-line
         learnables: json.items.map((obj: model.Learnable) => {
             obj.collection = json.collection;
             dictionary[obj.id] = obj;
+            if (json.hasAudio) {
+                console.log("BOOP");
+                obj.audio = `audio/${json.name}/${obj.id}`;
+            }
             return obj.id;
         }),
     };

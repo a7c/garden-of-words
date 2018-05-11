@@ -10,6 +10,7 @@ import Router from "../router";
 import Fade from "./Fade";
 import Checklist from "./Checklist";
 import QuestionComponent from "./Question";
+import AudioButton from "./AudioButton";
 
 import "../Common.css";
 import "./Event.css";
@@ -83,6 +84,10 @@ class Learned extends React.Component<{ event: event.LearnedEvent }> {
                         <span className="front">{learnable.front}</span>&nbsp;
                         {lookup.getLearnablePrompt(learnable.type)}&nbsp;
                         <span className="back">{learnable.back}</span>
+                        <AudioButton
+                            collectionId={learnable.collection}
+                            id={learnable.id}
+                        />
                     </p>
                     <p>
                         <em>This knowledge can come up when you meditate in the future.</em>
