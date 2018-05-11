@@ -24,6 +24,7 @@ export interface Learnable {
     collection: string;
     front: string;
     back: string;
+    audio?: string;
 }
 
 export type Location = string;

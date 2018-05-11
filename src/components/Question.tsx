@@ -13,6 +13,7 @@ import Router from "../router";
 import Dialog from "./Dialog";
 import Fade from "./Fade";
 import OnlyOnce from "./OnlyOnce";
+import AudioButton from "./AudioButton";
 
 interface QuestionProps {
     store: model.Store;
@@ -214,9 +215,12 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                      return (
                          <div className="reviewed-learnable" key={idx}>
                              <header>
-                                 <span>{learnable.front}</span>
-                                 &nbsp;{prompt}&nbsp;
-                                 <span>“{learnable.back}”</span>
+                                <span>{learnable.front}</span>
+                                &nbsp;{prompt}&nbsp;
+                                <span>“{learnable.back}”</span>
+                                <AudioButton
+                                    id={learnable.id}
+                                />
                              </header>
                              <div>
                                  <div className="progress">

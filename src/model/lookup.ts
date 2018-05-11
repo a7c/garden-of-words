@@ -26,6 +26,13 @@ function loadCollection(json: any) { //tslint:disable-line
         learnables: json.items.map((obj: model.Learnable) => {
             obj.collection = json.collection;
             dictionary[obj.id] = obj;
+            if (json.hasAudio) {
+                let id = obj.id;
+                if (obj.parentId && obj.parentId !== null) {
+                    id = obj.parentId;
+                }
+                obj.audio = `audio/${json.collection}/${id}.mp3`;
+            }
             return obj.id;
         }),
     };
@@ -35,8 +42,14 @@ function loadVocab(json: any) { //tslint:disable-line
     const learnables: model.LearnableId[] = [];
     json.items.forEach((vocabEntry: vocab.VocabEntry) => {
         vocabEntry.collection = vocabEntry.collection || json.collection;
-
         for (const learnable of vocab.makeLearnables(vocabEntry)) {
+            if (json.hasAudio) {
+                let id = learnable.id;
+                if (learnable.parentId && learnable.parentId !== null) {
+                    id = learnable.parentId;
+                }
+                learnable.audio = `audio/${vocabEntry.collection}/${id}.mp3`;
+            }
             dictionary[learnable.id] = learnable;
             learnables.push(learnable.id);
         }
