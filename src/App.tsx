@@ -63,6 +63,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (effect instanceof event.QuestEffect) {
             const stage = model.questStage(store, effect.questId);
             const qst = lookup.getQuest(effect.questId);
+            if (stage === qst.complete) {
+                // Don't update quests that were already completed
+                return;
+            }
             if (stage !== effect.stage || qst.checklists.get(stage)) {
                 this.eventQueue.push(new event.QuestUpdatedEvent(
                     effect.questId,
