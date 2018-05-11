@@ -12,8 +12,7 @@
             "reverse": true
         },
         "sequence": 3,
-        "effects": [
-        ],
+        "effects": [],
         "failureEffects": []
     }
 ]
