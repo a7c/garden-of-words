@@ -38,7 +38,7 @@ interface TestProps {
 
 interface TestState {
     happening: event.Event | model.Learnable | null;
-    eventLog: string[];
+    eventLog: model.LogItem[];
     questNotification: boolean;
 }
 

@@ -18,7 +18,7 @@ import EventLog from "./EventLog";
 interface Props {
     paused: boolean;
     store: model.Store;
-    eventLog: string[];
+    eventLog: model.LogItem[];
     // True if player is being tested on something. Determines whether we render event log contents.
     isQuizMode: boolean;
 

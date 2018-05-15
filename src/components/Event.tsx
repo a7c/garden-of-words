@@ -236,6 +236,7 @@ export default class EventComponent extends React.Component<EventProps, { confir
                 if (this.props.event instanceof event.FlavorEvent ||
                     this.props.event instanceof event.QuestEvent ||
                     this.props.event instanceof event.LearnedEvent ||
+                    this.props.event instanceof event.TextEvent ||
                     this.props.event instanceof event.QuestUpdatedEvent) {
                     this.props.onFinished();
                     e.preventDefault();

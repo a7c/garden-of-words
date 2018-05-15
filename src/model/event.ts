@@ -250,7 +250,7 @@ export class Effect {
     /**
      * Return what this event should display in the event log (if anything).
      */
-    toEventLog(): string | null {
+    toEventLog(): model.LogItem | null {
         return this.customLogMessage;
     }
 }
@@ -390,7 +390,11 @@ export class ResourceEffect extends Effect {
         if (this.customLogMessage !== null) {
             return super.toEventLog();
         }
-        return `You ${this.value > 0 ? "gained" : "lost"} ${Math.abs(this.value)} ${this.resource}.`;
+        return {
+            body: "",
+            annotations: [`${this.value > 0 ? "+" : "-"} ${Math.abs(this.value)} ${this.resource}`],
+            notes: [],
+        };
     }
 }
 
@@ -421,7 +425,11 @@ export class LearnEffect extends Effect {
         }[learnable.type] || "means";
 
         // TODO: factor out this check
-        return `You learned ${learnable.front} ${phrase} ${learnable.back}.`;
+        return {
+            body: "",
+            annotations: [],
+            notes: [`You learned ${learnable.front} ${phrase} ${learnable.back}.`],
+        };
     }
 }
 
@@ -510,8 +518,8 @@ export class Event {
     /** Whether this event allows viewing the collections tab and other tabs. */
     allowNavigation: boolean;
 
-    static effectsToText(efs: Effect[]): string | null {
-        const effects: string[] = [];
+    static effectsToText(efs: Effect[]): model.LogItem | null {
+        const effects: model.LogItem[] = [];
         efs.forEach((ef) => {
             const el = ef.toEventLog();
             if (el) {
@@ -519,7 +527,7 @@ export class Event {
             }
         });
         if (effects.length > 0) {
-            return effects.join(" ");
+            return model.mergeLogItems(effects);
         }
         return null;
     }
@@ -540,7 +548,7 @@ export class Event {
         return true;
     }
 
-    toEventLog(): string | null {
+    toEventLog(): model.LogItem | null {
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
             return effectText;
@@ -548,7 +556,7 @@ export class Event {
         return "DEFAULT PLACEHOLDER TEXT";
     }
 
-    toPostEventLog(): string | null {
+    toPostEventLog(): model.LogItem | null {
         return null;
     }
 
@@ -565,10 +573,10 @@ export class FlavorEvent extends Event {
         this.flavor = flavor;
     }
 
-    toEventLog(): string {
+    toEventLog(): model.LogItem {
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
-            return `${this.flavor} ${effectText}`;
+            return model.mergeLogItems([ this.flavor, effectText ]);
         }
         return this.flavor;
     }
@@ -619,11 +627,19 @@ export class QuestionEvent extends Event {
     toResultEventLog(correct: boolean) {
         if (correct) {
             const effectText = Event.effectsToText(this.effects);
-            return `${this.correctPostFlavor ? this.correctPostFlavor : ""} ${effectText ? effectText : ""}`;
+            const text = this.correctPostFlavor ? this.correctPostFlavor : "";
+            if (effectText) {
+                return model.mergeLogItems([ text, effectText ]);
+            }
+            return text;
         }
         else {
             const effectText = Event.effectsToText(this.failureEffects);
-            return `${this.wrongPostFlavor ? this.wrongPostFlavor : ""} ${effectText ? effectText : ""}`;
+            const text = this.wrongPostFlavor ? this.wrongPostFlavor : "";
+            if (effectText) {
+                return model.mergeLogItems([ text, effectText ]);
+            }
+            return text;
         }
     }
 
@@ -658,10 +674,10 @@ export class QuestEvent extends Event {
         this.stage = stage;
     }
 
-    toEventLog(): string {
+    toEventLog(): model.LogItem {
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
-            return `${effectText}`;
+            return effectText;
         }
         // This should never happen
         return "";
@@ -689,7 +705,7 @@ export class QuestUpdatedEvent extends Event {
         this.newQuest = newQuest;
     }
 
-    toEventLog(): string {
+    toEventLog(): model.LogItem {
         return lookup.getQuest(this.quest).journal.get(this.stage) || "";
     }
 
@@ -756,10 +772,10 @@ export class MultiEvent extends Event {
         return this.events;
     }
 
-    toEventLog(): string {
+    toEventLog(): model.LogItem {
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
-            return `${effectText}`;
+            return effectText;
         }
         return "";
     }
