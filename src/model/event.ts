@@ -223,6 +223,51 @@ export class StructureNearbyFilter extends Filter {
     }
 }
 
+/**
+ * A filter that requires the player to have achieved a certain average mastery score
+ * across all learned items in a collection.
+ */
+export class AverageMasteryFilter extends Filter {
+    collection: model.CollectionId;
+    masteryNeeded: number;
+
+    constructor(collection: model.CollectionId, masteryNeeded: number) {
+        super();
+        this.collection = collection;
+        this.masteryNeeded = masteryNeeded;
+    }
+
+    check(store: model.Store) {
+        const collection = store.collections.get(this.collection);
+        if (collection) {
+            const sumScore = collection.reduce(
+                (acc, id) => {
+                    // Why do I need to do these undefined checks? /:
+                    if (acc === undefined) {
+                        return 0;
+                    }
+                    if (id === undefined) {
+                        return acc;
+                    }
+                    const learned = store.learned.get(id);
+                    return learned ? acc + learned.score : acc;
+                },
+                0
+            );
+
+            const avgScore = sumScore / collection.size;
+            console.log(`sum score: ${sumScore}`);
+            console.log(`size: ${collection.size}`);
+            console.log(`avg score: ${avgScore}`);
+            return avgScore >= this.masteryNeeded;
+        }
+        // Either player hasn't learned anything from the collection yet or the collection doesn't exist
+        else {
+            return false;
+        }
+    }
+}
+
 export class Effect {
     /**
      *  A custom log message to be displayed. If null, a default message (or no

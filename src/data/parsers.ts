@@ -34,7 +34,8 @@ type FilterProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage } |
     { type: "or", filters: FilterProps[] } |
     { type: "not", filters: FilterProps[] } |
-    { type: "structure-nearby", structure: string, distance?: number, exact?: boolean };
+    { type: "structure-nearby", structure: string, distance?: number, exact?: boolean } |
+    { type: "average-mastery", collection: model.CollectionId, masteryNeeded: number };
 
 type QuestionTemplateProps =
     { type: "mc", collection: string, restrictLearnableTypes: string[], onlySeen?: boolean, reverse?: boolean } |
@@ -143,6 +144,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     }
     else if (json.type === "not") {
         return new event.NotFilter(json.filters.map(parseFilter));
+    }
+    else if (json.type === "average-mastery") {
+        return new event.AverageMasteryFilter(json.collection, json.masteryNeeded);
     }
 
     throw new ParseError("Unrecognized filter", json);

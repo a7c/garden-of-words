@@ -200,6 +200,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 40
                                 }
                             ],
                             "effects": [
@@ -220,6 +225,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 20
                                 }
                             ],
                             "effects": [
@@ -534,6 +544,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 40
                                 }
                             ],
                             "effects": [
@@ -554,6 +569,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 20
                                 }
                             ],
                             "effects": [
@@ -849,6 +869,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 40
                                 }
                             ],
                             "effects": [
@@ -869,6 +894,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 20
                                 }
                             ],
                             "effects": [
