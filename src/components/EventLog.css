@@ -14,7 +14,8 @@
 }
 
 #event-log li {
-    margin: 0.5em 0;
+    margin: 0.25em 0;
+    padding: 0.25em;
     opacity: 0.7;
 
     transition: all 0.5s ease-in;
@@ -22,6 +23,7 @@
 
 #event-log li:nth-child(1) {
     opacity: 1;
+    background: var(--color-theme-4);
 }
 
 #event-log li:nth-child(2) {
