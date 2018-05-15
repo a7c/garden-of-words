@@ -384,7 +384,13 @@ export class TypeInLearnVocabTemplate {
 
             // TODO: what if this.onlySeenKana is false
             for (const k of kanaReading) {
-                effects.push(new event.ReviewCorrectEffect(`hira-${k}`));
+                if (learned.has(`hira-${k}`)) {
+                    effects.push(new event.ReviewCorrectEffect(`hira-${k}`));
+                }
+                // If we've never seen the kana but you got it right, then learn the kana
+                else {
+                    effects.push(new event.LearnEffect(`hira-${k}`));
+                }
             }
 
             return [
