@@ -75,7 +75,7 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
 
     render() {
         let key = "blank";
-        let contents = [<span key="blank"/>];
+        let contents: (JSX.Element | false)[] = [<span key="blank"/>];
 
         if (this.state.viewCollection === null) {
             key = "collection";
@@ -84,6 +84,9 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
 
             contents = ids.map(id => {
                 const collection = lookup.getCollection(id);
+                if (!collection.learnables.some(learnableId => this.props.learned.has(learnableId))) {
+                    return false;
+                }
                 return (
                     <ActionButton
                         key={id}
