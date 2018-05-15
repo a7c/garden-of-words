@@ -1,6 +1,6 @@
 #event-overlay {
     position: absolute;
-    left: calc(25px - 1rem);
+    left: calc((40px - 2rem) / 2);
     bottom: 20px;
     width: 340px;
     padding: 1rem;
