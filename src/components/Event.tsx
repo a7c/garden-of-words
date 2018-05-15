@@ -21,6 +21,7 @@ interface EventProps {
     event: event.Event;
     onFinished: () => void;
     onReview: (id: model.LearnableId, correct: boolean) => void;
+    onReviewFinished: (correct: boolean) => void;
     handleEventEffect: (effect: event.Effect, store: model.Store) => void;
 }
 
@@ -193,6 +194,7 @@ export default class EventComponent extends React.Component<EventProps, { confir
 
         this.setState({ confirm: true });
 
+        this.props.onReviewFinished(correct);
         ids.forEach(id => this.props.onReview(id, correct));
     }
 
