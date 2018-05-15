@@ -125,6 +125,18 @@ class QuestUpdated extends React.Component<{ event: event.QuestUpdatedEvent, sto
     }
 }
 
+class Text extends React.Component<{ event: event.TextEvent }> {
+    render() {
+        const { event: ev } = this.props;
+        return (
+            <section className="Event">
+                <h2>{ev.header}</h2>
+                <p>{ev.body}</p>
+            </section>
+        );
+    }
+}
+
 class Question extends React.Component<QuestionProps> {
     question: question.Question;
 
@@ -291,6 +303,21 @@ export default class EventComponent extends React.Component<EventProps, { confir
                         >
                             View Quest Log
                         </button>
+                        <button
+                            key="accept-quest"
+                            onClick={this.props.onFinished}
+                        >
+                            <strong>Continue</strong>
+                        </button>
+                    </div>
+                ),
+            ];
+        }
+        else if (ev instanceof event.TextEvent) {
+            contents = [
+                <Text key="text" event={ev} />,
+                (
+                    <div key="class-buttons" className="event-buttons">
                         <button
                             key="accept-quest"
                             onClick={this.props.onFinished}

@@ -716,6 +716,26 @@ export class LearnedEvent extends Event {
     }
 }
 
+// Dummy event, just used for display
+export class TextEvent extends Event {
+    header: string;
+    body: string;
+
+    constructor(header: string, body: string) {
+        super([], [], true);
+        this.header = header;
+        this.body = body;
+    }
+
+    toEventLog() {
+        return null;
+    }
+
+    clone() {
+        return new TextEvent(this.header, this.body);
+    }
+}
+
 /**
  *  An composite event that chains together multiple events.
  *  The effects for the multi-event will resolve immediately. If you want to have

@@ -93,6 +93,14 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 }
             }
         }
+        else if (effect instanceof event.DiscoverEffect &&
+                 !model.locationDiscovered(store, effect.location)) {
+            const location = locations.getLocation(effect.location);
+            this.eventQueue.push(new event.TextEvent(
+                `New ${location.wanderlust ? "Location" : "Point of Interest"}: ${location.area || location.name}`,
+                `You discovered ${location.name}.`
+            ));
+        }
 
         // Check if checklists changed
         const beforeCkValues: Map<string, [ model.QuestStage, boolean[] ]> = new Map();
