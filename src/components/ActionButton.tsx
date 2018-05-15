@@ -20,6 +20,7 @@ interface Props {
     onClick?: () => void;
     onPaused?: () => void;
     onHint?: (hint: string) => void;
+    clearAlert?: () => void;
 }
 
 interface State {
@@ -59,6 +60,9 @@ export default class ActionButton extends React.Component<Props, State> {
             return;
         }
         if (!this.state.onCooldown && this.props.onClick) {
+            if (this.props.clearAlert) {
+                this.props.clearAlert();
+            }
             this.props.onClick();
             if (this.props.cooldown) {
                 this.setState({ onCooldown: true });
@@ -93,6 +97,11 @@ export default class ActionButton extends React.Component<Props, State> {
                 onClick={this.clickHandler}
                 title={this.props.locked ? this.props.hint : undefined}
             >
+                {this.props.alert ?
+                 <span className="action-button-lock action-button-error">
+                     <i className="material-icons">error</i>
+                 </span> : false}
+
                 {this.props.label || this.props.children}
 
                 <div className="action-button-annotations">
@@ -101,10 +110,6 @@ export default class ActionButton extends React.Component<Props, State> {
                     {this.props.locked ?
                      <span className="action-button-lock">
                          <i className="material-icons">lock</i>
-                     </span> : false}
-                    {this.props.alert ?
-                     <span className="action-button-lock action-button-error">
-                         <i className="material-icons">error</i>
                      </span> : false}
                 </div>
 

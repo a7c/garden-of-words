@@ -144,8 +144,12 @@ export default class CollectionComponent extends React.Component<CollectionProps
                         key={id}
                         onClick={!record.learned ? undefined : () => this.itemOnClick(id)}
                     >
-                        <span className="collection-item-title">{lookup.getLearnable(id).front}</span>
-                        <span className="collection-item-subtitle">{lookup.getLearnable(id).back}</span>
+                        <span className="collection-item-title">
+                            {record.learned ? lookup.getLearnable(id).front : "???"}
+                        </span>
+                        <span className="collection-item-subtitle">
+                            {record.learned ? lookup.getLearnable(id).back : "???"}
+                        </span>
                         <span className="collection-item-progress">
                             <span
                                 className="collection-item-progress-inner"
@@ -154,10 +158,11 @@ export default class CollectionComponent extends React.Component<CollectionProps
                                 {(100 - score).toFixed()}%
                             </span>
                         </span>
+                        <AudioButton id={id} />
+                        {score === 0 ?
+                         <i className="star material-icons">star</i>
+                         : false}
                         <div className="collection-item-detail">
-                            <AudioButton
-                                id={id}
-                            />
                             {groupedLearnables[id].items.map((learnable, idx) => {
                                  if (!isLocked(learnable.id)) {
                                      return (
@@ -167,9 +172,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
                                          </p>
                                      );
                                  }
-                                 return (
-                                     <p key={idx}>Component locked…keep wandering!</p>
-                                 );
+                                 return false;
                              })}
                         </div>
                     </div>

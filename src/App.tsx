@@ -7,6 +7,7 @@ import "./App.css";
 import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
+import * as quests from "./model/quest";
 import * as lookup from "./model/lookup";
 import { Question, QuestionTemplate, MultipleChoiceQuestionTemplate } from "./model/question";
 import { parseEffect } from "./data/parsers";
@@ -15,7 +16,6 @@ import * as locations from "./data/locations";
 
 import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
-import Map from "./components/Map";
 import NavTab from "./components/NavTab";
 import ScenePanel from "./components/ScenePanel";
 import Streets from "./components/Streets";
@@ -31,13 +31,14 @@ interface TestProps {
     onLearn: (item: model.LearnableId) => actions.Action;
     onReview: (id: model.LearnableId, correct: boolean) => actions.Action;
     onWander: () => actions.Action;
+    clearAlert: (name: string) => void;
     modifyResource: (resource: model.Resource, amount: number) => actions.Action;
     handleEventEffect: (effect: event.Effect, store: model.Store) => actions.Action;
 }
 
 interface TestState {
     happening: event.Event | model.Learnable | null;
-    eventLog: string[];
+    eventLog: model.LogItem[];
     questNotification: boolean;
 }
 
@@ -60,10 +61,17 @@ class TestComponent extends React.Component<TestProps, TestState> {
             effect.init(store);
         }
 
+        const checklists = new Set();
+
         if (effect instanceof event.QuestEffect) {
             const stage = model.questStage(store, effect.questId);
             const qst = lookup.getQuest(effect.questId);
+            if (stage === qst.complete) {
+                // Don't update quests that were already completed
+                return;
+            }
             if (stage !== effect.stage || qst.checklists.get(stage)) {
+                checklists.add(effect.questId);
                 this.eventQueue.push(new event.QuestUpdatedEvent(
                     effect.questId,
                     effect.stage,
@@ -73,7 +81,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
         else if (effect instanceof event.LearnEffect) {
-            if (!model.hasLearned(store, effect.id) && !effect.id.endsWith("reverse")) {
+            // Guard against "" IDs
+            if (effect.id && !model.hasLearned(store, effect.id) &&
+                !effect.id.endsWith("reverse")) {
                 const lastItem = this.eventQueue[this.eventQueue.length - 1];
                 if (lastItem && lastItem instanceof event.LearnedEvent) {
                     lastItem.learnableIds.push(effect.id);
@@ -83,8 +93,80 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 }
             }
         }
+        else if (effect instanceof event.DiscoverEffect &&
+                 !model.locationDiscovered(store, effect.location)) {
+            const location = locations.getLocation(effect.location);
+            this.eventQueue.push(new event.TextEvent(
+                `New ${location.wanderlust ? "Location" : "Point of Interest"}: ${location.area || location.name}`,
+                `You discovered ${location.name}.`
+            ));
+        }
+
+        // Check if checklists changed
+        const beforeCkValues: Map<string, [ model.QuestStage, boolean[] ]> = new Map();
+        [ ...lookup.getQuests().values() ]
+            .map((q): [ string, model.QuestStage, quests.Checklist ] | null => {
+                const stage = model.questStage(store, q.id);
+                if (!stage) {
+                    return null;
+                }
+                const ck = q.checklists.get(stage);
+                if (!ck) {
+                    return null;
+                }
+                return [ q.id, stage, ck ];
+            })
+            .forEach((q) => {
+                if (!q || checklists.has(q[0])) {
+                    return;
+                }
+                const [ id, stage, checklist ] = q;
+                beforeCkValues.set(id, [ stage, checklist.map(c => c.filter.check(store))]);
+            });
 
         this.props.handleEventEffect(effect, store);
+        store = this.props.store;
+
+        [ ...lookup.getQuests().values() ]
+            .map((q): [ model.QuestId, model.QuestStage, quests.Checklist ] | null => {
+                const stage = model.questStage(store, q.id);
+                if (!stage) {
+                    return null;
+                }
+                const ck = q.checklists.get(stage);
+                if (!ck) {
+                    return null;
+                }
+                return [ q.id, stage, ck ];
+            })
+            .forEach((q) => {
+                if (!q || checklists.has(q[0])) {
+                    return;
+                }
+                const [ id, stage, checklist ] = q;
+
+                let addNotification = false;
+                if (!beforeCkValues.has(id)) {
+                    addNotification = true;
+                }
+                else if (beforeCkValues.get(id) && beforeCkValues.get(id)![0] !== stage) {
+                    return;
+                }
+                const beforeList = beforeCkValues.get(id)![1];
+                const afterList = checklist.map(c => c.filter.check(store));
+
+                for (let i = 0; i < beforeList.length; i++) {
+                    if (beforeList[i] !== afterList[i]) {
+                        this.eventQueue.push(new event.QuestUpdatedEvent(
+                            id,
+                            stage,
+                            false,
+                        ));
+
+                        return;
+                    }
+                }
+            });
     }
 
     onEvent = (happening: event.Event | model.LearnableId) => {
@@ -137,23 +219,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.setState({ happening });
             }
             else if (queuedEvents.length > 0) {
-                // Make sure that the next queuedEvent is valid based on the filters
-                while (queuedEvents.length > 0) {
-                    const nextHappening = queuedEvents[0];
-                    if (nextHappening.check(this.props.store) || nextHappening.filters.length === 0) {
-                        this.eventQueue = this.eventQueue.concat(queuedEvents.slice(1));
-                        this.setState({
-                            happening: nextHappening,
-                        });
-                        break;
-                    }
-                    else {
-                        queuedEvents = queuedEvents.slice(1);
-                    }
-                }
-                if (queuedEvents.length === 0) {
-                    this.setState({ happening: null });
-                }
+                this.setState({ happening: null });
             }
         }
         else {
@@ -179,7 +245,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.setState({ happening: null });
     }
 
-    onReviewFinished = (id: model.LearnableId, correct: boolean) => {
+    onReviewFinished = (correct: boolean) => {
         const happening = this.state.happening;
         if (happening && happening instanceof event.QuestionEvent) {
             const logText = happening.toResultEventLog(correct);
@@ -187,8 +253,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.state.eventLog.push(logText);
             }
         }
-
-        this.props.onReview(id, correct);
     }
 
     onNavTabHint = (hint: string) => {
@@ -196,8 +260,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     _cheatReplenish = (yen: number, stamina: number) => {
-        this.props.modifyResource("yen", yen);
-        this.props.modifyResource("stamina", stamina);
+        this.handleEventEffect(new event.ResourceEffect("yen", yen), this.props.store);
+        this.handleEventEffect(new event.ResourceEffect("stamina", stamina), this.props.store);
     }
 
     _cheatSwole = (maxStamina: number) => {
@@ -222,7 +286,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
             new event.LearnEffect("hira-と"),
             new event.LearnEffect("hira-な"),
             new event.LearnEffect("hira-み"),
-            new event.LearnEffect("vocab-紫"),
             new event.LearnEffect("vocab-紫-kana-meaning"),
             new event.LearnEffect("vocab-紫-kana-meaning-reverse"),
             new event.LearnEffect("vocab-紫-kana-romaji-0"),
@@ -240,7 +303,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             new event.QuestEffect("ramen-ya", "complete"),
             new event.QuestEffect("airport-train-station", "target-located"),
         ];
-        effects.map((eff) => this.handleEventEffect(eff, this.props.store));
+        effects.map((eff) => this.props.handleEventEffect(eff, this.props.store));
     }
 
     onKey = (e: KeyboardEvent) => {
@@ -346,16 +409,16 @@ class TestComponent extends React.Component<TestProps, TestState> {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps, location } = store;
 
-        const locationData = locations.getLocation(location.current);
         const allowNavigation = !this.state.happening ||
                                 (this.state.happening instanceof event.Event ?
                                  this.state.happening.allowNavigation : true);
 
         const labels = [
             {
-                label: locationData.area || "The Street",
+                label: "World",
                 url: "Area",
                 enabled: true,
+                visible: true,
                 hint: "",
                 onHint: this.onNavTabHint,
             },
@@ -369,8 +432,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
             {
                 label: "Collections",
                 url: "Collections",
-                enabled: allowNavigation &&
-                         this.props.store.learned.size > 0,
+                enabled: allowNavigation,
+                visible: this.props.store.learned.size > 0,
                 hint: allowNavigation ?
                       "Maybe wandering around will give you some vocabulary to collect."
                     : "Can't view collections while answering a question.",
@@ -379,23 +442,22 @@ class TestComponent extends React.Component<TestProps, TestState> {
             {
                 label: "Quests",
                 url: "Quests",
-                enabled: this.props.store.quests.size > 0,
+                enabled: true,
+                visible: this.props.store.quests.size > 0,
                 hint: "Maybe wandering around will give you some things to do.",
                 onHint: this.onNavTabHint,
                 alert: this.state.questNotification,
                 clearAlert: () => this.setState({ questNotification: false }),
-            }
-        ];
-
-        if (store.wardrobe.themes.size > 1 || store.wardrobe.hats.size > 0) {
-            labels.push({
+            },
+            {
                 label: "Wardrobe",
                 url: "Wardrobe",
                 enabled: true,
+                visible: store.wardrobe.themes.size > 1 || store.wardrobe.hats.size > 0,
                 hint: "",
                 onHint: this.onNavTabHint,
-            });
-        }
+            },
+        ];
 
         return (
             <main>
@@ -406,6 +468,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         store={this.props.store}
                         happening={this.state.happening}
                         onReviewFinished={this.onReviewFinished}
+                        onReview={this.props.onReview}
                         handleEventEffect={this.handleEventEffect}
                         onNotHappening={this.onNotHappening}
                     />
@@ -426,6 +489,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                             paused={this.state.happening !== null}
                             onPaused={this.highlightOverlay}
                             eventLog={this.state.eventLog}
+                            clearAlert={this.props.clearAlert}
                             isQuizMode={this.state.happening instanceof event.QuestionEvent}
                         />
                         <CollectionList collections={collections} learned={learned} />
@@ -447,6 +511,9 @@ const Test = connect(
         },
         onWander: () => {
             dispatch(actions.wander());
+        },
+        clearAlert: (name: string) => {
+            dispatch(actions.updateFlag(name, true));
         },
         modifyResource: (resource: model.Resource, amount: number) => {
             dispatch(actions.modifyResource(resource, amount));

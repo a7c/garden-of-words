@@ -1,5 +1,33 @@
 import * as immutable from "immutable";
 
+export type RichLogItem = {
+    body: string;
+    annotations: string[];
+    notes: string[];
+};
+export type LogItem = string | RichLogItem;
+
+export function mergeLogItems(items: LogItem[]): LogItem {
+    const result: RichLogItem = {
+        body: "",
+        annotations: [],
+        notes: [],
+    };
+    for (const item of items) {
+        if (typeof item === "string") {
+            result.body += " " + item;
+        }
+        else {
+            if (item.body) {
+                result.body += item.body;
+            }
+            result.annotations = result.annotations.concat(item.annotations);
+            result.notes = result.notes.concat(item.notes);
+        }
+    }
+    return result;
+}
+
 interface ImmutableRecord<T> {
     new (props?: T): this;
 

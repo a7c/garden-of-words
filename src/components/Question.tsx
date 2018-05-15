@@ -18,8 +18,7 @@ import AudioButton from "./AudioButton";
 interface QuestionProps {
     store: model.Store;
     question: question.Question;
-    onReview: (id: model.LearnableId, correct: boolean) => void;
-    onNotHappening: () => void;
+    onReview: (ids: model.LearnableId[], correct: boolean) => void;
 }
 
 interface QuestionState {
@@ -46,7 +45,6 @@ interface PostQuestionProps {
     correct: boolean;
     learnableIds: model.LearnableId[];
     applyEffects: () => void;
-    onNotHappening: () => void;
 }
 
 class MultipleChoice extends OnlyOnce<MultipleChoiceProps, {}> {
@@ -167,35 +165,8 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
         );
     }
 
-    dismiss = () => {
-        this.once(() => {
-            this.props.onNotHappening();
-        });
-    }
-
     showCollection(id: model.CollectionId) {
         Router.navigate([ "Collections", id ]);
-    }
-
-    componentWillMount() {
-        document.addEventListener("keydown", this.onKey, true);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener("keydown", this.onKey, true);
-    }
-
-    onKey = (e: KeyboardEvent) => {
-        switch (e.code) {
-            case "Space":
-            case "Enter": {
-                // Auto-accept the default
-                this.dismiss();
-                break;
-            }
-            default:
-                break;
-        }
     }
 
     render() {
@@ -241,9 +212,6 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
                          </div>
                      );
                  })}
-
-                <br />
-                <button className="continue" onClick={this.dismiss}>Continue</button>
             </div>
         );
     }
@@ -263,9 +231,7 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
     }
 
     applyEffects = () => {
-        this.state.learnableIds.forEach(id => {
-            this.props.onReview(id, this.state.status === "right");
-        });
+        this.props.onReview(this.state.learnableIds, this.state.status === "right");
     }
 
     render() {
@@ -278,7 +244,6 @@ export default class QuestionComponent extends React.Component<QuestionProps, Qu
                     correct={this.state.status === "right"}
                     learnableIds={this.state.learnableIds}
                     applyEffects={this.applyEffects}
-                    onNotHappening={this.props.onNotHappening}
                 />
             );
         }

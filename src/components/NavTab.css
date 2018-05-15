@@ -11,10 +11,39 @@
 .nav-tab > nav {
     display: flex;
     flex: 0 0 3rem;
+    border-bottom: 1px solid var(--color-theme-border);
+}
+
+.nav-tab > nav + * {
+    border-left: 1px solid var(--color-theme-border);
 }
 
 .nav-tab > nav > button {
     flex: 1;
+    max-width: 20em;
+    margin-top: 0.5em;
+    border-bottom: 0;
+    border-right: 0;
+    background: var(--color-theme-3);
+}
 
-    margin: 0.5rem;
+.nav-tab > nav > button:hover {
+    background: var(--color-theme-4);
+}
+
+.nav-tab > nav > button:first-child {
+    margin-left: 0.5em;
+}
+
+.nav-tab > nav > button:last-child {
+    margin-right: 0.5em;
+    border-right: 1px solid var(--color-theme-border);
+}
+
+.nav-tab > nav > button.active {
+    background: #FFF;
+    color: var(--color-theme-text);
+    font-weight: bold;
+    border-bottom: #FFF;
+    margin-bottom: -1px;
 }

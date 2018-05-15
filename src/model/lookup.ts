@@ -205,15 +205,24 @@ export function getCollections(): { [key: string]: Collection } {
 const quests = new Map();
 let __parsedQuests = false;//tslint:disable-line
 
-export function getQuest(id: model.QuestId): quest.Quest {
-    // Lazy-load to avoid circular imports (ugh)
+function loadQuests() {
+     // Lazy-load to avoid circular imports (ugh)
     if (!__parsedQuests) {
         (require("../data/quests.json") as parsers.QuestProps[])
             .map(parsers.parseQuest)
             .forEach(q => quests.set(q.id, q));
         __parsedQuests = true;
     }
+}
+
+export function getQuest(id: model.QuestId): quest.Quest {
+    loadQuests();
     return quests.get(id);
+}
+
+export function getQuests(): Map<model.QuestId, quest.Quest> {
+    loadQuests();
+    return quests;
 }
 
 export function getLeastRecentlyReviewed(

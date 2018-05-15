@@ -1,13 +1,18 @@
-#actions {
+#actions header h2 {
+    margin: 0 0 0 0.5rem;
+    text-transform: uppercase;
+}
+
+#actions-body {
     display: flex;
 }
 
-#actions > div {
+#actions-body > div {
     flex: 1;
-    padding: 0.5rem;
+    padding: 0 0.5rem;
 }
 
-#actions > div > button {
+#actions-body > div > button {
     margin: 0.5rem 0;
     width: 100%;
 }

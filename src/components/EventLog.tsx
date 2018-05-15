@@ -3,14 +3,42 @@ import * as React from "react";
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
+import * as model from "../model/model";
+
 import "../Common.css";
 import "./EventLog.css";
 
 import LabeledPanel from "./LabeledPanel";
 
 interface Props {
-    entries: string[];
+    entries: model.LogItem[];
     hideLog: boolean;
+}
+
+class LogEntry extends React.Component<{ entry: model.LogItem }> {
+    render() {
+        const { entry } = this.props;
+        if (typeof entry === "string") {
+            return entry;
+        }
+        return (
+            <div>
+                {entry.body}
+                {entry.annotations.map((annotation) => (
+                    <span className="annotation">[{annotation}]</span>
+                ))}
+                {entry.notes.length > 0 ?
+                 (
+                     <ul className="notes">
+                         {entry.notes.map((text, idx) => (
+                             <li key={idx}>{text}</li>
+                         ))}
+                     </ul>
+                 )
+                 : false}
+            </div>
+        );
+    }
 }
 
 export default class EventLog extends React.Component<Props> {
@@ -41,7 +69,9 @@ export default class EventLog extends React.Component<Props> {
                                 timeout={{ enter: 500, exit: 400 }}
                                 classNames="fade"
                             >
-                                <li key={id}>{entry}</li>
+                                <li key={id}>
+                                    <LogEntry entry={entry} />
+                                </li>
                             </CSSTransition>
                         ))}
                     </TransitionGroup>

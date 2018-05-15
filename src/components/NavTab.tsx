@@ -12,6 +12,7 @@ interface NavTabProps {
         label: string;
         url: string;
         enabled: boolean;
+        visible: boolean;
         hint: string;
         onHint: (hint: string) => void;
         alert?: boolean;
@@ -53,7 +54,7 @@ export default class NavTab extends React.Component<NavTabProps, NavTabState> {
     render() {
         const children = this.props.children || [];
         const navbar =
-            this.props.labels.map(({ label, enabled, hint, onHint, alert }, i) => (
+            this.props.labels.map(({ label, enabled, visible, hint, onHint, alert }, i) => visible ? (
                 <ActionButton
                     className={i === this.state.tabIndex ? "active" : "inactive"}
                     key={i}
@@ -64,7 +65,7 @@ export default class NavTab extends React.Component<NavTabProps, NavTabState> {
                     hint={hint}
                     onHint={onHint}
                 />
-            ));
+            ) : false);
         return (
             <section className="nav-tab">
                 <nav>
