@@ -159,6 +159,9 @@ export default class CollectionComponent extends React.Component<CollectionProps
                             </span>
                         </span>
                         <AudioButton id={id} />
+                        {score === 0 ?
+                         <i className="star material-icons">star</i>
+                         : false}
                         <div className="collection-item-detail">
                             {groupedLearnables[id].items.map((learnable, idx) => {
                                  if (!isLocked(learnable.id)) {

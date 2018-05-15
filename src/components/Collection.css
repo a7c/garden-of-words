@@ -123,6 +123,17 @@
     bottom: 0.5em;
 }
 
+#collection-body .collection-item .star {
+    position: absolute;
+    font-size: 1.5em;
+    left: -0.35em;
+    top: -0.5em;
+}
+
+#collection-body .collection-item-expanded .star {
+    font-size: 2.5em;
+}
+
 #collection-body .collection-item .collection-item-progress {
     position: absolute;
     display: block;
