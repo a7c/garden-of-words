@@ -47,7 +47,7 @@ export default class ActionPanel extends React.Component<Props> {
     }
 
     wander = () => this.wanderHelper(-resources.WANDER_STA_COST, null);
-    transliterate = () => this.wanderHelper(0, "transliterate-job");
+    transliterate = () => this.wanderHelper(-resources.TRANSLITERATE_STA_COST, "transliterate-job");
     haulLuggage = () => this.wanderHelper(-resources.LUGGAGE_STA_COST, "luggage-job");
 
     onHint = (hint: string) => {
@@ -213,11 +213,12 @@ export default class ActionPanel extends React.Component<Props> {
                         {store.flags.get("has-transliteration-job") ?
                          <ActionButton
                              label="Transliterate"
-                             benefit="+¥"
+                             benefit={`-${resources.TRANSLITERATE_STA_COST} STA, +¥`}
                              onClick={this.transliterate}
-                             cooldown={5000}
+                             cooldown={15000}
                              paused={paused}
                              onPaused={this.props.onPaused}
+                             locked={stamina < resources.TRANSLITERATE_STA_COST}
                              alert={this.isNewButton("transliterate")}
                              clearAlert={() => this.clearAlert("transliterate")}
                          />

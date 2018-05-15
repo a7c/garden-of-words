@@ -4,6 +4,8 @@ export const STAMINA = "stamina";
 
 export const WANDER_STA_COST = 5;
 export const LUGGAGE_STA_COST = 25;
+export const TRANSLITERATE_STA_COST = 10;
+
 export const LUGGAGE_UNLOCK_STAMINA = 11;
 
 export function getMeditateStaminaCost (store: model.Store): number {
