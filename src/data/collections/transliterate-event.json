@@ -32,7 +32,7 @@
                     ],
                     "failureEffects": []
                 },
-                "weight": 2000
+                "weight": 1
             },
             {
                 "event": {
