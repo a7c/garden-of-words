@@ -346,7 +346,11 @@ export class DiscoverEffect extends Effect {
         if (this.customLogMessage !== null) {
             return super.toEventLog();
         }
-        return `You discovered ${locations.getLocation(this.location).name}.`;
+        return {
+            body: "",
+            annotations: [],
+            notes: [`You discovered ${locations.getLocation(this.location).name}.`],
+        };
     }
 }
 
@@ -368,7 +372,11 @@ export class ResourceMaxEffect extends Effect {
         if (this.customLogMessage !== null) {
             return super.toEventLog();
         }
-        return `You gained ${this.value} maximum ${this.resource}.`;
+        return {
+            body: "",
+            annotations: [`${this.value > 0 ? "+" : "-"}${Math.abs(this.value)} max ${this.resource}`],
+            notes: [],
+        };
     }
 }
 
@@ -392,7 +400,7 @@ export class ResourceEffect extends Effect {
         }
         return {
             body: "",
-            annotations: [`${this.value > 0 ? "+" : "-"} ${Math.abs(this.value)} ${this.resource}`],
+            annotations: [`${this.value > 0 ? "+" : "-"}${Math.abs(this.value)} ${this.resource}`],
             notes: [],
         };
     }
