@@ -229,8 +229,6 @@ export class Effect {
      *  message) will be displayed in the event log.
      */
     customLogMessage: string | null;
-    /** Whether to suppress any event dialog that this effect may cause. */
-    shouldSuppressDialogs: boolean;
 
     constructor(customLogMessage?: string) {
         // Empty string is a valid custom log message
@@ -240,7 +238,6 @@ export class Effect {
         else {
             this.customLogMessage = null;
         }
-        this.shouldSuppressDialogs = false;
     }
 
     /**
@@ -255,14 +252,6 @@ export class Effect {
      */
     toEventLog(): string | null {
         return this.customLogMessage;
-    }
-
-    /**
-     * Suppress any event dialog that this effect may cause.
-     */
-    suppressDialogs(): Effect {
-        this.shouldSuppressDialogs = true;
-        return this;
     }
 }
 
