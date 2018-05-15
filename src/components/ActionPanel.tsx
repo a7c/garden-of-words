@@ -176,85 +176,90 @@ export default class ActionPanel extends React.Component<Props> {
         }
 
         return (
-            <LabeledPanel title="Actions" id="actions">
-                <div>
-                    {(adjacent.length === 1 && !locationData.wanderlust) ? adjacent : false}
-                    {locationData.wanderlust ?
-                     <ActionButton
-                         label={`Wander in ${locationData.wanderName || locationData.name}`}
-                         cost={`-${resources.WANDER_STA_COST} STA`}
-                         onClick={this.wander}
-                         paused={paused}
-                         onPaused={this.props.onPaused}
-                         locked={stamina < resources.WANDER_STA_COST}
-                         cooldown={1000}
-                         hint={locationData.wanderlust ?
-                              "You need stamina to wander. Try meditating." :
-                              "This doesn't look like a good area to wander around in."}
-                         onHint={this.onHint}
-                     />
-                     : false}
-                    {(learned.size && locationData.wanderlust) ?
-                     <ActionButton
-                         label="Meditate"
-                         benefit={`+${-resources.getMeditateStaminaCost(store)} STA`}
-                         onClick={this.meditate}
-                         paused={paused}
-                         onPaused={this.props.onPaused}
-                         cooldown={1000}
-                         alert={this.isNewButton("meditate")}
-                         clearAlert={() => this.clearAlert("meditate")}
-                     />
-                     : false}
-                    {store.flags.get("has-transliteration-job") ?
-                    <ActionButton
-                        label="Transliterate"
-                        benefit="+¥"
-                        onClick={this.transliterate}
-                        cooldown={5000}
-                        paused={paused}
-                        onPaused={this.props.onPaused}
-                        alert={this.isNewButton("transliterate")}
-                        clearAlert={() => this.clearAlert("transliterate")}
-                    />
-                    : false}
-                    {store.flags.get("has-luggage-job") && location.current === "airport-gate" ?
-                    <ActionButton
-                        label="Haul Luggage"
-                        benefit={`-${resources.LUGGAGE_STA_COST} STA`}
-                        onClick={this.haulLuggage}
-                        locked={stamina < resources.LUGGAGE_STA_COST}
-                        paused={paused}
-                        onPaused={this.props.onPaused}
-                        cooldown={2500}
-                        hint="Grabbing a drink from the vending machine might get your stamina up."
-                        onHint={this.onHint}
-                        alert={this.isNewButton("luggage")}
-                        clearAlert={() => this.clearAlert("luggage")}
-                    />
-                    : false}
-                    {location.current === "airport-gate" ?
-                    <ActionButton
-                        label="Watch the news"
-                        benefit={`+KANA`}
-                        onClick={this.watchNews}
-                        paused={paused}
-                        onPaused={this.props.onPaused}
-                        cooldown={2000}
-                        alert={this.isNewButton("watch-news")}
-                        clearAlert={() => this.clearAlert("watch-news")}
-                    />
-                    : false}
-                </div>
+            <section id="actions">
+                <header>
+                    <h2>{locationData.area}</h2>
+                </header>
+                <div id="actions-body">
+                    <div>
+                        {(adjacent.length === 1 && !locationData.wanderlust) ? adjacent : false}
+                        {locationData.wanderlust ?
+                         <ActionButton
+                             label={`Wander in ${locationData.wanderName || locationData.name}`}
+                             cost={`-${resources.WANDER_STA_COST} STA`}
+                             onClick={this.wander}
+                             paused={paused}
+                             onPaused={this.props.onPaused}
+                             locked={stamina < resources.WANDER_STA_COST}
+                             cooldown={1000}
+                             hint={locationData.wanderlust ?
+                                   "You need stamina to wander. Try meditating." :
+                                   "This doesn't look like a good area to wander around in."}
+                             onHint={this.onHint}
+                         />
+                         : false}
+                        {(learned.size && locationData.wanderlust) ?
+                         <ActionButton
+                             label="Meditate"
+                             benefit={`+${-resources.getMeditateStaminaCost(store)} STA`}
+                             onClick={this.meditate}
+                             paused={paused}
+                             onPaused={this.props.onPaused}
+                             cooldown={1000}
+                             alert={this.isNewButton("meditate")}
+                             clearAlert={() => this.clearAlert("meditate")}
+                         />
+                         : false}
+                        {store.flags.get("has-transliteration-job") ?
+                         <ActionButton
+                             label="Transliterate"
+                             benefit="+¥"
+                             onClick={this.transliterate}
+                             cooldown={5000}
+                             paused={paused}
+                             onPaused={this.props.onPaused}
+                             alert={this.isNewButton("transliterate")}
+                             clearAlert={() => this.clearAlert("transliterate")}
+                         />
+                         : false}
+                        {store.flags.get("has-luggage-job") && location.current === "airport-gate" ?
+                         <ActionButton
+                             label="Haul Luggage"
+                             benefit={`-${resources.LUGGAGE_STA_COST} STA`}
+                             onClick={this.haulLuggage}
+                             locked={stamina < resources.LUGGAGE_STA_COST}
+                             paused={paused}
+                             onPaused={this.props.onPaused}
+                             cooldown={2500}
+                             hint="Grabbing a drink from the vending machine might get your stamina up."
+                             onHint={this.onHint}
+                             alert={this.isNewButton("luggage")}
+                             clearAlert={() => this.clearAlert("luggage")}
+                         />
+                         : false}
+                        {location.current === "airport-gate" ?
+                         <ActionButton
+                             label="Watch the news"
+                             benefit={`+KANA`}
+                             onClick={this.watchNews}
+                             paused={paused}
+                             onPaused={this.props.onPaused}
+                             cooldown={2000}
+                             alert={this.isNewButton("watch-news")}
+                             clearAlert={() => this.clearAlert("watch-news")}
+                         />
+                         : false}
+                    </div>
 
-                <div>
-                    {pois}
-                </div>
+                    <div>
+                        {pois}
+                    </div>
 
-                <div>
-                    {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
+                    <div>
+                        {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
+                    </div>
                 </div>
-            </LabeledPanel>
+            </section>
         );
     }
 }

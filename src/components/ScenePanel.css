@@ -5,8 +5,7 @@
 #scene img {
     position: absolute;
     /* TODO: these need to be adjusted once we've fixed the image sizes */
-    left: 3px;
-    bottom: 8px;
+    bottom: 0;
     width: 380px;
     max-height: 500px;
     overflow: hidden;

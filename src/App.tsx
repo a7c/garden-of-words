@@ -352,16 +352,16 @@ class TestComponent extends React.Component<TestProps, TestState> {
         const { store, onReview, onLearn } = this.props;
         const { learned, flags, collections, steps, location } = store;
 
-        const locationData = locations.getLocation(location.current);
         const allowNavigation = !this.state.happening ||
                                 (this.state.happening instanceof event.Event ?
                                  this.state.happening.allowNavigation : true);
 
         const labels = [
             {
-                label: locationData.area || "The Street",
+                label: "World",
                 url: "Area",
                 enabled: true,
+                visible: true,
                 hint: "",
                 onHint: this.onNavTabHint,
             },
@@ -375,8 +375,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
             {
                 label: "Collections",
                 url: "Collections",
-                enabled: allowNavigation &&
-                         this.props.store.learned.size > 0,
+                enabled: allowNavigation,
+                visible: this.props.store.learned.size > 0,
                 hint: allowNavigation ?
                       "Maybe wandering around will give you some vocabulary to collect."
                     : "Can't view collections while answering a question.",
@@ -385,23 +385,22 @@ class TestComponent extends React.Component<TestProps, TestState> {
             {
                 label: "Quests",
                 url: "Quests",
-                enabled: this.props.store.quests.size > 0,
+                enabled: true,
+                visible: this.props.store.quests.size > 0,
                 hint: "Maybe wandering around will give you some things to do.",
                 onHint: this.onNavTabHint,
                 alert: this.state.questNotification,
                 clearAlert: () => this.setState({ questNotification: false }),
-            }
-        ];
-
-        if (store.wardrobe.themes.size > 1 || store.wardrobe.hats.size > 0) {
-            labels.push({
+            },
+            {
                 label: "Wardrobe",
                 url: "Wardrobe",
                 enabled: true,
+                visible: store.wardrobe.themes.size > 1 || store.wardrobe.hats.size > 0,
                 hint: "",
                 onHint: this.onNavTabHint,
-            });
-        }
+            },
+        ];
 
         return (
             <main>
