@@ -12,7 +12,7 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
         return state.set(action.item, new model.Learned({
             item: action.item,
             lastReviewed: new Date(),
-            score: 0.0,
+            score: 0,
         }));
     }
     case actions.REVIEW: {
@@ -22,7 +22,7 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
                 but haven't learned that yet!`);
             return state;
         }
-        const scoreEarned = action.correct ? 10 : -10;
+        const scoreEarned = action.correct ? 20 : -10;
         const newScore = Math.max(0, Math.min(100, learnedItem.get("score") + scoreEarned));
         const updatedLearned = learnedItem
             .set("score", newScore)
