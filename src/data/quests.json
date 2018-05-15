@@ -14,11 +14,11 @@
         "checklists": {
             "need-resources": [
                 {
-                    "description": "1000 yen",
+                    "description": "600 yen",
                     "filter": {
                         "type": "resource",
                         "resource": "yen",
-                        "minimum": 1000
+                        "minimum": 600
                     }
                 },
                 {
