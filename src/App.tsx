@@ -219,23 +219,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.setState({ happening });
             }
             else if (queuedEvents.length > 0) {
-                // Make sure that the next queuedEvent is valid based on the filters
-                while (queuedEvents.length > 0) {
-                    const nextHappening = queuedEvents[0];
-                    if (nextHappening.check(this.props.store) || nextHappening.filters.length === 0) {
-                        this.eventQueue = this.eventQueue.concat(queuedEvents.slice(1));
-                        this.setState({
-                            happening: nextHappening,
-                        });
-                        break;
-                    }
-                    else {
-                        queuedEvents = queuedEvents.slice(1);
-                    }
-                }
-                if (queuedEvents.length === 0) {
-                    this.setState({ happening: null });
-                }
+                this.setState({ happening: null });
             }
         }
         else {
@@ -261,7 +245,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.setState({ happening: null });
     }
 
-    onReviewFinished = (id: model.LearnableId, correct: boolean) => {
+    onReviewFinished = (correct: boolean) => {
         const happening = this.state.happening;
         if (happening && happening instanceof event.QuestionEvent) {
             const logText = happening.toResultEventLog(correct);
@@ -269,8 +253,6 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.state.eventLog.push(logText);
             }
         }
-
-        this.props.onReview(id, correct);
     }
 
     onNavTabHint = (hint: string) => {
@@ -321,7 +303,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             new event.QuestEffect("ramen-ya", "complete"),
             new event.QuestEffect("airport-train-station", "target-located"),
         ];
-        effects.map((eff) => this.handleEventEffect(eff, this.props.store));
+        effects.map((eff) => this.props.handleEventEffect(eff, this.props.store));
     }
 
     onKey = (e: KeyboardEvent) => {
@@ -486,6 +468,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         store={this.props.store}
                         happening={this.state.happening}
                         onReviewFinished={this.onReviewFinished}
+                        onReview={this.props.onReview}
                         handleEventEffect={this.handleEventEffect}
                         onNotHappening={this.onNotHappening}
                     />

@@ -18,7 +18,8 @@ interface Props {
 
     happening: event.Event | model.Learnable | null;
     onNotHappening: () => void;
-    onReviewFinished: (id: model.LearnableId, correct: boolean) => void;
+    onReview: (id: model.LearnableId, correct: boolean) => void;
+    onReviewFinished: (correct: boolean) => void;
     handleEventEffect: (effect: event.Effect, store: model.Store) => void;
 }
 
@@ -36,10 +37,6 @@ export default class EventOverlay extends React.Component<Props, State> {
 
     onEventFinished = () => {
         this.onNotHappening();
-    }
-
-    onReview = (id: model.LearnableId, correct: boolean) => {
-        this.props.onReviewFinished(id, correct);
     }
 
     onNotHappening() {
@@ -80,7 +77,8 @@ export default class EventOverlay extends React.Component<Props, State> {
                     store={this.props.store}
                     event={happening}
                     onFinished={this.onEventFinished}
-                    onReview={this.onReview}
+                    onReview={this.props.onReview}
+                    onReviewFinished={this.props.onReviewFinished}
                     handleEventEffect={this.props.handleEventEffect}
                 />
             );
