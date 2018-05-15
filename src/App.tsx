@@ -7,6 +7,7 @@ import "./App.css";
 import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
+import * as quests from "./model/quest";
 import * as lookup from "./model/lookup";
 import { Question, QuestionTemplate, MultipleChoiceQuestionTemplate } from "./model/question";
 import { parseEffect } from "./data/parsers";
@@ -15,7 +16,6 @@ import * as locations from "./data/locations";
 
 import EventOverlay from "./components/EventOverlay";
 import Inventory from "./components/Inventory";
-import Map from "./components/Map";
 import NavTab from "./components/NavTab";
 import ScenePanel from "./components/ScenePanel";
 import Streets from "./components/Streets";
@@ -61,6 +61,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
             effect.init(store);
         }
 
+        const checklists = new Set();
+
         if (effect instanceof event.QuestEffect) {
             const stage = model.questStage(store, effect.questId);
             const qst = lookup.getQuest(effect.questId);
@@ -69,6 +71,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 return;
             }
             if (stage !== effect.stage || qst.checklists.get(stage)) {
+                checklists.add(effect.questId);
                 this.eventQueue.push(new event.QuestUpdatedEvent(
                     effect.questId,
                     effect.stage,
@@ -91,7 +94,71 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
 
+        // Check if checklists changed
+        const beforeCkValues: Map<string, [ model.QuestStage, boolean[] ]> = new Map();
+        [ ...lookup.getQuests().values() ]
+            .map((q): [ string, model.QuestStage, quests.Checklist ] | null => {
+                const stage = model.questStage(store, q.id);
+                if (!stage) {
+                    return null;
+                }
+                const ck = q.checklists.get(stage);
+                if (!ck) {
+                    return null;
+                }
+                return [ q.id, stage, ck ];
+            })
+            .forEach((q) => {
+                if (!q || checklists.has(q[0])) {
+                    return;
+                }
+                const [ id, stage, checklist ] = q;
+                beforeCkValues.set(id, [ stage, checklist.map(c => c.filter.check(store))]);
+            });
+
         this.props.handleEventEffect(effect, store);
+        store = this.props.store;
+
+        [ ...lookup.getQuests().values() ]
+            .map((q): [ model.QuestId, model.QuestStage, quests.Checklist ] | null => {
+                const stage = model.questStage(store, q.id);
+                if (!stage) {
+                    return null;
+                }
+                const ck = q.checklists.get(stage);
+                if (!ck) {
+                    return null;
+                }
+                return [ q.id, stage, ck ];
+            })
+            .forEach((q) => {
+                if (!q || checklists.has(q[0])) {
+                    return;
+                }
+                const [ id, stage, checklist ] = q;
+
+                let addNotification = false;
+                if (!beforeCkValues.has(id)) {
+                    addNotification = true;
+                }
+                else if (beforeCkValues.get(id) && beforeCkValues.get(id)![0] !== stage) {
+                    return;
+                }
+                const beforeList = beforeCkValues.get(id)![1];
+                const afterList = checklist.map(c => c.filter.check(store));
+
+                for (let i = 0; i < beforeList.length; i++) {
+                    if (beforeList[i] !== afterList[i]) {
+                        this.eventQueue.push(new event.QuestUpdatedEvent(
+                            id,
+                            stage,
+                            false,
+                        ));
+
+                        return;
+                    }
+                }
+            });
     }
 
     onEvent = (happening: event.Event | model.LearnableId) => {
@@ -203,8 +270,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
     }
 
     _cheatReplenish = (yen: number, stamina: number) => {
-        this.props.modifyResource("yen", yen);
-        this.props.modifyResource("stamina", stamina);
+        this.handleEventEffect(new event.ResourceEffect("yen", yen), this.props.store);
+        this.handleEventEffect(new event.ResourceEffect("stamina", stamina), this.props.store);
     }
 
     _cheatSwole = (maxStamina: number) => {
