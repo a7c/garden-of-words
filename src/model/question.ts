@@ -253,7 +253,38 @@ export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
 }
 
 /**
- *  A template for that produces kana -> romaji type-in questions that use only the vocab
+ *  A template that produces kana -> romaji type-in questions based on what needs to be reviewed next/soon.
+ */
+export class TypeInReviewTemplate {
+    collections: model.CollectionId[];
+
+    constructor(collections: model.CollectionId[]) {
+        this.collections = collections;
+    }
+
+    makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
+        const { learned, collections } = store;
+
+        const learnable = lookup.getLeastRecentlyReviewed(
+            learned,
+            l => this.collections.indexOf(l.collection) > -1
+                && !!l.back.match(/^[a-zA-Z]+$/)
+        );
+        if (learnable !== null) {
+            return [
+                lookup.generateTypeIn(learnable),
+                [] as event.Effect[],
+                [] as event.Effect[],
+            ];
+        } else {
+            throw "Tried to make question with TypeInReviewTemplate " +
+                "but the player hasn't even learned anything yet!";
+        }
+    }
+}
+
+/**
+ *  A template that produces kana -> romaji type-in questions that use only the vocab
  *  words the player already knows.
  */
 export class TypeInVocabTemplate {

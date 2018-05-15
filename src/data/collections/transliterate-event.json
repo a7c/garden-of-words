@@ -65,6 +65,37 @@
                     "failureEffects": []
                 },
                 "weight": 1
+            },
+            {
+                "event": {
+                    "type": "question",
+                    "text": "A tourist asks you for help reading a Japanese character.",
+                    "correctPostText": "They thank you and give some money for your help.",
+                    "wrongPostText": "They look disappointed and walk away.",
+                    "filters": [
+                        {
+                            "type": "flag",
+                            "flag": "has-transliteration-job",
+                            "value": true
+                        }
+                    ],
+                    "question": {
+                        "type": "ti-review",
+                        "collections": [
+                            "hira-basic"
+                        ],
+                        "onlySeenKana": true
+                    },
+                    "effects": [
+                        {
+                            "type": "resource",
+                            "resource": "yen",
+                            "value": 50
+                        }
+                    ],
+                    "failureEffects": []
+                },
+                "weight": 1
             }
         ]
     }
