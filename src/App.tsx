@@ -64,7 +64,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         if (effect instanceof event.QuestEffect) {
             const stage = model.questStage(store, effect.questId);
             const qst = lookup.getQuest(effect.questId);
-            if (stage === qst.complete) {
+            if (stage === qst.complete || effect.shouldSuppressDialogs) {
                 // Don't update quests that were already completed
                 return;
             }
@@ -85,7 +85,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 if (lastItem && lastItem instanceof event.LearnedEvent) {
                     lastItem.learnableIds.push(effect.id);
                 }
-                else {
+                else if (!effect.shouldSuppressDialogs) {
                     this.eventQueue.push(new event.LearnedEvent([ effect.id ]));
                 }
             }
@@ -246,7 +246,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             new event.QuestEffect("ramen-ya", "complete"),
             new event.QuestEffect("airport-train-station", "target-located"),
         ];
-        effects.map((eff) => this.handleEventEffect(eff, this.props.store));
+        effects.map((eff) => this.handleEventEffect(eff.suppressDialogs(), this.props.store));
     }
 
     onKey = (e: KeyboardEvent) => {
