@@ -1,31 +1,71 @@
 [
     {
-        "type": "question",
-        "text": "A tourist asks you for help reading a sign.",
-        "correctPostText": "They thank you and give some money for your help.",
-        "wrongPostText": "They look disappointed and walk away.",
-        "filters": [
+        "filters": [],
+        "events": [
             {
-                "type": "flag",
-                "flag": "has-transliteration-job",
-                "value": true
-            }
-        ],
-        "question": {
-            "type": "ti-learn-vocab",
-            "collections": [
-                "vocab-basic-colors",
-                "vocab-basic-numbers"
-            ],
-            "onlySeenKana": true
-        },
-        "effects": [
+                "event": {
+                    "type": "question",
+                    "text": "A tourist asks you for help reading a sign.",
+                    "correctPostText": "They thank you and give some money for your help.",
+                    "wrongPostText": "They look disappointed and walk away.",
+                    "filters": [
+                        {
+                            "type": "flag",
+                            "flag": "has-transliteration-job",
+                            "value": true
+                        }
+                    ],
+                    "question": {
+                        "type": "ti-learn-vocab",
+                        "collections": [
+                            "vocab-basic-colors",
+                            "vocab-basic-numbers"
+                        ],
+                        "onlySeenKana": true
+                    },
+                    "effects": [
+                        {
+                            "type": "resource",
+                            "resource": "yen",
+                            "value": 50
+                        }
+                    ],
+                    "failureEffects": []
+                },
+                "weight": 1
+            },
             {
-                "type": "resource",
-                "resource": "yen",
-                "value": 50
+                "event": {
+                    "type": "question",
+                    "text": "A tourist asks you for help reading a sign.",
+                    "correctPostText": "They thank you and give some money for your help.",
+                    "wrongPostText": "They look disappointed and walk away.",
+                    "filters": [
+                        {
+                            "type": "flag",
+                            "flag": "has-transliteration-job",
+                            "value": true
+                        }
+                    ],
+                    "question": {
+                        "type": "ti-vocab",
+                        "collections": [
+                            "vocab-basic-colors",
+                            "vocab-basic-numbers"
+                        ],
+                        "onlySeenKana": true
+                    },
+                    "effects": [
+                        {
+                            "type": "resource",
+                            "resource": "yen",
+                            "value": 50
+                        }
+                    ],
+                    "failureEffects": []
+                },
+                "weight": 1
             }
-        ],
-        "failureEffects": []
+        ]
     }
 ]
