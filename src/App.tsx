@@ -349,7 +349,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this._cheat2000IQ();
                 this._cheatSudo();
                 this.setState({ eventLog: this.state.eventLog.concat([
-                    "You ascend to your ultimate form. You become Ultra-Gaijin."
+                    "You ascend to your ultimate form. " +
+                    "Any understanding you had of proper Japanese etiquette has vanished. " +
+                    "You become Ultra-Gaijin."
                 ]) });
                 e.preventDefault();
                 break;
