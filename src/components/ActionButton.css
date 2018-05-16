@@ -11,6 +11,8 @@
 .action-button-lock {
     font-size: 1.5em;
     margin-top: -0.125em;
+    position: absolute;
+    left: 0.25em;
 }
 
 .action-button-error {
