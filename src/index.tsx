@@ -25,14 +25,11 @@ const store = createStore<model.Store>(
 const initEffectsJson = require("./data/init-effects.json");
 const initEffects = initEffectsJson.map(parseEffect);
 
-initEffects.forEach((effect: event.Effect) =>
-    store.dispatch(effect.toAction())
-);
-
 store.subscribe(() => {
     window.localStorage["save-state"] = serialize(store.getState());
 });
 
+let gameLoaded = false;
 if (window.localStorage["save-state"]) {
     try {
         const savedGame = deserialize(window.localStorage["save-state"], {
@@ -45,11 +42,18 @@ if (window.localStorage["save-state"]) {
             },
         });
         store.dispatch(actions.load(savedGame));
+        gameLoaded = true;
     }
     catch (e) {
         console.warn("Could not load save game!");
         console.warn(e);
     }
+}
+
+if (!gameLoaded) {
+    initEffects.forEach((effect: event.Effect) =>
+        store.dispatch(effect.toAction())
+    );
 }
 
 ReactDOM.render(
