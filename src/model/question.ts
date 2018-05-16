@@ -265,7 +265,7 @@ export class TypeInReviewTemplate {
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
         const { learned, collections } = store;
 
-        const learnable = lookup.getLeastRecentlyReviewed(
+        const learnable = lookup.getLowestMastery(
             learned,
             l => this.collections.indexOf(l.collection) > -1
                 && !!l.back.match(/^[a-zA-Z]+$/)
@@ -401,7 +401,7 @@ export class TypeInLearnVocabTemplate {
         }
 
         // If no suitable words are found, default to generating a review
-        const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(
+        const leastRecentlyReviewed = lookup.getLowestMastery(
             learned,
             (learnable) => !!learnable.back.match(/^[a-zA-Z]+$/)
         );

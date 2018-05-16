@@ -253,3 +253,37 @@ export function getLeastRecentlyReviewed(
     }
     return null;
 }
+
+// TODO: this function looks a lot like getLeastRecentlyReviewed--could maybe generalize
+/**
+ *  Returns the learnable with lowest mastery score that satifies the filter condition.
+ */
+export function getLowestMastery(
+    learned: immutable.Map<model.LearnableId, model.Learned>,
+    filter?: (learnable: model.Learnable) => boolean
+):
+    model.Learnable | null {
+
+    let result: model.LearnableId | null = null;
+    let lowestScore: number | null = null;
+
+    learned.forEach((v, k) => {
+        if (!v || !k) {
+            return;
+        }
+
+        if (filter && !filter(getLearnable(k))) {
+            return;
+        }
+
+        if (lowestScore == null || v.get("score") < lowestScore) {
+            result = k;
+            lowestScore = v.get("score");
+        }
+    });
+
+    if (result !== null) {
+        return getLearnable(learned.get(result).get("item"));
+    }
+    return null;
+}
