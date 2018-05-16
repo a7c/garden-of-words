@@ -525,6 +525,10 @@ const Test = connect(
 )(TestComponent as React.ComponentType<TestProps>);
 
 export default class App extends React.Component {
+    resetGame = () => {
+        window.localStorage["save-state"] = "";
+        window.location.reload();
+    }
 
     render() {
         return (
@@ -535,6 +539,7 @@ export default class App extends React.Component {
                 <h1>切腹をしたら、成田空港から脱出できない忍者として転生したが、日本語が全く喋れない‼︎</h1>
                 <Test/>
                 <a target="_blank" href="credits.html">Credits</a>
+                <a href="#" onClick={this.resetGame}>Reset Game</a>
             </div>
         );
     }
