@@ -239,7 +239,7 @@ export default class ActionPanel extends React.Component<Props> {
                              clearAlert={() => this.clearAlert("luggage")}
                          />
                          : false}
-                        {location.current === "airport-gate" ?
+                        {/*location.current === "airport-gate" ?
                          <ActionButton
                              label="Watch the news"
                              benefit={`+KANA`}
@@ -250,7 +250,7 @@ export default class ActionPanel extends React.Component<Props> {
                              alert={this.isNewButton("watch-news")}
                              clearAlert={() => this.clearAlert("watch-news")}
                          />
-                         : false}
+                         : false*/}
                     </div>
 
                     <div>
