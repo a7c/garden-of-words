@@ -47,3 +47,7 @@
     border-bottom: #FFF;
     margin-bottom: -1px;
 }
+
+.nav-tab > nav > button.inactive {
+    background: var(--color-theme-4);
+}
