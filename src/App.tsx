@@ -378,6 +378,23 @@ class TestComponent extends React.Component<TestProps, TestState> {
         document.removeEventListener("keydown", this.onKey);
     }
 
+    componentDidMount() {
+        // See index.tsx
+        if ((window as any).gameLoaded) { //tslint:disable-line
+            this.setState({
+                eventLog: this.state.eventLog.concat([
+                    {
+                        body: "You wake up refreshed and ready to continue exploring the airport.",
+                        annotations: [],
+                        notes: [
+                            "Save game loaded.",
+                        ],
+                    },
+                ]),
+            });
+        }
+    }
+
     componentDidUpdate() {
         if (!this.state.happening) {
             while (this.eventQueue.length > 0) {
@@ -619,6 +636,7 @@ export default class App extends React.Component {
                 <h1>切腹をしたら、成田空港から脱出できない忍者として転生したが、日本語が全く喋れない‼︎</h1>
                 <Test/>
                 <a target="_blank" href="credits.html">Credits</a>
+                &nbsp;
                 <a href="#" onClick={this.resetGame}>Reset Game</a>
             </div>
         );
