@@ -1,7 +1,19 @@
 [
     {
         "type": "flavor",
-        "text": "Unsure how to read the labels, you buy a drink at random.",
+        "text": "You've already bought this.",
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "bought-first-drink",
+                "value": true
+            }
+        ],
+        "effects": []
+    },
+    {
+        "type": "flavor",
+        "text": "Unsure how to read the labels, you buy a clear drink at random. It tastes salty. Was it some kind of energy drink?",
         "filters": [
             {
                 "type": "resource",
@@ -31,20 +43,13 @@
                 "resource": "stamina",
                 "value": 10,
                 "log": ""
+            },
+            {
+                "type": "flag",
+                "flag": "bought-first-drink",
+                "value": true
             }
         ]
-    },
-    {
-        "type": "flavor",
-        "text": "You don't have enough money to buy anything else.",
-        "filters": [
-            {
-                "type": "quest",
-                "quest": "rehydrate",
-                "stage": "complete"
-            }
-        ],
-        "effects": []
     },
     {
         "type": "flavor",
