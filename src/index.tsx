@@ -2,9 +2,12 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
+/// <reference path="./untypedDeps.d.ts" />
+import { deserialize, serialize } from "json-immutable";
 import logger from "redux-logger";
 
 import App from "./App";
+import * as actions from "./actions/actions";
 import * as event from "./model/event";
 import * as model from "./model/model";
 import * as reducers from "./reducers/reducers";
@@ -27,10 +30,27 @@ initEffects.forEach((effect: event.Effect) =>
 );
 
 store.subscribe(() => {
-    // TODO: disable this for now and allow manual saving of games
-    // (so I have a checkpoint to use)
-    window.localStorage["save-game"] = store.getState().toJS();
+    window.localStorage["save-state"] = serialize(store.getState());
 });
+
+if (window.localStorage["save-state"]) {
+    try {
+        const savedGame = deserialize(window.localStorage["save-state"], {
+            recordTypes: {
+                LearnedRecord: model.LearnedRecord,
+                Learned: model.Learned,
+                LocationRecord: model.LocationRecord,
+                WardrobeRecord: model.WardrobeRecord,
+                Store: model.Store,
+            },
+        });
+        store.dispatch(actions.load(savedGame));
+    }
+    catch (e) {
+        console.warn("Could not load save game!");
+        console.warn(e);
+    }
+}
 
 ReactDOM.render(
     <Provider store={store}>
