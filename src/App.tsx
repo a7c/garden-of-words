@@ -102,7 +102,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             ));
         }
 
-        // Check if checklists changed
+        // Track status of quest checklists
         const beforeCkValues: Map<string, [ model.QuestStage, boolean[] ]> = new Map();
         [ ...lookup.getQuests().values() ]
             .map((q): [ string, model.QuestStage, quests.Checklist ] | null => {
@@ -127,6 +127,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.props.handleEventEffect(effect, store);
         store = this.props.store;
 
+        // Check if quest checklists changed
         [ ...lookup.getQuests().values() ]
             .map((q): [ model.QuestId, model.QuestStage, quests.Checklist ] | null => {
                 const stage = model.questStage(store, q.id);
@@ -391,6 +392,44 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 }
             }
         }
+    }
+
+    componentWillUpdate(nextProps: TestProps) {
+        let { store } = this.props;
+
+        // Track mastered learned items
+        const oldMastered = store.learned.filter((learned) => {
+            if (!learned) {
+                return false;
+            }
+            if (learned.mastered) {
+                return true;
+            }
+            return false;
+        });
+
+        store = nextProps.store;
+
+        // Check if mastered learned items changed
+        const newMastered = store.learned.filter((learned) => {
+            if (!learned) {
+                return false;
+            }
+            if (learned.mastered) {
+                return true;
+            }
+            return false;
+        });
+
+        // Trigger event for every newly mastered item
+        newMastered.forEach((learned, id) => {
+            if (!id) {
+                return;
+            }
+            if (!oldMastered.has(id)) {
+                this.eventQueue.push(new event.FlavorEvent([], [], `mastered: ${id}`));
+            }
+        });
     }
 
     highlightOverlay = () => {
