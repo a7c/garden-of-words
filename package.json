@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/redux-immutable": "^3.0.38",
     "@types/redux-logger": "^3.0.5",
+    "gh-pages": "^1.1.0",
     "immutable": "^3.8.2",
     "react": "^16.2.0",
     "react-animated-number": "^0.4.4",
@@ -22,6 +23,8 @@
     "wanakana": "^4.0.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "generate-svg": "svgr --ext tsx --template svgr-typescript.js src/assets/map.svg",
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
@@ -37,5 +40,5 @@
     "@types/react-transition-group": "^2.0.7",
     "typescript": "^2.7.1"
   },
-  "homepage": "."
+  "homepage": "https://a7c.github.io/garden-of-words/"
 }
