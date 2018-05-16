@@ -97,7 +97,7 @@ export default class ActionButton extends React.Component<Props, State> {
                 onClick={this.clickHandler}
                 title={this.props.locked ? this.props.hint : undefined}
             >
-                {this.props.alert ?
+                {(this.props.alert && !this.props.locked) ?
                  <span className="action-button-lock action-button-error">
                      <i className="material-icons">error</i>
                  </span> : false}
