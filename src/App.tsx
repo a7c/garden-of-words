@@ -387,39 +387,56 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
                 // Make sure event applies
                 if (ev.check(this.props.store) || ev.filters.length === 0) {
-                    this.setState({ happening: ev });
+                    this.onEvent(ev);
+                    // this.setState({ happening: ev });
                     return;
                 }
             }
         }
     }
 
+    /**
+     *  Callback for when an item has been mastered.
+     *  Queues an event that rewards the player.
+     *  TODO: make this data-driven
+     */
+    onMaster(id: model.LearnableId) {
+        const learnable = lookup.getLearnable(id);
+        switch (learnable.collection) {
+            case "hira-basic":
+                const yenReward = 100;
+                const eventText =
+                    `Congratulations! You've mastered the hiragana ${learnable.front}. ` +
+                    `As a reward for your accomplishments, you've received ${yenReward} yen.`;
+                this.eventQueue.push(
+                    new event.FlavorEvent(
+                        [],
+                        [new event.ResourceEffect("yen", 100)],
+                        "Congrats! You've mastered ${learnable.front}.",
+                        false)
+                    );
+                this.eventQueue.push(
+                    new event.TextEvent(
+                        "Hiragana Mastered",
+                        eventText)
+                    );
+                break;
+            default:
+                break;
+        }
+
+    }
+
     componentWillUpdate(nextProps: TestProps) {
         let { store } = this.props;
 
         // Track mastered learned items
-        const oldMastered = store.learned.filter((learned) => {
-            if (!learned) {
-                return false;
-            }
-            if (learned.mastered) {
-                return true;
-            }
-            return false;
-        });
+        const oldMastered = lookup.getMastered(store.learned);
 
         store = nextProps.store;
 
         // Check if mastered learned items changed
-        const newMastered = store.learned.filter((learned) => {
-            if (!learned) {
-                return false;
-            }
-            if (learned.mastered) {
-                return true;
-            }
-            return false;
-        });
+        const newMastered = lookup.getMastered(store.learned);
 
         // Trigger event for every newly mastered item
         newMastered.forEach((learned, id) => {
@@ -427,7 +444,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 return;
             }
             if (!oldMastered.has(id)) {
-                this.eventQueue.push(new event.FlavorEvent([], [], `mastered: ${id}`));
+                this.onMaster(id);
             }
         });
     }
