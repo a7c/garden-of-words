@@ -56,6 +56,9 @@ if (!gameLoaded) {
     );
 }
 
+// See App#componentDidMount
+(window as any).gameLoaded = gameLoaded; //tslint:disable-line
+
 ReactDOM.render(
     <Provider store={store}>
         <App />
