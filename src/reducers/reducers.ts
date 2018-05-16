@@ -23,11 +23,11 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
                 but haven't learned that yet!`);
             return state;
         }
-        const scoreEarned = action.correct ? 100 : -10;
+        const scoreEarned = action.correct ? 10 : -10;
         // Don't bother updating score if item is mastered
         const newScore = learnedItem.get("mastered") ?
-            Math.max(0, Math.min(100, learnedItem.get("score") + scoreEarned)) :
-            100;
+            100 :
+            Math.max(0, Math.min(100, learnedItem.get("score") + scoreEarned));
         const updatedLearned = learnedItem
             .set("score", newScore)
             .set("lastReviewed", new Date())

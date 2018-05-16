@@ -301,7 +301,7 @@
                         "stage": "complete"
                     }
                 ],
-                "cost": [ "yen", 450 ]
+                "cost": [ "yen", 400 ]
             },
             {
                 "label": "Order Purple Ramen",
@@ -314,7 +314,7 @@
                         "stage": "complete"
                     }
                 ],
-                "cost": [ "yen", 600 ]
+                "cost": [ "yen", 500 ]
             },
             {
                 "label": "Talk to Chef",
@@ -664,7 +664,7 @@
                 "label": "Buy ???",
                 "eventSource": "vending-machine-mystery-hat",
                 "cooldown": 500,
-                "cost": [ "yen", 10000 ],
+                "cost": [ "yen", 1000 ],
                 "filters": [
                     {
                         "type": "flag",

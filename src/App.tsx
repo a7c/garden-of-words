@@ -404,7 +404,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
     onMaster(id: model.LearnableId) {
         const learnable = lookup.getLearnable(id);
         switch (learnable.collection) {
-            case "hira-basic":
+            case "hira-basic": {
                 const yenReward = 100;
                 const eventText =
                     `Congratulations! You've mastered the hiragana ${learnable.front}. ` +
@@ -412,7 +412,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this.eventQueue.push(
                     new event.FlavorEvent(
                         [],
-                        [new event.ResourceEffect("yen", 100)],
+                        [new event.ResourceEffect("yen", yenReward)],
                         `Congrats! You've mastered ${learnable.front}.`,
                         false)
                     );
@@ -422,6 +422,27 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         eventText)
                     );
                 break;
+            }
+            case "vocab-basic-colors":
+            case "vocab-basic-numbers": {
+                const yenReward = 200;
+                const eventText =
+                    `Congratulations! You've mastered the word ${learnable.front}. ` +
+                    `As a reward for your accomplishments, you've received ${yenReward} yen.`;
+                this.eventQueue.push(
+                    new event.FlavorEvent(
+                        [],
+                        [new event.ResourceEffect("yen", yenReward)],
+                        `Congrats! You've mastered ${learnable.front}.`,
+                        false)
+                    );
+                this.eventQueue.push(
+                    new event.TextEvent(
+                        "Word Mastered",
+                        eventText)
+                    );
+                break;
+            }
             default:
                 break;
         }
