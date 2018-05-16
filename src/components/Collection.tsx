@@ -95,12 +95,7 @@ export default class CollectionComponent extends React.Component<CollectionProps
             keys.sort((k1, k2) => k1.localeCompare(k2));
 
             header = (
-                <ActionButton
-                    onClick={() => this.setState({
-                            showCollection: false,
-                            showedCollection: true
-                        })}
-                >
+                <ActionButton>
                     <span className="collection-title">{collection.name}</span>
                     {collection.subtitle ? <span className="collection-subtitle">{collection.subtitle}</span> : false}
                     <span className="collection-learned-count">
@@ -192,6 +187,20 @@ export default class CollectionComponent extends React.Component<CollectionProps
                 >
                     <section className="collection-display">
                         <div id="collection-header">
+                            {this.state.showCollection ?
+                             (
+                                 <ActionButton
+                                     className="collection-back"
+                                     onClick={() => this.setState({
+                                             showCollection: false,
+                                             showedCollection: true
+                                     })}
+                                 >
+                                     Back
+                                 </ActionButton>
+                             )
+                             : false}
+
                             {header}
                         </div>
                         {(collection.description && this.state.showCollection) ?
