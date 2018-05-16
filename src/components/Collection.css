@@ -12,6 +12,14 @@
 #collection-header {
     text-align: center;
     width: 100%;
+    position: relative;
+}
+
+#collection-header .collection-back {
+    position: absolute;
+    left: 0;
+    width: auto;
+    margin-left: 0;
 }
 
 #collection-header > button {
