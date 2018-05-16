@@ -204,7 +204,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         // it as a key to a React component; this lets
                         // us force remounting so that separate questions
                         // don't appear to share state
-                        newQ.sequence = i;
+                        // TODO: hacky--for now, negate sequence number to prevent re-sequencing
+                        newQ.sequence = -i;
                         queuedEvents.push(newQ);
                     }
                 }
@@ -412,7 +413,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
                     new event.FlavorEvent(
                         [],
                         [new event.ResourceEffect("yen", 100)],
-                        "Congrats! You've mastered ${learnable.front}.",
+                        `Congrats! You've mastered ${learnable.front}.`,
                         false)
                     );
                 this.eventQueue.push(
