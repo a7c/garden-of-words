@@ -71,7 +71,7 @@ export const LearnedRecord = immutable.Record({
     item: null,
     lastReviewed: new Date(), // TODO: set a more sane date
     score: 0.0,
-});
+}, "LearnedRecord");
 
 // Even bigger hack to get it to work with TypeScript
 // https://gist.github.com/HeyImAlex/099922105b83bacfb69a30989e1fa086
@@ -100,7 +100,7 @@ export const Learned = immutable.Record({
     lastReviewed: new Date(),
     score: 0,
     mastered: false
-}) as any as Learned; // tslint:disable-line
+}, "Learned") as any as Learned; // tslint:disable-line
 
 export interface LocationProps {
     readonly current: Location;
@@ -113,7 +113,7 @@ export interface LocationRecord extends LocationProps, ImmutableRecord<LocationP
 export const LocationRecord = immutable.Record({
     current: "airport-gate",
     discovered: immutable.Set(["airport-gate"]),
-}) as any as LocationRecord; // tslint:disable-line
+}, "LocationRecord") as any as LocationRecord; // tslint:disable-line
 
 export interface WardrobeProps {
     readonly themes: immutable.Set<string>;
@@ -130,7 +130,7 @@ export const WardrobeRecord = immutable.Record({
     themes: immutable.Set(["theme-gray"]),
     currentHat: null,
     hats: immutable.Set([]),
-}) as any as WardrobeRecord; // tslint:disable-line
+}, "WardrobeRecord") as any as WardrobeRecord; // tslint:disable-line
 
 export interface StoreProps {
     readonly learned: immutable.Map<LearnableId, Learned>;
@@ -155,7 +155,7 @@ export const Store = immutable.Record({
     quests: immutable.Map(),
     wardrobe: new WardrobeRecord(),
     steps: 0,
-}) as any as Store; // tslint:disable-line
+}, "Store") as any as Store; // tslint:disable-line
 
 export function hasLearned(store: Store, id: LearnableId): boolean {
     return store.learned.has(id);

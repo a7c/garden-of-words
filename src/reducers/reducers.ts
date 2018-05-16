@@ -182,7 +182,7 @@ const emptyStore = immutable.Record({
     steps: undefined,
 });
 
-export const reducer = combineReducers<model.Store, string>(
+const innerReducer = combineReducers<model.Store, string>(
     {
         learned,
         collections,
@@ -195,3 +195,10 @@ export const reducer = combineReducers<model.Store, string>(
     },
     emptyStore
 );
+
+export function reducer(state: model.Store, action: actions.Action): model.Store {
+    if (action.type === actions.LOAD) {
+        return new model.Store(action.store);
+    }
+    return innerReducer(state, action);
+}
