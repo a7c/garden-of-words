@@ -47,14 +47,16 @@ type QuestionTemplateProps =
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
 
 type EventProps =
-    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[], showEvent?: boolean } |
+    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[],
+        showEvent?: boolean, noLogMessage?: boolean } |
     { type: "quest", journal: string, quest: string, stage: string, effects: EffectProps[], filters: FilterProps[] } |
     { type: "question", effects: EffectProps[], filters: FilterProps[],
         question: QuestionTemplateProps | ExactQuestionProps,
         text?: string | null, postText?: string | null,
         correctPostText?: string | null, wrongPostText?: string | null,
         failureEffects: EffectProps[], sequence?: number | null } |
-    { type: "multi", effects: EffectProps[], filters: FilterProps[], events: EventProps[] };
+    { type: "multi", effects: EffectProps[], filters: FilterProps[], events: EventProps[] } |
+    { type: "text", header: string, body: string };
 
 export type QuestProps = {
     id: model.QuestId,
@@ -159,7 +161,8 @@ export function parseEvent(json: EventProps): event.Event {
             json.filters.map(parseFilter),
             json.effects.map(parseEffect),
             json.text,
-            json.showEvent
+            json.showEvent,
+            json.noLogMessage
         );
     }
     else if (json.type === "quest") {

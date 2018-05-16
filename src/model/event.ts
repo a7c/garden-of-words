@@ -624,13 +624,23 @@ export class Event {
 
 export class FlavorEvent extends Event {
     flavor: string;
+    noLogMessage: boolean;
 
-    constructor(filters: Filter[], effects: Effect[], flavor: string, showEvent?: boolean) {
+    constructor(filters: Filter[],
+                effects: Effect[],
+                flavor: string,
+                showEvent?: boolean,
+                noLogMessage?: boolean) {
         super(filters, effects, showEvent === undefined ? false : showEvent);
         this.flavor = flavor;
+        this.noLogMessage = noLogMessage === undefined ? false : noLogMessage;
     }
 
-    toEventLog(): model.LogItem {
+    toEventLog(): model.LogItem | null {
+        console.log(this.noLogMessage);
+        if (this.noLogMessage) {
+            return null;
+        }
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
             return model.mergeLogItems([ this.flavor, effectText ]);
@@ -641,7 +651,9 @@ export class FlavorEvent extends Event {
     clone() {
         return new FlavorEvent(this.filters.slice(),
                                this.effects.slice(),
-                               this.flavor);
+                               this.flavor,
+                               this.showEvent,
+                               this.noLogMessage);
     }
 }
 
@@ -829,12 +841,12 @@ export class MultiEvent extends Event {
         return this.events;
     }
 
-    toEventLog(): model.LogItem {
+    toEventLog(): model.LogItem | null {
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
             return effectText;
         }
-        return "";
+        return null;
     }
 
     clone() {

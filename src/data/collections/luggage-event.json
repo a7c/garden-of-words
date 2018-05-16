@@ -43,6 +43,7 @@
                 "type": "flavor",
                 "text": "You watch the carousel carefully for bags of that color. It seems that there are several bags that could be theirs.",
                 "showEvent": true,
+                "noLogMessage": true,
                 "filters": [
                     {
                         "type": "flag",

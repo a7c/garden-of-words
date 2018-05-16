@@ -106,6 +106,7 @@ export default class ActionPanel extends React.Component<Props> {
         const { learned, flags, location } = store;
 
         const locationData = locations.getLocation(location.current);
+        const isSubArea = /*adjacent.length === 1 &&*/ !locationData.wanderlust;
 
         const staminaProp = store.resources.get(resources.STAMINA);
         const stamina = staminaProp ? staminaProp.currentValue : 0;
@@ -136,7 +137,7 @@ export default class ActionPanel extends React.Component<Props> {
             const button = (
                 <ActionButton
                     key={`loc-${loc}`}
-                    label={targetLoc.label || targetLoc.name}
+                    label={`${isSubArea ? "Back to " : ""}${targetLoc.label || targetLoc.name}`}
                     locked={locked}
                     paused={paused}
                     onPaused={this.props.onPaused}
@@ -182,7 +183,7 @@ export default class ActionPanel extends React.Component<Props> {
                 </header>
                 <div id="actions-body">
                     <div>
-                        {(adjacent.length === 1 && !locationData.wanderlust) ? adjacent : false}
+                        {isSubArea ? adjacent[0] : false}
                         {locationData.wanderlust ?
                          <ActionButton
                              label={`Wander in ${locationData.wanderName || locationData.name}`}
@@ -198,7 +199,7 @@ export default class ActionPanel extends React.Component<Props> {
                              onHint={this.onHint}
                          />
                          : false}
-                        {(learned.size && locationData.wanderlust) ?
+                        {learned.size ?
                          <ActionButton
                              label="Meditate"
                              benefit={`+${-resources.getMeditateStaminaCost(store)} STA`}
@@ -257,7 +258,7 @@ export default class ActionPanel extends React.Component<Props> {
                     </div>
 
                     <div>
-                        {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
+                        {isSubArea ? (adjacent.length > 1 ? adjacent.slice(1, adjacent.length) : false) : adjacent}
                     </div>
                 </div>
             </section>

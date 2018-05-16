@@ -287,3 +287,19 @@ export function getLowestMastery(
     }
     return null;
 }
+
+/**
+ *  Returns all mastered items.
+ */
+export function getMastered(learnedMap: immutable.Map<model.LearnableId, model.Learned>):
+    immutable.Iterable<model.LearnableId, model.Learned> {
+        return learnedMap.filter((learned) => {
+            if (!learned) {
+                return false;
+            }
+            if (learned.mastered) {
+                return true;
+            }
+            return false;
+        });
+    }

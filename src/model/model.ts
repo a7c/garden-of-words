@@ -79,6 +79,7 @@ export interface LearnedProps {
     readonly item: LearnableId;
     readonly lastReviewed: Date;
     readonly score: number;
+    readonly mastered: boolean;
 }
 
 export interface Learned extends LearnedProps, ImmutableRecord<LearnedProps> {
@@ -97,7 +98,8 @@ export const defaultResourceProps: ResourceProps = {
 export const Learned = immutable.Record({
     item: null,
     lastReviewed: new Date(),
-    score: 0.0,
+    score: 0,
+    mastered: false
 }) as any as Learned; // tslint:disable-line
 
 export interface LocationProps {
