@@ -60,7 +60,7 @@ export default class NavTab extends React.Component<NavTabProps, NavTabState> {
                     key={i}
                     label={label}
                     onClick={() => this.changeTab(i)}
-                    locked={!enabled}
+                    locked={!enabled && i !== this.state.tabIndex}
                     alert={alert}
                     hint={hint}
                     onHint={onHint}

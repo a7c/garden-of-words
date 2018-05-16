@@ -101,16 +101,16 @@ export default class ActionButton extends React.Component<Props, State> {
                  <span className="action-button-lock action-button-error">
                      <i className="material-icons">error</i>
                  </span> : false}
+                {this.props.locked ?
+                 <span className="action-button-lock">
+                     <i className="material-icons">lock</i>
+                 </span> : false}
 
                 {this.props.label || this.props.children}
 
                 <div className="action-button-annotations">
                     {this.props.benefit ? <span className="benefit">{this.props.benefit}</span> : false}
                     {this.props.cost ? <span className="cost">{this.props.cost}</span> : false}
-                    {this.props.locked ?
-                     <span className="action-button-lock">
-                         <i className="material-icons">lock</i>
-                     </span> : false}
                 </div>
 
                 {cooldown}
