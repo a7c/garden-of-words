@@ -351,7 +351,7 @@
     "airport-gate": {
         "name": "the gate you just arrived at",
         "wanderName": "the airport gate area",
-        "label": "Back to Gate",
+        "label": "Arrival Gate",
         "area": "Arrival Gate",
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
@@ -683,7 +683,7 @@
         "label": "Train Station",
         "area": "Train Station",
         "wanderlust": true,
-        "connected": ["airport-gate", "airport-train-station-ticket-booth"],
+        "connected": ["airport-gate", "airport-train-station-ticket-booth", "airport-food-court"],
         "pois": [],
         "structures": [
             "blank",
@@ -951,7 +951,7 @@
         "label": "Ticket Booth",
         "area": "Ticket Booth",
         "wanderlust": false,
-        "connected": [],
+        "connected": ["airport-train-station"],
         "pois": [
             {
                 "label": "Buy a Ticket",
