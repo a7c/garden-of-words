@@ -102,7 +102,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             ));
         }
 
-        // Check if checklists changed
+        // Track status of quest checklists
         const beforeCkValues: Map<string, [ model.QuestStage, boolean[] ]> = new Map();
         [ ...lookup.getQuests().values() ]
             .map((q): [ string, model.QuestStage, quests.Checklist ] | null => {
@@ -127,6 +127,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
         this.props.handleEventEffect(effect, store);
         store = this.props.store;
 
+        // Check if quest checklists changed
         [ ...lookup.getQuests().values() ]
             .map((q): [ model.QuestId, model.QuestStage, quests.Checklist ] | null => {
                 const stage = model.questStage(store, q.id);
@@ -203,7 +204,8 @@ class TestComponent extends React.Component<TestProps, TestState> {
                         // it as a key to a React component; this lets
                         // us force remounting so that separate questions
                         // don't appear to share state
-                        newQ.sequence = i;
+                        // TODO: hacky--for now, negate sequence number to prevent re-sequencing
+                        newQ.sequence = -i;
                         queuedEvents.push(newQ);
                     }
                 }
@@ -349,7 +351,9 @@ class TestComponent extends React.Component<TestProps, TestState> {
                 this._cheat2000IQ();
                 this._cheatSudo();
                 this.setState({ eventLog: this.state.eventLog.concat([
-                    "You ascend to your ultimate form. You become Ultra-Gaijin."
+                    "You ascend to your ultimate form. " +
+                    "Any understanding you had of proper Japanese etiquette has vanished. " +
+                    "You become Ultra-Gaijin."
                 ]) });
                 e.preventDefault();
                 break;
@@ -384,11 +388,87 @@ class TestComponent extends React.Component<TestProps, TestState> {
 
                 // Make sure event applies
                 if (ev.check(this.props.store) || ev.filters.length === 0) {
-                    this.setState({ happening: ev });
+                    this.onEvent(ev);
+                    // this.setState({ happening: ev });
                     return;
                 }
             }
         }
+    }
+
+    /**
+     *  Callback for when an item has been mastered.
+     *  Queues an event that rewards the player.
+     *  TODO: make this data-driven
+     */
+    onMaster(id: model.LearnableId) {
+        const learnable = lookup.getLearnable(id);
+        switch (learnable.collection) {
+            case "hira-basic": {
+                const yenReward = 100;
+                const eventText =
+                    `Congratulations! You've mastered the hiragana ${learnable.front}. ` +
+                    `As a reward for your accomplishments, you've received ${yenReward} yen.`;
+                this.eventQueue.push(
+                    new event.FlavorEvent(
+                        [],
+                        [new event.ResourceEffect("yen", yenReward)],
+                        `Congrats! You've mastered ${learnable.front}.`,
+                        false)
+                    );
+                this.eventQueue.push(
+                    new event.TextEvent(
+                        "Hiragana Mastered",
+                        eventText)
+                    );
+                break;
+            }
+            case "vocab-basic-colors":
+            case "vocab-basic-numbers": {
+                const yenReward = 200;
+                const eventText =
+                    `Congratulations! You've mastered the word ${learnable.front}. ` +
+                    `As a reward for your accomplishments, you've received ${yenReward} yen.`;
+                this.eventQueue.push(
+                    new event.FlavorEvent(
+                        [],
+                        [new event.ResourceEffect("yen", yenReward)],
+                        `Congrats! You've mastered ${learnable.front}.`,
+                        false)
+                    );
+                this.eventQueue.push(
+                    new event.TextEvent(
+                        "Word Mastered",
+                        eventText)
+                    );
+                break;
+            }
+            default:
+                break;
+        }
+
+    }
+
+    componentWillUpdate(nextProps: TestProps) {
+        let { store } = this.props;
+
+        // Track mastered learned items
+        const oldMastered = lookup.getMastered(store.learned);
+
+        store = nextProps.store;
+
+        // Check if mastered learned items changed
+        const newMastered = lookup.getMastered(store.learned);
+
+        // Trigger event for every newly mastered item
+        newMastered.forEach((learned, id) => {
+            if (!id) {
+                return;
+            }
+            if (!oldMastered.has(id)) {
+                this.onMaster(id);
+            }
+        });
     }
 
     highlightOverlay = () => {

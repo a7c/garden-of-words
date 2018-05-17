@@ -11,14 +11,14 @@ export default function meditate(
     store: model.Store
 ): event.QuestionEvent | null {
     const learned = store.learned;
-    const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(learned);
-    if (leastRecentlyReviewed !== null) {
-        let q = lookup.generateQuestion(leastRecentlyReviewed);
+    const learnable = lookup.getLowestMastery(learned);
+    if (learnable !== null) {
+        let q = lookup.generateQuestion(learnable);
 
         // Only generate multiple-choice questions for low score
         // learnables
-        if (store.learned.get(leastRecentlyReviewed.id)!.score < 20) {
-            q = lookup.generateMultipleChoice(leastRecentlyReviewed);
+        if (store.learned.get(learnable.id)!.score < 20) {
+            q = lookup.generateMultipleChoice(learnable);
         }
 
         const questionEvent = new event.QuestionEvent(

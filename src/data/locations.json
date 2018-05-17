@@ -200,6 +200,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 40
                                 }
                             ],
                             "effects": [
@@ -220,6 +225,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 20
                                 }
                             ],
                             "effects": [
@@ -291,7 +301,7 @@
                         "stage": "complete"
                     }
                 ],
-                "cost": [ "yen", 450 ]
+                "cost": [ "yen", 400 ]
             },
             {
                 "label": "Order Purple Ramen",
@@ -304,7 +314,7 @@
                         "stage": "complete"
                     }
                 ],
-                "cost": [ "yen", 600 ]
+                "cost": [ "yen", 500 ]
             },
             {
                 "label": "Talk to Chef",
@@ -341,7 +351,7 @@
     "airport-gate": {
         "name": "the gate you just arrived at",
         "wanderName": "the airport gate area",
-        "label": "Back to Gate",
+        "label": "Arrival Gate",
         "area": "Arrival Gate",
         "wanderlust": true,
         "connected": ["airport-food-court", "airport-gate-vending-machine"],
@@ -534,6 +544,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 40
                                 }
                             ],
                             "effects": [
@@ -554,6 +569,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 20
                                 }
                             ],
                             "effects": [
@@ -644,7 +664,7 @@
                 "label": "Buy ???",
                 "eventSource": "vending-machine-mystery-hat",
                 "cooldown": 500,
-                "cost": [ "yen", 10000 ],
+                "cost": [ "yen", 1000 ],
                 "filters": [
                     {
                         "type": "flag",
@@ -663,7 +683,7 @@
         "label": "Train Station",
         "area": "Train Station",
         "wanderlust": true,
-        "connected": ["airport-gate", "airport-train-station-ticket-booth"],
+        "connected": ["airport-gate", "airport-train-station-ticket-booth", "airport-food-court"],
         "pois": [],
         "structures": [
             "blank",
@@ -849,6 +869,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 40
                                 }
                             ],
                             "effects": [
@@ -869,6 +894,11 @@
                                     "type": "flag",
                                     "flag": "has-next-learnable",
                                     "value": true
+                                },
+                                {
+                                    "type": "average-mastery",
+                                    "collection": "hira-basic",
+                                    "masteryNeeded": 20
                                 }
                             ],
                             "effects": [
@@ -921,7 +951,7 @@
         "label": "Ticket Booth",
         "area": "Ticket Booth",
         "wanderlust": false,
-        "connected": [],
+        "connected": ["airport-train-station"],
         "pois": [
             {
                 "label": "Buy a Ticket",

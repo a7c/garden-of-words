@@ -18,12 +18,17 @@ export default function wander(store: model.Store): model.LearnableId | event.Ev
 
     const eventList = events[locationKey];
 
-    for (const ev of eventList) {
-        if (!ev.check(store)) {
-            continue;
-        }
+    if (eventList instanceof event.EventPipeline) {
+        return eventList.getRandomEvent(store);
+    }
+    else {
+        for (const ev of eventList) {
+            if (!ev.check(store)) {
+                continue;
+            }
 
-        return ev;
+            return ev;
+        }
     }
 
     if (locationData.wanderEvents) {

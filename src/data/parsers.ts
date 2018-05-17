@@ -34,25 +34,29 @@ type FilterProps =
     { type: "quest", quest: model.QuestId, stage: model.QuestStage } |
     { type: "or", filters: FilterProps[] } |
     { type: "not", filters: FilterProps[] } |
-    { type: "structure-nearby", structure: string, distance?: number, exact?: boolean };
+    { type: "structure-nearby", structure: string, distance?: number, exact?: boolean } |
+    { type: "average-mastery", collection: model.CollectionId, masteryNeeded: number };
 
 type QuestionTemplateProps =
     { type: "mc", collection: string, restrictLearnableTypes: string[], onlySeen?: boolean, reverse?: boolean } |
     { type: "mc-names", reverse?: boolean } |
     { type: "ti-vocab", collections: string[] } |
+    { type: "ti-review", collections: string[] } |
     { type: "ti-learn-vocab", collections: string[], onlySeenKana?: boolean };
 
 type ExactQuestionProps = { type: "ti", id: model.LearnableId };
 
 type EventProps =
-    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[], showEvent?: boolean } |
+    { type: "flavor", text: string, effects: EffectProps[], filters: FilterProps[],
+        showEvent?: boolean, noLogMessage?: boolean } |
     { type: "quest", journal: string, quest: string, stage: string, effects: EffectProps[], filters: FilterProps[] } |
     { type: "question", effects: EffectProps[], filters: FilterProps[],
         question: QuestionTemplateProps | ExactQuestionProps,
         text?: string | null, postText?: string | null,
         correctPostText?: string | null, wrongPostText?: string | null,
         failureEffects: EffectProps[], sequence?: number | null } |
-    { type: "multi", effects: EffectProps[], filters: FilterProps[], events: EventProps[] };
+    { type: "multi", effects: EffectProps[], filters: FilterProps[], events: EventProps[] } |
+    { type: "text", header: string, body: string };
 
 export type QuestProps = {
     id: model.QuestId,
@@ -144,6 +148,9 @@ export function parseFilter(json: FilterProps): event.Filter {
     else if (json.type === "not") {
         return new event.NotFilter(json.filters.map(parseFilter));
     }
+    else if (json.type === "average-mastery") {
+        return new event.AverageMasteryFilter(json.collection, json.masteryNeeded);
+    }
 
     throw new ParseError("Unrecognized filter", json);
 }
@@ -154,7 +161,8 @@ export function parseEvent(json: EventProps): event.Event {
             json.filters.map(parseFilter),
             json.effects.map(parseEffect),
             json.text,
-            json.showEvent
+            json.showEvent,
+            json.noLogMessage
         );
     }
     else if (json.type === "quest") {
@@ -229,6 +237,9 @@ question.QuestionTemplate | question.Question {
     }
     else if (json.type === "ti-vocab") {
         return new question.TypeInVocabTemplate(json.collections);
+    }
+    else if (json.type === "ti-review") {
+        return new question.TypeInReviewTemplate(json.collections);
     }
     else if (json.type === "ti-learn-vocab") {
         return new question.TypeInLearnVocabTemplate(

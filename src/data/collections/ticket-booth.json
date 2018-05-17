@@ -25,7 +25,7 @@
             {
                 "type": "resource",
                 "resource": "yen",
-                "value": -1000
+                "value": -600
             },
             {
                 "type": "quest",

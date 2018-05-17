@@ -47,7 +47,7 @@ export default class ActionPanel extends React.Component<Props> {
     }
 
     wander = () => this.wanderHelper(-resources.WANDER_STA_COST, null);
-    transliterate = () => this.wanderHelper(0, "transliterate-job");
+    transliterate = () => this.wanderHelper(-resources.TRANSLITERATE_STA_COST, "transliterate-job");
     haulLuggage = () => this.wanderHelper(-resources.LUGGAGE_STA_COST, "luggage-job");
 
     onHint = (hint: string) => {
@@ -106,6 +106,7 @@ export default class ActionPanel extends React.Component<Props> {
         const { learned, flags, location } = store;
 
         const locationData = locations.getLocation(location.current);
+        const isSubArea = /*adjacent.length === 1 &&*/ !locationData.wanderlust;
 
         const staminaProp = store.resources.get(resources.STAMINA);
         const stamina = staminaProp ? staminaProp.currentValue : 0;
@@ -136,7 +137,7 @@ export default class ActionPanel extends React.Component<Props> {
             const button = (
                 <ActionButton
                     key={`loc-${loc}`}
-                    label={targetLoc.label || targetLoc.name}
+                    label={`${isSubArea ? "Back to " : ""}${targetLoc.label || targetLoc.name}`}
                     locked={locked}
                     paused={paused}
                     onPaused={this.props.onPaused}
@@ -182,7 +183,7 @@ export default class ActionPanel extends React.Component<Props> {
                 </header>
                 <div id="actions-body">
                     <div>
-                        {(adjacent.length === 1 && !locationData.wanderlust) ? adjacent : false}
+                        {isSubArea ? adjacent[0] : false}
                         {locationData.wanderlust ?
                          <ActionButton
                              label={`Wander in ${locationData.wanderName || locationData.name}`}
@@ -198,7 +199,7 @@ export default class ActionPanel extends React.Component<Props> {
                              onHint={this.onHint}
                          />
                          : false}
-                        {(learned.size && locationData.wanderlust) ?
+                        {learned.size ?
                          <ActionButton
                              label="Meditate"
                              benefit={`+${-resources.getMeditateStaminaCost(store)} STA`}
@@ -212,19 +213,20 @@ export default class ActionPanel extends React.Component<Props> {
                          : false}
                         {store.flags.get("has-transliteration-job") ?
                          <ActionButton
-                             label="Transliterate"
-                             benefit="+¥"
+                             label="Transliterate (+¥)"
+                             cost={`-${resources.TRANSLITERATE_STA_COST} STA`}
                              onClick={this.transliterate}
-                             cooldown={5000}
+                             cooldown={15000}
                              paused={paused}
                              onPaused={this.props.onPaused}
+                             locked={stamina < resources.TRANSLITERATE_STA_COST}
                              alert={this.isNewButton("transliterate")}
                              clearAlert={() => this.clearAlert("transliterate")}
                          />
                          : false}
                         {store.flags.get("has-luggage-job") && location.current === "airport-gate" ?
                          <ActionButton
-                             label="Haul Luggage"
+                             label="Haul Luggage (+¥¥)"
                              benefit={`-${resources.LUGGAGE_STA_COST} STA`}
                              onClick={this.haulLuggage}
                              locked={stamina < resources.LUGGAGE_STA_COST}
@@ -237,7 +239,7 @@ export default class ActionPanel extends React.Component<Props> {
                              clearAlert={() => this.clearAlert("luggage")}
                          />
                          : false}
-                        {location.current === "airport-gate" ?
+                        {/*location.current === "airport-gate" ?
                          <ActionButton
                              label="Watch the news"
                              benefit={`+KANA`}
@@ -248,7 +250,7 @@ export default class ActionPanel extends React.Component<Props> {
                              alert={this.isNewButton("watch-news")}
                              clearAlert={() => this.clearAlert("watch-news")}
                          />
-                         : false}
+                         : false*/}
                     </div>
 
                     <div>
@@ -256,7 +258,7 @@ export default class ActionPanel extends React.Component<Props> {
                     </div>
 
                     <div>
-                        {(adjacent.length > 1 || locationData.wanderlust) ? adjacent : false}
+                        {isSubArea ? (adjacent.length > 1 ? adjacent.slice(1, adjacent.length) : false) : adjacent}
                     </div>
                 </div>
             </section>

@@ -253,7 +253,38 @@ export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
 }
 
 /**
- *  A template for that produces kana -> romaji type-in questions that use only the vocab
+ *  A template that produces kana -> romaji type-in questions based on what needs to be reviewed next/soon.
+ */
+export class TypeInReviewTemplate {
+    collections: model.CollectionId[];
+
+    constructor(collections: model.CollectionId[]) {
+        this.collections = collections;
+    }
+
+    makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
+        const { learned, collections } = store;
+
+        const learnable = lookup.getLowestMastery(
+            learned,
+            l => this.collections.indexOf(l.collection) > -1
+                && !!l.back.match(/^[a-zA-Z]+$/)
+        );
+        if (learnable !== null) {
+            return [
+                lookup.generateTypeIn(learnable),
+                [] as event.Effect[],
+                [] as event.Effect[],
+            ];
+        } else {
+            throw "Tried to make question with TypeInReviewTemplate " +
+                "but the player hasn't even learned anything yet!";
+        }
+    }
+}
+
+/**
+ *  A template that produces kana -> romaji type-in questions that use only the vocab
  *  words the player already knows.
  */
 export class TypeInVocabTemplate {
@@ -353,7 +384,13 @@ export class TypeInLearnVocabTemplate {
 
             // TODO: what if this.onlySeenKana is false
             for (const k of kanaReading) {
-                effects.push(new event.ReviewCorrectEffect(`hira-${k}`));
+                if (learned.has(`hira-${k}`)) {
+                    effects.push(new event.ReviewCorrectEffect(`hira-${k}`));
+                }
+                // If we've never seen the kana but you got it right, then learn the kana
+                else {
+                    effects.push(new event.LearnEffect(`hira-${k}`));
+                }
             }
 
             return [
@@ -364,7 +401,7 @@ export class TypeInLearnVocabTemplate {
         }
 
         // If no suitable words are found, default to generating a review
-        const leastRecentlyReviewed = lookup.getLeastRecentlyReviewed(
+        const leastRecentlyReviewed = lookup.getLowestMastery(
             learned,
             (learnable) => !!learnable.back.match(/^[a-zA-Z]+$/)
         );

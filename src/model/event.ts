@@ -116,6 +116,10 @@ export class FlagFilter extends Filter {
             const [ _, hat ] = this.flag.split(":");
             return store.wardrobe.hats.contains(hat) === this.value;
         }
+        else if (this.flag.startsWith("theme:")) {
+            const [ _, theme ] = this.flag.split(":");
+            return store.wardrobe.themes.contains(theme) === this.value;
+        }
         else if (this.flag === "has-next-learnable") {
             return !!lookup.getNextLearnable(store) === this.value;
         }
@@ -220,6 +224,51 @@ export class StructureNearbyFilter extends Filter {
             return minDist <= this.distanceRequired + 1;
         }
 
+    }
+}
+
+/**
+ * A filter that requires the player to have achieved a certain average mastery score
+ * across all learned items in a collection.
+ */
+export class AverageMasteryFilter extends Filter {
+    collection: model.CollectionId;
+    masteryNeeded: number;
+
+    constructor(collection: model.CollectionId, masteryNeeded: number) {
+        super();
+        this.collection = collection;
+        this.masteryNeeded = masteryNeeded;
+    }
+
+    check(store: model.Store) {
+        const collection = store.collections.get(this.collection);
+        if (collection) {
+            const sumScore = collection.reduce(
+                (acc, id) => {
+                    // Why do I need to do these undefined checks? /:
+                    if (acc === undefined) {
+                        return 0;
+                    }
+                    if (id === undefined) {
+                        return acc;
+                    }
+                    const learned = store.learned.get(id);
+                    return learned ? acc + learned.score : acc;
+                },
+                0
+            );
+
+            const avgScore = sumScore / collection.size;
+            console.log(`sum score: ${sumScore}`);
+            console.log(`size: ${collection.size}`);
+            console.log(`avg score: ${avgScore}`);
+            return avgScore >= this.masteryNeeded;
+        }
+        // Either player hasn't learned anything from the collection yet or the collection doesn't exist
+        else {
+            return false;
+        }
     }
 }
 
@@ -575,13 +624,23 @@ export class Event {
 
 export class FlavorEvent extends Event {
     flavor: string;
+    noLogMessage: boolean;
 
-    constructor(filters: Filter[], effects: Effect[], flavor: string, showEvent?: boolean) {
+    constructor(filters: Filter[],
+                effects: Effect[],
+                flavor: string,
+                showEvent?: boolean,
+                noLogMessage?: boolean) {
         super(filters, effects, showEvent === undefined ? false : showEvent);
         this.flavor = flavor;
+        this.noLogMessage = noLogMessage === undefined ? false : noLogMessage;
     }
 
-    toEventLog(): model.LogItem {
+    toEventLog(): model.LogItem | null {
+        console.log(this.noLogMessage);
+        if (this.noLogMessage) {
+            return null;
+        }
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
             return model.mergeLogItems([ this.flavor, effectText ]);
@@ -592,7 +651,9 @@ export class FlavorEvent extends Event {
     clone() {
         return new FlavorEvent(this.filters.slice(),
                                this.effects.slice(),
-                               this.flavor);
+                               this.flavor,
+                               this.showEvent,
+                               this.noLogMessage);
     }
 }
 
@@ -780,12 +841,12 @@ export class MultiEvent extends Event {
         return this.events;
     }
 
-    toEventLog(): model.LogItem {
+    toEventLog(): model.LogItem | null {
         const effectText = Event.effectsToText(this.effects);
         if (effectText !== null) {
             return effectText;
         }
-        return "";
+        return null;
     }
 
     clone() {

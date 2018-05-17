@@ -13,6 +13,7 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
             item: action.item,
             lastReviewed: new Date(),
             score: 0,
+            mastered: false
         }));
     }
     case actions.REVIEW: {
@@ -22,11 +23,15 @@ function learned(state: immutable.Map<model.LearnableId, model.Learned> = immuta
                 but haven't learned that yet!`);
             return state;
         }
-        const scoreEarned = action.correct ? 20 : -10;
-        const newScore = Math.max(0, Math.min(100, learnedItem.get("score") + scoreEarned));
+        const scoreEarned = action.correct ? 10 : -10;
+        // Don't bother updating score if item is mastered
+        const newScore = learnedItem.get("mastered") ?
+            100 :
+            Math.max(0, Math.min(100, learnedItem.get("score") + scoreEarned));
         const updatedLearned = learnedItem
             .set("score", newScore)
-            .set("lastReviewed", new Date());
+            .set("lastReviewed", new Date())
+            .set("mastered", newScore === 100);
 
         return state.set(action.id, updatedLearned);
     }

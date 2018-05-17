@@ -1,5 +1,17 @@
 [
     {
+        "type": "flavor",
+        "text": "You've already bought this ramen bowl.",
+        "filters": [
+            {
+                "type": "flag",
+                "flag": "ordered-blue-ramen",
+                "value": true
+            }
+        ],
+        "effects": []
+    },
+    {
         "type": "question",
         "text": "You walk up to the counter and try to stammer out an order.",
         "correctPostText": "The cook hands you an enormous bowl of steaming hot ramen. Immediately, in your uniquely American way, you devour the entire bowl of ramen.",
@@ -34,7 +46,7 @@
             {
                 "type": "resource-max",
                 "resource": "stamina",
-                "value": 30
+                "value": 10
             },
             {
                 "type": "resource",
@@ -62,7 +74,7 @@
     },
     {
         "type": "flavor",
-        "text": "The menu shows a color-coded set of dishes. A bowl of beef with a blue label looks incredible to you in your hunger-induced delirium, but you have no idea how to say the one you want.",
+        "text": "A bowl of blue ramen with beef looks incredible to you in your hunger-induced delirium, but you have no idea how to say the word \"blue\".",
         "filters": [
             {
                 "type": "resource",

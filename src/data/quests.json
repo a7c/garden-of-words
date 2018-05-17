@@ -14,27 +14,27 @@
         "checklists": {
             "need-resources": [
                 {
-                    "description": "1000 yen",
+                    "description": "600 yen",
                     "filter": {
                         "type": "resource",
                         "resource": "yen",
-                        "minimum": 1000
+                        "minimum": 600
                     }
                 },
                 {
-                    "description": "Know four words for colors",
+                    "description": "Know three words for colors",
                     "filter": {
                         "type": "vocabsize",
                         "collection": "vocab-basic-colors",
-                        "minimum": 4
+                        "minimum": 3
                     }
                 },
                 {
-                    "description": "Know a word for a number",
+                    "description": "Know three words for numbers",
                     "filter": {
                         "type": "vocabsize",
                         "collection": "vocab-basic-numbers",
-                        "minimum": 1
+                        "minimum": 3
                     }
                 }
             ]

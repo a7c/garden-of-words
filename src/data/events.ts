@@ -9,6 +9,7 @@ const airportTrainStationJson = require("./collections/train-station.json");
 const ticketBoothJson = require("./collections/ticket-booth.json");
 const events = sampleEventJson.map(parsers.parseEvent);
 
+/** These may be lists of events or event pipelines */
 export default {
     airportGate: events,
     airportFoodCourt: require("./collections/food-court.json").map(parsers.parseEvent),
@@ -16,7 +17,7 @@ export default {
     airportFoodCourtRamenYaRed: require("./collections/food-court-ramen-ya-red.json").map(parsers.parseEvent),
     airportFoodCourtRamenYaPurple: require("./collections/food-court-ramen-ya-purple.json").map(parsers.parseEvent),
     airportFoodCourtRamenYaChef: require("./collections/food-court-ramen-ya-chef.json").map(parsers.parseEvent),
-    transliterateJob: transliterateEventJson.map(parsers.parseEvent),
+    transliterateJob: parsers.parseEventPipeline(transliterateEventJson),
     vendingMachine: vendingEventJson.map(parsers.parseEvent),
     vendingMachineGreen: require("./collections/green.json").map(parsers.parseEvent),
     vendingMachineHat: require("./collections/hat.json").map(parsers.parseEvent),
