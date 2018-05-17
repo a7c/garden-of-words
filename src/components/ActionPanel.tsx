@@ -224,7 +224,7 @@ export default class ActionPanel extends React.Component<Props> {
                          : false}
                         {store.flags.get("has-transliteration-job") ?
                          <ActionButton
-                             label="Transliterate (+¥)"
+                             label="Transliterate (+50¥)"
                              cost={`-${resources.TRANSLITERATE_STA_COST} STA`}
                              onClick={this.transliterate}
                              cooldown={15000}
