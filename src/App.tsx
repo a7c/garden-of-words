@@ -621,23 +621,55 @@ const Test = connect(
     })
 )(TestComponent as React.ComponentType<TestProps>);
 
-export default class App extends React.Component {
+interface AppState {
+    resetDialog: boolean;
+}
+
+export default class App extends React.Component<{}, AppState> {
+
+    constructor() {
+        super({});
+        this.state = { resetDialog: false };
+    }
+
     resetGame = () => {
         window.localStorage["save-state"] = "";
         window.location.reload();
+        this.setState({resetDialog: false});
+    }
+
+    resetFlag = () => {
+        this.setState({resetDialog: false});
     }
 
     render() {
+        let resetDialog;
+
+        if (this.state.resetDialog) {
+            resetDialog = (
+                <div id="reset-modal">
+                    <div id="reset-modal-inner">
+                        <p>All your progress will be lost. Are you sure?</p>
+                        <button className="reset-button" onClick={this.resetGame}>Reset</button>
+                        <button className="reset-button" onClick={this.resetFlag}>Keep Playing</button>
+                    </div>
+                </div>
+            );
+        } else {
+            resetDialog = undefined;
+        }
+
         return (
             <div className="App">
                 <h1>I Sudoku'd And Was Reborn in Japan, But I'm a
                 Ninja Stuck in Narita Airport And I Don't Speak Any
                 Japanese</h1>
                 <h1>切腹をしたら、成田空港から脱出できない忍者として転生したが、日本語が全く喋れない‼︎</h1>
+                {resetDialog}
                 <Test/>
                 <a target="_blank" href="credits.html">Credits</a>
                 &nbsp;
-                <a href="#" onClick={this.resetGame}>Reset Game</a>
+                <a href="#" onClick={() => this.setState({resetDialog: true})}>Reset Game</a>
             </div>
         );
     }
