@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 /// <reference path="./untypedDeps.d.ts" />
-import { deserialize, serialize } from "json-immutable";
+import * as transit from "transit-immutable-js";
 import logger from "redux-logger";
 
 import App from "./App";
@@ -25,22 +25,22 @@ const store = createStore<model.Store>(
 const initEffectsJson = require("./data/init-effects.json");
 const initEffects = initEffectsJson.map(parseEffect);
 
+const persistence = transit.withRecords([
+    model.LearnedRecord,
+    model.Learned,
+    model.LocationRecord,
+    model.WardrobeRecord,
+    model.Store,
+]);
+
 store.subscribe(() => {
-    window.localStorage["save-state"] = serialize(store.getState());
+    window.localStorage["save-state"] = persistence.toJSON(store.getState());
 });
 
 let gameLoaded = false;
 if (window.localStorage["save-state"]) {
     try {
-        const savedGame = deserialize(window.localStorage["save-state"], {
-            recordTypes: {
-                LearnedRecord: model.LearnedRecord,
-                Learned: model.Learned,
-                LocationRecord: model.LocationRecord,
-                WardrobeRecord: model.WardrobeRecord,
-                Store: model.Store,
-            },
-        });
+        const savedGame = persistence.fromJSON(window.localStorage["save-state"]);
         store.dispatch(actions.load(savedGame));
         gameLoaded = true;
     }
