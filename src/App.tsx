@@ -623,8 +623,10 @@ const Test = connect(
 
 export default class App extends React.Component {
     resetGame = () => {
-        window.localStorage["save-state"] = "";
-        window.location.reload();
+        if (window.confirm("Erase save game and start over?")) {
+            window.localStorage["save-state"] = "";
+            window.location.reload();
+        }
     }
 
     render() {
