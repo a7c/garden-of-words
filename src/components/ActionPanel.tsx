@@ -237,7 +237,7 @@ export default class ActionPanel extends React.Component<Props> {
                              onHint={this.onHint}
                          />
                          : false}
-                        {store.flags.get("has-luggage-job") && location.current === "airport-gate" ?
+                        {store.flags.get("has-luggage-job") ?
                          <ActionButton
                              label="Haul Luggage (+¥¥)"
                              benefit={`-${resources.LUGGAGE_STA_COST} STA`}
