@@ -6,6 +6,9 @@ import "./NavTab.css";
 
 import Router from "../router";
 import ActionButton from "./ActionButton";
+import getLogging from "../logging/logging";
+
+const Logger = getLogging();
 
 interface NavTabProps {
     labels: {
@@ -44,6 +47,10 @@ export default class NavTab extends React.Component<NavTabProps, NavTabState> {
     }
 
     changeTab = (index: number) => {
+        Logger.recordEvent(Logger.ACTION_VIEW, JSON.stringify({
+            view: [ this.props.labels[index]!.url ],
+            from: "NavTab",
+        }));
         Router.navigate([ this.props.labels[index]!.url ], false);
         this.setState({ tabIndex: index });
         if (this.props.labels[index] && this.props.labels[index].clearAlert) {

@@ -43,6 +43,7 @@ export default function getLogging() {
         this.ACTION_MEDITATE = 7;
         this.ACTION_QUESTION_TEMPLATE = 8;
         this.ACTION_QUESTION_FINISHED = 9;
+        this.ACTION_VIEW = 10;
 
         function getItem(key) {
             return window.localStorage[key];

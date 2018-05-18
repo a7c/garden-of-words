@@ -63,6 +63,10 @@ class Quest extends React.Component<{ event: event.QuestEvent }> {
 
 class Learned extends React.Component<{ event: event.LearnedEvent }> {
     showCollection(id: model.CollectionId) {
+        Logger.recordEvent(Logger.ACTION_VIEW, JSON.stringify({
+            view: [ "Collections", id ],
+            from: "Learned",
+        }));
         Router.navigate([ "Collections", id ]);
     }
 
@@ -154,7 +158,7 @@ class Question extends React.Component<QuestionProps> {
             this.question = q;
             successEfx.forEach(e => this.props.event.effects.push(e));
             failEfx.forEach(e => this.props.event.failureEffects.push(e));
-            Logger.recordAction(Logger.ACTION_QUESTION_TEMPLATE, JSON.stringify({
+            Logger.recordEvent(Logger.ACTION_QUESTION_TEMPLATE, JSON.stringify({
                 question: q.toJSON(),
                 template: this.props.event.question.toJSON(),
             }));
@@ -224,6 +228,10 @@ export default class EventComponent extends React.Component<EventProps, { confir
     }
 
     showQuests = () => {
+        Logger.recordEvent(Logger.ACTION_VIEW, JSON.stringify({
+            view: [ "Quests", ],
+            from: "Learned",
+        }));
         Router.navigate([ "Quests" ]);
         this.onFinished();
     }

@@ -14,6 +14,9 @@ import Router from "../router";
 import ActionButton from "./ActionButton";
 
 import CollectionComponent from "./Collection";
+import getLogging from "../logging/logging";
+
+const Logger = getLogging();
 
 interface AllCollectionsProps {
     collections: immutable.Map<model.CollectionId, model.Collection>;
@@ -57,6 +60,10 @@ export default class AllCollectionsComponent extends React.Component<AllCollecti
     }
 
     getCollectionInfo = (id: model.CollectionId) => {
+        Logger.recordEvent(Logger.ACTION_VIEW, JSON.stringify({
+            view: [ "Collections", id ],
+            from: "Collections",
+        }));
         // set up a new component for the collection they clicked on
         this.setState({ viewCollection: id });
     }

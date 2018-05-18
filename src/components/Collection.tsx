@@ -12,6 +12,9 @@ import * as lookup from "../model/lookup";
 
 import ActionButton from "./ActionButton";
 import AudioButton from "./AudioButton";
+import getLogging from "../logging/logging";
+
+const Logger = getLogging();
 
 export interface CollectionProps {
     name: string;
@@ -41,6 +44,10 @@ export default class CollectionComponent extends React.Component<CollectionProps
 
     onExited = () => {
         if (this.state.showedCollection) {
+            Logger.recordEvent(Logger.ACTION_VIEW, JSON.stringify({
+                view: [ "Collections" ],
+                from: [ "Collections", this.props.name ],
+            }));
             this.props.onFinished();
         }
     }

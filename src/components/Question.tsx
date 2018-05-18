@@ -14,6 +14,9 @@ import Dialog from "./Dialog";
 import Fade from "./Fade";
 import OnlyOnce from "./OnlyOnce";
 import AudioButton from "./AudioButton";
+import getLogging from "../logging/logging";
+
+const Logger = getLogging();
 
 interface QuestionProps {
     store: model.Store;
@@ -166,6 +169,10 @@ class PostQuestion extends OnlyOnce<PostQuestionProps, {}> {
     }
 
     showCollection(id: model.CollectionId) {
+        Logger.recordEvent(Logger.ACTION_VIEW, JSON.stringify({
+            view: [ "Collections", id ],
+            from: "PostQuestion",
+        }));
         Router.navigate([ "Collections", id ]);
     }
 
