@@ -71,8 +71,8 @@ class Learned extends React.Component<{ event: event.LearnedEvent }> {
             const type = {
                 "hiragana": "Hiragana",
                 "katakana": "Katakana",
-                "vocab-kana-romaji": "Word Reading",
-                "vocab-kana-romaji-reverse": "Word Reading",
+                "vocab-kana-romaji": "Word Pronunciation",
+                "vocab-kana-romaji-reverse": "Word Pronunciation",
                 "vocab-kana-meaning": "Vocab Word",
                 "vocab-kana-meaning-reverse": "Vocab Word",
             }[learnable.type] || "Item";

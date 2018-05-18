@@ -176,6 +176,19 @@ export default class ActionPanel extends React.Component<Props> {
             adjacent.push(button);
         }
 
+        const staminaHint: string = "You don't have enough stamina for this. Try meditating.";
+        const wanderHint: string = locationData.wanderlust ?
+                                   "You need stamina to wander. Try meditating." :
+                                   "This doesn't look like a good area to wander around in.";
+        const transliterateHint: string = staminaHint;
+
+        let luggageHint: string;
+        if (staminaProp.maxValue != null && staminaProp.maxValue < resources.LUGGAGE_STA_COST) {
+            luggageHint = "Grabbing a drink from the vending machine might get your stamina up.";
+        } else {
+            luggageHint = staminaHint;
+        }
+
         return (
             <section id="actions">
                 <header>
@@ -193,9 +206,7 @@ export default class ActionPanel extends React.Component<Props> {
                              onPaused={this.props.onPaused}
                              locked={stamina < resources.WANDER_STA_COST}
                              cooldown={1000}
-                             hint={locationData.wanderlust ?
-                                   "You need stamina to wander. Try meditating." :
-                                   "This doesn't look like a good area to wander around in."}
+                             hint={wanderHint}
                              onHint={this.onHint}
                          />
                          : false}
@@ -213,7 +224,7 @@ export default class ActionPanel extends React.Component<Props> {
                          : false}
                         {store.flags.get("has-transliteration-job") ?
                          <ActionButton
-                             label="Transliterate (+¥)"
+                             label="Transliterate (+¥50)"
                              cost={`-${resources.TRANSLITERATE_STA_COST} STA`}
                              onClick={this.transliterate}
                              cooldown={15000}
@@ -222,18 +233,20 @@ export default class ActionPanel extends React.Component<Props> {
                              locked={stamina < resources.TRANSLITERATE_STA_COST}
                              alert={this.isNewButton("transliterate")}
                              clearAlert={() => this.clearAlert("transliterate")}
+                             hint={transliterateHint}
+                             onHint={this.onHint}
                          />
                          : false}
-                        {store.flags.get("has-luggage-job") && location.current === "airport-gate" ?
+                        {store.flags.get("has-luggage-job") ?
                          <ActionButton
-                             label="Haul Luggage (+¥¥)"
+                             label="Haul Luggage (+¥120)"
                              benefit={`-${resources.LUGGAGE_STA_COST} STA`}
                              onClick={this.haulLuggage}
                              locked={stamina < resources.LUGGAGE_STA_COST}
                              paused={paused}
                              onPaused={this.props.onPaused}
                              cooldown={2500}
-                             hint="Grabbing a drink from the vending machine might get your stamina up."
+                             hint={luggageHint}
                              onHint={this.onHint}
                              alert={this.isNewButton("luggage")}
                              clearAlert={() => this.clearAlert("luggage")}
