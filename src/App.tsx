@@ -23,6 +23,10 @@ import CollectionList from "./components/AllCollections";
 import QuestLog from "./components/QuestLog";
 import Wardrobe from "./components/Wardrobe";
 
+import getLogging from "./logging/logging";
+
+const Logger = getLogging();
+
 let CHEAT_CODES_ENABLED = true;
 
 interface TestProps {
@@ -174,6 +178,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
         let queuedEvents: event.Event[] = [];
 
         if (happening instanceof event.Event) {
+            const json = happening.toJSON();
+            if (json !== null) {
+                Logger.recordEvent(Logger.ACTION_EVENT, JSON.stringify(json));
+            }
             let showEvent = happening.showEvent;
             happening = happening.clone();
 
@@ -225,6 +233,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
         else {
+            Logger.recordEvent(Logger.ACTION_EVENT_LEARN, JSON.stringify({ id: happening }));
             this.props.onLearn(happening);
 
             const logMessage = new event.LearnEffect(happening).toEventLog();
@@ -420,6 +429,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
      */
     onMaster(id: model.LearnableId) {
         const learnable = lookup.getLearnable(id);
+        Logger.recordEvent(Logger.ACTION_MASTER, { learnable: id });
         switch (learnable.collection) {
             case "hira-basic": {
                 const yenReward = 100;

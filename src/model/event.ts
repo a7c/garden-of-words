@@ -617,6 +617,10 @@ export class Event {
         return null;
     }
 
+    toJSON(): { [key: string]: any } | null { //tslint:disable-line
+        return null;
+    }
+
     clone(): Event {
         throw `Unimplemented!`;
     }
@@ -646,6 +650,14 @@ export class FlavorEvent extends Event {
             return model.mergeLogItems([ this.flavor, effectText ]);
         }
         return this.flavor;
+    }
+
+    toJSON() {
+        return {
+            type: "flavor",
+            flavor: this.toEventLog(),
+            noLogMessage: this.noLogMessage,
+        };
     }
 
     clone() {
@@ -712,6 +724,18 @@ export class QuestionEvent extends Event {
         }
     }
 
+    toJSON() {
+        return {
+            type: "question",
+            flavor: this.flavor,
+            postFlavor: this.postFlavor,
+            correctPostFlavor: this.correctPostFlavor,
+            wrongPostFlavor: this.wrongPostFlavor,
+            sequence: this.sequence,
+            question: this.question.toJSON(),
+        };
+    }
+
     clone() {
         return new QuestionEvent(this.filters.slice(),
                                  this.effects.slice(),
@@ -750,6 +774,15 @@ export class QuestEvent extends Event {
         }
         // This should never happen
         return "";
+    }
+
+    toJSON() {
+        return {
+            type: "quest",
+            journal: this.journal,
+            quest: this.quest,
+            stage: this.stage,
+        };
     }
 
     clone() {
@@ -847,6 +880,14 @@ export class MultiEvent extends Event {
             return effectText;
         }
         return null;
+    }
+
+    toJSON() {
+        return {
+            type: "string",
+            events: this.events.map(ev => ev.toJSON() || {}),
+            currentIndex: this.currentIndex,
+        };
     }
 
     clone() {

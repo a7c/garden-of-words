@@ -6,7 +6,7 @@ export default function getLogging() {
     return singleton;
 
     function Logger() {
-        var BASE_URL = "https://gdiac.cis.cornell.edu/research_games/";
+        var BASE_URL = "https://gdiac.cis.cornell.edu/research_games/php/lostintranslation/";
         var PAGE_LOAD = "page_load.php";
         var PLAYER_ACTION = "player_action.php";
         var PLAYER_QUEST = "player_quest.php";
@@ -19,7 +19,7 @@ export default function getLogging() {
             STATUS_LEVEL_IN_PROGRESS: 2
         };
 
-        var _gameId = 777;
+        var _gameId = 1817055;
         var _abValueSet = false;
         var _abStoredValue = null;
         var _versionId = 1;
@@ -34,6 +34,16 @@ export default function getLogging() {
         var _suppressConsoleOutput = false;
 
         this.ACTION_EFFECT = 0;
+        this.ACTION_EVENT = 1;
+        this.ACTION_EVENT_LEARN = 2;
+        this.ACTION_LOAD_GAME = 3;
+        this.ACTION_MASTER = 4;
+        this.ACTION_CANT_EVEN = 5;
+        this.ACTION_WANDER = 6;
+        this.ACTION_MEDITATE = 7;
+        this.ACTION_QUESTION_TEMPLATE = 8;
+        this.ACTION_QUESTION_FINISHED = 9;
+        this.ACTION_VIEW = 10;
 
         function getItem(key) {
             return window.localStorage[key];
@@ -42,6 +52,11 @@ export default function getLogging() {
         function setItem(key, value) {
             window.localStorage[key] = value;
         }
+
+        this.reset = function() {
+            setItem("user_id", "");
+            setItem("ab_test_value", "");
+        };
 
         this.initialize = function (/*gameId, versionId,*/ debugMode, suppressConsoleOutput) {
             if (suppressConsoleOutput) {
