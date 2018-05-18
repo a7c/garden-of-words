@@ -224,7 +224,7 @@ export default class ActionPanel extends React.Component<Props> {
                          : false}
                         {store.flags.get("has-transliteration-job") ?
                          <ActionButton
-                             label="Transliterate (+50¥)"
+                             label="Transliterate (+¥50)"
                              cost={`-${resources.TRANSLITERATE_STA_COST} STA`}
                              onClick={this.transliterate}
                              cooldown={15000}
@@ -239,7 +239,7 @@ export default class ActionPanel extends React.Component<Props> {
                          : false}
                         {store.flags.get("has-luggage-job") ?
                          <ActionButton
-                             label="Haul Luggage (+¥¥)"
+                             label="Haul Luggage (+¥120)"
                              benefit={`-${resources.LUGGAGE_STA_COST} STA`}
                              onClick={this.haulLuggage}
                              locked={stamina < resources.LUGGAGE_STA_COST}
