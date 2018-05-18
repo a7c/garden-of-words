@@ -617,7 +617,7 @@ export class Event {
         return null;
     }
 
-    toJSON(): Object | null {
+    toJSON(): { [key: string]: any } | null { //tslint:disable-line
         return null;
     }
 
@@ -655,7 +655,7 @@ export class FlavorEvent extends Event {
     toJSON() {
         return {
             type: "flavor",
-            flavor: this.flavor,
+            flavor: this.toEventLog(),
             noLogMessage: this.noLogMessage,
         };
     }
@@ -776,6 +776,15 @@ export class QuestEvent extends Event {
         return "";
     }
 
+    toJSON() {
+        return {
+            type: "quest",
+            journal: this.journal,
+            quest: this.quest,
+            stage: this.stage,
+        };
+    }
+
     clone() {
         return new QuestEvent(this.filters.slice(),
                               this.effects.slice(0, -1),
@@ -871,6 +880,14 @@ export class MultiEvent extends Event {
             return effectText;
         }
         return null;
+    }
+
+    toJSON() {
+        return {
+            type: "string",
+            events: this.events.map(ev => ev.toJSON() || {}),
+            currentIndex: this.currentIndex,
+        };
     }
 
     clone() {
