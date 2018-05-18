@@ -1,4 +1,4 @@
-let singleton = null;
+var singleton = null;
 export default function getLogging() {
     if (!singleton) {
         singleton = new Logger();
@@ -178,9 +178,6 @@ export default function getLogging() {
         };
 
         this.recordPageLoad = function (userInfo) {
-            if (_debugMode) {
-                trace(`recordPageLoad: ${userInfo}`);
-            }
             if (_currentStatus == StatusEnum.STATUS_UNINITIALIZED) {
                 if (!_debugMode) {
                     trace("recordPageLoad: You must call initialize() before recording anything!");
@@ -206,9 +203,6 @@ export default function getLogging() {
         };
 
         this.recordLevelStart = function (questId, questDetail) {
-            if (_debugMode) {
-                trace(`recordLevelStart: ${questId} ${questDetail}`);
-            }
             if (_currentStatus != StatusEnum.STATUS_LEVEL_NOT_STARTED) {
                 if (!_debugMode) {
                     if (_currentStatus == StatusEnum.STATUS_UNINITIALIZED) {
@@ -263,9 +257,6 @@ export default function getLogging() {
         };
 
         this.recordEvent = function (actionId, actionDetail) {
-            if (_debugMode) {
-                trace(`recordEvent: ${actionId} ${actionDetail}`);
-            }
             if (_currentStatus != StatusEnum.STATUS_LEVEL_IN_PROGRESS) {
                 if (!_debugMode) {
                     if (_currentStatus == StatusEnum.STATUS_UNINITIALIZED) {
