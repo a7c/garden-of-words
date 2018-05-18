@@ -40,6 +40,7 @@ export default function getLogging() {
         this.ACTION_MASTER = 4;
         this.ACTION_CANT_EVEN = 5;
         this.ACTION_WANDER = 6;
+        this.ACTION_MEDITATE = 7;
 
         function getItem(key) {
             return window.localStorage[key];

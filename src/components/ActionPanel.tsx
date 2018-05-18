@@ -37,6 +37,7 @@ export default class ActionPanel extends React.Component<Props> {
             Logger.recordEvent(Logger.ACTION_CANT_EVEN, JSON.stringify({
                 action: "wander",
                 reason: "paused",
+                location: location,
             }));
             return;
         }
@@ -52,12 +53,14 @@ export default class ActionPanel extends React.Component<Props> {
         if (happening) {
             Logger.recordEvent(Logger.ACTION_WANDER, JSON.stringify({
                 happening: happening instanceof event.Event ? happening.toJSON() : happening,
+                location: location,
             }));
             onEvent(happening);
         }
         else {
             Logger.recordEvent(Logger.ACTION_WANDER, JSON.stringify({
                 happening: null,
+                location: location,
             }));
         }
     }
@@ -76,12 +79,26 @@ export default class ActionPanel extends React.Component<Props> {
     meditate = () => {
         const { store, paused, onEvent, modifyResource } = this.props;
         if (paused) {
+            Logger.recordEvent(Logger.ACTION_CANT_EVEN, JSON.stringify({
+                action: "meditate",
+                reason: "paused",
+            }));
+
             return;
         }
 
         const happening = meditate(store);
         if (happening) {
+            Logger.recordEvent(Logger.ACTION_MEDITATE, JSON.stringify({
+                happening: happening.toJSON(),
+            }));
+
             onEvent(happening);
+        }
+        else {
+            Logger.recordEvent(Logger.ACTION_MEDITATE, JSON.stringify({
+                happening: null,
+            }));
         }
     }
 
