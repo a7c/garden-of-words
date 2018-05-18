@@ -49,6 +49,7 @@ function startup() {
             const savedGame = persistence.fromJSON(window.localStorage["save-state"]);
             store.dispatch(actions.load(savedGame));
             gameLoaded = true;
+            Logger.recordEvent(Logger.ACTION_LOAD_GAME);
         }
         catch (e) {
             console.warn("Could not load save game!");

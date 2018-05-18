@@ -429,6 +429,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
      */
     onMaster(id: model.LearnableId) {
         const learnable = lookup.getLearnable(id);
+        Logger.recordEvent(Logger.ACTION_MASTER, { learnable: id });
         switch (learnable.collection) {
             case "hira-basic": {
                 const yenReward = 100;
