@@ -53,8 +53,8 @@ export default function getLogging() {
         }
 
         this.reset = function() {
-            setItem("user_id", null);
-            setItem("ab_test_value", null);
+            setItem("user_id", "");
+            setItem("ab_test_value", "");
         };
 
         this.initialize = function (/*gameId, versionId,*/ debugMode, suppressConsoleOutput) {
