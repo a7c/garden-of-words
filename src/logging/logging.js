@@ -41,6 +41,8 @@ export default function getLogging() {
         this.ACTION_CANT_EVEN = 5;
         this.ACTION_WANDER = 6;
         this.ACTION_MEDITATE = 7;
+        this.ACTION_QUESTION_TEMPLATE = 8;
+        this.ACTION_QUESTION_FINISHED = 9;
 
         function getItem(key) {
             return window.localStorage[key];

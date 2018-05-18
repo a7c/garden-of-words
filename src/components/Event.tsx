@@ -15,6 +15,10 @@ import AudioButton from "./AudioButton";
 import "../Common.css";
 import "./Event.css";
 
+import getLogging from "../logging/logging";
+
+const Logger = getLogging();
+
 interface EventProps {
     store: model.Store;
 
@@ -150,6 +154,10 @@ class Question extends React.Component<QuestionProps> {
             this.question = q;
             successEfx.forEach(e => this.props.event.effects.push(e));
             failEfx.forEach(e => this.props.event.failureEffects.push(e));
+            Logger.recordAction(Logger.ACTION_QUESTION_TEMPLATE, JSON.stringify({
+                question: q.toJSON(),
+                template: this.props.event.question.toJSON(),
+            }));
         }
         else {
             this.question = this.props.event.question;
@@ -193,6 +201,11 @@ export default class EventComponent extends React.Component<EventProps, { confir
         const ev = this.props.event;
 
         if (ev instanceof event.QuestionEvent) {
+            Logger.recordEvent(Logger.ACTION_QUESTION_FINISHED, JSON.stringify({
+                event: ev.toJSON(),
+                correct,
+                ids,
+            }));
             if (correct) {
                 ev.effects.forEach((effect) => this.props.handleEventEffect(effect, this.props.store));
             }
