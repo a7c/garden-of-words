@@ -1,12 +1,9 @@
-import {
-  AsyncStorage
-} from 'react-native';
-
+let singleton = null;
 export default function getLogging() {
-    if (!arguments.callee._singleton) {
-        arguments.callee._singleton = new Logger();
+    if (!singleton) {
+        singleton = new Logger();
     }
-    return arguments.callee._singleton;
+    return singleton;
 
     function Logger() {
         var BASE_URL = "https://gdiac.cis.cornell.edu/research_games/";
@@ -36,7 +33,17 @@ export default function getLogging() {
         var _currentStatus = StatusEnum.STATUS_UNINITIALIZED;
         var _suppressConsoleOutput = false;
 
-        this.initialize = async function (/*gameId, versionId,*/ debugMode, suppressConsoleOutput) {
+        this.ACTION_EFFECT = 0;
+
+        function getItem(key) {
+            return window.localStorage[key];
+        }
+
+        function setItem(key, value) {
+            window.localStorage[key] = value;
+        }
+
+        this.initialize = function (/*gameId, versionId,*/ debugMode, suppressConsoleOutput) {
             if (suppressConsoleOutput) {
                 _suppressConsoleOutput = suppressConsoleOutput;
             }
@@ -47,7 +54,7 @@ export default function getLogging() {
             if (_debugMode) {
                 return;
             }
-            _userId = await AsyncStorage.getItem('user_id');
+            _userId = getItem('user_id');
             if (!_userId) {
                 _userId = generateRandomString(40);
             }
@@ -119,13 +126,13 @@ export default function getLogging() {
             r.send(null);
         };
 
-        this.assignABTestValue = async function (candidate) {
+        this.assignABTestValue = function (candidate) {
             if (!_debugMode) {
-                if (! (await AsyncStorage.getItem("ab_test_value"))) {
+                if (! (getItem("ab_test_value"))) {
                     _abStoredValue = candidate;
-                    await AsyncStorage.setItem("ab_test_value", _abStoredValue);
+                    setItem("ab_test_value", _abStoredValue);
                 } else {
-                    _abStoredValue = await AsyncStorage.getItem("ab_test_value");
+                    _abStoredValue = getItem("ab_test_value");
                 }
                 _abValueSet = true;
                 return _abStoredValue;
@@ -155,7 +162,10 @@ export default function getLogging() {
             sendRequest("recordABTestValue", serverURL);
         };
 
-        this.recordPageLoad = async function (userInfo) {
+        this.recordPageLoad = function (userInfo) {
+            if (_debugMode) {
+                trace(`recordPageLoad: ${userInfo}`);
+            }
             if (_currentStatus == StatusEnum.STATUS_UNINITIALIZED) {
                 if (!_debugMode) {
                     trace("recordPageLoad: You must call initialize() before recording anything!");
@@ -176,11 +186,14 @@ export default function getLogging() {
                 "&session_id=" + _sessionId;
             sendRequest("recordPageLoad", serverURL);
             //stores user info
-            await AsyncStorage.setItem('user_id', _userId);
-            await AsyncStorage.setItem('session_id', _sessionId);
+            setItem('user_id', _userId);
+            setItem('session_id', _sessionId);
         };
 
         this.recordLevelStart = function (questId, questDetail) {
+            if (_debugMode) {
+                trace(`recordLevelStart: ${questId} ${questDetail}`);
+            }
             if (_currentStatus != StatusEnum.STATUS_LEVEL_NOT_STARTED) {
                 if (!_debugMode) {
                     if (_currentStatus == StatusEnum.STATUS_UNINITIALIZED) {
@@ -235,6 +248,9 @@ export default function getLogging() {
         };
 
         this.recordEvent = function (actionId, actionDetail) {
+            if (_debugMode) {
+                trace(`recordEvent: ${actionId} ${actionDetail}`);
+            }
             if (_currentStatus != StatusEnum.STATUS_LEVEL_IN_PROGRESS) {
                 if (!_debugMode) {
                     if (_currentStatus == StatusEnum.STATUS_UNINITIALIZED) {
