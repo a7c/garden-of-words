@@ -38,6 +38,8 @@ export default function getLogging() {
         this.ACTION_EVENT_LEARN = 2;
         this.ACTION_LOAD_GAME = 3;
         this.ACTION_MASTER = 4;
+        this.ACTION_CANT_EVEN = 5;
+        this.ACTION_WANDER = 6;
 
         function getItem(key) {
             return window.localStorage[key];

@@ -15,6 +15,10 @@ import "./ActionPanel.css";
 import ActionButton from "./ActionButton";
 import LabeledPanel from "./LabeledPanel";
 
+import getLogging from "../logging/logging";
+
+const Logger = getLogging();
+
 interface Props {
     store: model.Store;
     paused: boolean;
@@ -30,6 +34,10 @@ export default class ActionPanel extends React.Component<Props> {
     wanderHelper(stamina: number, location: model.Location | null) {
         const { store, paused, onEvent, onWander, modifyResource } = this.props;
         if (paused) {
+            Logger.recordEvent(Logger.ACTION_CANT_EVEN, JSON.stringify({
+                action: "wander",
+                reason: "paused",
+            }));
             return;
         }
 
@@ -42,7 +50,15 @@ export default class ActionPanel extends React.Component<Props> {
         }
 
         if (happening) {
+            Logger.recordEvent(Logger.ACTION_WANDER, JSON.stringify({
+                happening: happening instanceof event.Event ? happening.toJSON() : happening,
+            }));
             onEvent(happening);
+        }
+        else {
+            Logger.recordEvent(Logger.ACTION_WANDER, JSON.stringify({
+                happening: null,
+            }));
         }
     }
 
