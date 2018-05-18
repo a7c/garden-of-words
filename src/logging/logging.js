@@ -6,7 +6,7 @@ export default function getLogging() {
     return singleton;
 
     function Logger() {
-        var BASE_URL = "https://gdiac.cis.cornell.edu/research_games/";
+        var BASE_URL = "https://gdiac.cis.cornell.edu/research_games/php/lostintranslation/";
         var PAGE_LOAD = "page_load.php";
         var PLAYER_ACTION = "player_action.php";
         var PLAYER_QUEST = "player_quest.php";

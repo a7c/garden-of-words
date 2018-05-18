@@ -27,7 +27,7 @@ function startup() {
     ]);
 
     const Logger = getLogging();
-    Logger.initialize(true, false);
+    Logger.initialize(false, false);
 
     Logger.recordPageLoad();
     Logger.recordLevelStart(0);
