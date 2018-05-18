@@ -19,7 +19,7 @@ export default function getLogging() {
             STATUS_LEVEL_IN_PROGRESS: 2
         };
 
-        var _gameId = 777;
+        var _gameId = 1817055;
         var _abValueSet = false;
         var _abStoredValue = null;
         var _versionId = 1;
