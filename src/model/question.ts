@@ -94,6 +94,10 @@ export class TypeIn extends Question {
     correct(input: string) {
         return input.trim() === this.learnable.back;
     }
+
+    toJSON() {
+        return { ...super.toJSON(), learnable: this.learnable.id };
+    }
 }
 
 export class MadLib extends Question {
@@ -108,6 +112,15 @@ export class MadLib extends Question {
         this.choices = choices;
         this.blanks = blanks;
     }
+
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            sentence: this.sentence.map(learnable => learnable.id),
+            choices: this.sentence.map(learnable => learnable.id),
+            blanks: this.blanks,
+        };
+    }
 }
 
 export abstract class QuestionTemplate {
@@ -115,7 +128,7 @@ export abstract class QuestionTemplate {
         throw "@QuestionTemplate#makeQuestion: virtual method not implemented";
     }
 
-    toJSON(): Object {
+    toJSON(): { [key: string]: any } { //tslint:disable-line
         return {};
     }
 }
@@ -134,6 +147,16 @@ export class MultipleChoiceQuestionTemplate extends QuestionTemplate {
         this.restrictLearnableTypes = restrictLearnableTypes;
         this.onlySeen = onlySeen;
         this.reverse = reverse;
+    }
+
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            collection: this.collection,
+            restrictLearnableTypes: this.restrictLearnableTypes,
+            onlySeen: this.onlySeen,
+            reverse: this.reverse,
+        };
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
@@ -203,6 +226,13 @@ export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
     constructor(reverse: boolean = false) {
         super();
         this.reverse = reverse;
+    }
+
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            reverse: this.reverse,
+        };
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
@@ -283,6 +313,13 @@ export class TypeInReviewTemplate extends QuestionTemplate {
         this.collections = collections;
     }
 
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            collections: this.collections,
+        };
+    }
+
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
         const { learned, collections } = store;
 
@@ -314,6 +351,13 @@ export class TypeInVocabTemplate extends QuestionTemplate {
     constructor(collections: model.CollectionId[]) {
         super();
         this.collections = collections;
+    }
+
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            collections: this.collections,
+        };
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
@@ -358,6 +402,14 @@ export class TypeInLearnVocabTemplate extends QuestionTemplate {
         super();
         this.collections = collections;
         this.onlySeenKana = onlySeenKana;
+    }
+
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            collections: this.collections,
+            onlySeenKana: this.onlySeenKana,
+        };
     }
 
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
