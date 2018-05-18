@@ -617,6 +617,10 @@ export class Event {
         return null;
     }
 
+    toJSON(): Object | null {
+        return null;
+    }
+
     clone(): Event {
         throw `Unimplemented!`;
     }
@@ -646,6 +650,14 @@ export class FlavorEvent extends Event {
             return model.mergeLogItems([ this.flavor, effectText ]);
         }
         return this.flavor;
+    }
+
+    toJSON() {
+        return {
+            type: "flavor",
+            flavor: this.flavor,
+            noLogMessage: this.noLogMessage,
+        };
     }
 
     clone() {
@@ -710,6 +722,18 @@ export class QuestionEvent extends Event {
             }
             return text;
         }
+    }
+
+    toJSON() {
+        return {
+            type: "question",
+            flavor: this.flavor,
+            postFlavor: this.postFlavor,
+            correctPostFlavor: this.correctPostFlavor,
+            wrongPostFlavor: this.wrongPostFlavor,
+            sequence: this.sequence,
+            question: this.question.toJSON(),
+        };
     }
 
     clone() {

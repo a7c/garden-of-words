@@ -27,6 +27,10 @@ export class Question {
     constructor(teaches: model.LearnableId[]) {
         this.teaches = teaches;
     }
+
+    toJSON(): { [key: string]: any } { //tslint:disable-line
+        return { teaches: this.teaches };
+    }
 }
 
 export class MultipleChoice extends Question {
@@ -66,6 +70,17 @@ export class MultipleChoice extends Question {
     correct(idx: number) {
         return idx === this.answerIdx;
     }
+
+    toJSON() {
+        const json = super.toJSON();
+        json.type = "mc";
+        json.choices = this.choices.map(c => c.id);
+        json.questionIdx = this.questionIdx;
+        json.answerIdx = this.answerIdx;
+        json.reverse = this.reverse;
+        json.sequence = this.sequence;
+        return json;
+    }
 }
 
 export class TypeIn extends Question {
@@ -99,9 +114,13 @@ export abstract class QuestionTemplate {
     makeQuestion(store: model.Store): [Question, event.Effect[], event.Effect[]] {
         throw "@QuestionTemplate#makeQuestion: virtual method not implemented";
     }
+
+    toJSON(): Object {
+        return {};
+    }
 }
 
-export class MultipleChoiceQuestionTemplate {
+export class MultipleChoiceQuestionTemplate extends QuestionTemplate {
     collection: model.CollectionId;
     /** What types of learnables to choose from within the collection(s) */
     restrictLearnableTypes: string[];
@@ -110,6 +129,7 @@ export class MultipleChoiceQuestionTemplate {
 
     constructor(collection: model.CollectionId, restrictLearnableTypes: string[],
                 onlySeen: boolean, reverse: boolean = false) {
+        super();
         this.collection = collection;
         this.restrictLearnableTypes = restrictLearnableTypes;
         this.onlySeen = onlySeen;
@@ -255,10 +275,11 @@ export class MultipleChoiceNameQuestionTemplate extends QuestionTemplate {
 /**
  *  A template that produces kana -> romaji type-in questions based on what needs to be reviewed next/soon.
  */
-export class TypeInReviewTemplate {
+export class TypeInReviewTemplate extends QuestionTemplate {
     collections: model.CollectionId[];
 
     constructor(collections: model.CollectionId[]) {
+        super();
         this.collections = collections;
     }
 
@@ -287,10 +308,11 @@ export class TypeInReviewTemplate {
  *  A template that produces kana -> romaji type-in questions that use only the vocab
  *  words the player already knows.
  */
-export class TypeInVocabTemplate {
+export class TypeInVocabTemplate extends QuestionTemplate {
     collections: model.CollectionId[];
 
     constructor(collections: model.CollectionId[]) {
+        super();
         this.collections = collections;
     }
 
@@ -327,12 +349,13 @@ export class TypeInVocabTemplate {
  *  A template for that produces kana -> romaji type-in questions that teach you a new
  *  vocab word afterward.
  */
-export class TypeInLearnVocabTemplate {
+export class TypeInLearnVocabTemplate extends QuestionTemplate {
     collections: model.CollectionId[];
     /** Whether to only display words for which the kana has already been learned */
     onlySeenKana: boolean;
 
     constructor(collections: model.CollectionId[], onlySeenKana: boolean) {
+        super();
         this.collections = collections;
         this.onlySeenKana = onlySeenKana;
     }

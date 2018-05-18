@@ -178,6 +178,10 @@ class TestComponent extends React.Component<TestProps, TestState> {
         let queuedEvents: event.Event[] = [];
 
         if (happening instanceof event.Event) {
+            const json = happening.toJSON();
+            if (json !== null) {
+                Logger.recordEvent(Logger.ACTION_EVENT, JSON.stringify(json));
+            }
             let showEvent = happening.showEvent;
             happening = happening.clone();
 
@@ -229,6 +233,7 @@ class TestComponent extends React.Component<TestProps, TestState> {
             }
         }
         else {
+            Logger.recordEvent(Logger.ACTION_EVENT_LEARN, JSON.stringify({ id: happening }));
             this.props.onLearn(happening);
 
             const logMessage = new event.LearnEffect(happening).toEventLog();

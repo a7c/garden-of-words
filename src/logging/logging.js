@@ -34,6 +34,8 @@ export default function getLogging() {
         var _suppressConsoleOutput = false;
 
         this.ACTION_EFFECT = 0;
+        this.ACTION_EVENT = 1;
+        this.ACTION_EVENT_LEARN = 2;
 
         function getItem(key) {
             return window.localStorage[key];
