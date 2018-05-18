@@ -43,6 +43,11 @@ export default function getLogging() {
             window.localStorage[key] = value;
         }
 
+        this.reset = function() {
+            setItem("user_id", null);
+            setItem("ab_test_value", null);
+        };
+
         this.initialize = function (/*gameId, versionId,*/ debugMode, suppressConsoleOutput) {
             if (suppressConsoleOutput) {
                 _suppressConsoleOutput = suppressConsoleOutput;

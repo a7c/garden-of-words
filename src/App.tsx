@@ -23,6 +23,10 @@ import CollectionList from "./components/AllCollections";
 import QuestLog from "./components/QuestLog";
 import Wardrobe from "./components/Wardrobe";
 
+import getLogging from "./logging/logging";
+
+const Logger = getLogging();
+
 let CHEAT_CODES_ENABLED = true;
 
 interface TestProps {
@@ -624,6 +628,7 @@ const Test = connect(
 export default class App extends React.Component {
     resetGame = () => {
         if (window.confirm("Erase save game and start over?")) {
+            Logger.reset();
             window.localStorage["save-state"] = "";
             window.location.reload();
         }
