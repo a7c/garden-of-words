@@ -677,6 +677,11 @@ export default class App extends React.Component<{}, AppState> {
                 <h1>切腹をしたら、成田空港から脱出できない忍者として転生したが、日本語が全く喋れない‼︎</h1>
                 {resetDialog}
                 <Test/>
+                User ID: {Logger.getUserId()}&nbsp;&nbsp;
+                <a href="https://cornell.qualtrics.com/jfe/form/SV_b9pezPaNlNItIuV">Pre-Game Survey</a>
+                &nbsp;&nbsp;
+                <a href="https://cornell.qualtrics.com/jfe/form/SV_5gQF8uEicmPJgKV">Post-Game Survey</a>
+                &nbsp;&nbsp;
                 <a target="_blank" href="credits.html">Credits</a>
                 &nbsp;
                 <a href="#" onClick={() => this.setState({resetDialog: true})}>Reset Game</a>

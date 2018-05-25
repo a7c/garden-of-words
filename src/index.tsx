@@ -12,7 +12,6 @@ import * as event from "./model/event";
 import * as model from "./model/model";
 import * as reducers from "./reducers/reducers";
 import { parseEffect } from "./data/parsers";
-import registerServiceWorker from "./registerServiceWorker";
 import "./index.css";
 
 import getLogging from "./logging/logging";
@@ -27,7 +26,11 @@ function startup() {
     ]);
 
     const Logger = getLogging();
-    Logger.initialize(false, false);
+    let id: string | null = "";
+    while (!id) {
+        id = window.prompt("Enter your user ID:");
+    }
+    Logger.initialize(id, false, false);
 
     Logger.recordPageLoad();
     Logger.recordLevelStart(0);
@@ -78,7 +81,6 @@ function startup() {
         </Provider>,
         document.getElementById("root") as HTMLElement
     );
-    registerServiceWorker();
 }
 
 startup();

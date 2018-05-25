@@ -58,7 +58,7 @@ export default function getLogging() {
             setItem("ab_test_value", "");
         };
 
-        this.initialize = function (/*gameId, versionId,*/ debugMode, suppressConsoleOutput) {
+        this.initialize = function (/*gameId, versionId,*/ userId, debugMode, suppressConsoleOutput) {
             if (suppressConsoleOutput) {
                 _suppressConsoleOutput = suppressConsoleOutput;
             }
@@ -69,13 +69,12 @@ export default function getLogging() {
             if (_debugMode) {
                 return;
             }
-            _userId = getItem('user_id');
-            if (!_userId) {
-                _userId = generateRandomString(40);
-            }
+            _userId = userId;
             _sessionId = generateRandomString(36);
             _currentStatus = StatusEnum.STATUS_LEVEL_NOT_STARTED;
         };
+
+        this.getUserId = function() { return _userId; };
 
         var trace = function (message) {
             if (!_suppressConsoleOutput) {
