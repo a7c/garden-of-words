@@ -26,11 +26,11 @@ function startup() {
     ]);
 
     const Logger = getLogging();
-    let id: string | null = "";
-    while (!id) {
-        id = window.prompt("Enter your user ID:");
-    }
-    Logger.initialize(id, false, false);
+    // let id: string | null = "";
+    // while (!id) {
+    //     id = window.prompt("Enter your user ID:");
+    // }
+    Logger.initialize("developer", true, false);
 
     Logger.recordPageLoad();
     Logger.recordLevelStart(0);
