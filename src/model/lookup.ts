@@ -6,6 +6,7 @@ import * as quest from "./quest";
 import * as question from "./question";
 import * as vocab from "./vocab";
 import * as parsers from "../data/parsers";
+import * as images from "../data/images";
 import * as npc from "./npc";
 
 export interface Collection {
@@ -26,12 +27,17 @@ function loadCollection(json: any) { //tslint:disable-line
         learnables: json.items.map((obj: model.Learnable) => {
             obj.collection = json.collection;
             dictionary[obj.id] = obj;
-            if (json.hasAudio) {
+            if (json.hasAudio || json.hasImages) {
                 let id = obj.id;
                 if (obj.parentId && obj.parentId !== null) {
                     id = obj.parentId;
                 }
-                obj.audio = `audio/${json.collection}/${id}.mp3`;
+                if (json.hasAudio) {
+                    obj.audio = `audio/${json.collection}/${id}.mp3`;
+                }
+                if (json.hasImages) {
+                    obj.image = images.collections[json.collection][id];
+                }
             }
             return obj.id;
         }),

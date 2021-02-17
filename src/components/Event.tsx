@@ -88,6 +88,13 @@ class Learned extends React.Component<{ event: event.LearnedEvent }> {
             items.push(
                 <div key={id}>
                     <h2>Learned New {type}</h2>
+                    {
+                        learnable.image
+                            ? <img
+                                src={learnable.image}
+                            />
+                            : null
+                    }
                     <p>
                         <span className="front">{learnable.front}</span>&nbsp;
                         {lookup.getLearnablePrompt(learnable.type)}&nbsp;

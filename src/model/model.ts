@@ -53,6 +53,8 @@ export interface Learnable {
     front: string;
     back: string;
     audio?: string;
+    // IMPORTANT: need to require() the image first
+    image?: string;
 }
 
 export type Location = string;
