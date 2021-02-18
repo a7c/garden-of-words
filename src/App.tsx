@@ -677,6 +677,12 @@ export default class App extends React.Component<{}, AppState> {
                 <h1>死んで転生した私が成田空港から脱出できない！日本語も全く喋れない‼︎</h1>
                 {resetDialog}
                 <Test/>
+                <div>
+                    Hiragana mnemonics borrowed from
+                    <a target="_blank" href="https://www.tofugu.com/japanese/learn-hiragana/">
+                        Tofugu
+                    </a>
+                </div>
                 <a target="_blank" href="credits.html">Credits</a>
                 &nbsp;
                 <a href="#" onClick={() => this.setState({resetDialog: true})}>Reset Game</a>
