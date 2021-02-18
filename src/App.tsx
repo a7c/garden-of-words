@@ -671,17 +671,12 @@ export default class App extends React.Component<{}, AppState> {
 
         return (
             <div className="App">
-                <h1>I Sudoku'd And Was Reborn in Japan, But I'm a
-                Ninja Stuck in Narita Airport And I Don't Speak Any
+                <h1>I Died And Was Reborn in Japan, But Now I'm
+                Stuck in Narita Airport And I Don't Speak Any
                 Japanese</h1>
-                <h1>切腹をしたら、成田空港から脱出できない忍者として転生したが、日本語が全く喋れない‼︎</h1>
+                <h1>死んで転生した私が成田空港から脱出できない！日本語も全く喋れない‼︎</h1>
                 {resetDialog}
                 <Test/>
-                User ID: {Logger.getUserId()}&nbsp;&nbsp;
-                <a href="https://cornell.qualtrics.com/jfe/form/SV_b9pezPaNlNItIuV">Pre-Game Survey</a>
-                &nbsp;&nbsp;
-                <a href="https://cornell.qualtrics.com/jfe/form/SV_5gQF8uEicmPJgKV">Post-Game Survey</a>
-                &nbsp;&nbsp;
                 <a target="_blank" href="credits.html">Credits</a>
                 &nbsp;
                 <a href="#" onClick={() => this.setState({resetDialog: true})}>Reset Game</a>
