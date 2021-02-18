@@ -678,7 +678,7 @@ export default class App extends React.Component<{}, AppState> {
                 {resetDialog}
                 <Test/>
                 <div>
-                    Hiragana mnemonics borrowed from
+                    Hiragana mnemonics borrowed from 
                     <a target="_blank" href="https://www.tofugu.com/japanese/learn-hiragana/">
                         Tofugu
                     </a>
